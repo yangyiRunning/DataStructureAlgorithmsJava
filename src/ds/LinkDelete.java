@@ -1,29 +1,20 @@
 package ds;
 
 /**
- * 线性表的插入操作（基于链式存储的逻辑结构实现）
+ * 线性表的删除操作（基于链式存储的逻辑结构实现）
  *
- * @author yangyi 2018年05月05日21:17:09
+ * @author yangyi 2018年05月05日22:49:33
  */
-public class LinkInsert {
+public class LinkDelete {
 
-    /**
-     * 定义一个节点
-     */
     static class Node {
-        public Object object;
         public Node next;
+        public Object object;
     }
 
-    /**
-     * 定义一个线性表（基于链式存储的逻辑结构）
-     */
     static class LinkTable {
         public Node node;
 
-        /**
-         * 初始化的时候装点数据方便测试
-         */
         public LinkTable() {
             node = new Node();
             Node node1 = new Node();
@@ -46,51 +37,43 @@ public class LinkInsert {
         }
     }
 
-    /**
-     * 向线性表当中插入数据
-     */
-    private void insertLink(LinkTable data, int index, Object object) throws Exception {
+    private Object deleteLink(LinkTable data, int index) throws Exception {
         if (index < 1) {
-            throw new IndexOutOfBoundsException("线性表的index是从1开始的");
+            throw new IndexOutOfBoundsException("线性表的索引是从1开始的");
         }
 
-        //记录当前的位置
         int j = 1;
         Node p = data.node;
-
-        //用来标记当前所在的位置，如果j==index就说明已经到达了参数预定的位置，可以进行插入操作了
+        //j==index时就不循环了，j终止累加
         for (; j < index && p != null; p = p.next) {
             j++;
         }
 
-        if (p == null || j > index) {
-            throw new Exception("并没有找到对应的位置或者对应的位置上没有节点");
+        if (j > index || p == null) {
+            throw new Exception("没有找到index处所对应的节点");
         }
 
-        //新建一个节点
-        Node node = new Node();
-        node.object = object;
-        node.next = null;
-
-        node.next = p.next;
-        p.next = node;
+        //保存一份即将删除的元素作为返回
+        Node q = p.next;
+        p.next = q.next;
+        return q.object;
     }
 
     public static void main(String[] args) {
-        LinkInsert linkInsert = new LinkInsert();
+        LinkDelete linkDelete = new LinkDelete();
         LinkTable linkTable = new LinkTable();
-        System.out.println("插入元素之前的链表：");
+        System.out.println("删除前链表中的元素：");
         for (Node node = linkTable.node.next; node != null; node = node.next) {
             System.out.println(node.object);
         }
 
         try {
-            linkInsert.insertLink(linkTable, 1, 88);
+            System.out.println("删除的元素为：" + linkDelete.deleteLink(linkTable, 3));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.out.println("插入元素之后的链表：");
+        System.out.println("删除后链表中的元素");
         for (Node node = linkTable.node.next; node != null; node = node.next) {
             System.out.println(node.object);
         }
