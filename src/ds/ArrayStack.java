@@ -7,12 +7,13 @@ package ds;
  */
 public class ArrayStack {
 
-    private static final int ARRAY_CAPACITY = 100;
+    private int capacity;
     private Object[] objects;
     private int count;
 
-    ArrayStack() {
-        this.objects = new Object[ARRAY_CAPACITY];
+    ArrayStack(int capacity) {
+        this.capacity = capacity;
+        this.objects = new Object[capacity];
         this.count = 0;
     }
 
@@ -26,7 +27,7 @@ public class ArrayStack {
         if (object == null) {
             return false;
         }
-        if (count == ARRAY_CAPACITY) {
+        if (count == capacity) {
             return false;
         }
         if (count == -1) {
@@ -66,7 +67,7 @@ public class ArrayStack {
             ints[i] = i;
         }
 
-        ArrayStack arrayStack = new ArrayStack();
+        ArrayStack arrayStack = new ArrayStack(100);
         //将准备的好的数组顺序输出看下结果，顺便将准备好的数据依次压入栈中
         for (int anInt : ints) {
             System.out.println(anInt);
