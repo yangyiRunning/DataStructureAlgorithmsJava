@@ -56,7 +56,7 @@ public class ArrayStack {
     /**
      * 获取栈的个数
      */
-    private int getCount() {
+    private int getSize() {
         return count;
     }
 
@@ -76,7 +76,7 @@ public class ArrayStack {
 
         System.out.println("————————————朴素的分割线——————————————");
 
-        int count = arrayStack.getCount();
+        int count = arrayStack.getSize();
         //依次输出栈内元素看看顺序
         for (int i = 0; i < count; i++) {
             System.out.println(arrayStack.pop());
