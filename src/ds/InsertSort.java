@@ -27,11 +27,11 @@ public class InsertSort {
             return;
         }
 
-        //已排序部分
+        //未排序部分
         for (int i = 1; i < ints.length; i++) {
             int value = ints[i];
             int j = i - 1;
-            //未排序部分
+            //已排序部分
             for (; j > 0; j--) {
                 if (value < ints[j]) {
                     ints[j + 1] = ints[j];
