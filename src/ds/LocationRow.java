@@ -1,5 +1,8 @@
 package ds;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 位于第几排问题（递归方式实现）
  * <p>
@@ -12,22 +15,38 @@ package ds;
  */
 public class LocationRow {
 
+    private static final int MAX = 1000;
+    private int deep;
+    private Map<Integer, Integer> maps = new HashMap<>();
+
     /**
      * 递归方式实现
      */
     public int locationRowRecursion(int n) {
+        deep++;
+        if (deep > MAX) {
+            throw new StackOverflowError();
+        }
         if (n == 1) {
             return 1;
         }
-        return locationRowRecursion(n - 1) + 1;
+        //避免在递归的过程当中重复计算
+        if (maps.containsKey(n)) {
+            return maps.get(n);
+        }
+        int result = locationRowRecursion(n - 1) + 1;
+        maps.put(n, result);
+        return result;
     }
 
     /**
      * 非递归方式实现
      */
     public int locationRowNonRecursion(int n) {
+        //第一个人肯定知道自己是第一排
         int row = 1;
-        for (int i = 1; i <= n - 1; i++) {
+        //第二排往后一直到我所在那排（也就是第n排）
+        for (int i = 2; i <= n; i++) {
             row++;
         }
         return row;
