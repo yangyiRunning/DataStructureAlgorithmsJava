@@ -32,7 +32,7 @@ public class InsertSort {
             int value = ints[i];
             int j = i - 1;
             //已排序部分
-            for (; j > 0; j--) {
+            for (; j >= 0; j--) {
                 if (value < ints[j]) {
                     ints[j + 1] = ints[j];
                 } else {
@@ -45,16 +45,16 @@ public class InsertSort {
 
     public static void main(String[] args) {
         //准备30个0~100的随机数
-        int[] nums = new int[300];
-        for (int i = 0; i < 300; i++) {
-            nums[i] = (int) (Math.random() * 100);
+        int[] nums = new int[30000];
+        for (int i = 0; i < 30000; i++) {
+            nums[i] = (int) (Math.random() * 30000);
         }
         System.out.println("排序前：");
         for (int num : nums) {
             System.out.println(num);
         }
-        InsertSort bubbleSort = new InsertSort();
-        bubbleSort.insertSort(nums);
+        InsertSort insertSort = new InsertSort();
+        insertSort.insertSort(nums);
         System.out.println();
         System.out.println("排序后：");
         for (int num : nums) {
