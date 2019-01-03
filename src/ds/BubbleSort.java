@@ -20,7 +20,7 @@ public class BubbleSort {
     /**
      * 从小到大排序
      */
-    public void bubbleSort(int[] ints) {
+    private void bubbleSort(int[] ints) {
         //就一个数就别排了
         if (ints.length == 1) {
             return;
