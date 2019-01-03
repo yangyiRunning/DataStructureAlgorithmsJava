@@ -38,7 +38,7 @@ public class LinkCreate {
      * @param objects 插入的一排数据
      * @return
      */
-    private LinkTable headCreate(LinkTable data, Object[] objects) {
+    public LinkTable headCreate(LinkTable data, Object[] objects) {
         Node p = data.node;
 
         for (int i = 0; i < objects.length; i++) {
