@@ -27,18 +27,21 @@ public class InsertSort {
             return;
         }
 
-        //未排序部分
+        //未排序部分-正序遍历
         for (int i = 1; i < ints.length; i++) {
+            //将每一个元素都作为一个将要比较的值value
             int value = ints[i];
             int j = i - 1;
-            //已排序部分
+            //已排序部分-倒序遍历
             for (; j >= 0; j--) {
+                //让value这个值挨个去和已排序部分中的元素去比较，如果比有序部分中的某个元素小，说明找到了自己应有的问题
                 if (value < ints[j]) {
                     ints[j + 1] = ints[j];
                 } else {
                     break;
                 }
             }
+            //有序部分的元素挪位置，value插进去
             ints[j + 1] = value;
         }
     }
