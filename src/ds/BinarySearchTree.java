@@ -34,12 +34,13 @@ public class BinarySearchTree {
             root = new Node(value);
             return root;
         }
-        //这里的p起一个指示作用，用来标记你现在走的整棵树的那个节点了
+        //这里的p起一个指示作用，用来标记你现在走到整棵树的哪个节点了
         Node p = root;
-        //死循环去找地方，知道成功找到属于自己的位置后return
+        //死循环去找地方，直到成功找到属于自己的位置后return
         while (true) {
             //如果被插的是一棵已经存在的树，判断value的大小，小往左找插入的地方，大往右找插入的地方
             if (p.value > value) {
+                //为null时说明找到地方了，开插
                 if (p.left == null) {
                     p.left = new Node(value);
                     //warning:这里返回千万不能是p，p只是你当前节点的位置，此处应该返回整棵树，即root
@@ -47,6 +48,7 @@ public class BinarySearchTree {
                 }
                 p = p.left;
             } else {
+                //为null时说明找到地方了，开插
                 if (p.right == null) {
                     p.right = new Node(value);
                     //warning:这里返回千万不能是p，p只是你当前节点的位置，此处应该返回整棵树，即root
@@ -145,7 +147,7 @@ public class BinarySearchTree {
         if (p == null) {
             return;
         }
-        //情况1:删除有两个子节点的节点
+        //情况1:删除有两个子节点的节点，即左右子节点都不为null
         if (p.left != null && p.right != null) {
             //需要找到被删除节点p的右子树中的最小节点
             //初始化最小的节点
@@ -160,6 +162,7 @@ public class BinarySearchTree {
             //循环结束说明找到要删除的节点了，开始着手删除
             //目前已经找到了要删除的节点p和p的右子树的最小节点minp
             p.value = minp.value;
+            //删除的节点p用最小节点minp填补
             p = minp;
             pp = minpp;
         }
