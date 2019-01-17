@@ -44,6 +44,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 7. 二叉树
 
     1. 二叉查找树
-        - [二叉查找树的插入、遍历、查找、删除](/src/ds/BinarySearchTree.java)
+        - [二叉查找树的插入、遍历、查找、删除、反转](/src/ds/BinarySearchTree.java)
     2. 递归树
         
