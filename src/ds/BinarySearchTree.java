@@ -188,6 +188,21 @@ public class BinarySearchTree {
         }
     }
 
+    /**
+     * 反转一颗二叉树
+     */
+    private Node reverseTree(Node tree) {
+        if (tree == null) {
+            return null;
+        }
+        tree.left = reverseTree(tree.left);
+        tree.right = reverseTree(tree.right);
+        Node temp = tree.left;
+        tree.left = tree.right;
+        tree.right = temp;
+        return tree;
+    }
+
     public static void main(String[] args) {
         int[] ints = new int[10];
         System.out.println("准备一个数组用来构建树，并且输出来看看:");
@@ -213,6 +228,15 @@ public class BinarySearchTree {
         System.out.println("后续遍历这个树:");
         binarySearchTree.postPrintTree(tree);
 
+        System.out.println("反转这颗树↓");
+        binarySearchTree.reverseTree(tree);
+        System.out.println("前序遍历这个树:");
+        binarySearchTree.prePrintTree(tree);
+        System.out.println("中序遍历这个树:");
+        binarySearchTree.inPrintTree(tree);
+        System.out.println("后续遍历这个树:");
+        binarySearchTree.postPrintTree(tree);
+
         int target = 6;
         Node result = binarySearchTree.find(target);
         if (result != null) {
@@ -222,7 +246,7 @@ public class BinarySearchTree {
         }
 
         int deleteTarget = 5;
-        System.out.println("删除值为"+deleteTarget+"的元素");
+        System.out.println("删除值为" + deleteTarget + "的元素");
         binarySearchTree.delete(deleteTarget);
         System.out.println();
         System.out.println("删除完后再遍历一波看看结果");
