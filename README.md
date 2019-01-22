@@ -15,7 +15,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     2. 栈
         - [顺序栈（基于数组实现的栈）](/src/ds/ArrayStack.java)
         - [链式栈（基于链表实现的栈）](/src/ds/LinkStack.java)
-        
+        - [有效的括号](/src/ds/ValidParentheses.java)
     3. 队列
         - [顺序队列（基于数组实现的队列）](/src/ds/ArrayQueue.java)
         - [链式队列（基于链表实现的队列）](/src/ds/LinkQueue.java)
@@ -48,4 +48,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     2. 递归树
 8. 有环链表
     - [判断链表是否有环](/src/ds/CycleLink.java)
+9. 堆
+    - [大顶堆](/src/ds/BigHeap.java)
         
