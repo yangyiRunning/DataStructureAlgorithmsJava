@@ -18,6 +18,9 @@ public class BigHeap {
         count = 0;
     }
 
+    /**
+     * 插入
+     */
     private void insert(int value) {
         //满了，别插了
         if (count > capacity) {
@@ -35,6 +38,9 @@ public class BigHeap {
         }
     }
 
+    /**
+     * 删除顶
+     */
     private int deleteTop() {
         //没了，别删了
         if (count == 0) {
@@ -49,6 +55,10 @@ public class BigHeap {
         return max;
     }
 
+    /**
+     * 调整
+     * O(logn)
+     */
     private void heapify(int[] heapArray, int count, int i) {
         while (true) {
             //maxIndex和i分别代表最大的索引和起始值
@@ -68,6 +78,38 @@ public class BigHeap {
             heapArray[maxIndex] = heapArray[i];
             heapArray[i] = temp;
             i = maxIndex;
+        }
+    }
+
+    /**
+     * 构建
+     * <p>
+     * 建堆 O(n)
+     */
+    private void build(int[] heapArray, int count) {
+        for (int i = count / 2; i >= 1; i--) {
+            heapify(heapArray, count, i);
+        }
+    }
+
+    /**
+     * 堆排序
+     * <p>
+     * 排序 O(nlogn)
+     */
+    private void sort(int[] heapArray, int count) {
+        //1. 构建
+        build(heapArray, count);
+        //2. 因为是大顶堆，所以第一个是最大的，最大的放在最后面，即第一个和最后一个元素交换
+        int k = count;
+        //4. 直到数组中只有一个元素时，整个数组有序，顺序为从小到大
+        while (k > 1) {
+            int temp = heapArray[1];
+            heapArray[1] = heapArray[k];
+            heapArray[k] = temp;
+            k--;
+            //3. 换完之后重新调整为一个新的大顶堆
+            heapify(heapArray, k, 1);
         }
     }
 
@@ -91,11 +133,26 @@ public class BigHeap {
         }
 
         int max = bigHeap.deleteTop();
-        System.out.println("删除的堆顶元素为:"+max);
+        System.out.println("删除的堆顶元素为:" + max);
 
         System.out.println("删除完遍历一下:");
         for (int i : bigHeap.heapArray) {
             System.out.println(i);
         }
+
+        System.out.println("再次构造一个堆:");
+        bigHeap.build(ints, ints.length - 1);
+        System.out.println("遍历构造好的堆");
+        for (int i : bigHeap.heapArray) {
+            System.out.println(i);
+        }
+
+        System.out.println("对数组进行堆排序:");
+        bigHeap.sort(bigHeap.heapArray, bigHeap.heapArray.length - 1);
+        System.out.println("排完输出来看一下:");
+        for (int i = 0; i < bigHeap.heapArray.length; i++) {
+            System.out.println(bigHeap.heapArray[i]);
+        }
+
     }
 }
