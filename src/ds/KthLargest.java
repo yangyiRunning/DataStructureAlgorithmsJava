@@ -32,22 +32,23 @@ public class KthLargest {
      */
     private int k;
 
-    public KthLargest(int k) {
+    public KthLargest(int k, int[] nums) {
         this.k = k;
         priorityQueue = new PriorityQueue<>(k);
+        for (int num : nums) {
+            add(num);
+        }
     }
 
     /**
      * 动态插入的方法
      */
-    public Integer add(int value) {
+    public int add(int value) {
         //还没满就进
         if (priorityQueue.size() < k) {
             priorityQueue.offer(value);
-        }
-
-        //比小顶堆堆顶大就换(淘汰小的换大的)，小就别管
-        if (value > priorityQueue.peek()) {
+        } else if (value > priorityQueue.peek()) {
+            //比小顶堆堆顶大就换(淘汰小的换大的)，小就别管
             priorityQueue.poll();
             priorityQueue.offer(value);
         }
@@ -55,9 +56,14 @@ public class KthLargest {
         return priorityQueue.peek();
     }
 
+    public void print() {
+        for (Integer integer : priorityQueue) {
+            System.out.println(integer);
+        }
+    }
+
     public static void main(String[] args) {
         int k = 10;
-        KthLargest kthLargest = new KthLargest(k);
         int[] ints = new int[k * 2];
         System.out.println("构造一个随机的数组:");
         for (int i = 0; i < ints.length; i++) {
@@ -65,12 +71,8 @@ public class KthLargest {
             System.out.println(ints[i]);
         }
         System.out.println("放入优先队列:");
-        for (int anInt : ints) {
-            kthLargest.add(anInt);
-        }
+        KthLargest kthLargest = new KthLargest(k, ints);
         System.out.println("输出最终的TopK:");
-        for (Integer integer : kthLargest.priorityQueue) {
-            System.out.println(integer);
-        }
+        kthLargest.print();
     }
 }
