@@ -28,7 +28,7 @@ public class TwoSum {
      * <p>
      * 关键数据结构就是散列表，用来存储target与目标元素的差，做配对用。
      */
-    private Map<Integer, Integer> map = new HashMap();
+    private Map<Integer, Integer> map = new HashMap<>();
 
     public int[] twoSum(int[] nums, int target) {
         int index[] = new int[2];
