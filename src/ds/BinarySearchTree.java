@@ -10,14 +10,14 @@ public class BinarySearchTree {
     /**
      * 二叉查找树的根
      */
-    private Node root;
+    private TreeNode root;
 
-    static class Node {
+    static class TreeNode {
         int value;
-        Node left;
-        Node right;
+        TreeNode left;
+        TreeNode right;
 
-        public Node(int value) {
+        public TreeNode(int value) {
             this.value = value;
         }
     }
@@ -28,21 +28,21 @@ public class BinarySearchTree {
      * @param value 插入的对象
      * @return 返回这颗树
      */
-    public Node insert(int value) {
+    public TreeNode insert(int value) {
         //如果这个二叉查找树是null，就说明进来的value是第一个元素，即将作为此棵树的根
         if (root == null) {
-            root = new Node(value);
+            root = new TreeNode(value);
             return root;
         }
         //这里的p起一个指示作用，用来标记你现在走到整棵树的哪个节点了
-        Node p = root;
+        TreeNode p = root;
         //死循环去找地方，直到成功找到属于自己的位置后return
         while (true) {
             //如果被插的是一棵已经存在的树，判断value的大小，小往左找插入的地方，大往右找插入的地方
             if (p.value > value) {
                 //为null时说明找到地方了，开插
                 if (p.left == null) {
-                    p.left = new Node(value);
+                    p.left = new TreeNode(value);
                     //warning:这里返回千万不能是p，p只是你当前节点的位置，此处应该返回整棵树，即root
                     return root;
                 }
@@ -50,7 +50,7 @@ public class BinarySearchTree {
             } else {
                 //为null时说明找到地方了，开插
                 if (p.right == null) {
-                    p.right = new Node(value);
+                    p.right = new TreeNode(value);
                     //warning:这里返回千万不能是p，p只是你当前节点的位置，此处应该返回整棵树，即root
                     return root;
                 }
@@ -64,7 +64,7 @@ public class BinarySearchTree {
      *
      * @param root 要遍历的对象
      */
-    public void prePrintTree(Node root) {
+    public void prePrintTree(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -78,7 +78,7 @@ public class BinarySearchTree {
      *
      * @param root 要遍历的对象
      */
-    public void inPrintTree(Node root) {
+    public void inPrintTree(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -92,7 +92,7 @@ public class BinarySearchTree {
      *
      * @param root 要遍历的对象
      */
-    public void postPrintTree(Node root) {
+    public void postPrintTree(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -107,8 +107,8 @@ public class BinarySearchTree {
      * @param value 要查找的值
      * @return 所在的节点
      */
-    public Node find(int value) {
-        Node p = root;
+    public TreeNode find(int value) {
+        TreeNode p = root;
         while (p != null) {
             if (value < p.value) {
                 p = p.left;
@@ -131,8 +131,8 @@ public class BinarySearchTree {
      */
     public void delete(int value) {
         //初始化两个指示器，p指示删除的节点，从根部开始，pp是指示器p的父节点
-        Node p = root;
-        Node pp = null;
+        TreeNode p = root;
+        TreeNode pp = null;
 
         //如果没有遇到要删除的节点的值value，继续往下走
         while (p != null && p.value != value) {
@@ -151,9 +151,9 @@ public class BinarySearchTree {
         if (p.left != null && p.right != null) {
             //需要找到被删除节点p的右子树中的最小节点
             //初始化最小的节点
-            Node minp = p.right;
+            TreeNode minp = p.right;
             //初始化最小节点的父节点
-            Node minpp = p;
+            TreeNode minpp = p;
             //提到了最小节点，肯定是往左子树中找，如果左子节点不为null就往下继续找
             while (minp.left != null) {
                 minpp = minp;
@@ -169,7 +169,7 @@ public class BinarySearchTree {
 
         //情况2:删除的是叶子节点 或者 删除的是一条腿的节点，即只有一个左子树或者右子树
         //删除节点p的子节点
-        Node child;
+        TreeNode child;
         if (p.left != null) {
             child = p.left;
         } else if (p.right != null) {
@@ -191,13 +191,13 @@ public class BinarySearchTree {
     /**
      * 反转一颗二叉树
      */
-    private Node reverseTree(Node tree) {
+    private TreeNode reverseTree(TreeNode tree) {
         if (tree == null) {
             return null;
         }
         tree.left = reverseTree(tree.left);
         tree.right = reverseTree(tree.right);
-        Node temp = tree.left;
+        TreeNode temp = tree.left;
         tree.left = tree.right;
         tree.right = temp;
         return tree;
@@ -214,7 +214,7 @@ public class BinarySearchTree {
         }
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         System.out.println("用这个数组来构建树↓");
-        Node tree = null;
+        TreeNode tree = null;
         for (int anInt : ints) {
             tree = binarySearchTree.insert(anInt);
         }
@@ -238,7 +238,7 @@ public class BinarySearchTree {
         binarySearchTree.postPrintTree(tree);
 
         int target = 6;
-        Node result = binarySearchTree.find(target);
+        TreeNode result = binarySearchTree.find(target);
         if (result != null) {
             System.out.println("找到了！这个树中包含有" + target + "元素");
         } else {
