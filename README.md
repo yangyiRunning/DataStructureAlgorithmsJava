@@ -43,11 +43,11 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [反转一个数组](/src/ds/ReverseArray.java)
     - [反转一个单链表](/src/ds/ReverseLink.java)
 7. 二叉树
-
     1. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/ds/BinarySearchTree.java)
         - [二叉树的最近公共祖先](/src/ds/TreeLowestCommonAncestor.java)
         - [二叉查找树的最近公共祖先](/src/ds/BSTreeLowestCommonAncestor.java)
+        - [验证二叉搜索树(递归和非递归实现)](/src/ds/ValidBST.java)
 8. 有环链表
     - [判断链表是否有环](/src/ds/CycleLink.java)
 9. 堆
