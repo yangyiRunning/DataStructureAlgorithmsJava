@@ -27,40 +27,46 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [斐波拉切数列](/src/ds/FibonacciArray.java)
     - [位于第几排问题（递归、非递归分别实现）](/src/ds/LocationRow.java)
     - [n个台阶走法问题（每次可以走1个台阶或者2个台阶）](/src/ds/OneTwoStep.java)
+    
+3. 分治
+    - [x的n次方](/src/ds/Pow.java)
 
-3. 排序
+4. 排序
     - [冒泡排序](/src/ds/BubbleSort.java)
     - [插入排序](/src/ds/InsertSort.java)
     - [选择排序](/src/ds/SelectionSort.java)
     - [快速排序](/src/ds/QuickSort.java)
 
-4. 二分查找
+5. 二分查找
     - [二分查找(递归和非递归实现)](/src/ds/BinarySearch.java)
     
-5. 二分查找变种
+6. 二分查找变种
     - [查找第一个值等于给定值的元素](/src/ds/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/ds/BSEndEquals.java)
     - [查找第一个大于等于给定值的元素](/src/ds/BSFirstMore.java)
     - [查找最后一个小于等于给定值的元素](/src/ds/BSEndLess.java)
     
-6. 反转
+7. 反转
     - [反转一个数组](/src/ds/ReverseArray.java)
     - [反转一个单链表](/src/ds/ReverseLink.java)
     
-7. 二叉树
+8. 二叉树
     1. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/ds/BinarySearchTree.java)
         - [二叉树的最近公共祖先](/src/ds/TreeLowestCommonAncestor.java)
         - [二叉查找树的最近公共祖先](/src/ds/BSTreeLowestCommonAncestor.java)
         - [验证二叉搜索树(递归和非递归实现)](/src/ds/ValidBST.java)
         
-8. 有环链表
+9. 有环链表
     - [判断链表是否有环](/src/ds/CycleLink.java)
     
-9. 堆
+10. 堆
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
     
-10. 散列表
+11. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
     - [两数之和](/src/ds/TwoSum.java)
+    
+12. 求数
+    - [求众数](/src/ds/MajorityElement.java)
