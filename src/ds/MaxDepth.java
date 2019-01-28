@@ -31,6 +31,8 @@ public class MaxDepth {
     }
 
     /**
+     * 广度优先搜索的层级遍历
+     * <p>
      * 关键奥义为记录两层的节点个数
      */
     public int maxDepth(TreeNode root) {
@@ -67,6 +69,22 @@ public class MaxDepth {
         return level;
     }
 
+    /**
+     * 深度优先搜索的"一根筋"似的检测
+     */
+    public int maxDepthRecursion(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null) {
+            return maxDepthRecursion(root.right) + 1;
+        }
+        if (root.right == null) {
+            return maxDepthRecursion(root.left) + 1;
+        }
+        return Math.max(maxDepthRecursion(root.left), maxDepthRecursion(root.right)) + 1;
+    }
+
     public TreeNode createTree() {
         TreeNode node_3 = new TreeNode();
         node_3.val = 3;
@@ -89,5 +107,7 @@ public class MaxDepth {
         MaxDepth maxDepth = new MaxDepth();
         int level = maxDepth.maxDepth(maxDepth.createTree());
         System.out.println("最大层级数为:" + level);
+        int level2 = maxDepth.maxDepthRecursion(maxDepth.createTree());
+        System.out.println("最大层级数为:" + level2);
     }
 }
