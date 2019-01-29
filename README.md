@@ -45,6 +45,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [查找最后一个值等于给定值的元素](/src/ds/BSEndEquals.java)
     - [查找第一个大于等于给定值的元素](/src/ds/BSFirstMore.java)
     - [查找最后一个小于等于给定值的元素](/src/ds/BSEndLess.java)
+    - [x的平方根](/src/ds/MySqrt.java)
     
 7. 反转
     - [反转一个数组](/src/ds/ReverseArray.java)
