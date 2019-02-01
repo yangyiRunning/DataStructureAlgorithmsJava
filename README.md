@@ -93,4 +93,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     
 18. 动态规划(DP)
     - [爬楼梯](/src/ds/ClimbStairs.java)
+    - [三角形最小路径和](/src/ds/MinimumTotal.java)
+    - [乘积最大子序列](/src/ds/MaxProduct.java)
     
