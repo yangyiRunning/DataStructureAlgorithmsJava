@@ -25,6 +25,20 @@ package ds;
 public class PowerOfTwo {
 
     public boolean isPowerOfTwo(int n) {
+        boolean isPowerOfTwo = false;
+        if (n < 0) {
+            return false;
+        }
+        if (n != 0) {
+            isPowerOfTwo = (n & (n - 1)) == 0;
+        }
+        return isPowerOfTwo;
+    }
 
+    public static void main(String[] args) {
+        PowerOfTwo powerOfTwo = new PowerOfTwo();
+        System.out.println(powerOfTwo.isPowerOfTwo(1));
+        System.out.println(powerOfTwo.isPowerOfTwo(16));
+        System.out.println(powerOfTwo.isPowerOfTwo(218));
     }
 }
