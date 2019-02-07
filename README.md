@@ -2,7 +2,16 @@
 
 Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
-1. 线性数据结构及其对应的常见算法
+1. 数组
+    - [二维数组中查找元素]()
+
+2. 链表
+    - [从尾到头打印链表]()
+
+3. 字符串
+    - [替换字符串当中的特殊字符]()
+
+4. 线性数据结构及其对应的常见算法
 
     1. 线性表(分别基于数组和链表实现一遍)
         - [线性表的增加（基于顺序存储的物理结构实现）](/src/ds/ListInsert.java)
@@ -22,80 +31,80 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
         - [循环队列（基于数组成环）](/src/ds/CircleQueue.java)
         - [滑动窗口最大值](/src/ds/MaxSlidingWindow.java)
         
-2. 递归（**自己调用自己，一层一层调用下去叫递，一层一层收集返回叫归**）
+5. 递归（**自己调用自己，一层一层调用下去叫递，一层一层收集返回叫归**）
     - [n的阶乘](/src/ds/Factorial.java)
     - [斐波拉切数列](/src/ds/FibonacciArray.java)
     - [位于第几排问题（递归、非递归分别实现）](/src/ds/LocationRow.java)
     - [n个台阶走法问题（每次可以走1个台阶或者2个台阶）](/src/ds/OneTwoStep.java)
     
-3. 分治
+6. 分治
     - [x的n次方](/src/ds/Pow.java)
 
-4. 排序
+7. 排序
     - [冒泡排序](/src/ds/BubbleSort.java)
     - [插入排序](/src/ds/InsertSort.java)
     - [选择排序](/src/ds/SelectionSort.java)
     - [快速排序](/src/ds/QuickSort.java)
 
-5. 二分查找
+8. 二分查找
     - [二分查找(递归和非递归实现)](/src/ds/BinarySearch.java)
     
-6. 二分查找变种
+9. 二分查找变种
     - [查找第一个值等于给定值的元素](/src/ds/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/ds/BSEndEquals.java)
     - [查找第一个大于等于给定值的元素](/src/ds/BSFirstMore.java)
     - [查找最后一个小于等于给定值的元素](/src/ds/BSEndLess.java)
     - [x的平方根](/src/ds/MySqrt.java)
     
-7. 反转
+10. 反转
     - [反转一个数组](/src/ds/ReverseArray.java)
     - [反转一个单链表](/src/ds/ReverseLink.java)
     
-8. 二叉树
+11. 二叉树
     1. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/ds/BinarySearchTree.java)
         - [二叉树的最近公共祖先](/src/ds/TreeLowestCommonAncestor.java)
         - [二叉查找树的最近公共祖先](/src/ds/BSTreeLowestCommonAncestor.java)
         - [验证二叉搜索树(递归和非递归实现)](/src/ds/ValidBST.java)
         
-9. 有环链表
+12. 有环链表
     - [判断链表是否有环](/src/ds/CycleLink.java)
     
-10. 堆
+13. 堆
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
     
-11. 散列表
+14. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
     - [两数之和](/src/ds/TwoSum.java)
     
-12. 求数
+15. 求数
     - [求众数](/src/ds/MajorityElement.java)
     
-13. 贪心
+16. 贪心
     - [买卖股票的最佳时机](/src/ds/MaxProfit.java)
     
-14. 搜索
+17. 搜索
     - [广度优先搜索](/src/ds/LevelPrint.java)
     - [深度优先搜索](/src/ds/DepthPrint.java)
     - [二叉树的层次遍历](/src/ds/LevelOrder.java)
     - [二叉树的最大深度(广度优先的非递归实现和深度优先的递归实现)](/src/ds/MaxDepth.java)
     - [二叉树的最小深度](/src/ds/MinDepth.java)
     
-15. 图
+18. 图
     - [图的表示](/src/ds/Graph.java)
     
-16. 剪枝
+19. 剪枝
     - [数独(sudoku)](/src/ds/Sudoku.java)
     
-17. LRUCache(最近最少使用缓存)
+20. LRUCache(最近最少使用缓存)
     - [LRUCache的实现](/src/ds/LRUCache.java)
     
-18. 动态规划(DP)
+21. 动态规划(DP)
     - [爬楼梯](/src/ds/ClimbStairs.java)
     - [三角形最小路径和](/src/ds/MinimumTotal.java)
     - [乘积最大子序列](/src/ds/MaxProduct.java)
 
-19. 位运算
+22. 位运算
     - [位1的个数](/src/ds/HammingWeight.java)
     - [比特位计数](/src/ds/CountBits.java)
