@@ -4,6 +4,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 
 1. 数组
     - [搜索二维矩阵](/src/ds/FindInDoubleArray.java)
+    - [数组中重复的数据](/src/ds/RepeatInArray.java)
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
