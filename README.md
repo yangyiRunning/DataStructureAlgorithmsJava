@@ -10,7 +10,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
 
 3. 字符串
-    - [替换字符串当中的特殊字符]()
+    - [替换字符串中的空格](/src/ds/ReplaceBlankInString.java)
 
 4. 线性数据结构及其对应的常见算法
 
