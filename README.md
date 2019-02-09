@@ -9,6 +9,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
+    - [移除链表元素](/src/ds/RemoveElements.java)
 
 3. 字符串
     - [替换字符串中的空格](/src/ds/ReplaceBlankInString.java)
