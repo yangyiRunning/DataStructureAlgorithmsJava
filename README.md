@@ -11,6 +11,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
     - [移除链表元素](/src/ds/RemoveElements.java)
     - [删除链表中的节点](/src/ds/DeleteNode.java)
+    - [删除排序链表中的重复元素](/src/ds/DeleteDuplicates.java)
 
 3. 字符串
     - [替换字符串中的空格](/src/ds/ReplaceBlankInString.java)
