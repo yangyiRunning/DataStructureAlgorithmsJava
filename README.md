@@ -65,6 +65,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [反转一个数组](/src/ds/ReverseArray.java)
     - [反转一个单链表](/src/ds/ReverseLink.java)
     - [反转一颗二叉树](/src/ds/InvertTree.java)
+    - [反转字符串](/src/ds/ReverseString.java)
     
 11. 二叉树
     1. 二叉树
@@ -92,6 +93,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 15. 求数
     - [求众数](/src/ds/MajorityElement.java)
     - [加一](/src/ds/PlusOne.java)
+    - [Nim游戏](/src/ds/CanWinNim.java)
     
 16. 贪心
     - [买卖股票的最佳时机](/src/ds/MaxProfit.java)
