@@ -83,11 +83,11 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 13. 堆
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
-    - [MinK]()
     
 14. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
     - [两数之和](/src/ds/TwoSum.java)
+    - [存在重复元素](/src/ds/ContainsDuplicate.java)
     
 15. 求数
     - [求众数](/src/ds/MajorityElement.java)
