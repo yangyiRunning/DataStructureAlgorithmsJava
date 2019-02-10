@@ -71,6 +71,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
         - [二叉树的最近公共祖先](/src/ds/TreeLowestCommonAncestor.java)
         - [二叉查找树的最近公共祖先](/src/ds/BSTreeLowestCommonAncestor.java)
         - [验证二叉搜索树(递归和非递归实现)](/src/ds/ValidBST.java)
+        - [二叉搜索树中第K小的元素](/src/ds/KthSmallestInBST.java)
         
 12. 有环链表
     - [判断链表是否有环](/src/ds/CycleLink.java)
@@ -78,6 +79,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 13. 堆
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
+    - [MinK]()
     
 14. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
