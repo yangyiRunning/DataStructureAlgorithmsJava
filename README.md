@@ -13,6 +13,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [移除链表元素](/src/ds/RemoveElements.java)
     - [删除链表中的节点](/src/ds/DeleteNode.java)
     - [删除排序链表中的重复元素](/src/ds/DeleteDuplicates.java)
+    - [判断链表是否有环](/src/ds/CycleLink.java)
 
 3. 字符串
     - [替换字符串中的空格](/src/ds/ReplaceBlankInString.java)
@@ -85,50 +86,47 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
         - [验证二叉搜索树(递归和非递归实现)](/src/ds/ValidBST.java)
         - [二叉搜索树中第K小的元素](/src/ds/KthSmallestInBST.java)
         
-12. 有环链表
-    - [判断链表是否有环](/src/ds/CycleLink.java)
-    
-13. 堆
+12. 堆
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
     - [数组中的第K个最大元素](/src/ds/FindKthLargest.java)
     
-14. 散列表
+13. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
     - [两数之和](/src/ds/TwoSum.java)
     - [存在重复元素](/src/ds/ContainsDuplicate.java)
     
-15. 求数
+14. 求数
     - [求众数](/src/ds/MajorityElement.java)
     - [加一](/src/ds/PlusOne.java)
     - [Nim游戏](/src/ds/CanWinNim.java)
     - [回文数](/src/ds/Palindrome.java)
     
-16. 贪心
+15. 贪心
     - [买卖股票的最佳时机](/src/ds/MaxProfit.java)
     
-17. 搜索
+16. 搜索
     - [广度优先搜索](/src/ds/LevelPrint.java)
     - [深度优先搜索](/src/ds/DepthPrint.java)
     - [二叉树的层次遍历](/src/ds/LevelOrder.java)
     - [二叉树的最大深度(广度优先的非递归实现和深度优先的递归实现)](/src/ds/MaxDepth.java)
     - [二叉树的最小深度](/src/ds/MinDepth.java)
     
-18. 图
+17. 图
     - [图的表示](/src/ds/Graph.java)
     
-19. 剪枝
+18. 剪枝
     - [数独(sudoku)](/src/ds/Sudoku.java)
     
-20. LRUCache(最近最少使用缓存)
+19. LRUCache(最近最少使用缓存)
     - [LRUCache的实现](/src/ds/LRUCache.java)
     
-21. 动态规划(DP)
+20. 动态规划(DP)
     - [爬楼梯](/src/ds/ClimbStairs.java)
     - [三角形最小路径和](/src/ds/MinimumTotal.java)
     - [乘积最大子序列](/src/ds/MaxProduct.java)
 
-22. 位运算
+21. 位运算
     - [位1的个数](/src/ds/HammingWeight.java)
     - [比特位计数](/src/ds/CountBits.java)
     - [只出现一次的数字](/src/ds/SingleNumber.java)

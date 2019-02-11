@@ -68,6 +68,11 @@ public class CycleLink {
         return two;
     }
 
+    /**
+     * 利用散列表判断链表是否有环
+     * 时间复杂度为O(n)
+     * 空间复杂度为O(n)
+     */
     private boolean hasCycle(Node head) {
         Set<Integer> integerSet = new HashSet<>();
         for (Node node = head; node != null; node = node.next) {
@@ -80,7 +85,27 @@ public class CycleLink {
         return false;
     }
 
+    /**
+     * 利用快慢指针判断链表是否有环
+     */
+    private boolean hasCycle2(Node head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        Node slow = head;
+        Node fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
+        System.out.println("———————————————————利用散列表判断—————————————————————");
         CycleLink cycleLink = new CycleLink();
         Node node = cycleLink.getCycleLink();
         System.out.println("判断链表是否有环?");
@@ -96,6 +121,27 @@ public class CycleLink {
         Node node2 = cycleLink.getNormalLink();
         boolean isHas2 = cycleLink.hasCycle(node2);
         if (isHas2) {
+            System.out.println("链表有环");
+        } else {
+            System.out.println("链表无环");
+        }
+
+        System.out.println("———————————————————利用快慢指针判断—————————————————————");
+        CycleLink cycleLink_ = new CycleLink();
+        Node node_ = cycleLink_.getCycleLink();
+        System.out.println("判断链表是否有环?");
+        boolean isHas_ = cycleLink.hasCycle2(node_);
+        if (isHas_) {
+            System.out.println("链表有环");
+        } else {
+            System.out.println("链表无环");
+        }
+
+        System.out.println();
+        System.out.println("判断链表是否有环?");
+        Node node2_ = cycleLink_.getNormalLink();
+        boolean isHas2_ = cycleLink_.hasCycle2(node2_);
+        if (isHas2_) {
             System.out.println("链表有环");
         } else {
             System.out.println("链表无环");
