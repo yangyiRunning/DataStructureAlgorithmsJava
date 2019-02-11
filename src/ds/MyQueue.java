@@ -3,7 +3,7 @@ package ds;
 import java.util.Stack;
 
 /**
- * 用两个栈实现队列
+ * 用两个栈实现一个队列
  * <p>
  * 使用栈实现队列的下列操作：
  * <p>

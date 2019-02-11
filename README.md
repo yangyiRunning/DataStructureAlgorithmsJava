@@ -30,13 +30,14 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
         - [顺序栈（基于数组实现的栈）](/src/ds/ArrayStack.java)
         - [链式栈（基于链表实现的栈）](/src/ds/LinkStack.java)
         - [有效的括号](/src/ds/ValidParentheses.java)
-        - [用栈实现队列](/src/ds/MyQueue.java)
+        - [用两个栈实现一个队列](/src/ds/MyQueue.java)
         
     3. 队列
         - [顺序队列（基于数组实现的队列）](/src/ds/ArrayQueue.java)
         - [链式队列（基于链表实现的队列）](/src/ds/LinkQueue.java)
         - [循环队列（基于数组成环）](/src/ds/CircleQueue.java)
         - [滑动窗口最大值](/src/ds/MaxSlidingWindow.java)
+        - [用两个队列实现一个栈](/src/ds/MyStack.java)
         
 5. 递归（**自己调用自己，一层一层调用下去叫递，一层一层收集返回叫归**）
     - [n的阶乘](/src/ds/Factorial.java)
