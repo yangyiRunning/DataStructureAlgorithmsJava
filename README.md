@@ -7,6 +7,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [数组中重复的数据](/src/ds/RepeatInArray.java)
     - [合并两个有序数组](/src/ds/MergeArray.java)
     - [删除排序数组中的重复项](/src/ds/RemoveDuplicates.java)
+    - [旋转数组](/src/ds/RotateArray.java)
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
