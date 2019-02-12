@@ -55,6 +55,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [插入排序](/src/ds/InsertSort.java)
     - [选择排序](/src/ds/SelectionSort.java)
     - [快速排序](/src/ds/QuickSort.java)
+    - [计数排序](/src/ds/CountSort.java)
 
 8. 二分查找
     - [二分查找(递归和非递归实现)](/src/ds/BinarySearch.java)
