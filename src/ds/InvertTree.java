@@ -1,5 +1,10 @@
 package ds;
 
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * 反转一颗二叉树
  * <p>
@@ -46,6 +51,27 @@ public class InvertTree {
         return tree;
     }
 
+    public TreeNode invertTreeByStack(TreeNode tree) {
+        if (tree == null) {
+            return null;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(tree);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            TreeNode temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return tree;
+    }
+
     public TreeNode createTree() {
         TreeNode val_4 = new TreeNode(4);
         TreeNode val_2 = new TreeNode(2);
@@ -81,6 +107,10 @@ public class InvertTree {
         System.out.println("再中序遍历打印一遍反转后的结果:");
         TreeNode newNode = invertTree.invertTree(node);
         invertTree.inOrder(newNode);
+        System.out.println();
+        System.out.println("再中序遍历打印一遍反转后的结果:");
+        TreeNode newNode2 = invertTree.invertTreeByStack(node);
+        invertTree.inOrder(newNode2);
     }
 
 }
