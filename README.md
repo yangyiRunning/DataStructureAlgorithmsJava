@@ -10,7 +10,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [旋转数组](/src/ds/RotateArray.java)
     - [有序数组的平方](/src/ds/SortedSquares.java)
     - [寻找数组的中心索引](/src/ds/PivotIndex.java)
-    - [前K个高频元素](/src/ds/TopKFrequent.java)
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
@@ -102,6 +101,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [大顶堆、堆排序](/src/ds/BigHeap.java)
     - [TopK](/src/ds/KthLargest.java)
     - [数组中的第K个最大元素](/src/ds/FindKthLargest.java)
+    - [前K个高频元素](/src/ds/TopKFrequent.java)
     
 13. 散列表
     - [有效的异位词](/src/ds/ValidAnagram.java)
