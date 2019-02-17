@@ -48,14 +48,14 @@ public class BinarySearch {
      */
     private int binarySearchNonRecursion(int[] ints, int value) {
         int start = 0;
-        int end = ints.length;
+        int end = ints.length - 1;
 
         while (start <= end) {
             int mid = start + ((end - start) >> 1);
             if (value < ints[mid]) {
-                end =  mid - 1;
+                end = mid - 1;
             } else if (value > ints[mid]) {
-                start =  mid + 1;
+                start = mid + 1;
             } else {
                 return mid;
             }
@@ -82,7 +82,7 @@ public class BinarySearch {
         //保证是有序数组之后利用二分查找查找一个数值为0到9999的数
         System.out.println("递归方式输出的结果：");
         BinarySearch binarySearch = new BinarySearch();
-        int index = binarySearch.binarySearchRecursion(ints, 0, ints.length, 3928);
+        int index = binarySearch.binarySearchRecursion(ints, 0, ints.length - 1, 3928);
         if (index == -1) {
             System.out.println("没找到！");
         } else {
