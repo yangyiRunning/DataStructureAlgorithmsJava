@@ -116,6 +116,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [加一](/src/ds/PlusOne.java)
     - [Nim游戏](/src/ds/CanWinNim.java)
     - [回文数](/src/ds/Palindrome.java)
+    - [猜数字游戏](/src/ds/GetHint.java)
     
 15. 贪心
     - [买卖股票的最佳时机](/src/ds/MaxProfit.java)
