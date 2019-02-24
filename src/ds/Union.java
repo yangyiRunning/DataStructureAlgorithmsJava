@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public class Union {
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
     public static void main(String[] args) {
         Set<String> a = new HashSet<>();
         a.add("张三");
