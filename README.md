@@ -28,6 +28,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [根据字符出现频率排序](/src/ds/FrequencySort.java)
     - [验证回文串](/src/ds/PalindromeI.java)
     - [分割回文串](/src/ds/Partition.java)
+    - [单词拆分](/src/ds/WordBreak.java)
 
 4. 线性数据结构及其对应的常见算法
 
