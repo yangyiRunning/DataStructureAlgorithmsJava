@@ -14,6 +14,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [打乱数组](/src/ds/ShuffleArray.java)
     - [两个数组的交集II](/src/ds/Intersect.java)
     - [递增的三元子序列](/src/ds/IncreasingTriplet.java)
+    - [除自身以外数组的乘积](/src/ds/ProductExceptSelf.java)
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
