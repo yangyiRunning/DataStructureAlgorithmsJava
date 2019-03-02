@@ -12,6 +12,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [寻找数组的中心索引](/src/ds/PivotIndex.java)
     - [移动零](/src/ds/MoveZeroes.java)
     - [打乱数组](/src/ds/ShuffleArray.java)
+    - [两个数组的交集II](/src/ds/Intersect.java)
 
 2. 链表
     - [从尾到头打印链表](/src/ds/ReversePrintLink.java)
