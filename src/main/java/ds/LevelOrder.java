@@ -37,9 +37,7 @@ public class LevelOrder {
         }
         List<List<Integer>> result = new LinkedList<>();
         Queue<TreeNode> queue = new ArrayDeque<>();
-        Set<TreeNode> set = new HashSet<>();
         queue.offer(root);
-        set.add(root);
 
         while (!queue.isEmpty()) {
             //标尺队列的长度，这里一定要用一个指针指针指向一下，否则就会出错
@@ -47,17 +45,13 @@ public class LevelOrder {
             List<Integer> integerList = new ArrayList<>();
             for (int i = 0; i < levelSize; i++) {
                 TreeNode node = queue.poll();
-                integerList.add(node.val);
-                if (node.left != null) {
-                    if (!set.contains(node.left)) {
+                if (node != null) {
+                    integerList.add(node.val);
+                    if (node.left != null) {
                         queue.offer(node.left);
-                        set.add(node.left);
                     }
-                }
-                if (node.right != null) {
-                    if (!set.contains(node.right)) {
+                    if (node.right != null) {
                         queue.offer(node.right);
-                        set.add(node.right);
                     }
                 }
             }

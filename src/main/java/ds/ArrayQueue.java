@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.ArrayList;
+
 /**
  * 顺序队列（基于数组实现的队列）
  *
@@ -20,7 +22,6 @@ public class ArrayQueue {
     public ArrayQueue(int capacity) {
         this.capacity = capacity;
         this.count = 0;
-        objects = new Object[capacity];
     }
 
     /**
