@@ -15,6 +15,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [两个数组的交集II](/src/main/java/ds/Intersect.java)
     - [递增的三元子序列](/src/main/java/ds/IncreasingTriplet.java)
     - [除自身以外数组的乘积](/src/main/java/ds/ProductExceptSelf.java)
+    - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
 
 2. 链表
     - [从尾到头打印链表](/src/main/java/ds/ReversePrintLink.java)
