@@ -1,5 +1,8 @@
 package ds;
 
+import java.util.Queue;
+import java.util.concurrent.DelayQueue;
+
 /**
  * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
  * <p>
@@ -13,6 +16,8 @@ package ds;
  * 如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。
  */
 public class MaxSubArray {
+
+    private static final Queue queue = new DelayQueue();
 
     public int maxSubArray(int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -29,6 +34,10 @@ public class MaxSubArray {
             if (sum <= 0) {
                 sum = 0;
             }
+        }
+
+        synchronized (queue){
+
         }
         return maxSum;
     }
