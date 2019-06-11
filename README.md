@@ -126,7 +126,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
     - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
     - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
-    - [字典序列化](/src/main/java/ds/ArraySerialize.java)
+    - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
     
 14. 求数
     - [求众数](/src/main/java/ds/MajorityElement.java)
