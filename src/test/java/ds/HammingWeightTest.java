@@ -1,6 +1,6 @@
 package ds;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class HammingWeightTest {
 

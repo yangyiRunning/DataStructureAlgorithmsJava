@@ -164,3 +164,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [比特位计数](/src/main/java/ds/CountBits.java)
     - [只出现一次的数字](/src/main/java/ds/SingleNumber.java)
     - [缺失数字](/src/main/java/ds/MissingNumber.java)
+
+22. 滑动窗口
+    - [求一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
