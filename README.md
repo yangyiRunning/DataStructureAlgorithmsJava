@@ -155,9 +155,10 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [LRUCache的实现](/src/main/java/ds/LRUCache.java)
     
 20. 动态规划(DP)
-    - [爬楼梯](/src/main/java/ds/ClimbStairs.java)
-    - [三角形最小路径和](/src/main/java/ds/MinimumTotal.java)
-    - [乘积最大子序列](/src/main/java/ds/MaxProduct.java)
+    - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
+    - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
+    - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
+    - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
 
 21. 位运算
     - [位1的个数](/src/main/java/ds/HammingWeight.java)
@@ -166,4 +167,4 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [缺失数字](/src/main/java/ds/MissingNumber.java)
 
 22. 滑动窗口
-    - [求一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
+    - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
