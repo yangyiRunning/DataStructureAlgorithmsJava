@@ -49,8 +49,7 @@ public class RemoveDuplicates {
         int i = 0;
         for (int j = 1; j < nums.length; j++) {
             if (nums[i] != nums[j]) {
-                i++;
-                nums[i] = nums[j];
+                nums[++i] = nums[j];
             }
         }
         return i + 1;
@@ -60,6 +59,5 @@ public class RemoveDuplicates {
         int[] a = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
         RemoveDuplicates removeDuplicates = new RemoveDuplicates();
         System.out.println(Arrays.toString(a) + "去掉重复元素的长度为:" + removeDuplicates.removeDuplicates(a));
-
     }
 }
