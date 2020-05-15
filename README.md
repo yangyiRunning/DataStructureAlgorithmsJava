@@ -1,6 +1,6 @@
 ## 常见数据结构与算法小结（Java语言描述）
 
-Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
+这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
 1. 数组
     - [搜索二维矩阵](/src/main/java/ds/FindInDoubleArray.java)
@@ -63,7 +63,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
         - [滑动窗口最大值](/src/main/java/ds/MaxSlidingWindow.java)
         - [用两个队列实现一个栈](/src/main/java/ds/MyStack.java)
         
-5. 递归（**自己调用自己，一层一层调用下去叫递，一层一层收集返回叫归**）
+5. 递归
     - [n的阶乘](/src/main/java/ds/Factorial.java)
     - [斐波拉切数列](/src/main/java/ds/FibonacciArray.java)
     - [位于第几排问题（递归、非递归分别实现）](/src/main/java/ds/LocationRow.java)
@@ -81,14 +81,14 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
     - [计数排序](/src/main/java/ds/CountSort.java)
 
 8. 二分查找
-    - [二分查找(递归和非递归实现)](/src/main/java/ds/BinarySearch.java)
+    - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     
 9. 二分查找变种
-    - [查找第一个值等于给定值的元素](/src/main/java/ds/BSFirstEquals.java)
-    - [查找最后一个值等于给定值的元素](/src/main/java/ds/BSEndEquals.java)
-    - [查找第一个大于等于给定值的元素](/src/main/java/ds/BSFirstMore.java)
-    - [查找最后一个小于等于给定值的元素](/src/main/java/ds/BSEndLess.java)
-    - [x的平方根](/src/main/java/ds/MySqrt.java)
+    - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
+    - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
+    - [查找第一个大于等于给定值的元素](/src/main/java/ds/binary/BSFirstMore.java)
+    - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
+    - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     
 10. 反转
     - [反转一个数组](/src/main/java/ds/ReverseArray.java)
@@ -138,6 +138,7 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 15. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
     - [分发饼干](/src/main/java/ds/MaxProfit.java)
+
 16. 搜索
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
@@ -168,3 +169,6 @@ Hello大家好我叫yangyi，是一枚Androider。这是一个数据结构和算
 
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
+    
+23. 双指针
+    - [一个排序好的数组跟一个数字，找出和跟这个数字相等的一对数字，返回他们的索引]()

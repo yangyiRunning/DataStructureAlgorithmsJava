@@ -1,4 +1,6 @@
-package ds;
+package ds.binary;
+
+import ds.InsertSort;
 
 /**
  * 二分查找（递归和非递归）

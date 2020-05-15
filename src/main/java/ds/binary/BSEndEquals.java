@@ -1,4 +1,6 @@
-package ds;
+package ds.binary;
+
+import ds.InsertSort;
 
 /**
  * 查找最后一个值等于给定值的元素

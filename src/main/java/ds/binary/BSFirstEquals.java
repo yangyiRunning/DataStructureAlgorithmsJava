@@ -1,4 +1,6 @@
-package ds;
+package ds.binary;
+
+import ds.InsertSort;
 
 /**
  * 二分查找变种:查找第一个值等于给定值的元素
