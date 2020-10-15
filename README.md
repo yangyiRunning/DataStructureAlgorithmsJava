@@ -180,5 +180,6 @@
 4. [1005. 继续(3n+1)猜想](/src/main/java/pat/pat1005/Main.java)
 5. [1006. 换个格式输出整数](/src/main/java/pat/pat1006/Main.java)
 6. [1007. 素数对猜想](/src/main/java/pat/pat1007/Main.java)
+7. [1008. 数组元素循环右移问题](/src/main/java/pat/pat1008/Main.java)
 
     
