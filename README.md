@@ -179,5 +179,6 @@
 3. [1004. 成绩排名](/src/main/java/pat/pat1004/Main.java)
 4. [1005. 继续(3n+1)猜想](/src/main/java/pat/pat1005/Main.java)
 5. [1006. 换个格式输出整数](/src/main/java/pat/pat1006/Main.java)
+6. [1007. 素数对猜想](/src/main/java/pat/pat1007/Main.java)
 
     
