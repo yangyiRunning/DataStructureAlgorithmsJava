@@ -3,6 +3,8 @@ package pat.pat1002;
 import java.util.Scanner;
 
 /**
+ * 1002 写出这个数
+ * <p>
  * 读入一个正整数 n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
  * <p>
  * 输入格式：
