@@ -176,5 +176,6 @@
 
 1001. [害死人不偿命的(3n+1)猜想](/src/main/java/pat/pat1001/Main.java)
 1002. [写出这个数](/src/main/java/pat/pat1002/Main.java)
+1004. [成绩排名](/src/main/java/pat/pat1004/Main.java)
 
     

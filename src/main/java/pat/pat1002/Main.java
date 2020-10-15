@@ -21,6 +21,8 @@ import java.util.Scanner;
  * 输出样例：
  * <p>
  * yi san wu
+ *
+ * @author yangyi 2020年10月15日19:04:35
  */
 public class Main {
     public static void main(String[] args) {
