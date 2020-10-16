@@ -183,4 +183,5 @@
 7. [1008. 数组元素循环右移问题](/src/main/java/pat/pat1008/Main.java)
 8. [1009. 说反话](/src/main/java/pat/pat1009/Main.java)
 9. [1010. 一元多项式求导](/src/main/java/pat/pat1010/Main.java)
+9. [1011. A+B 和 C](/src/main/java/pat/pat1011/Main.java)
     
