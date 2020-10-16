@@ -182,5 +182,5 @@
 6. [1007. 素数对猜想](/src/main/java/pat/pat1007/Main.java)
 7. [1008. 数组元素循环右移问题](/src/main/java/pat/pat1008/Main.java)
 8. [1009. 说反话](/src/main/java/pat/pat1009/Main.java)
-
+9. [1010. 一元多项式求导](/src/main/java/pat/pat1010/Main.java)
     
