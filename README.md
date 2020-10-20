@@ -187,4 +187,5 @@
 11. [1012. 数字分类(20分)](/src/main/java/pat/pat1012/Main.java)
 12. [1014. 福尔摩斯的约会(20分)](/src/main/java/pat/pat1014/Main.java)
 12. [1015. 德才论(25分)](/src/main/java/pat/pat1015/Main.java)(Java版本运行超时)
+12. [1016. 部分A+B(15分)](/src/main/java/pat/pat1016/Main.java)
     
