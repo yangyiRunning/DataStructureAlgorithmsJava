@@ -1,1 +1,13 @@
 .idea
+.DS_Store
+.gradle/
+.idea/
+gradlew.bat
+local.properties
+tags
+*.iml
+**/build/
+*.pyc
+push/.externalNativeBuild
+doc/internal/sdk/_book/
+target

@@ -174,15 +174,16 @@
 
 ## PAT
 
-1. [1001. 害死人不偿命的(3n+1)猜想](/src/main/java/pat/pat1001/Main.java)
-2. [1002. 写出这个数](/src/main/java/pat/pat1002/Main.java)
-3. [1004. 成绩排名](/src/main/java/pat/pat1004/Main.java)
-4. [1005. 继续(3n+1)猜想](/src/main/java/pat/pat1005/Main.java)
-5. [1006. 换个格式输出整数](/src/main/java/pat/pat1006/Main.java)
-6. [1007. 素数对猜想](/src/main/java/pat/pat1007/Main.java)
-7. [1008. 数组元素循环右移问题](/src/main/java/pat/pat1008/Main.java)
-8. [1009. 说反话](/src/main/java/pat/pat1009/Main.java)
-9. [1010. 一元多项式求导](/src/main/java/pat/pat1010/Main.java)
-10. [1011. A+B 和 C](/src/main/java/pat/pat1011/Main.java)
-11. [1012. 数字分类](/src/main/java/pat/pat1012/Main.java)
+1. [1001. 害死人不偿命的(3n+1)猜想(15分)](/src/main/java/pat/pat1001/Main.java)
+2. [1002. 写出这个数(20分)](/src/main/java/pat/pat1002/Main.java)
+3. [1004. 成绩排名(20分)](/src/main/java/pat/pat1004/Main.java)
+4. [1005. 继续(3n+1)猜想(25分)](/src/main/java/pat/pat1005/Main.java)
+5. [1006. 换个格式输出整数(15分)](/src/main/java/pat/pat1006/Main.java)
+6. [1007. 素数对猜想(20分)](/src/main/java/pat/pat1007/Main.java)
+7. [1008. 数组元素循环右移问题(20分)](/src/main/java/pat/pat1008/Main.java)
+8. [1009. 说反话(20分)](/src/main/java/pat/pat1009/Main.java)
+9. [1010. 一元多项式求导(25分)](/src/main/java/pat/pat1010/Main.java)
+10. [1011. A+B 和 C(15分)](/src/main/java/pat/pat1011/Main.java)
+11. [1012. 数字分类(20分)](/src/main/java/pat/pat1012/Main.java)
+12. [1014. 福尔摩斯的约会(20分)](/src/main/java/pat/pat1014/Main.java)
     
