@@ -188,4 +188,5 @@
 12. [1014. 福尔摩斯的约会(20分)](/src/main/java/pat/pat1014/Main.java)
 13. [1015. 德才论(25分)](/src/main/java/pat/pat1015/Main.java)(Java版本运行超时)
 14. [1016. 部分A+B(15分)](/src/main/java/pat/pat1016/Main.java)
+15. [1017. A除以B(20分)](/src/main/java/pat/pat1017/Main.java)
     
