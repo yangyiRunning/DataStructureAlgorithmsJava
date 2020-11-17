@@ -22,7 +22,7 @@ public class ReverseLink {
     }
 
     /**
-     * 正式开启反转操作
+     * 用迭代实现反转链表
      */
     private LinkCreate.Node reverseLink(LinkCreate.LinkTable linkTable) {
         //链表为null你还反转个P啊
@@ -50,12 +50,32 @@ public class ReverseLink {
         return p;
     }
 
+    /**
+     * 用递归实现反转链表
+     */
+    private LinkCreate.Node reverseLinkRecursive(LinkCreate.Node head) {
+        if (head.next == null) {
+            return head;
+        }
+        LinkCreate.Node last = reverseLinkRecursive(head.next);
+        head.next.next = head;
+        head.next = null;
+        return last;
+    }
+
     public static void main(String[] args) {
         ReverseLink reverseLink = new ReverseLink();
         LinkCreate.LinkTable linkTable = reverseLink.createLink();
-        System.out.println("反转后的单链表:");
+        System.out.println("采用迭代方法反转后的单链表:");
         LinkCreate.Node result = reverseLink.reverseLink(linkTable);
+        //用迭代方式遍历链表
         for (LinkCreate.Node node = result; node != null; node = node.next) {
+            System.out.println(node.object + " ");
+        }
+        System.out.println("采用递归方法反转后的单链表");
+        LinkCreate.Node head = reverseLink.reverseLinkRecursive(linkTable.node);
+        //用递归方式遍历链表
+        for (LinkCreate.Node node = result; node.next != null; node = node.next) {
             System.out.println(node.object + " ");
         }
     }
