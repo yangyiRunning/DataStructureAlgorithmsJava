@@ -1,4 +1,4 @@
-package ds;
+package ds.reverse;
 
 /**
  * 反转一个数组

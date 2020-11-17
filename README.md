@@ -93,12 +93,12 @@
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     
 10. 反转
-    - [反转一个数组](/src/main/java/ds/ReverseArray.java)
-    - [反转一个单链表](/src/main/java/ds/ReverseLink.java)
-    - [反转一颗二叉树](/src/main/java/ds/InvertTree.java)
-    - [反转字符串](/src/main/java/ds/ReverseString.java)
-    - [反转字符串中的单词III](/src/main/java/ds/ReverseWordsIII.java)
-    - [转置矩阵](/src/main/java/ds/Transpose.java)
+    - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
+    - [反转一个单链表](/src/main/java/ds/reverse/ReverseLink.java)
+    - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
+    - [反转字符串](/src/main/java/ds/reverse/ReverseString.java)
+    - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
+    - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
     
 11. 二叉树
     1. 二叉树

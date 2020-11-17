@@ -1,4 +1,4 @@
-package ds;
+package ds.reverse;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

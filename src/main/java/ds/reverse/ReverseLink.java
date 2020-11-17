@@ -1,4 +1,6 @@
-package ds;
+package ds.reverse;
+
+import ds.LinkCreate;
 
 /**
  * 反转一个链表

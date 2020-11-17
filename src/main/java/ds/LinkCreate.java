@@ -10,7 +10,7 @@ public class LinkCreate {
     /**
      * 这是节点
      */
-    static class Node {
+    public static class Node {
         public Object object;
         public Node next;
     }
@@ -18,7 +18,7 @@ public class LinkCreate {
     /**
      * 这是线性表
      */
-    static class LinkTable {
+    public static class LinkTable {
         public Node node;
 
         /**
