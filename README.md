@@ -99,6 +99,7 @@
     - [反转字符串](/src/main/java/ds/reverse/ReverseString.java)
     - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
     - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
+    - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
     
 11. 二叉树
     1. 二叉树
