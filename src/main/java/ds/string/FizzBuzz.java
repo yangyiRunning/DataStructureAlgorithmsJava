@@ -1,4 +1,4 @@
-package ds;
+package ds.string;
 
 import java.util.LinkedList;
 import java.util.List;

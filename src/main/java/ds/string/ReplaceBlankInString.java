@@ -1,4 +1,4 @@
-package ds;
+package ds.string;
 
 /**
  * 替换字符串中的空格

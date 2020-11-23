@@ -31,16 +31,16 @@
     - [判断链表是否有环](/src/main/java/ds/link/CycleLink.java)
 
 3. 字符串
-    - [替换字符串中的空格](/src/main/java/ds/ReplaceBlankInString.java)
-    - [Fizz Buzz](/src/main/java/ds/FizzBuzz.java)
-    - [验证回文字符](/src/main/java/ds/ValidPalindromeString.java)
-    - [最后一个单词的长度](/src/main/java/ds/LengthOfLastWord.java)
-    - [最常见的单词](/src/main/java/ds/MostCommonWord.java)
-    - [字符串中的第一个唯一字符](/src/main/java/ds/FirstUniqChar.java)
-    - [根据字符出现频率排序](/src/main/java/ds/FrequencySort.java)
-    - [验证回文串](/src/main/java/ds/PalindromeI.java)
-    - [分割回文串](/src/main/java/ds/Partition.java)
-    - [单词拆分](/src/main/java/ds/WordBreak.java)
+    - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
+    - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
+    - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
+    - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
+    - [最常见的单词](/src/main/java/ds/string/MostCommonWord.java)
+    - [字符串中的第一个唯一字符](/src/main/java/ds/string/FirstUniqChar.java)
+    - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
+    - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
+    - [分割回文串](/src/main/java/ds/string/Partition.java)
+    - [单词拆分](/src/main/java/ds/string/WordBreak.java)
 
 4. 线性数据结构及其对应的常见算法
 

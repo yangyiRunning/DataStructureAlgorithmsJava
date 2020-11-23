@@ -1,4 +1,4 @@
-package ds;
+package ds.string;
 
 /**
  * 最后一个单词的长度

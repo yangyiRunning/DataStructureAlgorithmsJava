@@ -1,4 +1,4 @@
-package ds;
+package ds.string;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
