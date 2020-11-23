@@ -92,6 +92,23 @@ public class ReverseLinkN {
         return pre;
     }
 
+    /**
+     * 采用迭代的方式反转单链表当中a到b的节点
+     */
+    private LinkCreate.Node reverseLinkFor(LinkCreate.Node a, LinkCreate.Node b) {
+        if (a.next == null) {
+            return a;
+        }
+        LinkCreate.Node pre = null, cur = a, nxt = a;
+        while (cur != b) {
+            nxt = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+        return pre;
+    }
+
     public static void main(String[] args) {
         ReverseLinkN reverseLinkN = new ReverseLinkN();
         System.out.println("创建一个带头结点的单链表↓");
@@ -110,5 +127,8 @@ public class ReverseLinkN {
         LinkCreate.Node reverseLinkFor = reverseLinkN.reverseLinkFor(reverseLinkBetween);
         System.out.println("将上述第2到第6反转过的链表再整体反转一遍↓");
         reverseLinkN.printLink(reverseLinkFor);
+        LinkCreate.Node reverseLinkFor2 = reverseLinkN.reverseLinkFor(reverseLinkFor,null);
+        System.out.println("采用迭代的方式反转单链表当中a到b的节点，其中b节点为null↓");
+        reverseLinkN.printLink(reverseLinkFor2);
     }
 }
