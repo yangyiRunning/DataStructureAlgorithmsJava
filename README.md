@@ -29,6 +29,7 @@
     - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
     - [删除排序链表中的重复元素](/src/main/java/ds/link/DeleteDuplicates.java)
     - [判断链表是否有环](/src/main/java/ds/link/CycleLink.java)
+    - [回文链表](/src/main/java/ds/link/PalindromeLink.java)
 
 3. 字符串
     - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
