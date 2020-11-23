@@ -34,11 +34,25 @@ public class PalindromeI {
         return stringBuilder.toString().equals(stringBuilder.reverse().toString());
     }
 
+    public boolean isPalindrome2(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         String a = "A man, a plan, a canal: Panama";
         String b = "race a car";
+        String c = "78987";
         PalindromeI palindromeI = new PalindromeI();
         System.out.println(palindromeI.isPalindrome(a));
         System.out.println(palindromeI.isPalindrome(b));
+        System.out.println(palindromeI.isPalindrome2(c));
     }
 }
