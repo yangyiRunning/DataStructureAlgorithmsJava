@@ -34,6 +34,9 @@ public class PalindromeI {
         return stringBuilder.toString().equals(stringBuilder.reverse().toString());
     }
 
+    /**
+     * 验证字符串是否为回文字符串
+     */
     public boolean isPalindrome2(String s) {
         int left = 0, right = s.length() - 1;
         while (left < right) {
@@ -46,6 +49,18 @@ public class PalindromeI {
         return true;
     }
 
+    /**
+     * 寻找字符串中的最长回文串
+     */
+    private String palindrome(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            //找到了中点
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right - 1 - left);
+    }
+
     public static void main(String[] args) {
         String a = "A man, a plan, a canal: Panama";
         String b = "race a car";
@@ -54,5 +69,6 @@ public class PalindromeI {
         System.out.println(palindromeI.isPalindrome(a));
         System.out.println(palindromeI.isPalindrome(b));
         System.out.println(palindromeI.isPalindrome2(c));
+        System.out.println(palindromeI.palindrome(c, 0, c.length()));
     }
 }
