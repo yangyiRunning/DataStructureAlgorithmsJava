@@ -24,11 +24,11 @@
     - [按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
 
 2. 链表
-    - [从尾到头打印链表](/src/main/java/ds/ReversePrintLink.java)
-    - [移除链表元素](/src/main/java/ds/RemoveElements.java)
-    - [删除链表中的节点](/src/main/java/ds/DeleteNode.java)
-    - [删除排序链表中的重复元素](/src/main/java/ds/DeleteDuplicates.java)
-    - [判断链表是否有环](/src/main/java/ds/CycleLink.java)
+    - [从尾到头打印链表](/src/main/java/ds/link/ReversePrintLink.java)
+    - [移除链表元素](/src/main/java/ds/link/RemoveElements.java)
+    - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
+    - [删除排序链表中的重复元素](/src/main/java/ds/link/DeleteDuplicates.java)
+    - [判断链表是否有环](/src/main/java/ds/link/CycleLink.java)
 
 3. 字符串
     - [替换字符串中的空格](/src/main/java/ds/ReplaceBlankInString.java)

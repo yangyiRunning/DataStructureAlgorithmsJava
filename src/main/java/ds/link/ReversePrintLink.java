@@ -1,4 +1,6 @@
-package ds;
+package ds.link;
+
+import ds.LinkCreate;
 
 import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package ds;
+package ds.link;
 
 /**
  * 移除链表元素
