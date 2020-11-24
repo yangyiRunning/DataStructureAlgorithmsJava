@@ -1,4 +1,4 @@
-package ds;
+package ds.bst;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

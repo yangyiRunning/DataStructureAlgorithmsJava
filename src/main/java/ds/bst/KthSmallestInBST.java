@@ -1,4 +1,4 @@
-package ds;
+package ds.bst;
 
 /**
  * 二叉搜索树中第K小的元素

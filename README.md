@@ -109,13 +109,13 @@
         - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
         
     2. 二叉查找树
-        - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/BinarySearchTree.java)
-        - [二叉树的最近公共祖先](/src/main/java/ds/TreeLowestCommonAncestor.java)
-        - [二叉查找树的最近公共祖先](/src/main/java/ds/BSTreeLowestCommonAncestor.java)
-        - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/ValidBST.java)
-        - [二叉搜索树中第K小的元素](/src/main/java/ds/KthSmallestInBST.java)
-        - [二叉树的右视图](/src/main/java/ds/RightSideView.java)
-        - [二叉树的锯齿形层次遍历](/src/main/java/ds/ZigzagLevelOrder.java)
+        - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
+        - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
+        - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
+        - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
+        - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
+        - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
+        - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
         
 12. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)

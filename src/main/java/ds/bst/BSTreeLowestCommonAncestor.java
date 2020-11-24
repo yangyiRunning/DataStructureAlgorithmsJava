@@ -1,4 +1,4 @@
-package ds;
+package ds.bst;
 
 /**
  * 二叉搜索树的最近公共祖先

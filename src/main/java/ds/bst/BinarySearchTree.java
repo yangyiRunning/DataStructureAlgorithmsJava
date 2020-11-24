@@ -1,4 +1,4 @@
-package ds;
+package ds.bst;
 
 /**
  * 二叉查找树的插入、遍历、查找、删除
@@ -12,10 +12,10 @@ public class BinarySearchTree {
      */
     private TreeNode root;
 
-    static class TreeNode {
-        int value;
-        TreeNode left;
-        TreeNode right;
+    public static class TreeNode {
+        public int value;
+        public TreeNode left;
+        public TreeNode right;
 
         public TreeNode(int value) {
             this.value = value;

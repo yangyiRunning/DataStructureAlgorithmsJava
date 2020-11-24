@@ -1,5 +1,7 @@
 package ds;
 
+import ds.bst.BinarySearchTree;
+
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Queue;
