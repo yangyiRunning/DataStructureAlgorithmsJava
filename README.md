@@ -104,9 +104,9 @@
     
 11. 二叉树
     1. 二叉树
-        - [二叉树的下一个节点](/src/main/java/ds/NextNodeInTree.java)
-        - [相同的树](/src/main/java/ds/SameTree.java)
-        - [对称二叉树](/src/main/java/ds/SymmetricTree.java)
+        - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
+        - [相同的树](/src/main/java/ds/tree/SameTree.java)
+        - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
         
     2. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/BinarySearchTree.java)

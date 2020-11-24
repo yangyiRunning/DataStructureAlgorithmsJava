@@ -1,4 +1,4 @@
-package ds;
+package ds.tree;
 
 /**
  * 相同的树

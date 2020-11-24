@@ -1,4 +1,4 @@
-package ds;
+package ds.tree;
 
 /**
  * 对称二叉树
