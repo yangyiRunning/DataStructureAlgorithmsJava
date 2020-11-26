@@ -108,6 +108,7 @@
         - [相同的树](/src/main/java/ds/tree/SameTree.java)
         - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
         - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
+        - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
         
     2. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)

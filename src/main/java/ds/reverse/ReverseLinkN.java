@@ -79,9 +79,6 @@ public class ReverseLinkN {
      * 采用迭代的方式反转整个单链表
      */
     private LinkCreate.Node reverseLinkFor(LinkCreate.Node head) {
-        if (head.next == null) {
-            return head;
-        }
         LinkCreate.Node pre = null, cur = head, nxt = head;
         while (cur != null) {
             nxt = cur.next;
