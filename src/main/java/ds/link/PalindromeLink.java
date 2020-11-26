@@ -80,7 +80,7 @@ public class PalindromeLink {
             slow = slow.next;
             fast = fast.next.next;
         }
-        if (fast == null) {
+        if (fast != null) {
             slow = slow.next;
         }
         //反转slow后的部分
