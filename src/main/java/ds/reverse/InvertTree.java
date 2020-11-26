@@ -27,7 +27,7 @@ import java.util.Queue;
  */
 public class InvertTree {
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -37,19 +37,21 @@ public class InvertTree {
         }
     }
 
-    public TreeNode invertTree(TreeNode tree) {
-        if (tree == null) {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
             return null;
         }
-        tree.left = invertTree(tree.left);
-        tree.right = invertTree(tree.right);
-        TreeNode temp = tree.left;
-        tree.left = tree.right;
-        tree.right = temp;
-        return tree;
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
     }
 
-    public TreeNode invertTreeByStack(TreeNode tree) {
+    public TreeNode invertTreeByQueue(TreeNode tree) {
         if (tree == null) {
             return null;
         }
@@ -107,7 +109,7 @@ public class InvertTree {
         invertTree.inOrder(newNode);
         System.out.println();
         System.out.println("再中序遍历打印一遍反转后的结果:");
-        TreeNode newNode2 = invertTree.invertTreeByStack(node);
+        TreeNode newNode2 = invertTree.invertTreeByQueue(node);
         invertTree.inOrder(newNode2);
     }
 
