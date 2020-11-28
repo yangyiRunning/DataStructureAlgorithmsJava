@@ -110,6 +110,7 @@
         - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
         - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
         - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
+        - [最大二叉树](/src/main/java/ds/tree/MaxTree.java)
         
     2. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
