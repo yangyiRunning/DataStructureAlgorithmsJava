@@ -112,6 +112,7 @@
         - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
         - [最大二叉树](/src/main/java/ds/tree/MaxTree.java)
         - [从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/PreInOrderBuildTree.java)
+        - [从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/InPostOrderBuildTree.java)
         
     2. 二叉查找树
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
