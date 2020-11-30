@@ -2,71 +2,39 @@ package ds.bst;
 
 /**
  * 二叉搜索树中第K小的元素
- * <p>
- * 给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。
- * <p>
- * 说明：
- * 你可以假设 k 总是有效的，1 ≤ k ≤ 二叉搜索树元素个数。
- * <p>
- * 示例 1:
- * <p>
- * 输入: root = [3,1,4,null,2], k = 1
- * 3
- * / \
- * 1   4
- * \
- * 2
- * 输出: 1
- * 示例 2:
- * <p>
- * 输入: root = [5,3,6,2,4,null,null,1], k = 3
- * 5
- * / \
- * 3   6
- * / \
- * 2   4
- * /
- * 1
- * 输出: 3
- * 进阶：
- * 如果二叉搜索树经常被修改（插入/删除操作）并且你需要频繁地查找第 k 小的值，你将如何优化 kthSmallest 函数？
+ * LeetCode 230 https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/
  *
  * @author yangyi 2019年02月10日10:34:52
  */
 public class KthSmallestInBST {
-
-    /**
-     * 用于统计中序遍历走到前几个节点处了
-     */
-    private int index;
 
     public class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
 
-        TreeNode(int x) {
-            val = x;
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 
-    public int kthSmallest(TreeNode root, int k) {
-        int result = -1;
-        if (root == null) {
-            return result;
-        }
-        result = kthSmallest(root.left, k);
-        if (index == k) {
-            return result;
-        }
-        index++;
-        if (index == k) {
-            return root.val;
-        }
-        return kthSmallest(root.right, k);
-    }
-
-    public TreeNode createTreeNode() {
+    /**
+     * 3
+     * / \
+     * 1   4
+     * \
+     * 2
+     */
+    private TreeNode createTreeNode() {
         TreeNode tree_3 = new TreeNode(3);
         TreeNode tree_1 = new TreeNode(1);
         TreeNode tree_4 = new TreeNode(4);
@@ -77,9 +45,43 @@ public class KthSmallestInBST {
         return tree_3;
     }
 
+    private int index;
+    private int result;
+
+    public int kthSmallest(TreeNode root, int k) {
+        search(root, k);
+        return result;
+    }
+
+    private void search(TreeNode root, int k) {
+        if (root == null) {
+            return;
+        }
+        search(root.left, k);
+        index++;
+        if (index == k) {
+            result = root.val;
+            return;
+        }
+        search(root.right, k);
+    }
+
+    private void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        System.out.print(root.val + " ");
+        inOrder(root.right);
+    }
+
     public static void main(String[] args) {
         KthSmallestInBST kthSmallestInBST = new KthSmallestInBST();
-        TreeNode node = kthSmallestInBST.createTreeNode();
-        System.out.println(kthSmallestInBST.kthSmallest(node, 1));
+        TreeNode root = kthSmallestInBST.createTreeNode();
+        System.out.println("中序遍历构造出来的第一棵树: ");
+        kthSmallestInBST.inOrder(root);
+        System.out.println();
+        System.out.println("搜索此树的第1个最小的元素: ");
+        System.out.println(kthSmallestInBST.kthSmallest(root, 1));
     }
 }
