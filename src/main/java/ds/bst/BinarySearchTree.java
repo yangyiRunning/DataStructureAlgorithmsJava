@@ -102,6 +102,20 @@ public class BinarySearchTree {
     }
 
     /**
+     * 逆序遍历
+     *
+     * @param root 要遍历的对象
+     */
+    public void reversePrintTree(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        reversePrintTree(root.right);
+        System.out.println(root.value);
+        reversePrintTree(root.left);
+    }
+
+    /**
      * 查找节点
      *
      * @param value 要查找的值
@@ -256,6 +270,8 @@ public class BinarySearchTree {
         binarySearchTree.inPrintTree(tree);
         System.out.println("后续遍历这个树:");
         binarySearchTree.postPrintTree(tree);
+        System.out.println("逆序遍历这个树:");
+        binarySearchTree.reversePrintTree(tree);
     }
 
 }
