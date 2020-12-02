@@ -123,6 +123,7 @@
         - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
         - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
         - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
+        - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
         
 12. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
