@@ -116,14 +116,15 @@
         - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
         
     2. 二叉查找树
+        - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
+        - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
+        - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
+        - [二叉搜索树中的搜索](/src/main/java/ds/bst/BstSearch.java)
         - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
         - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
         - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
-        - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
-        - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
         - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
         - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
-        - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
         
 12. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
