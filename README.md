@@ -114,6 +114,7 @@
         - [从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/PreInOrderBuildTree.java)
         - [从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/InPostOrderBuildTree.java)
         - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
+        - [二叉树的序列化与反序列化](/src/main/java/ds/tree/SerializeTree.java)
         
     2. 二叉查找树
         - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
