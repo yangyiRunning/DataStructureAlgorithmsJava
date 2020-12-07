@@ -1,4 +1,4 @@
-package ds;
+package ds.bit;
 
 /**
  * 位1的个数

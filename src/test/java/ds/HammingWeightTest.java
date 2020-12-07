@@ -1,5 +1,7 @@
 package ds;
 
+import ds.bit.HammingWeight;
+
 import static org.junit.Assert.assertEquals;
 
 public class HammingWeightTest {

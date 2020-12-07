@@ -181,10 +181,10 @@
     - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
 
 21. 位运算
-    - [位1的个数](/src/main/java/ds/HammingWeight.java)
-    - [比特位计数](/src/main/java/ds/CountBits.java)
-    - [只出现一次的数字](/src/main/java/ds/SingleNumber.java)
-    - [缺失数字](/src/main/java/ds/MissingNumber.java)
+    - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
+    - [比特位计数](/src/main/java/ds/bit/CountBits.java)
+    - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
+    - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
 
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)

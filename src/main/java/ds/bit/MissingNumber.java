@@ -1,4 +1,4 @@
-package ds;
+package ds.bit;
 
 import java.util.Arrays;
 
