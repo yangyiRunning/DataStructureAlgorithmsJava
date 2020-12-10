@@ -76,12 +76,9 @@ public class PalindromeLink {
     private boolean isPalindromeLink(LinkCreate.Node head) {
         //用两倍的快慢指针先找寻中点
         LinkCreate.Node slow = head, fast = head;
-        if (fast != null && fast.next != null) {
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-        }
-        if (fast != null) {
-            slow = slow.next;
         }
         //反转slow后的部分
         LinkCreate.Node left = head;
@@ -98,6 +95,9 @@ public class PalindromeLink {
     }
 
     private LinkCreate.Node reverseLink(LinkCreate.Node head) {
+        if (head == null) {
+            return null;
+        }
         if (head.next == null) {
             return head;
         }
