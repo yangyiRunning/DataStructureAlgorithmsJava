@@ -1,4 +1,4 @@
-package ds.link;
+package ds.pointer;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -187,7 +187,8 @@
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
     
 22. 双指针
-    - [环形链表](/src/main/java/ds/link/CycleLink.java)
+    - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
+    - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
 
 ## PAT
 
