@@ -189,6 +189,7 @@
 22. 双指针
     - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
     - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
+    - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
 
 ## PAT
 
