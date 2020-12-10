@@ -85,15 +85,13 @@
 
 8. 二分查找
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
-    
-9. 二分查找变种
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
     - [查找第一个大于等于给定值的元素](/src/main/java/ds/binary/BSFirstMore.java)
     - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     
-10. 反转
+9. 反转
     - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
     - [反转一个单链表](/src/main/java/ds/reverse/ReverseLink.java)
     - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
@@ -102,7 +100,7 @@
     - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
     - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
     
-11. 二叉树
+10. 二叉树
     1. 二叉树
         - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
         - [相同的树](/src/main/java/ds/tree/SameTree.java)
@@ -132,14 +130,14 @@
         - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
         - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
         
-12. 堆
+11. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
     - [TopK](/src/main/java/ds/KthLargest.java)
     - [数组中的第K个最大元素](/src/main/java/ds/FindKthLargest.java)
     - [前K个高频元素](/src/main/java/ds/TopKFrequent.java)
     - [前K个高频单词](/src/main/java/ds/TopKWord.java)
     
-13. 散列表
+12. 散列表
     - [有效的异位词](/src/main/java/ds/ValidAnagram.java)
     - [两数之和](/src/main/java/ds/TwoSum.java)
     - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
@@ -147,46 +145,46 @@
     - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
     - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
     
-14. 求数
+13. 求数
     - [求众数](/src/main/java/ds/MajorityElement.java)
     - [加一](/src/main/java/ds/PlusOne.java)
     - [Nim游戏](/src/main/java/ds/CanWinNim.java)
     - [回文数](/src/main/java/ds/Palindrome.java)
     - [猜数字游戏](/src/main/java/ds/GetHint.java)
     
-15. 贪心
+14. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
     - [分发饼干](/src/main/java/ds/MaxProfit.java)
 
-16. 搜索
+15. 搜索
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
     - [二叉树的层次遍历](/src/main/java/ds/LevelOrder.java)
     - [二叉树的最大深度(广度优先的非递归实现和深度优先的递归实现)](/src/main/java/ds/MaxDepth.java)
     - [二叉树的最小深度](/src/main/java/ds/MinDepth.java)
     
-17. 图
+16. 图
     - [图的表示](/src/main/java/ds/Graph.java)
     
-18. 剪枝
+17. 剪枝
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
-19. LRUCache(最近最少使用缓存)
+18. LRUCache(最近最少使用缓存)
     - [LRUCache的实现](/src/main/java/ds/LRUCache.java)
     
-20. 动态规划(DP)
+19. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
     - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
 
-21. 位运算
+20. 位运算
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
     - [比特位计数](/src/main/java/ds/bit/CountBits.java)
     - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
 
-22. 滑动窗口
+21. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
 
 ## PAT
