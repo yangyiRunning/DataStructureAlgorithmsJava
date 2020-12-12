@@ -180,6 +180,7 @@
 
 20. 位运算
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
+    - [2的幂](/src/main/java/ds/bit/IsPowerOfTwo.java)
     - [比特位计数](/src/main/java/ds/bit/CountBits.java)
     - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
