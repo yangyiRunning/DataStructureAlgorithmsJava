@@ -140,7 +140,6 @@
 12. 散列表
     - [有效的异位词](/src/main/java/ds/ValidAnagram.java)
     - [两数之和](/src/main/java/ds/TwoSum.java)
-    - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
     - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
     - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
     - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
@@ -193,6 +192,7 @@
     - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
     - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
     - [链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
+    - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
 
 ## PAT
 
