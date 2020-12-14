@@ -11,11 +11,14 @@ public class ReverseArray {
      * 以数组中间的索引为界点，左右互换元素
      */
     private int[] reverseArray(int[] ints) {
-        int mid = ints.length / 2;
-        for (int i = 0; i < mid; i++) {
-            int temp = ints[i];
-            ints[i] = ints[ints.length - 1 - i];
-            ints[ints.length - 1 - i] = temp;
+        int start = 0;
+        int end = ints.length - 1;
+        while (start < end) {
+            int temp = ints[start];
+            ints[start] = ints[end];
+            ints[end] = temp;
+            start++;
+            end--;
         }
         return ints;
     }
