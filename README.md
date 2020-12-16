@@ -188,6 +188,7 @@
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
     - [最小覆盖子串](/src/main/java/ds/sliding/MinWindow.java)
     - [字符串的排列](/src/main/java/ds/sliding/CheckInclusion.java)
+    - [找到字符串中所有字母异位词](/src/main/java/ds/sliding/FindAnagrams.java)
     
 22. 双指针
     - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
