@@ -168,8 +168,9 @@
 17. 剪枝
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
-18. LRUCache(最近最少使用缓存)
-    - [LRUCache的实现](/src/main/java/ds/LRUCache.java)
+18. 数据结构设计
+    - [LRUCache的实现](/src/main/java/ds/design/LRUCache.java)
+    - [常数时间插入、删除和获取随机元素](/src/main/java/ds/design/RandomizedSet.java)
     
 19. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
@@ -184,19 +185,19 @@
     - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
 
-21. 滑动窗口
-    - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
-    - [最小覆盖子串](/src/main/java/ds/sliding/MinWindow.java)
-    - [字符串的排列](/src/main/java/ds/sliding/CheckInclusion.java)
-    - [找到字符串中所有字母异位词](/src/main/java/ds/sliding/FindAnagrams.java)
-    - [无重复字符的最长子串](/src/main/java/ds/sliding/LengthOfLongestSubstring.java)
-    
-22. 双指针
+21. 双指针
     - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
     - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
     - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
     - [链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
     - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
+    
+22. 滑动窗口
+    - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
+    - [最小覆盖子串](/src/main/java/ds/sliding/MinWindow.java)
+    - [字符串的排列](/src/main/java/ds/sliding/CheckInclusion.java)
+    - [找到字符串中所有字母异位词](/src/main/java/ds/sliding/FindAnagrams.java)
+    - [无重复字符的最长子串](/src/main/java/ds/sliding/LengthOfLongestSubstring.java)
 
 ## PAT
 

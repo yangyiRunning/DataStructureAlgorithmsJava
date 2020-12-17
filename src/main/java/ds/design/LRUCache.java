@@ -1,4 +1,4 @@
-package ds;
+package ds.design;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
