@@ -8,7 +8,6 @@
     - [搜索二维矩阵](/src/main/java/ds/FindInDoubleArray.java)
     - [数组中重复的数据](/src/main/java/ds/RepeatInArray.java)
     - [合并两个有序数组](/src/main/java/ds/MergeArray.java)
-    - [删除排序数组中的重复项](/src/main/java/ds/RemoveDuplicates.java)
     - [旋转数组](/src/main/java/ds/RotateArray.java)
     - [有序数组的平方](/src/main/java/ds/SortedSquares.java)
     - [寻找数组的中心索引](/src/main/java/ds/PivotIndex.java)
@@ -191,6 +190,7 @@
     - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
     - [链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
     - [两数之和II - 输入有序数组](/src/main/java/ds/TwoSumII.java)
+    - [删除排序数组中的重复项](/src/main/java/ds/RemoveDuplicates.java)
     
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
