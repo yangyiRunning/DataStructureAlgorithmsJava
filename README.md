@@ -11,7 +11,6 @@
     - [旋转数组](/src/main/java/ds/RotateArray.java)
     - [有序数组的平方](/src/main/java/ds/SortedSquares.java)
     - [寻找数组的中心索引](/src/main/java/ds/PivotIndex.java)
-    - [移动零](/src/main/java/ds/MoveZeroes.java)
     - [打乱数组](/src/main/java/ds/ShuffleArray.java)
     - [两个数组的交集II](/src/main/java/ds/Intersect.java)
     - [递增的三元子序列](/src/main/java/ds/IncreasingTriplet.java)
@@ -192,6 +191,8 @@
     - [删除排序数组中的重复项](/src/main/java/ds/pointer/RemoveDuplicates.java)
     - [删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
     - [移除元素](/src/main/java/ds/pointer/RemoveElement.java)
+    - [移动零](/src/main/java/ds/pointer/MoveZeroes.java)
+
     
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
