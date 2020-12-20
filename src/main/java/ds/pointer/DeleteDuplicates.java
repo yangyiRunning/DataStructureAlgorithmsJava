@@ -1,20 +1,10 @@
-package ds.link;
+package ds.pointer;
 
 /**
  * 删除排序链表中的重复元素
- * <p>
- * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
- * <p>
- * 示例 1:
- * <p>
- * 输入: 1->1->2
- * 输出: 1->2
- * 示例 2:
- * <p>
- * 输入: 1->1->2->3->3
- * 输出: 1->2->3
+ * LeetCode 83 https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/
  *
- * @author yangyi 2019年02月09日23:53:18
+ * @author yangyi 2020年12月16日15:45:23
  */
 public class DeleteDuplicates {
 
@@ -28,17 +18,18 @@ public class DeleteDuplicates {
     }
 
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode p = head;
-        while (p != null) {
-            if (p.next == null) {
-                break;
-            }
-            if (p.val == p.next.val) {
-                p.next = p.next.next;
-            } else {
-                p = p.next;
-            }
+        if (head == null) {
+            return null;
         }
+        ListNode slow = head, fast = head;
+        while (fast != null) {
+            if (slow.val != fast.val) {
+                slow.next = fast;
+                slow = slow.next;
+            }
+            fast = fast.next;
+        }
+        slow.next = null;
         return head;
     }
 

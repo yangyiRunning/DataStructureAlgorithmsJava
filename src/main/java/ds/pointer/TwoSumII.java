@@ -1,8 +1,6 @@
-package ds;
+package ds.pointer;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 两数之和 II - 输入有序数组

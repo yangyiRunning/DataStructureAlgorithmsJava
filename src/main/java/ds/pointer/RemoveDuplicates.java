@@ -1,4 +1,4 @@
-package ds;
+package ds.pointer;
 
 import java.util.Arrays;
 
