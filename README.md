@@ -20,7 +20,6 @@
     - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
     - [矩阵置零](/src/main/java/ds/SetZeroes.java)
     - [最大子序和](/src/main/java/ds/MaxSubArray.java)
-    - [按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
 
 2. 链表
     - [从尾到头打印链表](/src/main/java/ds/link/ReversePrintLink.java)
@@ -189,8 +188,10 @@
     - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
     - [链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
     - [两数之和II - 输入有序数组](/src/main/java/ds/pointer/TwoSumII.java)
+    - [按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
     - [删除排序数组中的重复项](/src/main/java/ds/pointer/RemoveDuplicates.java)
     - [删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
+    - [移除元素](/src/main/java/ds/pointer/RemoveElement.java)
     
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
