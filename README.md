@@ -192,7 +192,7 @@
     - [删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
     - [移除元素](/src/main/java/ds/pointer/RemoveElement.java)
     - [移动零](/src/main/java/ds/pointer/MoveZeroes.java)
-
+    - [寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
     
 22. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
