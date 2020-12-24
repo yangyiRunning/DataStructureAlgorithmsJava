@@ -203,6 +203,7 @@
     
 23. 回溯(DFS)
     - [全排列](/src/main/java/ds/backtrack/Permute.java)
+    - [N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
 
 ## PAT
 
