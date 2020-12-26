@@ -205,6 +205,7 @@
     - [全排列](/src/main/java/ds/backtrack/Permute.java)
     - [N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
     - [子集](/src/main/java/ds/backtrack/Subsets.java)
+    - [子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
 
 ## PAT
 
