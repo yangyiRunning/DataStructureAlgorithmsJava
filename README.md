@@ -209,6 +209,7 @@
     - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
     - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
     - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
+    - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
 
 ## PAT
 
