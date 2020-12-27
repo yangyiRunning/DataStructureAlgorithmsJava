@@ -2,8 +2,6 @@
 
 这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
-## LeetCode
-
 1. 数组
     - [搜索二维矩阵](/src/main/java/ds/FindInDoubleArray.java)
     - [数组中重复的数据](/src/main/java/ds/RepeatInArray.java)
@@ -78,54 +76,6 @@
     - [快速排序](/src/main/java/ds/QuickSort.java)
     - [计数排序](/src/main/java/ds/CountSort.java)
 
-8. 二分查找
-    - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
-    - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
-    - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
-    - [查找第一个大于等于给定值的元素](/src/main/java/ds/binary/BSFirstMore.java)
-    - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
-    - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
-    
-9. 反转
-    - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
-    - [反转一个单链表](/src/main/java/ds/reverse/ReverseLink.java)
-    - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
-    - [反转字符串](/src/main/java/ds/reverse/ReverseString.java)
-    - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
-    - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
-    - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
-    
-10. 二叉树
-    1. 二叉树
-        - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
-        - [相同的树](/src/main/java/ds/tree/SameTree.java)
-        - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
-        - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
-        - [完全二叉树的节点个数](/src/main/java/ds/tree/CompleteBinaryTreeNodeCount.java)
-        - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
-        - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
-        - [最大二叉树](/src/main/java/ds/tree/MaxTree.java)
-        - [从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/PreInOrderBuildTree.java)
-        - [从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/InPostOrderBuildTree.java)
-        - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
-        - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
-        - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
-        - [验证一颗二叉树是否为平衡二叉树](/src/main/java/ds/tree/IsBalancedTree.java)
-        - [二叉树的深度](/src/main/java/ds/tree/DepthTree.java)
-        
-    2. 二叉查找树
-        - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
-        - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
-        - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
-        - [二叉搜索树中的搜索](/src/main/java/ds/bst/BstSearch.java)
-        - [二叉搜索树中的插入操作](/src/main/java/ds/bst/BstInsert.java)
-        - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
-        - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
-        - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
-        - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
-        - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
-        - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
-        
 11. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
     - [TopK](/src/main/java/ds/KthLargest.java)
@@ -164,24 +114,62 @@
 17. 剪枝
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
-18. 数据结构设计
-    - [LRUCache的实现](/src/main/java/ds/design/LRUCache.java)
-    - [常数时间插入、删除和获取随机元素](/src/main/java/ds/design/RandomizedSet.java)
-    
 19. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
     - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
+    
+## LeetCode
 
-20. 位运算
-    - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
-    - [2的幂](/src/main/java/ds/bit/IsPowerOfTwo.java)
-    - [比特位计数](/src/main/java/ds/bit/CountBits.java)
-    - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
-    - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
+1. 反转
+    - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
+    - [反转一个单链表](/src/main/java/ds/reverse/ReverseLink.java)
+    - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
+    - [反转字符串](/src/main/java/ds/reverse/ReverseString.java)
+    - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
+    - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
+    - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
+    
+2. 二叉树
+    - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
+    - [相同的树](/src/main/java/ds/tree/SameTree.java)
+    - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
+    - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
+    - [完全二叉树的节点个数](/src/main/java/ds/tree/CompleteBinaryTreeNodeCount.java)
+    - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
+    - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
+    - [最大二叉树](/src/main/java/ds/tree/MaxTree.java)
+    - [从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/PreInOrderBuildTree.java)
+    - [从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/InPostOrderBuildTree.java)
+    - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
+    - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
+    - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
+    - [验证一颗二叉树是否为平衡二叉树](/src/main/java/ds/tree/IsBalancedTree.java)
+    - [二叉树的深度](/src/main/java/ds/tree/DepthTree.java)
+    
+3. 二叉查找树
+    - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
+    - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
+    - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
+    - [二叉搜索树中的搜索](/src/main/java/ds/bst/BstSearch.java)
+    - [二叉搜索树中的插入操作](/src/main/java/ds/bst/BstInsert.java)
+    - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
+    - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
+    - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
+    - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
+    - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
+    - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
-21. 双指针
+4. 二分查找
+    - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
+    - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
+    - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
+    - [查找第一个大于等于给定值的元素](/src/main/java/ds/binary/BSFirstMore.java)
+    - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
+    - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
+    
+5. 双指针
     - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
     - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
     - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
@@ -194,14 +182,25 @@
     - [移动零](/src/main/java/ds/pointer/MoveZeroes.java)
     - [寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
     
-22. 滑动窗口
+6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
     - [最小覆盖子串](/src/main/java/ds/sliding/MinWindow.java)
     - [字符串的排列](/src/main/java/ds/sliding/CheckInclusion.java)
     - [找到字符串中所有字母异位词](/src/main/java/ds/sliding/FindAnagrams.java)
     - [无重复字符的最长子串](/src/main/java/ds/sliding/LengthOfLongestSubstring.java)
     
-23. 回溯(DFS)
+7. 数据结构设计
+    - [LRUCache的实现](/src/main/java/ds/design/LRUCache.java)
+    - [常数时间插入、删除和获取随机元素](/src/main/java/ds/design/RandomizedSet.java)
+    
+8. 位运算
+    - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
+    - [2的幂](/src/main/java/ds/bit/IsPowerOfTwo.java)
+    - [比特位计数](/src/main/java/ds/bit/CountBits.java)
+    - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
+    - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
+    
+9. 回溯(DFS) + 剪枝
     - [全排列](/src/main/java/ds/backtrack/Permute.java)
     - [N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
     - [子集](/src/main/java/ds/backtrack/Subsets.java)
