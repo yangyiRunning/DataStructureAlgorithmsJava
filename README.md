@@ -201,11 +201,12 @@
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
     
 9. 回溯(DFS) + 剪枝
-    - [全排列](/src/main/java/ds/backtrack/Permute.java)
-    - [N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
-    - [子集](/src/main/java/ds/backtrack/Subsets.java)
-    - [子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
-    - [组合](/src/main/java/ds/backtrack/Combine.java)
+    - [46.全排列](/src/main/java/ds/backtrack/Permute.java)
+    - [51.N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
+    - [78.子集](/src/main/java/ds/backtrack/Subsets.java)
+    - [90.子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
+    - [77.组合](/src/main/java/ds/backtrack/Combine.java)
+    - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
 
 ## PAT
 
