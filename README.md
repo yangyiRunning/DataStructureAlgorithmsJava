@@ -111,10 +111,7 @@
 16. 图
     - [图的表示](/src/main/java/ds/Graph.java)
     
-17. 剪枝
-    - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
-    
-19. 动态规划(DP)
+17. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
@@ -210,6 +207,7 @@
     - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
     - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
     - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
+    - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
 
 ## PAT
 
