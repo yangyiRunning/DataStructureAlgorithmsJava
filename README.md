@@ -96,22 +96,18 @@
     - [Nim游戏](/src/main/java/ds/CanWinNim.java)
     - [回文数](/src/main/java/ds/Palindrome.java)
     - [猜数字游戏](/src/main/java/ds/GetHint.java)
-    
-14. 贪心
-    - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
-    - [分发饼干](/src/main/java/ds/MaxProfit.java)
 
-15. 搜索
+14. 搜索
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
     - [二叉树的层次遍历](/src/main/java/ds/LevelOrder.java)
     - [二叉树的最大深度(广度优先的非递归实现和深度优先的递归实现)](/src/main/java/ds/MaxDepth.java)
     - [二叉树的最小深度](/src/main/java/ds/MinDepth.java)
     
-16. 图
+15. 图
     - [图的表示](/src/main/java/ds/Graph.java)
     
-17. 动态规划(DP)
+16. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
@@ -208,6 +204,10 @@
     - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
     - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
+    
+10. 贪心
+    - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
+    - [分发饼干](/src/main/java/ds/MaxProfit.java)
 
 ## PAT
 
