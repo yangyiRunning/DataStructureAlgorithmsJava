@@ -33,7 +33,6 @@
     - [字符串中的第一个唯一字符](/src/main/java/ds/string/FirstUniqChar.java)
     - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
     - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
-    - [分割回文串](/src/main/java/ds/string/Partition.java)
     - [单词拆分](/src/main/java/ds/string/WordBreak.java)
 
 4. 线性数据结构及其对应的常见算法
@@ -203,6 +202,7 @@
     - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
     - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
     - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
+    - [131.分割回文串](/src/main/java/ds/string/Partition.java)
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
 10. 贪心

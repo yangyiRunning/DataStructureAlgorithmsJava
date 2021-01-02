@@ -1,79 +1,55 @@
 package ds.string;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * 分割回文串
- * <p>
- * <p>
- * 给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。
- * <p>
- * 返回 s 所有可能的分割方案。
- * <p>
- * 示例:
- * <p>
- * 输入: "aab"
- * 输出:
- * [
- * ["aa","b"],
- * ["a","a","b"]
- * ]
+ * LeetCode 131 https://leetcode-cn.com/problems/palindrome-partitioning/
  *
- * @author yangyi 2019年03月02日16:02:12
+ * @author yangyi 2021年01月02日13:23:27
  */
 public class Partition {
 
+    private List<List<String>> result = new LinkedList<>();
+
     public List<List<String>> partition(String s) {
-
-        List<List<String>> res = new ArrayList<>();
-
-        for(int i = 0; i < s.length(); i++){
-            if(check(s.substring(0, i + 1))){
-                List<String> temp = new ArrayList<>();
-                temp.add(s.substring(0, i + 1));
-                split(s, i + 1, temp, res);
-            }
-        }
-        return res;
+        LinkedList<String> trace = new LinkedList<>();
+        backtrace(s, 0, trace);
+        return result;
     }
 
-    //递归
-    public void split(String s, int start, List<String> list,  List<List<String>> res){
-        if(start == s.length()){
-            res.add(list);
+    private void backtrace(String s, int startIndex, LinkedList<String> trace) {
+        if (s.length() == startIndex) {
+            result.add(new LinkedList<>(trace));
             return;
         }
-        for(int i = start; i < s.length(); i++){
-            ArrayList<String> temp = new ArrayList<>(list);
-            if(check(s.substring(start, i + 1))){
-                temp.add(s.substring(start, i + 1));
-                split(s, i + 1, temp, res);
+        for (int i = startIndex; i < s.length(); i++) {
+            //startIndex和i之间的子串判断是否为回文串并截取
+            if (isPartition(s, startIndex, i)) {
+                trace.add(s.substring(startIndex, i + 1));
+            } else {
+                continue;
             }
+            backtrace(s, i + 1, trace);
+            trace.removeLast();
         }
     }
 
 
-    public boolean check(String s){
-        int i = 0, j = s.length() - 1;
-        while(i < j){
-            if(s.charAt(i) == s.charAt(j)){
-                i++;
-                j--;
-            }else{
+    private boolean isPartition(String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
                 return false;
             }
+            start++;
+            end--;
         }
         return true;
     }
 
     public static void main(String[] args) {
-        String a = "aab";
-        Partition partition = new Partition();
-        for (List<String> strings : partition.partition(a)) {
-            for (String string : strings) {
-                System.out.println(string);
-            }
-        }
+        System.out.println(Arrays.toString(new Partition().partition("aab").toArray()));
     }
 }
