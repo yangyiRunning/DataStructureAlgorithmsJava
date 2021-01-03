@@ -1,4 +1,4 @@
-package ds.string;
+package ds.backtrack;
 
 import java.util.Arrays;
 import java.util.LinkedList;

@@ -202,7 +202,8 @@
     - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
     - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
     - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
-    - [131.分割回文串](/src/main/java/ds/string/Partition.java)
+    - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
+    - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
 10. 贪心
