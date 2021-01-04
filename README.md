@@ -204,6 +204,7 @@
     - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
     - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
     - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
+    - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
     - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
     
 10. 贪心
