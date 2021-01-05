@@ -216,6 +216,7 @@
     
 12. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/IsAnagram.java)
+    - [349.两个数组的交集](/src/main/java/ds/hashmap/Intersection.java)
 
 ## PAT
 
