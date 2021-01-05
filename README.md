@@ -24,17 +24,6 @@
     - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
     - [回文链表](/src/main/java/ds/link/PalindromeLink.java)
 
-3. 字符串
-    - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
-    - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
-    - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
-    - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
-    - [最常见的单词](/src/main/java/ds/string/MostCommonWord.java)
-    - [字符串中的第一个唯一字符](/src/main/java/ds/string/FirstUniqChar.java)
-    - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
-    - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
-    - [单词拆分](/src/main/java/ds/string/WordBreak.java)
-
 4. 线性数据结构及其对应的常见算法
 
     1. 线性表(分别基于数组和链表实现一遍)
@@ -208,7 +197,7 @@
     - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
     - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
     
-10. 广度优先搜搜
+10. 广度优先搜索(BFS)
     
 11. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
@@ -217,6 +206,17 @@
 12. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/IsAnagram.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/Intersection.java)
+    
+13. 字符串
+    - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
+    - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
+    - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
+    - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
+    - [最常见的单词](/src/main/java/ds/string/MostCommonWord.java)
+    - [字符串中的第一个唯一字符](/src/main/java/ds/string/FirstUniqChar.java)
+    - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
+    - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
+    - [单词拆分](/src/main/java/ds/string/WordBreak.java)
 
 ## PAT
 
