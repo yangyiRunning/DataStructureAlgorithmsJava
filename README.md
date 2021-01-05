@@ -206,7 +206,7 @@
     - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
     - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
     - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
-    - [数独(sudoku)](/src/main/java/ds/Sudoku.java)
+    - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
     
 10. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
