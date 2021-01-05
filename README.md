@@ -208,9 +208,14 @@
     - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
     - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
     
-10. 贪心
+10. 广度优先搜搜
+    
+11. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
     - [分发饼干](/src/main/java/ds/MaxProfit.java)
+    
+12. 哈希表
+    - [242.有效的字母异位词](/src/main/java/ds/hashmap/IsAnagram.java)
 
 ## PAT
 
