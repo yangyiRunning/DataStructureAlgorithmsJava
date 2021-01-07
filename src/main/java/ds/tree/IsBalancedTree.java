@@ -2,7 +2,9 @@ package ds.tree;
 
 /**
  * 验证一颗二叉树是否为平衡二叉树
+ * 平衡二叉树
  * LeetCode 剑指Offer 55 https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
+ * LeetCode 110 https://leetcode-cn.com/problems/balanced-binary-tree/
  *
  * @author yangyi 2020年12月07日17:18:12
  */
@@ -19,6 +21,9 @@ public class IsBalancedTree {
     }
 
     public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
         if (root.left == null && root.right == null) {
             return true;
         }
