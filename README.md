@@ -208,6 +208,7 @@
     - [202.快乐数](/src/main/java/ds/hashmap/IsHappy.java)
     - [1.两数之和](/src/main/java/ds/hashmap/TwoSum.java)
     - [454.四数相加II](/src/main/java/ds/hashmap/FourSumCount.java)
+    - [383.赎金信](/src/main/java/ds/hashmap/FourSumCount.java)
     
 13. 字符串
     - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
