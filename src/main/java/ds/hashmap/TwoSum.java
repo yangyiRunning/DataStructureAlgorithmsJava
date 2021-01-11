@@ -1,4 +1,6 @@
-package ds;
+package ds.hashmap;
+
+import ds.InsertSort;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,20 +8,9 @@ import java.util.Map;
 
 /**
  * 两数之和
- * <p>
- * 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
- * <p>
- * 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
- * <p>
- * 示例:
- * <p>
- * 给定 nums = [2, 7, 11, 15], target = 9
- * <p>
- * 因为 nums[0] + nums[1] = 2 + 7 = 9
- * 所以返回 [0, 1]
- * <p>
+ * LeetCode 1 https://leetcode-cn.com/problems/two-sum/
  *
- * @author yangyi 2019年01月25日11:02:56
+ * @author yangyi 2021年01月11日23:58:48
  */
 public class TwoSum {
 

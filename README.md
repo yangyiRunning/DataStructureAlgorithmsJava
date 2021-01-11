@@ -73,7 +73,6 @@
     
 12. 散列表
     - [有效的异位词](/src/main/java/ds/ValidAnagram.java)
-    - [两数之和](/src/main/java/ds/TwoSum.java)
     - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
     - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
     - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
@@ -207,6 +206,7 @@
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/IsAnagram.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/Intersection.java)
     - [202.快乐数](/src/main/java/ds/hashmap/IsHappy.java)
+    - [1.两数之和](/src/main/java/ds/hashmap/TwoSum.java)
     
 13. 字符串
     - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
