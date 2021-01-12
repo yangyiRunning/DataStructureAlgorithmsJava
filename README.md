@@ -150,17 +150,17 @@
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     
 5. 双指针
-    - [环形链表](/src/main/java/ds/pointer/CycleLink.java)
-    - [环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
-    - [链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
-    - [链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
-    - [两数之和II - 输入有序数组](/src/main/java/ds/pointer/TwoSumII.java)
-    - [按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
-    - [删除排序数组中的重复项](/src/main/java/ds/pointer/RemoveDuplicates.java)
-    - [删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
-    - [移除元素](/src/main/java/ds/pointer/RemoveElement.java)
-    - [移动零](/src/main/java/ds/pointer/MoveZeroes.java)
-    - [寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
+    - [141.环形链表](/src/main/java/ds/pointer/CycleLink.java)
+    - [142.环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
+    - [876.链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
+    - [剑指offer 22链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
+    - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/TwoSumII.java)
+    - [905.按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
+    - [26.删除排序数组中的重复项](/src/main/java/ds/pointer/RemoveDuplicates.java)
+    - [83.删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
+    - [27.移除元素](/src/main/java/ds/pointer/RemoveElement.java)
+    - [283.移动零](/src/main/java/ds/pointer/MoveZeroes.java)
+    - [287.寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
     
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)

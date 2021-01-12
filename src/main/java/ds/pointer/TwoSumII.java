@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * 两数之和 II - 输入有序数组
- * LeetCode https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/
+ * LeetCode 167 https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/
  *
  * @author yangyi 2020年12月14日11:52:36
  */
