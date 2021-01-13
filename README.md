@@ -162,6 +162,7 @@
     - [283.移动零](/src/main/java/ds/pointer/MoveZeroes.java)
     - [287.寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
     - [15.三数之和](/src/main/java/ds/pointer/ThreeSum.java)
+    - [18.四数之和](/src/main/java/ds/pointer/FourSum.java)
     
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
