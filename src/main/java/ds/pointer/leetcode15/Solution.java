@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode15;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author yangyi 2021年01月12日18:38:30
  */
-public class ThreeSum {
+public class Solution {
 
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
@@ -51,9 +51,9 @@ public class ThreeSum {
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new ThreeSum().threeSum(new int[]{-1, 0, 1, 2, -1, -4}).toArray()));
-        System.out.println(Arrays.toString(new ThreeSum().threeSum(new int[]{}).toArray()));
-        System.out.println(Arrays.toString(new ThreeSum().threeSum(new int[]{0}).toArray()));
-        System.out.println(Arrays.toString(new ThreeSum().threeSum(new int[]{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}).toArray()));
+        System.out.println(Arrays.toString(new Solution().threeSum(new int[]{-1, 0, 1, 2, -1, -4}).toArray()));
+        System.out.println(Arrays.toString(new Solution().threeSum(new int[]{}).toArray()));
+        System.out.println(Arrays.toString(new Solution().threeSum(new int[]{0}).toArray()));
+        System.out.println(Arrays.toString(new Solution().threeSum(new int[]{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}).toArray()));
     }
 }

@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode167;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
  *
  * @author yangyi 2020年12月14日11:52:36
  */
-public class TwoSumII {
+public class Solution {
 
     public int[] twoSum(int[] numbers, int target) {
         int start = 0;
@@ -28,7 +28,7 @@ public class TwoSumII {
 
     public static void main(String[] args) {
         int[] a = {2, 7, 11, 15};
-        TwoSumII twoSumII = new TwoSumII();
+        Solution twoSumII = new Solution();
         System.out.println(Arrays.toString(a) + "数组中和为9对应的数的索引为:" + Arrays.toString(twoSumII.twoSum(a, 9)));
     }
 }

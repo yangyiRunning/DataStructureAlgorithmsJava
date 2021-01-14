@@ -1,4 +1,4 @@
-package ds.hashmap;
+package ds.hashmap.leetcode383;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
  *
  * @author yangyi 2021年01月12日00:54:05
  */
-public class CanConstruct {
+public class Solution {
 
     public boolean canConstruct(String ransomNote, String magazine) {
         HashMap<Character, Integer> map = new HashMap<>();
@@ -25,8 +25,8 @@ public class CanConstruct {
     }
 
     public static void main(String[] args) {
-        System.out.println(new CanConstruct().canConstruct("a", "b"));
-        System.out.println(new CanConstruct().canConstruct("aa", "ab"));
-        System.out.println(new CanConstruct().canConstruct("aa", "aab"));
+        System.out.println(new Solution().canConstruct("a", "b"));
+        System.out.println(new Solution().canConstruct("aa", "ab"));
+        System.out.println(new Solution().canConstruct("aa", "aab"));
     }
 }

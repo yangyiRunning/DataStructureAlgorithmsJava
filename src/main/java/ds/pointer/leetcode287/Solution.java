@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode287;
 
 /**
  * 寻找重复数
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月16日17:20:37
  */
-public class FindDuplicate {
+public class Solution {
 
     public int findDuplicate(int[] nums) {
         int slow = 0;
@@ -29,7 +29,7 @@ public class FindDuplicate {
     public static void main(String[] args) {
         int[] res1 = new int[]{1, 3, 4, 2, 2};
         int[] res2 = new int[]{3, 1, 3, 4, 2};
-        FindDuplicate findDuplicate = new FindDuplicate();
+        Solution findDuplicate = new Solution();
         System.out.println(findDuplicate.findDuplicate(res1));
         System.out.println(findDuplicate.findDuplicate(res2));
     }

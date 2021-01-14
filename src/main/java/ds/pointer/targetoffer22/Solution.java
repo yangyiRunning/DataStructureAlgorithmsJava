@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.targetoffer22;
 
 /**
  * 链表中倒数第k个节点
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月11日00:26:01
  */
-public class GetKthFromEnd {
+public class Solution {
 
     public class ListNode {
         int val;
@@ -47,7 +47,7 @@ public class GetKthFromEnd {
     }
 
     public static void main(String[] args) {
-        GetKthFromEnd getKthFromEnd = new GetKthFromEnd();
+        Solution getKthFromEnd = new Solution();
         ListNode link = getKthFromEnd.createLink();
         int k = 2;
         ListNode result = getKthFromEnd.getKthFromEnd(link, k);

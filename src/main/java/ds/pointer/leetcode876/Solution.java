@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode876;
 
 /**
  * 链表的中间节点
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月11日00:06:32
  */
-public class MiddleNodeLink {
+public class Solution {
 
     public class ListNode {
         int val;
@@ -62,7 +62,7 @@ public class MiddleNodeLink {
     }
 
     public static void main(String[] args) {
-        MiddleNodeLink middleNodeLink = new MiddleNodeLink();
+        Solution middleNodeLink = new Solution();
         ListNode link = middleNodeLink.createLink();
         ListNode link2 = middleNodeLink.createLink2();
         ListNode middle = middleNodeLink.middleNode(link);

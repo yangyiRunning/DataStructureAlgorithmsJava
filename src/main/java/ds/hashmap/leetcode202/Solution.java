@@ -1,4 +1,4 @@
-package ds.hashmap;
+package ds.hashmap.leetcode202;
 
 import java.util.HashSet;
 
@@ -8,7 +8,7 @@ import java.util.HashSet;
  *
  * @author yangyi 2021年01月11日23:55:53
  */
-public class IsHappy {
+public class Solution {
 
     public boolean isHappy(int n) {
         HashSet<Integer> set = new HashSet<>();
@@ -36,6 +36,6 @@ public class IsHappy {
     }
 
     public static void main(String[] args) {
-        System.out.println(new IsHappy().isHappy(19));
+        System.out.println(new Solution().isHappy(19));
     }
 }

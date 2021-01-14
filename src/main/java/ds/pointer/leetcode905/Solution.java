@@ -1,4 +1,4 @@
-package ds;
+package ds.pointer.leetcode905;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
  *
  * @author yangyi 2020年12月15日14:12:15
  */
-public class SortArrayByParity {
+public class Solution {
 
     public int[] sortArrayByParity(int[] A) {
         if (A == null) {
@@ -37,7 +37,7 @@ public class SortArrayByParity {
 
     public static void main(String[] args) {
         int[] nums = {3, 1, 2, 4};
-        SortArrayByParity sortArrayByParity = new SortArrayByParity();
+        Solution sortArrayByParity = new Solution();
         System.out.println(Arrays.toString(sortArrayByParity.sortArrayByParity(nums)));
     }
 }

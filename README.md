@@ -150,19 +150,19 @@
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     
 5. 双指针
-    - [141.环形链表](/src/main/java/ds/pointer/CycleLink.java)
-    - [142.环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/DetectCycleLink.java)
-    - [876.链表的中间节点](/src/main/java/ds/pointer/MiddleNodeLink.java)
-    - [剑指offer 22链表中倒数第k个节点](/src/main/java/ds/pointer/GetKthFromEnd.java)
-    - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/TwoSumII.java)
-    - [905.按奇偶排序数组](/src/main/java/ds/SortArrayByParity.java)
-    - [26.删除排序数组中的重复项](/src/main/java/ds/pointer/RemoveDuplicates.java)
-    - [83.删除排序链表中的重复元素](/src/main/java/ds/pointer/DeleteDuplicates.java)
-    - [27.移除元素](/src/main/java/ds/pointer/RemoveElement.java)
-    - [283.移动零](/src/main/java/ds/pointer/MoveZeroes.java)
-    - [287.寻找重复数](/src/main/java/ds/pointer/FindDuplicate.java)
-    - [15.三数之和](/src/main/java/ds/pointer/ThreeSum.java)
-    - [18.四数之和](/src/main/java/ds/pointer/FourSum.java)
+    - [141.环形链表](/src/main/java/ds/pointer/leetcode141/Solution.java)
+    - [142.环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/leetcode142/Solution.java)
+    - [876.链表的中间节点](/src/main/java/ds/pointer/leetcode876/Solution.java)
+    - [剑指offer 22链表中倒数第k个节点](/src/main/java/ds/pointer/targetoffer22/Solution.java)
+    - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/leetcode167/Solution.java)
+    - [905.按奇偶排序数组](/src/main/java/ds/pointer/leetcode905/Solution.java)
+    - [26.删除排序数组中的重复项](/src/main/java/ds/pointer/leetcode26/Solution.java)
+    - [83.删除排序链表中的重复元素](/src/main/java/ds/pointer/leetcode83/Solution.java)
+    - [27.移除元素](/src/main/java/ds/pointer/leetcode27/Solution.java)
+    - [283.移动零](/src/main/java/ds/pointer/leetcode283/Solution.java)
+    - [287.寻找重复数](/src/main/java/ds/pointer/leetcode287/Solution.java)
+    - [15.三数之和](/src/main/java/ds/pointer/leetcode15/Solution.java)
+    - [18.四数之和](/src/main/java/ds/pointer/leetcode18/Solution.java)
     
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
@@ -205,12 +205,12 @@
     - [分发饼干](/src/main/java/ds/MaxProfit.java)
     
 12. 哈希表
-    - [242.有效的字母异位词](/src/main/java/ds/hashmap/IsAnagram.java)
-    - [349.两个数组的交集](/src/main/java/ds/hashmap/Intersection.java)
-    - [202.快乐数](/src/main/java/ds/hashmap/IsHappy.java)
-    - [1.两数之和](/src/main/java/ds/hashmap/TwoSum.java)
-    - [454.四数相加II](/src/main/java/ds/hashmap/FourSumCount.java)
-    - [383.赎金信](/src/main/java/ds/hashmap/FourSumCount.java)
+    - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
+    - [349.两个数组的交集](/src/main/java/ds/hashmap/leetcode349/Solution.java)
+    - [202.快乐数](/src/main/java/ds/hashmap/leetcode202/Solution.java)
+    - [1.两数之和](/src/main/java/ds/hashmap/leetcode1/Solution.java)
+    - [454.四数相加II](/src/main/java/ds/hashmap/leetcode454/Solution.java)
+    - [383.赎金信](/src/main/java/ds/hashmap/leetcode383/Solution.java)
     
 13. 字符串
     - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)

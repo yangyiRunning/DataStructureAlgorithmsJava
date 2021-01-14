@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode27;
 
 /**
  * 移除元素
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月16日16:23:42
  */
-public class RemoveElement {
+public class Solution {
 
     public int removeElement(int[] nums, int val) {
         if (nums == null || nums.length == 0) {
@@ -26,7 +26,7 @@ public class RemoveElement {
     public static void main(String[] args) {
         int[] res1 = new int[]{3, 2, 2, 3};
         int[] res2 = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
-        RemoveElement removeElement = new RemoveElement();
+        Solution removeElement = new Solution();
         System.out.println(removeElement.removeElement(res1, 3));
         System.out.println(removeElement.removeElement(res2, 2));
     }

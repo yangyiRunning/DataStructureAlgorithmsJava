@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode283;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
  *
  * @author yangyi 2019年03月02日19:04:14
  */
-public class MoveZeroes {
+public class Solution {
 
     public void moveZeroes(int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -32,7 +32,7 @@ public class MoveZeroes {
     }
 
     public static void main(String[] args) {
-        MoveZeroes moveZeroes = new MoveZeroes();
+        Solution moveZeroes = new Solution();
         int[] res = new int[]{0, 1, 0, 3, 12};
         moveZeroes.moveZeroes(res);
         System.out.println(Arrays.toString(res));

@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode18;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author yangyi 2021年01月14日00:30:22
  */
-public class FourSum {
+public class Solution {
 
     public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
@@ -50,6 +50,6 @@ public class FourSum {
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new FourSum().fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0).toArray()));
+        System.out.println(Arrays.toString(new Solution().fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0).toArray()));
     }
 }

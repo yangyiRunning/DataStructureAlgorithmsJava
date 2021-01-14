@@ -1,4 +1,4 @@
-package ds.hashmap;
+package ds.hashmap.leetcode242;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author yangyi 2021年01月06日01:00:33
  */
-public class IsAnagram {
+public class Solution {
 
     public boolean isAnagram(String s, String t) {
         HashMap<Integer, Integer> record = new HashMap<>(26);
@@ -30,7 +30,7 @@ public class IsAnagram {
     }
 
     public static void main(String[] args) {
-        System.out.println(new IsAnagram().isAnagram("anagram", "nagaram"));
-        System.out.println(new IsAnagram().isAnagram("rat", "car"));
+        System.out.println(new Solution().isAnagram("anagram", "nagaram"));
+        System.out.println(new Solution().isAnagram("rat", "car"));
     }
 }

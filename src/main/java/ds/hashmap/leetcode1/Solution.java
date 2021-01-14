@@ -1,4 +1,4 @@
-package ds.hashmap;
+package ds.hashmap.leetcode1;
 
 import ds.InsertSort;
 
@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author yangyi 2021年01月11日23:58:48
  */
-public class TwoSum {
+public class Solution {
 
     /**
      * 解法1:
@@ -79,7 +79,7 @@ public class TwoSum {
 
     public static void main(String[] args) {
         int[] ints = {2, 7, 11, 15};
-        TwoSum twoSum = new TwoSum();
+        Solution twoSum = new Solution();
         int target = 9;
         int[] indexs = twoSum.twoSumByMap(ints, target);
         System.out.println("两数之和为" + target + "的索引为:" + Arrays.toString(indexs));

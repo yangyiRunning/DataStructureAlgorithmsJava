@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode142;
 
 /**
  * 环形链表 II (已知链表当中有环，返回这个环的起始位置)
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月10日23:22:47
  */
-public class DetectCycleLink {
+public class Solution {
 
     class ListNode {
         int val;
@@ -74,7 +74,7 @@ public class DetectCycleLink {
     }
 
     public static void main(String[] args) {
-        DetectCycleLink detectCycleLink = new DetectCycleLink();
+        Solution detectCycleLink = new Solution();
         ListNode link1 = detectCycleLink.createLink();
         ListNode link2 = detectCycleLink.createLink2();
         ListNode link3 = detectCycleLink.createLink3();

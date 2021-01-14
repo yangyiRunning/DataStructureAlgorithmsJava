@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode83;
 
 /**
  * 删除排序链表中的重复元素
@@ -6,7 +6,7 @@ package ds.pointer;
  *
  * @author yangyi 2020年12月16日15:45:23
  */
-public class DeleteDuplicates {
+public class Solution {
 
     public class ListNode {
         int val;
@@ -47,7 +47,7 @@ public class DeleteDuplicates {
     }
 
     public static void main(String[] args) {
-        DeleteDuplicates deleteDuplicates = new DeleteDuplicates();
+        Solution deleteDuplicates = new Solution();
         ListNode node = deleteDuplicates.createListNode();
         System.out.println("打印创建好的链表:");
         for (ListNode p = node; p != null; p = p.next) {

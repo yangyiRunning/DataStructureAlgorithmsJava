@@ -1,4 +1,4 @@
-package ds.pointer;
+package ds.pointer.leetcode141;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author yangyi 2020年12月10日22:35:31
  */
-public class CycleLink {
+public class Solution {
 
     class ListNode {
         int val;
@@ -97,7 +97,7 @@ public class CycleLink {
 
     public static void main(String[] args) {
         System.out.println("———————————————————利用散列表判断—————————————————————");
-        CycleLink cycleLink = new CycleLink();
+        Solution cycleLink = new Solution();
         ListNode node = cycleLink.getCycleLink();
         System.out.println("判断链表是否有环?");
         boolean isHas = cycleLink.hasCycleSet(node);
@@ -118,7 +118,7 @@ public class CycleLink {
         }
 
         System.out.println("———————————————————利用快慢指针判断—————————————————————");
-        CycleLink cycleLink_ = new CycleLink();
+        Solution cycleLink_ = new Solution();
         ListNode node_ = cycleLink_.getCycleLink();
         System.out.println("判断链表是否有环?");
         boolean isHas_ = cycleLink.hasCycleSet(node_);
