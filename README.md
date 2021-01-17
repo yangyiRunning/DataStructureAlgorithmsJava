@@ -19,7 +19,6 @@
     - [最大子序和](/src/main/java/ds/MaxSubArray.java)
 
 2. 链表
-    - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
     - [回文链表](/src/main/java/ds/link/PalindromeLink.java)
 
 4. 线性数据结构及其对应的常见算法
@@ -211,6 +210,7 @@
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
     - [707.设计链表](/src/main/java/ds/link/leetcode707/MyLinkedList.java)
     - [剑指offer 06.从尾到头打印链表](/src/main/java/ds/link/targetoffer06/Solution.java)
+    - [剑指offer 18.删除链表中的节点](/src/main/java/ds/link/targetoffer18/Solution.java)
     
 14. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
