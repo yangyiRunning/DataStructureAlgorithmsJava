@@ -210,6 +210,7 @@
 
 13. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
+    - [707.设计链表](/src/main/java/ds/link/leetcode707/MyLinkedList.java)
     
 14. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
