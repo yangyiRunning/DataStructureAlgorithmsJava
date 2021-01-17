@@ -20,7 +20,6 @@
 
 2. 链表
     - [从尾到头打印链表](/src/main/java/ds/link/ReversePrintLink.java)
-    - [移除链表元素](/src/main/java/ds/link/RemoveElements.java)
     - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
     - [回文链表](/src/main/java/ds/link/PalindromeLink.java)
 
@@ -208,8 +207,11 @@
     
 12. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
+
+13. 链表
+    - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
     
-13. 哈希表
+14. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/leetcode349/Solution.java)
     - [202.快乐数](/src/main/java/ds/hashmap/leetcode202/Solution.java)
@@ -217,7 +219,7 @@
     - [454.四数相加II](/src/main/java/ds/hashmap/leetcode454/Solution.java)
     - [383.赎金信](/src/main/java/ds/hashmap/leetcode383/Solution.java)
     
-14. 字符串
+15. 字符串
     - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
     - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)

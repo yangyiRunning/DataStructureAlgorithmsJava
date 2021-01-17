@@ -1,18 +1,12 @@
-package ds.link;
+package ds.link.leetcode203;
 
 /**
  * 移除链表元素
- * <p>
- * 删除链表中等于给定值 val 的所有节点。
- * <p>
- * 示例:
- * <p>
- * 输入: 1->2->6->3->4->5->6, val = 6
- * 输出: 1->2->3->4->5
+ * LeetCode 203 https://leetcode-cn.com/problems/remove-linked-list-elements/
  *
- * @author yangyi 2019年02月09日15:20:52
+ * @author yangyi 2021年01月17日17:05:53
  */
-public class RemoveElements {
+public class Solution {
 
     public class ListNode {
         int val;
@@ -24,23 +18,17 @@ public class RemoveElements {
     }
 
     public ListNode removeElements(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        ListNode bing = new ListNode(999);
-        bing.next = head;
-        //循环的条件判断一定要判断p.next是否为null
-        ListNode p = bing;
-        //这里一定要判断当前指针的下一个节点是否为null
-        while (p.next != null) {
-            //当前指向的下一个节点的val等于所要删除的val，删除指向的下一个节点
-            if (p.next.val == val) {
-                p.next = p.next.next;
+        ListNode extra = new ListNode(999);
+        extra.next = head;
+        ListNode cur = extra;
+        while (cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
             } else {
-                p = p.next;
+                cur = cur.next;
             }
         }
-        return bing.next;
+        return extra.next;
     }
 
     private ListNode createListNode() {
@@ -62,7 +50,7 @@ public class RemoveElements {
 
     public static void main(String[] args) {
         System.out.println("看一下等待删除的链表:");
-        RemoveElements removeElements = new RemoveElements();
+        Solution removeElements = new Solution();
         ListNode node = removeElements.createListNode();
         for (ListNode n = node; n != null; n = n.next) {
             System.out.print(n.val + "——>");
