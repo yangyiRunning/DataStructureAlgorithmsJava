@@ -1,13 +1,15 @@
-package ds.link;
+package ds.link.leetcode234;
 
 import ds.LinkCreate;
 
 /**
  * 回文链表
+ * LeetCode 234 https://leetcode-cn.com/problems/palindrome-linked-list/
+ * 剑指offer 02.06 https://leetcode-cn.com/problems/palindrome-linked-list-lcci/
  *
- * @author yangyi 2020年11月23日15:04:10
+ * @author yangyi 2021年01月17日20:52:03
  */
-public class PalindromeLink {
+public class Solution {
 
     /**
      * 用头插法构造一个链表出来，用于后续的反转操作
@@ -112,7 +114,7 @@ public class PalindromeLink {
     }
 
     public static void main(String[] args) {
-        PalindromeLink palindromeLink = new PalindromeLink();
+        Solution palindromeLink = new Solution();
         LinkCreate.LinkTable linkTable = palindromeLink.createLink();
         System.out.println();
         System.out.println("正序遍历链表↓");
