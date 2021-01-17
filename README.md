@@ -19,7 +19,6 @@
     - [最大子序和](/src/main/java/ds/MaxSubArray.java)
 
 2. 链表
-    - [从尾到头打印链表](/src/main/java/ds/link/ReversePrintLink.java)
     - [删除链表中的节点](/src/main/java/ds/link/DeleteNode.java)
     - [回文链表](/src/main/java/ds/link/PalindromeLink.java)
 
@@ -153,7 +152,7 @@
     - [141.环形链表](/src/main/java/ds/pointer/leetcode141/Solution.java)
     - [142.环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/leetcode142/Solution.java)
     - [876.链表的中间节点](/src/main/java/ds/pointer/leetcode876/Solution.java)
-    - [剑指offer 22链表中倒数第k个节点](/src/main/java/ds/pointer/targetoffer22/Solution.java)
+    - [剑指offer 22.链表中倒数第k个节点](/src/main/java/ds/pointer/targetoffer22/Solution.java)
     - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/leetcode167/Solution.java)
     - [905.按奇偶排序数组](/src/main/java/ds/pointer/leetcode905/Solution.java)
     - [26.删除排序数组中的重复项](/src/main/java/ds/pointer/leetcode26/Solution.java)
@@ -211,6 +210,7 @@
 13. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
     - [707.设计链表](/src/main/java/ds/link/leetcode707/MyLinkedList.java)
+    - [剑指offer 06.从尾到头打印链表](/src/main/java/ds/link/targetoffer06/Solution.java)
     
 14. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
