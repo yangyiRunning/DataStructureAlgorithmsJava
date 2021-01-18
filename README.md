@@ -9,7 +9,6 @@
     - [旋转数组](/src/main/java/ds/RotateArray.java)
     - [有序数组的平方](/src/main/java/ds/SortedSquares.java)
     - [寻找数组的中心索引](/src/main/java/ds/PivotIndex.java)
-    - [打乱数组](/src/main/java/ds/ShuffleArray.java)
     - [两个数组的交集II](/src/main/java/ds/Intersect.java)
     - [递增的三元子序列](/src/main/java/ds/IncreasingTriplet.java)
     - [除自身以外数组的乘积](/src/main/java/ds/ProductExceptSelf.java)
@@ -202,6 +201,7 @@
     
 12. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
+    - [384.打乱数组](/src/main/java/ds/array/leetcode384/Solution.java)
 
 13. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
