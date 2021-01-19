@@ -145,7 +145,7 @@
     
 5. 双指针
     - [141.环形链表](/src/main/java/ds/pointer/leetcode141/Solution.java)
-    - [142.环形链表 II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/leetcode142/Solution.java)
+    - [142.环形链表II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/leetcode142/Solution.java)
     - [876.链表的中间节点](/src/main/java/ds/pointer/leetcode876/Solution.java)
     - [剑指offer 22.链表中倒数第k个节点](/src/main/java/ds/pointer/targetoffer22/Solution.java)
     - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/leetcode167/Solution.java)

@@ -52,6 +52,12 @@ public class Solution {
         return node_1;
     }
 
+    /**
+     * 从头结点出发一个指针，
+     * 从相遇节点也出发一个指针，
+     * 这两个指针每次只走一个节点，
+     * 那么当这两个指针相遇的时候就是环形入口的节点
+     */
     public ListNode detectCycle(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
@@ -67,7 +73,9 @@ public class Solution {
         }
         slow = head;
         while (slow != fast) {
+            //从头结点出发
             slow = slow.next;
+            //从相遇点出发
             fast = fast.next;
         }
         return slow;
