@@ -99,7 +99,7 @@
     - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
     - [206.反转链表](/src/main/java/ds/reverse/leetcode206/Solution.java)
     - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
-    - [反转字符串](/src/main/java/ds/reverse/ReverseString.java)
+    - [344.反转字符串](/src/main/java/ds/reverse/leetcode344/Solution.java)
     - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
     - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
     - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
@@ -119,7 +119,7 @@
     - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
     - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
     - [验证一颗二叉树是否为平衡二叉树](/src/main/java/ds/tree/IsBalancedTree.java)
-    - [二叉树的深度](/src/main/java/disBalanceds/tree/DepthTree.java)
+    - [二叉树的深度](/src/main/java/ds/tree/DepthTree.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
