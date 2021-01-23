@@ -106,6 +106,7 @@
     - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
     
 2. 二叉树
+    - [144.二叉树的前序遍历](/src/main/java/ds/tree/leetcode144/Solution.java)
     - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
     - [相同的树](/src/main/java/ds/tree/SameTree.java)
     - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
