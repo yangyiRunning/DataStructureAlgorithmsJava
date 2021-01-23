@@ -158,6 +158,7 @@
     - [287.寻找重复数](/src/main/java/ds/pointer/leetcode287/Solution.java)
     - [15.三数之和](/src/main/java/ds/pointer/leetcode15/Solution.java)
     - [18.四数之和](/src/main/java/ds/pointer/leetcode18/Solution.java)
+    - [剑指offer 05.替换空格](/src/main/java/ds/pointer/target05/Solution.java)
     
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
@@ -220,7 +221,6 @@
     - [383.赎金信](/src/main/java/ds/hashmap/leetcode383/Solution.java)
     
 15. 字符串
-    - [替换字符串中的空格](/src/main/java/ds/string/ReplaceBlankInString.java)
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
     - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
     - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
