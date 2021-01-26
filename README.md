@@ -133,7 +133,6 @@
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
     - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
-    - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
     - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
 4. 二分查找
@@ -200,6 +199,7 @@
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
     - [102.二叉树的层序遍历](/src/main/java/ds/bfs/leetcode102/Solution.java)
     - [107.二叉树的层序遍历II](/src/main/java/ds/bfs/leetcode107/Solution.java)
+    - [199.二叉树的右视图](/src/main/java/ds/bfs/leetcode199/Solution.java)
     
 11. 贪心
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
