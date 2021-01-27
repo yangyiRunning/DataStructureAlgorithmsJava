@@ -109,7 +109,7 @@
     - [144.二叉树的前序遍历](/src/main/java/ds/tree/leetcode144/Solution.java)
     - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
     - [相同的树](/src/main/java/ds/tree/SameTree.java)
-    - [对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
+    - [101.对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
     - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
     - [完全二叉树的节点个数](/src/main/java/ds/tree/CompleteBinaryTreeNodeCount.java)
     - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)

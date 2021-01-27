@@ -1,11 +1,12 @@
-package ds.tree;
+package ds.tree.leetcode101;
 
 /**
  * 对称二叉树
+ * LeetCode 101 https://leetcode-cn.com/problems/symmetric-tree/
  *
- * @author yangyi 2019年02月10日23:50:38
+ * @author yangyi 2021年01月27日18:44:17
  */
-public class SymmetricTree {
+public class Solution {
 
     public static class TreeNode {
         int val;
@@ -18,17 +19,22 @@ public class SymmetricTree {
     }
 
     public boolean isSymmetric(TreeNode root) {
-        return isMirror(root, root);
+        return compare(root, root);
     }
 
-    public boolean isMirror(TreeNode p, TreeNode q) {
-        if (p == null && q == null) {
+    private boolean compare(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
             return true;
-        }
-        if (p == null || q == null) {
+        } else if (left != null && right == null) {
+            return false;
+        } else if (left == null && right != null) {
+            return false;
+        } else if (left.val != right.val) {
             return false;
         }
-        return p.val == q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left);
+        boolean compareLeft = compare(left.left, right.right);
+        boolean compareRight = compare(left.right, right.left);
+        return compareLeft && compareRight;
     }
 
     public static void main(String[] args) {
@@ -43,7 +49,7 @@ public class SymmetricTree {
         val__1.left = val__2;
         val__1.right = val__2;
 
-        SymmetricTree symmetricTree = new SymmetricTree();
+        Solution symmetricTree = new Solution();
         System.out.println(symmetricTree.isSymmetric(val_1));
         System.out.println(symmetricTree.isSymmetric(val__1));
     }
