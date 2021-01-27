@@ -1,31 +1,16 @@
-package ds.reverse;
+package ds.reverse.leetcode226;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
- * 反转一颗二叉树
- * <p>
- * 示例：
- * <p>
- * 输入：
- * <p>
- * 4
- * /   \
- * 2     7
- * / \   / \
- * 1   3 6   9
- * 输出：
- * <p>
- * 4
- * /   \
- * 7     2
- * / \   / \
- * 9   6 3   1
+ * 翻转二叉树
+ * LeetCode 226 https://leetcode-cn.com/problems/invert-binary-tree/
  *
  * @author yangyi 2019年02月10日16:57:38
  */
-public class InvertTree {
+public class Solution {
 
     public static class TreeNode {
         int val;
@@ -37,6 +22,9 @@ public class InvertTree {
         }
     }
 
+    /**
+     * 递归方式遍历反转
+     */
     public TreeNode invertTree(TreeNode root) {
         if (root == null) {
             return null;
@@ -51,12 +39,15 @@ public class InvertTree {
         return root;
     }
 
-    public TreeNode invertTreeByQueue(TreeNode tree) {
-        if (tree == null) {
+    /**
+     * 层序遍历方式反转
+     */
+    public TreeNode invertTreeByQueue(TreeNode root) {
+        if (root == null) {
             return null;
         }
         Queue<TreeNode> queue = new ArrayDeque<>();
-        queue.offer(tree);
+        queue.offer(root);
         while (!queue.isEmpty()) {
             TreeNode node = queue.poll();
             TreeNode temp = node.left;
@@ -69,7 +60,34 @@ public class InvertTree {
                 queue.offer(node.right);
             }
         }
-        return tree;
+        return root;
+    }
+
+    /**
+     * 深度优先遍历的方式反转
+     */
+    private TreeNode invertTreeByStack(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            int size = stack.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = stack.pop();
+                TreeNode temp = cur.left;
+                cur.left = cur.right;
+                cur.right = temp;
+                if (cur.right != null) {
+                    stack.push(cur.right);
+                }
+                if (cur.left != null) {
+                    stack.push(cur.left);
+                }
+            }
+        }
+        return root;
     }
 
     public TreeNode createTree() {
@@ -99,7 +117,7 @@ public class InvertTree {
     }
 
     public static void main(String[] args) {
-        InvertTree invertTree = new InvertTree();
+        Solution invertTree = new Solution();
         TreeNode node = invertTree.createTree();
         System.out.println("先中序遍历打印一遍反转前的结果:");
         invertTree.inOrder(node);
@@ -111,6 +129,10 @@ public class InvertTree {
         System.out.println("再中序遍历打印一遍反转后的结果:");
         TreeNode newNode2 = invertTree.invertTreeByQueue(node);
         invertTree.inOrder(newNode2);
+        System.out.println();
+        System.out.println("再中序遍历打印一遍反转后的结果:");
+        TreeNode newNode3= invertTree.invertTreeByStack(node);
+        invertTree.inOrder(newNode3);
     }
 
 }

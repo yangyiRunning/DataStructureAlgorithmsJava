@@ -98,7 +98,7 @@
 1. 反转
     - [反转一个数组](/src/main/java/ds/reverse/ReverseArray.java)
     - [206.反转链表](/src/main/java/ds/reverse/leetcode206/Solution.java)
-    - [反转一颗二叉树](/src/main/java/ds/reverse/InvertTree.java)
+    - [226.翻转二叉树](/src/main/java/ds/reverse/InvertTree.java)
     - [344.反转字符串](/src/main/java/ds/reverse/leetcode344/Solution.java)
     - [541.反转字符串II](/src/main/java/ds/reverse/leetcode541/Solution.java)
     - [反转字符串中的单词III](/src/main/java/ds/reverse/ReverseWordsIII.java)
