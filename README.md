@@ -81,7 +81,6 @@
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
     - [二叉树的层次遍历](/src/main/java/ds/LevelOrder.java)
-    - [二叉树的最大深度(广度优先的非递归实现和深度优先的递归实现)](/src/main/java/ds/MaxDepth.java)
     - [二叉树的最小深度](/src/main/java/ds/MinDepth.java)
     
 15. 图
@@ -109,7 +108,7 @@
     - [144.二叉树的前序遍历](/src/main/java/ds/tree/leetcode144/Solution.java)
     - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
     - [相同的树](/src/main/java/ds/tree/SameTree.java)
-    - [101.对称二叉树](/src/main/java/ds/tree/SymmetricTree.java)
+    - [101.对称二叉树](/src/main/java/ds/tree/leetcode101/Solution.java)
     - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
     - [完全二叉树的节点个数](/src/main/java/ds/tree/CompleteBinaryTreeNodeCount.java)
     - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
@@ -121,7 +120,8 @@
     - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
     - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
     - [验证一颗二叉树是否为平衡二叉树](/src/main/java/ds/tree/IsBalancedTree.java)
-    - [二叉树的深度](/src/main/java/ds/tree/DepthTree.java)
+    - [剑指offer 55.二叉树的深度](/src/main/java/ds/tree/targetoffer55/Solution.java)
+    - [104.二叉树的最大深度](/src/main/java/ds/tree/leetcode104/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
@@ -133,6 +133,7 @@
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
     - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
+    - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
     - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
 4. 二分查找

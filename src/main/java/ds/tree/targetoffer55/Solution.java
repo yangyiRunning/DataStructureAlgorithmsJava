@@ -1,12 +1,12 @@
-package ds.tree;
+package ds.tree.targetoffer55;
 
 /**
  * 二叉树的深度
- * LeetCode https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/
+ * LeetCode 剑指 offer 55 https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/
  *
  * @author yangyi 2020年12月07日18:42:35
  */
-public class DepthTree {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -46,7 +46,7 @@ public class DepthTree {
     }
 
     public static void main(String[] args) {
-        DepthTree depthTree = new DepthTree();
+        Solution depthTree = new Solution();
         TreeNode root = depthTree.create();
         int maxDepth = depthTree.maxDepth(root);
         System.out.println("构建出的这颗二叉树的深度为: " + maxDepth);
