@@ -80,8 +80,6 @@
 14. 搜索
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
-    - [二叉树的层次遍历](/src/main/java/ds/LevelOrder.java)
-    - [二叉树的最小深度](/src/main/java/ds/MinDepth.java)
     
 15. 图
     - [图的表示](/src/main/java/ds/Graph.java)
@@ -123,6 +121,7 @@
     - [剑指offer 55.二叉树的深度](/src/main/java/ds/tree/targetoffer55/Solution.java)
     - [104.二叉树的最大深度](/src/main/java/ds/tree/leetcode104/Solution.java)
     - [559.N叉树的最大深度](/src/main/java/ds/tree/leetcode559/Solution.java)
+    - [111.二叉树的最小深度](/src/main/java/ds/tree/leetcode111/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
