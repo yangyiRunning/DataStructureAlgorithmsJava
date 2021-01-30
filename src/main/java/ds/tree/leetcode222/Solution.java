@@ -1,4 +1,7 @@
-package ds.tree;
+package ds.tree.leetcode222;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 完全二叉树的节点个数
@@ -6,7 +9,7 @@ package ds.tree;
  *
  * @author yangyi 2020年12月08日14:08:31
  */
-public class CompleteBinaryTreeNodeCount {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -18,6 +21,9 @@ public class CompleteBinaryTreeNodeCount {
         }
     }
 
+    /**
+     * 因为是完全二叉树，套用公式 【树节点数 = 树高 ^ 2 - 1】实现
+     */
     public int countNodes(TreeNode root) {
         int hl = 0, hr = 0;
         if (root == null) {
@@ -37,6 +43,32 @@ public class CompleteBinaryTreeNodeCount {
             return (int) (Math.pow(2, hl) - 1);
         }
         return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+
+    /**
+     * 层序遍历的方式解决
+     */
+    public int countNodes2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int nodeNum = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = queue.poll();
+                nodeNum++;
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+            }
+        }
+        return nodeNum;
     }
 
     /**
@@ -63,9 +95,9 @@ public class CompleteBinaryTreeNodeCount {
 
     public static void main(String[] args) {
         System.out.println("创建一棵树");
-        CompleteBinaryTreeNodeCount completeBinaryTreeNodeCount = new CompleteBinaryTreeNodeCount();
+        Solution completeBinaryTreeNodeCount = new Solution();
         TreeNode root = completeBinaryTreeNodeCount.createTree();
-        int count = completeBinaryTreeNodeCount.countNodes(root);
-        System.out.println("这棵树的总结点个数为: " + count);
+        System.out.println("这棵树的总结点个数为: " + completeBinaryTreeNodeCount.countNodes(root));
+        System.out.println("这棵树的总结点个数为: " + completeBinaryTreeNodeCount.countNodes2(root));
     }
 }
