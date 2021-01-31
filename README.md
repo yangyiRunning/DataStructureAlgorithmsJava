@@ -122,6 +122,7 @@
     - [111.二叉树的最小深度](/src/main/java/ds/tree/leetcode111/Solution.java)
     - [二叉树的节点个数](/src/main/java/ds/tree/leetcode222/TreeNodeCount.java)
     - [222.完全二叉树的节点个数](/src/main/java/ds/tree/leetcode222/Solution.java)
+    - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
