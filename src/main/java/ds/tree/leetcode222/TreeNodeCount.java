@@ -1,7 +1,5 @@
 package ds.tree.leetcode222;
 
-import ds.tree.SameTree;
-
 import java.util.LinkedList;
 import java.util.Queue;
 

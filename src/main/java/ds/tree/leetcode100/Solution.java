@@ -1,63 +1,45 @@
-package ds.tree;
+package ds.tree.leetcode100;
 
 /**
  * 相同的树
- * <p>
- * 给定两个二叉树，编写一个函数来检验它们是否相同。
- * <p>
- * 如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
- * <p>
- * 示例 1:
- * <p>
- * 输入:       1         1
- * / \       / \
- * 2   3     2   3
- * <p>
- * [1,2,3],   [1,2,3]
- * <p>
- * 输出: true
- * 示例 2:
- * <p>
- * 输入:      1          1
- * /           \
- * 2             2
- * <p>
- * [1,2],     [1,null,2]
- * <p>
- * 输出: false
- * 示例 3:
- * <p>
- * 输入:       1         1
- * / \       / \
- * 2   1     1   2
- * <p>
- * [1,2,1],   [1,1,2]
- * <p>
- * 输出: false
- * <p>
+ * LeetCode 100 https://leetcode-cn.com/problems/same-tree/
  *
- * @author yangyi 2019年02月10日21:26:34
+ * @author yangyi 2021年01月31日23:02:44
  */
-public class SameTree {
+public class Solution {
 
-    public static class TreeNode {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
 
-        public TreeNode(int x) {
-            val = x;
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null && q == null) {
             return true;
+        } else if (p == null && q != null) {
+            return false;
+        } else if (p != null && q == null) {
+            return false;
+        } else if (p.val != q.val) {
+            return false;
         }
-        if (p != null && q != null && p.val == q.val) {
-            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
-        }
-        return false;
+        boolean leftSame = isSameTree(p.left, q.left);
+        boolean rightSame = isSameTree(p.right, q.right);
+        return leftSame && rightSame;
     }
 
     public TreeNode[] createTreeNode() {
@@ -88,9 +70,10 @@ public class SameTree {
     }
 
     public static void main(String[] args) {
-        SameTree sameTree = new SameTree();
+        Solution sameTree = new Solution();
         TreeNode[] treeNodes = sameTree.createTreeNode();
         System.out.println("两个树是否相同:" + sameTree.isSameTree(treeNodes[0], treeNodes[1]));
         System.out.println("两个树是否相同:" + sameTree.isSameTree(treeNodes[0], treeNodes[2]));
     }
+
 }
