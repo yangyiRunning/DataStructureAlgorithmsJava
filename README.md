@@ -115,12 +115,12 @@
     - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
     - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
     - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
-    - [验证一颗二叉树是否为平衡二叉树](/src/main/java/ds/tree/IsBalancedTree.java)
+    - [110.平衡二叉树](/src/main/java/ds/tree/leetcode110/Solution.java)
     - [剑指offer 55.二叉树的深度](/src/main/java/ds/tree/targetoffer55/Solution.java)
     - [104.二叉树的最大深度](/src/main/java/ds/tree/leetcode104/Solution.java)
     - [559.N叉树的最大深度](/src/main/java/ds/tree/leetcode559/Solution.java)
     - [111.二叉树的最小深度](/src/main/java/ds/tree/leetcode111/Solution.java)
-    - [二叉树的节点个数](/src/main/java/ds/tree/TreeNodeCount.java)
+    - [二叉树的节点个数](/src/main/java/ds/tree/leetcode222/TreeNodeCount.java)
     - [222.完全二叉树的节点个数](/src/main/java/ds/tree/leetcode222/Solution.java)
     
 3. 二叉查找树

@@ -1,4 +1,4 @@
-package ds.tree;
+package ds.tree.leetcode110;
 
 /**
  * 验证一颗二叉树是否为平衡二叉树
@@ -8,7 +8,7 @@ package ds.tree;
  *
  * @author yangyi 2020年12月07日17:18:12
  */
-public class IsBalancedTree {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -21,7 +21,7 @@ public class IsBalancedTree {
     }
 
     public boolean isBalanced(TreeNode root) {
-        if (root == null) {
+        if(root == null){
             return true;
         }
         if (root.left == null && root.right == null) {
@@ -90,7 +90,7 @@ public class IsBalancedTree {
     }
 
     public static void main(String[] args) {
-        IsBalancedTree isBalancedTree = new IsBalancedTree();
+        Solution isBalancedTree = new Solution();
         TreeNode root = isBalancedTree.create();
         TreeNode root2 = isBalancedTree.create2();
         System.out.println("第1颗树是否为平衡二叉树: " + isBalancedTree.isBalanced(root));
