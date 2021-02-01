@@ -124,6 +124,7 @@
     - [222.完全二叉树的节点个数](/src/main/java/ds/tree/leetcode222/Solution.java)
     - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
     - [572.另一个树的子树](/src/main/java/ds/tree/leetcode572/Solution.java)
+    - [404.左叶子之和](/src/main/java/ds/tree/leetcode404/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
@@ -135,7 +136,6 @@
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
     - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
-    - [二叉树的右视图](/src/main/java/ds/bst/RightSideView.java)
     - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
 4. 二分查找
