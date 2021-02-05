@@ -125,7 +125,6 @@
     - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
     - [572.另一个树的子树](/src/main/java/ds/tree/leetcode572/Solution.java)
     - [404.左叶子之和](/src/main/java/ds/tree/leetcode404/Solution.java)
-    - [513.找树左下角的值](/src/main/java/ds/tree/leetcode513/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
@@ -198,6 +197,7 @@
     - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
     - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
     - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
+    - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
     
 10. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
