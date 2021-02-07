@@ -110,7 +110,7 @@
     - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
     - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
     - [最大二叉树](/src/main/java/ds/tree/MaxTree.java)
-    - [从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/PreInOrderBuildTree.java)
+    - [105.从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/leetcode105/Solution.java)
     - [106.从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/leetcode106/Solution.java)
     - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
     - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)

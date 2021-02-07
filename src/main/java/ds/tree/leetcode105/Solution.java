@@ -1,4 +1,4 @@
-package ds.tree;
+package ds.tree.leetcode105;
 
 /**
  * 从前序与中序遍历序列构造二叉树
@@ -6,7 +6,7 @@ package ds.tree;
  *
  * @author yangyi 2020年11月29日14:41:50
  */
-public class PreInOrderBuildTree {
+public class Solution {
 
     public static class TreeNode {
         int val;
@@ -70,7 +70,7 @@ public class PreInOrderBuildTree {
         int[] preOrderNums = {3, 9, 20, 15, 7};
         int[] inOrderNums = {9, 3, 15, 20, 7};
         System.out.println("通过前序遍历结果和中序遍历结果构造二叉树: ");
-        PreInOrderBuildTree preInOrderBuildTree = new PreInOrderBuildTree();
+        Solution preInOrderBuildTree = new Solution();
         TreeNode root = preInOrderBuildTree.buildTree(preOrderNums, inOrderNums);
         System.out.println("构建完成之后验证结果: ");
         System.out.println("输出前序遍历的结果: ");
