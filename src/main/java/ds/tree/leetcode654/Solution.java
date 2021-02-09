@@ -1,4 +1,4 @@
-package ds.tree;
+package ds.tree.leetcode654;
 
 /**
  * 最大二叉树
@@ -6,7 +6,7 @@ package ds.tree;
  *
  * @author yangyi 2020年11月25日22:39:39
  */
-public class MaxTree {
+public class Solution {
 
     public static class TreeNode {
         int val;
@@ -59,7 +59,7 @@ public class MaxTree {
         //      2  0
         //      \
         //      1
-        MaxTree maxTree = new MaxTree();
+        Solution maxTree = new Solution();
         TreeNode root = maxTree.constructMaximumBinaryTree(nums);
         System.out.println("中序遍历构造完的二叉树: ");
         maxTree.inOrder(root);
