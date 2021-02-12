@@ -125,6 +125,7 @@
     - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
     - [572.另一个树的子树](/src/main/java/ds/tree/leetcode572/Solution.java)
     - [404.左叶子之和](/src/main/java/ds/tree/leetcode404/Solution.java)
+    - [617.合并二叉树](/src/main/java/ds/tree/leetcode617/Solution.java)
     
 3. 二叉查找树
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
