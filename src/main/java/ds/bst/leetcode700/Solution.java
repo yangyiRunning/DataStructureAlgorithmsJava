@@ -1,4 +1,4 @@
-package ds.bst;
+package ds.bst.leetcode700;
 
 /**
  * 二叉搜索树中的搜索
@@ -6,7 +6,7 @@ package ds.bst;
  *
  * @author yangyi 2020年12月03日00:50:09
  */
-public class BstSearch {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -47,6 +47,9 @@ public class BstSearch {
         inOrder(root.right);
     }
 
+    /**
+     * 递归方式实现
+     */
     public TreeNode searchBST(TreeNode root, int val) {
         if (root == null) {
             return null;
@@ -60,8 +63,24 @@ public class BstSearch {
         }
     }
 
+    /**
+     * 迭代方式实现
+     */
+    public TreeNode searchBST2(TreeNode root, int val) {
+        while (root != null) {
+            if (val < root.val) {
+                root = root.left;
+            } else if (val > root.val) {
+                root = root.right;
+            } else {
+                return root;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
-        BstSearch bstSearch = new BstSearch();
+        Solution bstSearch = new Solution();
         System.out.println("创建一颗BST: ");
         TreeNode root = bstSearch.createTree();
         System.out.println("中序遍历构建好的BST: ");
