@@ -129,9 +129,9 @@
     
 3. 二叉查找树
     - [700.二叉搜索树中的搜索](/src/main/java/ds/bst/leetcode700/Solution.java)
+    - [98.验证二叉搜索树](/src/main/java/ds/bst/leetcode98/Solution.java)
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
     - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
-    - [验证二叉搜索树(递归和非递归实现)](/src/main/java/ds/bst/ValidBST.java)
     - [二叉搜索树中的插入操作](/src/main/java/ds/bst/BstInsert.java)
     - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
