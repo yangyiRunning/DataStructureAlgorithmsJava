@@ -1,6 +1,6 @@
 package ds.binary;
 
-import ds.InsertSort;
+import ds.sort.InsertSort;
 
 /**
  * 查找最后一个小于等于给定值的元素

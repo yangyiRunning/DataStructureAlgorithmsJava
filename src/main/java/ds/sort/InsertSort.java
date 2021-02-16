@@ -1,4 +1,4 @@
-package ds;
+package ds.sort;
 
 /**
  * 插入排序

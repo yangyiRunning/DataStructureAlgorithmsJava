@@ -48,14 +48,7 @@
     - [输出指定路径下的所有文件名（递归、非递归分别实现）](/src/main/java/ds/FileSearch.java)
     
 6. 分治
-    - [x的n次方](/src/main/java/ds/Pow.java)
-
-7. 排序
-    - [冒泡排序](/src/main/java/ds/BubbleSort.java)
-    - [插入排序](/src/main/java/ds/InsertSort.java)
-    - [选择排序](/src/main/java/ds/SelectionSort.java)
-    - [快速排序](/src/main/java/ds/QuickSort.java)
-    - [计数排序](/src/main/java/ds/CountSort.java)
+    - [x的n次方](/src/main/java/ds/Pow.java) 
 
 11. 堆
     - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
@@ -83,12 +76,6 @@
     
 15. 图
     - [图的表示](/src/main/java/ds/Graph.java)
-    
-16. 动态规划(DP)
-    - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
-    - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
-    - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
-    - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
     
 ## LeetCode
 
@@ -212,22 +199,18 @@
     - [429.N叉树的层序遍历](/src/main/java/ds/bfs/leetcode429/Solution.java)
     - [513.找树左下角的值](/src/main/java/ds/tree/leetcode513/Solution.java)
     
-11. 贪心
-    - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
-    - [分发饼干](/src/main/java/ds/MaxProfit.java)
-    
-12. 数组
+11. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
     - [384.打乱数组](/src/main/java/ds/array/leetcode384/Solution.java)
 
-13. 链表
+12. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
     - [707.设计链表](/src/main/java/ds/link/leetcode707/MyLinkedList.java)
     - [剑指offer 06.从尾到头打印链表](/src/main/java/ds/link/targetoffer06/Solution.java)
     - [剑指offer 18.删除链表中的节点](/src/main/java/ds/link/targetoffer18/Solution.java)
     - [234.回文链表](/src/main/java/ds/link/leetcode234/Solution.java)
     
-14. 哈希表
+13. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/leetcode349/Solution.java)
     - [202.快乐数](/src/main/java/ds/hashmap/leetcode202/Solution.java)
@@ -235,7 +218,7 @@
     - [454.四数相加II](/src/main/java/ds/hashmap/leetcode454/Solution.java)
     - [383.赎金信](/src/main/java/ds/hashmap/leetcode383/Solution.java)
     
-15. 字符串
+14. 字符串
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
     - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
     - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
@@ -244,6 +227,23 @@
     - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
     - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
     - [单词拆分](/src/main/java/ds/string/WordBreak.java)
+    
+15. 排序
+    - [冒泡排序](/src/main/java/ds/sort/BubbleSort.java)
+    - [插入排序](/src/main/java/ds/sort/InsertSort.java)
+    - [选择排序](/src/main/java/ds/sort/SelectionSort.java)
+    - [快速排序](/src/main/java/ds/sort/QuickSort.java)
+    - [计数排序](/src/main/java/ds/sort/CountSort.java)
+    
+16. 贪心
+    - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
+    - [分发饼干](/src/main/java/ds/MaxProfit.java)
+    
+17. 动态规划(DP)
+    - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
+    - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
+    - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
+    - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
 
 ## PAT
 

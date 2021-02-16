@@ -1,6 +1,6 @@
 package ds.hashmap.leetcode1;
 
-import ds.InsertSort;
+import ds.sort.InsertSort;
 
 import java.util.Arrays;
 import java.util.HashMap;
