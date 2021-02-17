@@ -113,6 +113,7 @@
     - [572.另一个树的子树](/src/main/java/ds/tree/leetcode572/Solution.java)
     - [404.左叶子之和](/src/main/java/ds/tree/leetcode404/Solution.java)
     - [617.合并二叉树](/src/main/java/ds/tree/leetcode617/Solution.java)
+    - [236.二叉树的最近公共祖先](/src/main/java/ds/tree/leetcode236/Solution.java)
     
 3. 二叉查找树
     - [700.二叉搜索树中的搜索](/src/main/java/ds/bst/leetcode700/Solution.java)
@@ -124,7 +125,6 @@
     - [二叉搜索树中的插入操作](/src/main/java/ds/bst/BstInsert.java)
     - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
-    - [二叉树的最近公共祖先](/src/main/java/ds/bst/TreeLowestCommonAncestor.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
     - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
