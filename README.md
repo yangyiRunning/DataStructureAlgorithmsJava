@@ -57,12 +57,6 @@
     - [前K个高频元素](/src/main/java/ds/TopKFrequent.java)
     - [前K个高频单词](/src/main/java/ds/TopKWord.java)
     
-12. 散列表
-    - [有效的异位词](/src/main/java/ds/ValidAnagram.java)
-    - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
-    - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
-    - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
-    
 13. 求数
     - [求众数](/src/main/java/ds/MajorityElement.java)
     - [加一](/src/main/java/ds/PlusOne.java)
@@ -217,6 +211,10 @@
     - [1.两数之和](/src/main/java/ds/hashmap/leetcode1/Solution.java)
     - [454.四数相加II](/src/main/java/ds/hashmap/leetcode454/Solution.java)
     - [383.赎金信](/src/main/java/ds/hashmap/leetcode383/Solution.java)
+    - [有效的异位词](/src/main/java/ds/ValidAnagram.java)
+    - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
+    - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
+    - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
     
 14. 字符串
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
