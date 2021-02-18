@@ -1,4 +1,4 @@
-package ds.bst;
+package ds.bst.leetcode701;
 
 /**
  * 二叉搜索树中的插入操作
@@ -6,7 +6,7 @@ package ds.bst;
  *
  * @author yangyi 2020年12月03日10:47:33
  */
-public class BstInsert {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -69,7 +69,7 @@ public class BstInsert {
     }
 
     public static void main(String[] args) {
-        BstInsert bstInsert = new BstInsert();
+        Solution bstInsert = new Solution();
         System.out.println("创建一颗BST---");
         TreeNode root = bstInsert.createTree();
         System.out.println("中序遍历创建好的BST");
