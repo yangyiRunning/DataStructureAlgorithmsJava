@@ -1,4 +1,4 @@
-package ds.tree;
+package ds.tree.leetcode116;
 
 /**
  * 填充每个节点的下一个右侧节点指针
@@ -6,7 +6,7 @@ package ds.tree;
  *
  * @author yangyi 2020年11月25日11:10:04
  */
-public class ConnectRightTree {
+public class Solution {
 
     public static class TreeNode {
         public int val;
@@ -89,7 +89,7 @@ public class ConnectRightTree {
     }
 
     public static void main(String[] args) {
-        ConnectRightTree connectRightTree = new ConnectRightTree();
+        Solution connectRightTree = new Solution();
         TreeNode root = connectRightTree.createTree();
         System.out.println("中序遍历创建完成的树并打印:");
         connectRightTree.inOrder(root);

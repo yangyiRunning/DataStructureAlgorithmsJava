@@ -88,7 +88,7 @@
     - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
     - [100.相同的树](/src/main/java/ds/tree/leetcode100/Solution.java)
     - [101.对称二叉树](/src/main/java/ds/tree/leetcode101/Solution.java)
-    - [填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/ConnectRightTree.java)
+    - [116.填充每个节点的下一个右侧节点指针](/src/main/java/ds/tree/leetcode116/Solution.java)
     - [将二叉树展开为链表](/src/main/java/ds/tree/FlattenLink.java)
     - [654.最大二叉树](/src/main/java/ds/tree/leetcode654/Solution.java)
     - [105.从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/leetcode105/Solution.java)
