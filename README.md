@@ -15,7 +15,6 @@
     - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
     - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
     - [矩阵置零](/src/main/java/ds/SetZeroes.java)
-    - [最大子序和](/src/main/java/ds/MaxSubArray.java)
 
 4. 线性数据结构及其对应的常见算法
 
@@ -236,6 +235,7 @@
 16. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
     - [376.摆动序列](/src/main/java/ds/greedy/leetcode376/Solution.java)
+    - [53.最大子序和](/src/main/java/ds/greedy/leetcode53/Solution.java)
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
     
 17. 动态规划(DP)
