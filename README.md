@@ -235,6 +235,7 @@
     
 16. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
+    - [376.摆动序列](/src/main/java/ds/greedy/leetcode376/Solution.java)
     - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
     
 17. 动态规划(DP)
