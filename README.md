@@ -236,7 +236,7 @@
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
     - [376.摆动序列](/src/main/java/ds/greedy/leetcode376/Solution.java)
     - [53.最大子序和](/src/main/java/ds/greedy/leetcode53/Solution.java)
-    - [买卖股票的最佳时机](/src/main/java/ds/MaxProfit.java)
+    - [122.买卖股票的最佳时机II](/src/main/java/ds/greedy/leetcode122/Solution.java)
     
 17. 动态规划(DP)
     - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
