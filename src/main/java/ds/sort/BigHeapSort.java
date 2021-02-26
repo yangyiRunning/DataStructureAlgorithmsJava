@@ -1,18 +1,18 @@
-package ds;
+package ds.sort;
 
 /**
  * 堆(大顶堆)
  *
  * @author yangyi 2019年01月22日18:05:48
  */
-public class BigHeap {
+public class BigHeapSort {
 
     //堆因为是个完全二叉树，用数组来进行表示
     private int[] heapArray;
     private int capacity;
     private int count;
 
-    public BigHeap(int capacity) {
+    public BigHeapSort(int capacity) {
         this.capacity = capacity;
         heapArray = new int[capacity + 1];
         count = 0;
@@ -120,7 +120,7 @@ public class BigHeap {
             ints[i] = (int) (Math.random() * 10);
         }
 
-        BigHeap bigHeap = new BigHeap(capacity);
+        BigHeapSort bigHeap = new BigHeapSort(capacity);
         System.out.println("遍历一下构造好的数组:");
         for (int anInt : ints) {
             System.out.println(anInt);

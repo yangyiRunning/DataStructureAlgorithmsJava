@@ -50,7 +50,6 @@
     - [x的n次方](/src/main/java/ds/Pow.java) 
 
 11. 堆
-    - [大顶堆、堆排序](/src/main/java/ds/BigHeap.java)
     - [TopK](/src/main/java/ds/KthLargest.java)
     - [数组中的第K个最大元素](/src/main/java/ds/FindKthLargest.java)
     - [前K个高频元素](/src/main/java/ds/TopKFrequent.java)
@@ -231,6 +230,7 @@
     - [选择排序](/src/main/java/ds/sort/SelectionSort.java)
     - [快速排序](/src/main/java/ds/sort/QuickSort.java)
     - [计数排序](/src/main/java/ds/sort/CountSort.java)
+    - [堆排序](/src/main/java/ds/sort/BigHeapSort.java)
     
 16. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
