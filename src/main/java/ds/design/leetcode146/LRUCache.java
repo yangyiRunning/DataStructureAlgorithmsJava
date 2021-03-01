@@ -1,12 +1,13 @@
-package ds.design;
+package ds.design.leetcode146;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 最近最少使用缓存
+ * LRU缓存机制
+ * 146 LeetCode https://leetcode-cn.com/problems/lru-cache/
  *
- * @author yangyi 2019年01月31日10:17:12
+ * @author yangyi 2021年03月01日23:49:28
  */
 public class LRUCache {
 

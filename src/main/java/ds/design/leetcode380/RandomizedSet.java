@@ -1,4 +1,4 @@
-package ds.design;
+package ds.design.leetcode380;
 
 import java.util.*;
 

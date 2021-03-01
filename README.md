@@ -154,8 +154,8 @@
     - [209.长度最小的子数组](/src/main/java/ds/sliding/leetcode209/Solution.java)
     
 7. 数据结构设计
-    - [LRUCache的实现](/src/main/java/ds/design/LRUCache.java)
-    - [常数时间插入、删除和获取随机元素](/src/main/java/ds/design/RandomizedSet.java)
+    - [146.LRU缓存机制](/src/main/java/ds/design/leetcode146/LRUCache.java)
+    - [380.常数时间插入、删除和获取随机元素](/src/main/java/ds/design/leetcode380/RandomizedSet.java)
     
 8. 位运算
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
