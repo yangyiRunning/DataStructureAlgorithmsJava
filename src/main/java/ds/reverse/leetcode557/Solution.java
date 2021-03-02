@@ -1,19 +1,12 @@
-package ds.reverse;
+package ds.reverse.leetcode557;
 
 /**
  * 反转字符串中的单词 III
- * <p>
- * 给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
- * <p>
- * 示例 1:
- * <p>
- * 输入: "Let's take LeetCode contest"
- * 输出: "s'teL ekat edoCteeL tsetnoc"
- * 注意：在字符串中，每个单词由单个空格分隔，并且字符串中不会有任何额外的空格。
+ * LeetCode 557 https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
  *
- * @author yangyi 2019年02月10日23:15:01
+ * @author yangyi 2021年03月02日23:40:21
  */
-public class ReverseWordsIII {
+public class Solution {
 
     public String reverseWords(String s) {
         String[] strings = s.split(" ");
@@ -41,7 +34,7 @@ public class ReverseWordsIII {
 
     public static void main(String[] args) {
         String s = "Let's take LeetCode contest";
-        ReverseWordsIII reverseWordsIII = new ReverseWordsIII();
+        Solution reverseWordsIII = new Solution();
         String result = reverseWordsIII.reverseWords(s);
         System.out.println(result);
     }
