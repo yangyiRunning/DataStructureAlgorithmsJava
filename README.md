@@ -78,7 +78,7 @@
     - [344.反转字符串](/src/main/java/ds/reverse/leetcode344/Solution.java)
     - [541.反转字符串II](/src/main/java/ds/reverse/leetcode541/Solution.java)
     - [557.反转字符串中的单词III](/src/main/java/ds/reverse/leetcode557/Solution.java)
-    - [转置矩阵](/src/main/java/ds/reverse/Transpose.java)
+    - [867.转置矩阵](/src/main/java/ds/reverse/leetcode867/Solution.java)
     - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
     
 2. 二叉树

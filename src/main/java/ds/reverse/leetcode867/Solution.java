@@ -1,13 +1,14 @@
-package ds.reverse;
+package ds.reverse.leetcode867;
 
 import java.util.Arrays;
 
 /**
  * 转置矩阵
+ * LeetCode 867 https://leetcode-cn.com/problems/transpose-matrix/
  *
- * @author yangyi 2019年02月16日23:27:58
+ * @author yangyi 2021年03月02日23:44:44
  */
-public class Transpose {
+public class Solution {
 
     public int[][] transpose(int[][] A) {
         if (A == null || A.length == 0 || A[0].length == 0) {
@@ -25,7 +26,7 @@ public class Transpose {
     public static void main(String[] args) {
         int[][] a = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         int[][] b = {{1, 2, 3}, {4, 5, 6}};
-        Transpose transpose = new Transpose();
+        Solution transpose = new Solution();
         System.out.println(Arrays.deepToString(transpose.transpose(a)));
         System.out.println(Arrays.deepToString(transpose.transpose(b)));
     }
