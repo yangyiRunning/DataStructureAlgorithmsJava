@@ -1,4 +1,4 @@
-package ds.bst;
+package ds.bst.leetcode538;
 
 /**
  * 把二叉搜索树转换为累加树
@@ -7,7 +7,7 @@ package ds.bst;
  *
  * @author yangyi 2020年12月02日09:08:55
  */
-public class BstToGst {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -76,7 +76,7 @@ public class BstToGst {
     }
 
     public static void main(String[] args) {
-        BstToGst bstToGst = new BstToGst();
+        Solution bstToGst = new Solution();
         TreeNode root = bstToGst.createTree();
         System.out.println("中序遍历构造出来的二叉树: ");
         bstToGst.inOrder(root);

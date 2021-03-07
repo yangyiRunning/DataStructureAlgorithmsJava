@@ -113,7 +113,7 @@
     - [530.二叉搜索树的最小绝对差](/src/main/java/ds/bst/leetcode530/Solution.java)
     - [501.二叉搜索树中的众数](/src/main/java/ds/bst/leetcode501/Solution.java)
     - [二叉搜索树中第K小的元素](/src/main/java/ds/bst/KthSmallestInBST.java)
-    - [把二叉搜索树转换为累加树](/src/main/java/ds/bst/BstToGst.java)
+    - [538.把二叉搜索树转换为累加树](/src/main/java/ds/bst/leetcode538/Solution.java)
     - [701.二叉搜索树中的插入操作](/src/main/java/ds/bst/leetcode701/Solution.java)
     - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
