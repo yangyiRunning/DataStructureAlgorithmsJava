@@ -240,7 +240,7 @@
     
 17. 动态规划(DP)
     - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
-    - [爬楼梯](/src/main/java/ds/dp/ClimbStairs.java)
+    - [70.爬楼梯](/src/main/java/ds/dp/leetcode70/Solution.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
     - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
