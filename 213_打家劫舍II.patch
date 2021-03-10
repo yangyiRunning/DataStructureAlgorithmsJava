@@ -1,0 +1,94 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision d3d4e43f2411b4c70b7d14bb1fe610f8393da4bc)
++++ b/README.md	(revision 60cf2229b154b490134bd9777d946aa758ae2514)
+@@ -239,17 +239,20 @@
+     - [122.买卖股票的最佳时机II](/src/main/java/ds/greedy/leetcode122/Solution.java)
+     
+ 17. 动态规划(DP)
+-    - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
+-    - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
+-    - [70.爬楼梯](/src/main/java/ds/dp/leetcode70/Solution.java)
+-    - [746.使用最小花费爬楼梯](/src/main/java/ds/dp/leetcode746/Solution.java)
+-    - [60.不同路径](/src/main/java/ds/dp/leetcode60/Solution.java)
+-    - [63.不同路径II](/src/main/java/ds/dp/leetcode63/Solution.java)
++    - 斐波拉切
++      - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
++      - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
++      - [70.爬楼梯](/src/main/java/ds/dp/leetcode70/Solution.java)
++      - [746.使用最小花费爬楼梯](/src/main/java/ds/dp/leetcode746/Solution.java)
++    - 路径
++      - [60.不同路径](/src/main/java/ds/dp/leetcode60/Solution.java)
++      - [63.不同路径II](/src/main/java/ds/dp/leetcode63/Solution.java)
+     - [343.整数拆分](/src/main/java/ds/dp/leetcode343/Solution.java)
+     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
+     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
+     - 打家劫舍
+       - [198.打家劫舍](/src/main/java/ds/dp/leetcode198/Solution.java)
++      - [213.打家劫舍II](/src/main/java/ds/dp/leetcode213/Solution.java)
+ 
+ 
+ ## PAT
+Index: src/main/java/ds/dp/leetcode213/Solution.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ds/dp/leetcode213/Solution.java b/src/main/java/ds/dp/leetcode213/Solution.java
+new file mode 100644
+--- /dev/null	(revision 60cf2229b154b490134bd9777d946aa758ae2514)
++++ b/src/main/java/ds/dp/leetcode213/Solution.java	(revision 60cf2229b154b490134bd9777d946aa758ae2514)
+@@ -0,0 +1,49 @@
++package ds.dp.leetcode213;
++
++/**
++ * 打家劫舍II
++ * LeetCode 213 https://leetcode-cn.com/problems/house-robber-ii/
++ *
++ * @author yangyi 2021年03月10日12:21:09
++ */
++public class Solution {
++
++    public int rob(int[] nums) {
++        if (nums.length == 0) {
++            return 0;
++        }
++        if (nums.length == 1) {
++            return nums[0];
++        }
++        int result1 = robRange(nums, 0, nums.length - 2);
++        int result2 = robRange(nums, 1, nums.length - 1);
++        return Math.max(result1, result2);
++    }
++
++    public int robRange(int[] nums, int start, int end) {
++        if (nums.length == 0) {
++            return 0;
++        }
++        if (nums.length == 1) {
++            return nums[0];
++        }
++        if (start == end) {
++            return nums[start];
++        }
++        int[] dp = new int[nums.length];
++        dp[start] = nums[start];
++        dp[start + 1] = Math.max(nums[start], nums[start + 1]);
++        for (int i = start + 2; i <= end; i++) {
++            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
++        }
++        return dp[end];
++    }
++
++    public static void main(String[] args) {
++        System.out.println(new Solution().rob(new int[]{2, 3, 2}));
++        System.out.println(new Solution().rob(new int[]{1, 2, 3, 1}));
++        System.out.println(new Solution().rob(new int[]{0}));
++        System.out.println(new Solution().rob(new int[]{0, 0}));
++        System.out.println(new Solution().rob(new int[]{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
++    }
++}
