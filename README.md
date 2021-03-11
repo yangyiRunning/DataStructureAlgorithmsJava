@@ -245,6 +245,7 @@
     - [746.使用最小花费爬楼梯](/src/main/java/ds/dp/leetcode746/Solution.java)
     - [60.不同路径](/src/main/java/ds/dp/leetcode60/Solution.java)
     - [63.不同路径II](/src/main/java/ds/dp/leetcode63/Solution.java)
+    - [96.不同的二叉搜索树](/src/main/java/ds/dp/leetcode96/Solution.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
 
