@@ -249,6 +249,9 @@
     - [343.整数拆分](/src/main/java/ds/dp/leetcode343/Solution.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
+    - 打家劫舍
+      - [198.打家劫舍](/src/main/java/ds/dp/leetcode198/Solution.java)
+
 
 ## PAT
 
