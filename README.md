@@ -166,22 +166,27 @@
     
 9. 回溯(DFS) + 剪枝
     - 排列
-    - [46.全排列](/src/main/java/ds/backtrack/Permute.java)
-    - [47.全排列II](/src/main/java/ds/backtrack/PermuteUnique.java)
-    - [51.N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
-    - [78.子集](/src/main/java/ds/backtrack/Subsets.java)
-    - [90.子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
-    - [77.组合](/src/main/java/ds/backtrack/Combine.java)
-    - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
-    - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
-    - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
-    - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
-    - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
-    - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
-    - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
-    - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
-    - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
-    - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
+      - [46.全排列](/src/main/java/ds/backtrack/Permute.java)
+      - [47.全排列II](/src/main/java/ds/backtrack/PermuteUnique.java)
+    - 组合
+      - [77.组合](/src/main/java/ds/backtrack/Combine.java)
+      - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
+      - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
+      - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
+      - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
+    - 分割
+      - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
+      - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
+    - 子集
+      - [78.子集](/src/main/java/ds/backtrack/Subsets.java)
+      - [90.子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
+      - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
+    - 棋盘
+      - [51.N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
+      - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
+    - 路径
+      - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
+      - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
     
 10. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
