@@ -196,7 +196,8 @@
     - [637.二叉树的层平均值](/src/main/java/ds/bfs/leetcode637/Solution.java)
     - [429.N叉树的层序遍历](/src/main/java/ds/bfs/leetcode429/Solution.java)
     - [513.找树左下角的值](/src/main/java/ds/tree/leetcode513/Solution.java)
-    - [剑指offer 32 - I.从上到下打印二叉树](/src/main/java/ds/bfs/targetoffer32/Solution.java)
+    - [剑指offer 32 - I.从上到下打印二叉树](/src/main/java/ds/bfs/targetoffer321/Solution.java)
+    - [剑指offer 32 - II.从上到下打印二叉树II](/src/main/java/ds/bfs/targetoffer322/Solution.java)
     
 11. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)

@@ -1,4 +1,4 @@
-package ds.bfs.targetoffer32;
+package ds.bfs.targetoffer321;
 
 import java.util.Arrays;
 import java.util.LinkedList;
