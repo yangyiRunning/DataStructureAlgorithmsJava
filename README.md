@@ -118,7 +118,6 @@
     - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
-    - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
 
 4. 二分查找
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
@@ -199,7 +198,8 @@
     - [剑指offer 32 - I.从上到下打印二叉树](/src/main/java/ds/bfs/targetoffer321/Solution.java)
     - [剑指offer 32 - II.从上到下打印二叉树II](/src/main/java/ds/bfs/targetoffer322/Solution.java)
     - [剑指offer 32 - III.从上到下打印二叉树III](/src/main/java/ds/bfs/targetoffer323/Solution.java)
-    
+    - [二叉树的锯齿形层次遍历](/src/main/java/ds/bst/ZigzagLevelOrder.java)
+
 11. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
     - [384.打乱数组](/src/main/java/ds/array/leetcode384/Solution.java)
