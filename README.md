@@ -118,6 +118,7 @@
     - [删除二叉搜索树中的节点](/src/main/java/ds/bst/BstDelete.java)
     - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
     - [二叉查找树的最近公共祖先](/src/main/java/ds/bst/BSTreeLowestCommonAncestor.java)
+    - [剑指offer 36. 二叉搜索树与双向链表](/src/main/java/ds/bst/targetoffer36/Solution.java)
 
 4. 二分查找
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
