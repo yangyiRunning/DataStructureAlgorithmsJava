@@ -3,6 +3,7 @@ package ds.tree.leetcode236;
 /**
  * 二叉树的最近公共祖先
  * LeetCode 236 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
+ * 剑指 Offer 68 - II https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/
  *
  * @author yangyi 2021年02月17日23:43:14
  */
@@ -57,11 +58,11 @@ public class Solution {
         return node_3;
     }
 
-    private TreeNode p(){
+    private TreeNode p() {
         return new TreeNode(5);
     }
 
-    private TreeNode q(){
+    private TreeNode q() {
         return new TreeNode(1);
     }
 
