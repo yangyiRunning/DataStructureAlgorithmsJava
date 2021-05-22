@@ -277,7 +277,8 @@
       
 ## 多线程
   - [1114.按序打印](/src/main/java/thread/leetcode1114/Foo.java)
-      
+  - [1115.交替打印FooBar](/src/main/java/thread/leetcode1115/FooBar.java)
+
 ## PAT
 
 1. [1001. 害死人不偿命的(3n+1)猜想(15分)](/src/main/java/pat/pat1001/Main.java)
