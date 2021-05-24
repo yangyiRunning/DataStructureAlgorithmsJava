@@ -15,6 +15,7 @@
     - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
     - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
     - [矩阵置零](/src/main/java/ds/SetZeroes.java)
+    - [1486.数组异或操作](/src/main/java/ds/array/leetcode1486/Solution.java)
 
 4. 线性数据结构及其对应的常见算法
 
