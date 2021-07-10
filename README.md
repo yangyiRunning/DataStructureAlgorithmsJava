@@ -160,6 +160,8 @@
 7. 数据结构设计
     - [146.LRU缓存机制](/src/main/java/ds/design/leetcode146/LRUCache.java)
     - [380.常数时间插入、删除和获取随机元素](/src/main/java/ds/design/leetcode380/RandomizedSet.java)
+    - [232.用栈实现队列](/src/main/java/ds/stack/leetcode232/MyQueue.java)
+    - [225.用队列实现栈](/src/main/java/ds/queue/leetcode225/MyStack.java)
     
 8. 位运算
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
@@ -275,10 +277,7 @@
       - [118.杨辉三角](/src/main/java/ds/dp/leetcode118/Solution.java)
       - [119.杨辉三角II](/src/main/java/ds/dp/leetcode119/Solution.java)
     
-18. 栈
-    - [232.用栈实现队列](/src/main/java/ds/stack/leetcode232/MyQueue.java)
-
-19. 单调栈
+18. 单调栈
     - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
       
 ## 多线程
