@@ -31,7 +31,6 @@
         - [顺序栈（基于数组实现的栈）](/src/main/java/ds/ArrayStack.java)
         - [链式栈（基于链表实现的栈）](/src/main/java/ds/LinkStack.java)
         - [有效的括号](/src/main/java/ds/ValidParentheses.java)
-        - [用两个栈实现一个队列](/src/main/java/ds/MyQueue.java)
         
     3. 队列
         - [顺序队列（基于数组实现的队列）](/src/main/java/ds/ArrayQueue.java)
@@ -276,7 +275,10 @@
       - [118.杨辉三角](/src/main/java/ds/dp/leetcode118/Solution.java)
       - [119.杨辉三角II](/src/main/java/ds/dp/leetcode119/Solution.java)
     
-18. 单调栈
+18. 栈
+    - [232.用栈实现队列](/src/main/java/ds/stack/leetcode232/MyQueue.java)
+
+19. 单调栈
     - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
       
 ## 多线程
