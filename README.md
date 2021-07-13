@@ -277,6 +277,7 @@
     
 18. 栈
     - [20.有效的括号](/src/main/java/ds/stack/leetcode20/Solution.java)
+    - [1047.删除字符串中的所有相邻重复项](/src/main/java/ds/stack/leetcode1047/Solution.java)
     
 19. 单调栈
     - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
