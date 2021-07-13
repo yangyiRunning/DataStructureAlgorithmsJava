@@ -279,10 +279,9 @@
     - [20.有效的括号](/src/main/java/ds/stack/leetcode20/Solution.java)
     - [1047.删除字符串中的所有相邻重复项](/src/main/java/ds/stack/leetcode1047/Solution.java)
     - [150.逆波兰表达式求值](/src/main/java/ds/stack/leetcode150/Solution.java)
+    - 单调栈
+      - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
     
-19. 单调栈
-    - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
-      
 ## 多线程
   - [1114.按序打印](/src/main/java/thread/leetcode1114/Foo.java)
   - [1115.交替打印FooBar](/src/main/java/thread/leetcode1115/FooBar.java)
