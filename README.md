@@ -35,7 +35,6 @@
         - [顺序队列（基于数组实现的队列）](/src/main/java/ds/ArrayQueue.java)
         - [链式队列（基于链表实现的队列）](/src/main/java/ds/LinkQueue.java)
         - [循环队列（基于数组成环）](/src/main/java/ds/CircleQueue.java)
-        - [滑动窗口最大值](/src/main/java/ds/MaxSlidingWindow.java)
         
 5. 递归
     - [n的阶乘](/src/main/java/ds/Factorial.java)
@@ -154,7 +153,8 @@
     - [找到字符串中所有字母异位词](/src/main/java/ds/sliding/FindAnagrams.java)
     - [无重复字符的最长子串](/src/main/java/ds/sliding/LengthOfLongestSubstring.java)
     - [209.长度最小的子数组](/src/main/java/ds/sliding/leetcode209/Solution.java)
-    
+    - [239.滑动窗口最大值](/src/main/java/ds/sliding/leetcode239/Solution.java)
+
 7. 数据结构设计
     - [146.LRU缓存机制](/src/main/java/ds/design/leetcode146/LRUCache.java)
     - [380.常数时间插入、删除和获取随机元素](/src/main/java/ds/design/leetcode380/RandomizedSet.java)

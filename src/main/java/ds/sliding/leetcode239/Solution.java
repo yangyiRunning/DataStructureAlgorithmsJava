@@ -1,29 +1,15 @@
-package ds;
+package ds.sliding.leetcode239;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * 在一个固定大小的滚动窗口(此处的滚动窗口可以理解为屏幕)中，输出每次滚动时屏幕当中的最大值。
- * <p>
- * 示例:
- * <p>
- * 输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
- * 输出: [3,3,5,5,6,7]
- * 解释:
- * <p>
- * 滑动窗口的位置                最大值
- * ---------------               -----
- * [1  3  -1] -3  5  3  6  7       3
- * 1 [3  -1  -3] 5  3  6  7       3
- * 1  3 [-1  -3  5] 3  6  7       5
- * 1  3  -1 [-3  5  3] 6  7       5
- * 1  3  -1  -3 [5  3  6] 7       6
- * 1  3  -1  -3  5 [3  6  7]      7
- * <p>
- * Created by yangyi on 2019/1/24.
+ * 滑动窗口最大值
+ * LeetCode 239 https://leetcode-cn.com/problems/sliding-window-maximum/
+ *
+ * @author yangyi 2021年07月12日15:08:28
  */
-public class MaxSlidingWindow {
+public class Solution {
 
     //关键1: 窗口中保存的元素的下标，window只有k大，i-k就代表着window的左边界
     private Deque<Integer> windows = new ArrayDeque<>();
@@ -58,8 +44,8 @@ public class MaxSlidingWindow {
 
     public static void main(String[] args) {
         int[] arrays = new int[]{1, 3, -1, -3, 5, 3, 6, 7};
-        MaxSlidingWindow maxSlidingWindow = new MaxSlidingWindow();
-        int[] result = maxSlidingWindow.maxSlidingWindow(arrays, 3);
+        Solution solution = new Solution();
+        int[] result = solution.maxSlidingWindow(arrays, 3);
         for (int i : result) {
             System.out.println(i);
         }
