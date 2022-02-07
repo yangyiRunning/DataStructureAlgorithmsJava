@@ -165,7 +165,7 @@
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
     - [2的幂](/src/main/java/ds/bit/IsPowerOfTwo.java)
     - [比特位计数](/src/main/java/ds/bit/CountBits.java)
-    - [只出现一次的数字](/src/main/java/ds/bit/SingleNumber.java)
+    - [136.只出现一次的数字](/src/main/java/ds/bit/leetcode136/Solution.java)
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
     
 9. 回溯(DFS) + 剪枝

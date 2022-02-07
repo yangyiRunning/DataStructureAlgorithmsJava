@@ -1,28 +1,15 @@
-package ds.bit;
+package ds.bit.leetcode136;
 
 import java.util.Arrays;
 
 /**
  * 只出现一次的数字
- * <p>
- * 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
- * <p>
- * 说明：
- * <p>
- * 你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
- * <p>
- * 示例 1:
- * <p>
- * 输入: [2,2,1]
- * 输出: 1
- * 示例 2:
- * <p>
- * 输入: [4,1,2,1,2]
- * 输出: 4
  *
- * @author yangyi 2019年02月09日16:32:02
+ * LeetCode 136 https://leetcode-cn.com/problems/single-number/
+ *
+ * @author yangyi 2022年02月07日16:23:46
  */
-public class SingleNumber {
+public class Solution {
 
     /**
      * 异或的特性：
@@ -43,9 +30,9 @@ public class SingleNumber {
     public static void main(String[] args) {
         int[] a = {2, 2, 1};
         int[] b = {4, 1, 2, 1, 2};
-        SingleNumber singleNumber = new SingleNumber();
-        int res = singleNumber.singleNumber(a);
-        int res2 = singleNumber.singleNumber(b);
+        Solution solution = new Solution();
+        int res = solution.singleNumber(a);
+        int res2 = solution.singleNumber(b);
         System.out.println(Arrays.toString(a) + "中只出现一次的数字为:" + res);
         System.out.println(Arrays.toString(b) + "中只出现一次的数字为:" + res2);
     }
