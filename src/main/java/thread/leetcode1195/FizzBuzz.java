@@ -5,7 +5,7 @@ import java.util.function.IntConsumer;
 
 /**
  * 交替打印字符串
- * LeetCode https://leetcode-cn.com/problems/fizz-buzz-multithreaded/
+ * LeetCode 1195 https://leetcode-cn.com/problems/fizz-buzz-multithreaded/
  *
  * @author yangyi 2022年02月08日16:02:25
  */
