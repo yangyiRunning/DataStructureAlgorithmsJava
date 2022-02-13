@@ -285,6 +285,9 @@
 ## 多线程
   - [1114.按序打印](/src/main/java/thread/leetcode1114/Foo.java)
   - [1115.交替打印FooBar](/src/main/java/thread/leetcode1115/FooBar.java)
+  - [1116.打印零与奇偶数](/src/main/java/thread/leetcode1116/ZeroEvenOdd.java)
+  - [1117.H2O生成](/src/main/java/thread/leetcode1117/H2O.java)
+  - [1195.交替打印字符串](/src/main/java/thread/leetcode1195/FizzBuzz.java)
 
 ## PAT
 
