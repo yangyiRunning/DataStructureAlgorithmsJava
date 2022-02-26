@@ -229,6 +229,7 @@
     - [两数之和IV - 输入BST](/src/main/java/ds/FindTargetBST.java)
     - [存在重复元素](/src/main/java/ds/ContainsDuplicate.java)
     - [字典序列化](/src/main/java/ds/MapArraySerialize.java)
+    - [560.和为 K 的子数组](/src/main/java/ds/hashmap/leetcode560/Solution.java)
     
 14. 字符串
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
