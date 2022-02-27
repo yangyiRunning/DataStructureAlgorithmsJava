@@ -11,3 +11,4 @@ tags
 push/.externalNativeBuild
 doc/internal/sdk/_book/
 target
+out/
