@@ -1,4 +1,4 @@
-package ds.pointer.target05;
+package ds.pointer.targetoffer05;
 
 import java.util.Arrays;
 

@@ -144,7 +144,8 @@
     - [287.寻找重复数](/src/main/java/ds/pointer/leetcode287/Solution.java)
     - [15.三数之和](/src/main/java/ds/pointer/leetcode15/Solution.java)
     - [18.四数之和](/src/main/java/ds/pointer/leetcode18/Solution.java)
-    - [剑指offer 05.替换空格](/src/main/java/ds/pointer/target05/Solution.java)
+    - [剑指offer 05.替换空格](/src/main/java/ds/pointer/targetoffer05/Solution.java)
+    - [剑指 Offer II 014.字符串中的变位词](/src/main/java/ds/pointer/targetofferII014/Solution.java)
     - [剑指 Offer II 011.0 和 1 个数相同的子数组](/src/main/java/ds/hashmap/targetofferII011/Solution.java)
     - [剑指 Offer II 012.左右两边子数组的和相等](/src/main/java/ds/hashmap/targetofferII012/Solution.java)
     
