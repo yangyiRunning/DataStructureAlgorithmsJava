@@ -3,6 +3,7 @@ package ds.tree.leetcode116;
 /**
  * 填充每个节点的下一个右侧节点指针
  * LeetCode 116 https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/
+ * eg: https://assets.leetcode.com/uploads/2019/02/14/116_sample.png
  *
  * @author yangyi 2020年11月25日11:10:04
  */
