@@ -1,4 +1,4 @@
-package ds.tree;
+package ds.tree.leetcode297;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.LinkedList;
  *
  * @author yangyi 2020年12月07日15:28:43
  */
-public class SerializePreOrderTree {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -83,10 +83,10 @@ public class SerializePreOrderTree {
 
     public static void main(String[] args) {
         //Your Codec object will be instantiated and called as such:
-        SerializePreOrderTree create = new SerializePreOrderTree();
+        Solution create = new Solution();
         TreeNode root = create.createTree();
-        SerializePreOrderTree ser = new SerializePreOrderTree();
-        SerializePreOrderTree deser = new SerializePreOrderTree();
+        Solution ser = new Solution();
+        Solution deser = new Solution();
         TreeNode ans = deser.deserialize(ser.serialize(root));
         System.out.println("中序遍历输出序列化和反序列化之后的结果: ");
         create.inOrder(ans);

@@ -89,7 +89,7 @@
     - [105.从前序与中序遍历序列构造二叉树](/src/main/java/ds/tree/leetcode105/Solution.java)
     - [106.从中序与后序遍历序列构造二叉树](/src/main/java/ds/tree/leetcode106/Solution.java)
     - [寻找重复的子树](/src/main/java/ds/tree/FindDuplicateSubtrees.java)
-    - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePreOrderTree.java)
+    - [二叉树的序列化和反序列化(前序遍历的序列化方式实现)](/src/main/java/ds/tree/leetcode297/Solution.java)
     - [二叉树的序列化和反序列化(后序遍历的序列化方式实现)](/src/main/java/ds/tree/SerializePostOrderTree.java)
     - [110.平衡二叉树](/src/main/java/ds/tree/leetcode110/Solution.java)
     - [剑指offer 55.二叉树的深度](/src/main/java/ds/tree/targetoffer55/Solution.java)
