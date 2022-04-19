@@ -98,7 +98,6 @@
     - [111.二叉树的最小深度](/src/main/java/ds/tree/leetcode111/Solution.java)
     - [二叉树的节点个数](/src/main/java/ds/tree/leetcode222/TreeNodeCount.java)
     - [222.完全二叉树的节点个数](/src/main/java/ds/tree/leetcode222/Solution.java)
-    - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
     - [572.另一个树的子树](/src/main/java/ds/tree/leetcode572/Solution.java)
     - [404.左叶子之和](/src/main/java/ds/tree/leetcode404/Solution.java)
     - [617.合并二叉树](/src/main/java/ds/tree/leetcode617/Solution.java)
@@ -195,7 +194,8 @@
     - 路径
       - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
       - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
-    
+      - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
+
 10. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
     - [102.二叉树的层序遍历](/src/main/java/ds/bfs/leetcode102/Solution.java)

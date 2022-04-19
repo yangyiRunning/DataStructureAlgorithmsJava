@@ -63,8 +63,8 @@ public class TreeNodeCount {
         if (root == null) {
             return 0;
         }
-        Queue<TreeNode> queue = new LinkedList<>();
         int count = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while (!queue.isEmpty()) {
             int size = queue.size();

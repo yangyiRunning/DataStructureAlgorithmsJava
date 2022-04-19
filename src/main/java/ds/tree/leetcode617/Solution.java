@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * 合并二叉树
+ * 合并二叉树(二叉树相加)
  * LeetCode 617 https://leetcode-cn.com/problems/merge-two-binary-trees/
  *
  * @author yangyi 2021年02月12日20:38:40

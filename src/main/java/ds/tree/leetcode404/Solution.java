@@ -3,6 +3,7 @@ package ds.tree.leetcode404;
 /**
  * 左叶子之和
  * LeetCode 404 https://leetcode-cn.com/problems/sum-of-left-leaves/
+ * https://tva1.sinaimg.cn/large/e6c9d24ely1h19ol4nngyj20hy0jbgm5.jpg
  *
  * @author yangyi 2021年02月04日17:33:34
  */
