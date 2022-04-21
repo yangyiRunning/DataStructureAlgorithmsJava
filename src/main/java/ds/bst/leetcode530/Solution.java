@@ -29,7 +29,7 @@ public class Solution {
      */
     public int getMinimumDifference(TreeNode root) {
         inOrder(root);
-        if (result.size() < 2) {
+        if (result.size() <= 1) {
             return 0;
         }
         int min = Integer.MAX_VALUE;
