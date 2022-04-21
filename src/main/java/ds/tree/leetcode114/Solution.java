@@ -1,12 +1,13 @@
-package ds.tree;
+package ds.tree.leetcode114;
 
 /**
  * 将二叉树展开为链表
  * LeetCode 114 https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/
+ * https://assets.leetcode.com/uploads/2021/01/14/flaten.jpg
  *
  * @author yangyi 2020年11月25日16:22:39
  */
-public class FlattenLink {
+public class Solution {
 
     public static class TreeNode {
         int val;
@@ -93,14 +94,14 @@ public class FlattenLink {
     }
 
     public static void main(String[] args) {
-        FlattenLink flattenLink = new FlattenLink();
-        TreeNode root = flattenLink.createTree();
+        Solution solution = new Solution();
+        TreeNode root = solution.createTree();
         System.out.println("中序遍历创建完成的二叉树: ");
-        flattenLink.inOrder(root);
+        solution.inOrder(root);
         System.out.println();
         System.out.println("将此二叉树拉平成为一个链表: ");
-        flattenLink.flatten(root);
+        solution.flatten(root);
         System.out.println("打印这条二叉树被拉平后生成的链表: ");
-        flattenLink.preOrder(root);
+        solution.preOrder(root);
     }
 }
