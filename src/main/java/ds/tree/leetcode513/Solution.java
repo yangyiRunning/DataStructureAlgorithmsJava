@@ -7,7 +7,7 @@ import java.util.Queue;
  * 找树左下角的值
  * LeetCode 513 https://leetcode-cn.com/problems/find-bottom-left-tree-value/
  *
- * @author yangyi 2021年02月04日17:48:32
+ * @author yangyi 2022年04月22日16:59:26
  */
 public class Solution {
 
@@ -34,14 +34,14 @@ public class Solution {
         if (root == null) {
             return 0;
         }
+        int result = 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        int result = 0;
         while (!queue.isEmpty()) {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 TreeNode cur = queue.poll();
-                if (i == 0) {
+                if (cur != null && i == 0) {
                     result = cur.val;
                 }
                 if (cur.left != null) {
