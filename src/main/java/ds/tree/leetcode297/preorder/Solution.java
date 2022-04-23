@@ -1,4 +1,4 @@
-package ds.tree.leetcode297;
+package ds.tree.leetcode297.preorder;
 
 import java.util.Arrays;
 import java.util.LinkedList;
