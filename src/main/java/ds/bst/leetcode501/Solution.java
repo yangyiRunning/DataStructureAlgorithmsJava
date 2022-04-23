@@ -32,11 +32,11 @@ public class Solution {
             return new int[]{};
         }
         search(root);
-        int[] res = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            res[i] = result.get(i);
-        }
-        return res;
+        //        int[] res = new int[result.size()];
+//        for (int i = 0; i < result.size(); i++) {
+//            res[i] = result.get(i);
+//        }
+        return result.stream().mapToInt(value -> value).toArray();
     }
 
     private void search(TreeNode cur) {
