@@ -4,7 +4,7 @@ package ds.pointer.targetoffer22;
  * 链表中倒数第k个节点
  * LeetCode 剑指offer 22 https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
  *
- * @author yangyi 2020年12月11日00:26:01
+ * @author yangyi 2022年04月24日17:50:02
  */
 public class Solution {
 
@@ -36,10 +36,14 @@ public class Solution {
     public ListNode getKthFromEnd(ListNode head, int k) {
         ListNode fast = head;
         ListNode slow = head;
-        while (k-- > 0) {
+        while (k != 0) {
             fast = fast.next;
+            k--;
         }
-        while (fast != null) {
+        while (true) {
+            if (fast == null) {
+                break;
+            }
             fast = fast.next;
             slow = slow.next;
         }
