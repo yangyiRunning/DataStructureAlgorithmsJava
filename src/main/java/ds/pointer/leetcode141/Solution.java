@@ -7,7 +7,7 @@ import java.util.Set;
  * 环形链表
  * LeetCode 141 https://leetcode-cn.com/problems/linked-list-cycle/
  *
- * @author yangyi 2020年12月10日22:35:31
+ * @author yangyi 2022年04月24日15:07:52
  */
 public class Solution {
 
@@ -85,14 +85,16 @@ public class Solution {
     public boolean hasCycle(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
-        while (fast != null && fast.next != null) {
+        while (true) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
             fast = fast.next.next;
             slow = slow.next;
-            if (fast == slow) {
+            if (slow == fast) {
                 return true;
             }
         }
-        return false;
     }
 
     public static void main(String[] args) {
