@@ -1,4 +1,4 @@
-package ds.bst;
+package ds.bst.leetcode230;
 
 /**
  * 二叉搜索树中第K小的元素
@@ -6,7 +6,7 @@ package ds.bst;
  *
  * @author yangyi 2019年02月10日10:34:52
  */
-public class KthSmallestInBST {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -76,12 +76,12 @@ public class KthSmallestInBST {
     }
 
     public static void main(String[] args) {
-        KthSmallestInBST kthSmallestInBST = new KthSmallestInBST();
-        TreeNode root = kthSmallestInBST.createTreeNode();
+        Solution solution = new Solution();
+        TreeNode root = solution.createTreeNode();
         System.out.println("中序遍历构造出来的第一棵树: ");
-        kthSmallestInBST.inOrder(root);
+        solution.inOrder(root);
         System.out.println();
         System.out.println("搜索此树的第1个最小的元素: ");
-        System.out.println(kthSmallestInBST.kthSmallest(root, 1));
+        System.out.println(solution.kthSmallest(root, 1));
     }
 }
