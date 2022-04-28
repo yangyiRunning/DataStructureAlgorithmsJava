@@ -1,4 +1,4 @@
-package ds.bst;
+package ds.bst.leetcode450;
 
 /**
  * 删除二叉搜索树中的节点
@@ -6,7 +6,7 @@ package ds.bst;
  *
  * @author yangyi 2020年12月05日16:11:25
  */
-public class BstDelete {
+public class Solution {
 
     public class TreeNode {
         int val;
@@ -93,15 +93,15 @@ public class BstDelete {
     }
 
     public static void main(String[] args) {
-        BstDelete bstDelete = new BstDelete();
+        Solution solution = new Solution();
         System.out.println("构建一棵树");
-        TreeNode root = bstDelete.createTree();
+        TreeNode root = solution.createTree();
         System.out.println("中序遍历构建好的树: ");
-        bstDelete.inOrder(root);
+        solution.inOrder(root);
         System.out.println();
         System.out.println("删除树中值为3的节点: ");
-        TreeNode result = bstDelete.deleteNode(root, 3);
+        TreeNode result = solution.deleteNode(root, 3);
         System.out.println("中序遍历删除对应的3节点之后剩余的树: ");
-        bstDelete.inOrder(result);
+        solution.inOrder(result);
     }
 }
