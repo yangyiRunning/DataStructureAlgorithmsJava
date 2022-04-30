@@ -1,6 +1,6 @@
 package ds;
 
-import ds.bst.BinarySearchTree;
+import ds.bst.base.BinarySearchTree;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;

@@ -115,7 +115,7 @@
     - [538.把二叉搜索树转换为累加树](/src/main/java/ds/bst/leetcode538/Solution.java)
     - [701.二叉搜索树中的插入操作](/src/main/java/ds/bst/leetcode701/Solution.java)
     - [450.删除二叉搜索树中的节点](/src/main/java/ds/bst/leetcode450/Solution.java)
-    - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/BinarySearchTree.java)
+    - [二叉查找树的插入、遍历、查找、删除、反转](/src/main/java/ds/bst/base/BinarySearchTree.java)
     - [235.二叉查找树的最近公共祖先](/src/main/java/ds/bst/leetcode235/Solution.java)
     - [剑指offer 36. 二叉搜索树与双向链表](/src/main/java/ds/bst/targetoffer36/Solution.java)
     - [108.将有序数组转换为二叉搜索树](/src/main/java/ds/bst/leetcode108/Solution.java)
