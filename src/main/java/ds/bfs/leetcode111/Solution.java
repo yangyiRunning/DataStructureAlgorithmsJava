@@ -48,7 +48,7 @@ public class Solution {
             return 0;
         }
         Queue<TreeNode> treeNodeQueue = new LinkedList<>();
-        treeNodeQueue.add(root);
+        treeNodeQueue.offer(root);
         int minDepth = 1;
         while (!treeNodeQueue.isEmpty()) {
             int size = treeNodeQueue.size();
@@ -58,10 +58,10 @@ public class Solution {
                     return minDepth;
                 }
                 if (cur.left != null) {
-                    treeNodeQueue.add(cur.left);
+                    treeNodeQueue.offer(cur.left);
                 }
                 if (cur.right != null) {
-                    treeNodeQueue.add(cur.right);
+                    treeNodeQueue.offer(cur.right);
                 }
             }
             minDepth++;
