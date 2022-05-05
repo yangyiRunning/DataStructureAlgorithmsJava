@@ -138,6 +138,7 @@
     - [167.两数之和II - 输入有序数组](/src/main/java/ds/pointer/leetcode167/Solution.java)
     - [905.按奇偶排序数组](/src/main/java/ds/pointer/leetcode905/Solution.java)
     - [26.删除排序数组中的重复项](/src/main/java/ds/pointer/leetcode26/Solution.java)
+    - [80.删除有序数组中的重复项II](/src/main/java/ds/pointer/leetcode80/Solution.java)
     - [83.删除排序链表中的重复元素](/src/main/java/ds/pointer/leetcode83/Solution.java)
     - [27.移除元素](/src/main/java/ds/pointer/leetcode27/Solution.java)
     - [283.移动零](/src/main/java/ds/pointer/leetcode283/Solution.java)
