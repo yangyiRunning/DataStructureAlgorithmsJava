@@ -1,10 +1,10 @@
-package ds.bst.target54;
+package ds.tree.target54;
 
 /**
  * 二叉搜索树的第k大节点
  * 剑指 Offer 54 https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
  *
- * @author yangyi 2021年05月02日00:06:06
+ * @author yangyi 2022年04月22日17:44:46
  */
 public class Solution {
 
@@ -22,21 +22,21 @@ public class Solution {
 
     public int kthLargest(TreeNode root, int k) {
         this.k = k;
-        inOrderReserve(root);
+        kthLargestHelper(root);
         return result;
     }
 
-    private void inOrderReserve(TreeNode cur) {
-        if (cur == null) {
+    public void kthLargestHelper(TreeNode root) {
+        if (root == null) {
             return;
         }
-        inOrderReserve(cur.right);
+        kthLargestHelper(root.right);
         k--;
         if (k == 0) {
-            result = cur.val;
+            result = root.val;
             return;
         }
-        inOrderReserve(cur.left);
+        kthLargestHelper(root.left);
     }
 
     private TreeNode createTree() {

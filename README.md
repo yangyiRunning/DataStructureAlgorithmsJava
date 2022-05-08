@@ -120,6 +120,7 @@
     - [剑指offer 36. 二叉搜索树与双向链表](/src/main/java/ds/bst/targetoffer36/Solution.java)
     - [108.将有序数组转换为二叉搜索树](/src/main/java/ds/bst/leetcode108/Solution.java)
     - [109.有序链表转换二叉搜索树](/src/main/java/ds/bst/leetcode109/Solution.java)
+    - [剑指offer 54.二叉搜索树的第k大节点](/src/main/java/ds/tree/target54/Solution.java)
 
 4. 二分查找
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
@@ -212,7 +213,6 @@
     - [剑指offer 32 - II.从上到下打印二叉树II](/src/main/java/ds/bfs/targetoffer322/Solution.java)
     - [剑指offer 32 - III.从上到下打印二叉树III](/src/main/java/ds/bfs/targetoffer323/Solution.java)
     - [103.二叉树的锯齿形层次遍历](/src/main/java/ds/bfs/leetcode103/Solution.java)
-    - [剑指offer 54.二叉搜索树的第k大节点](/src/main/java/ds/bst/target54/Solution.java)
     - [117.填充每个节点的下一个右侧节点指针II](/src/main/java/ds/bfs/leetcode117/Solution.java)
 
 11. 数组
