@@ -23,7 +23,7 @@ public class Solution {
                 return false;
             } else if (!stack.peek().equals(String.valueOf(s.charAt(i)))) {
                 return false;
-            }else {
+            } else {
                 stack.pop();
             }
         }
