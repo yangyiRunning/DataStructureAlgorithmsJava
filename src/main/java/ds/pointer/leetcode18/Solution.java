@@ -15,7 +15,7 @@ public class Solution {
 
     public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> result = new LinkedList<>();
         for (int i = 0; i < nums.length; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
@@ -24,24 +24,29 @@ public class Solution {
                 if (j > i + 1 && nums[j] == nums[j - 1]) {
                     continue;
                 }
-                int left = j + 1;
-                int right = nums.length - 1;
-                while (left < right) {
-                    int fourSum = nums[i] + nums[j] + nums[left] + nums[right];
+                int start = j + 1;
+                int end = nums.length - 1;
+                while (start < end) {
+                    int fourSum = nums[i] + nums[j] + nums[start] + nums[end];
                     if (fourSum < target) {
-                        left++;
+                        start++;
                     } else if (fourSum > target) {
-                        right--;
+                        end--;
                     } else {
-                        result.add(new LinkedList<>(Arrays.asList(nums[i], nums[j], nums[left], nums[right])));
-                        while (left < right && nums[left] == nums[left + 1]) {
-                            left++;
+                        List<Integer> four = new LinkedList<>();
+                        four.add(nums[i]);
+                        four.add(nums[j]);
+                        four.add(nums[start]);
+                        four.add(nums[end]);
+                        result.add(four);
+                        while (start < end && nums[start] == nums[start + 1]) {
+                            start++;
                         }
-                        while (left < right && nums[right] == nums[right - 1]) {
-                            right--;
+                        while (start < end && nums[end] == nums[end - 1]) {
+                            end--;
                         }
-                        left++;
-                        right--;
+                        start++;
+                        end--;
                     }
                 }
             }
