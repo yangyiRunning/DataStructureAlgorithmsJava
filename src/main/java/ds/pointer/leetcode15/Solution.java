@@ -22,28 +22,28 @@ public class Solution {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            int left = i + 1;
-            int right = nums.length - 1;
-            while (left < right) {
-                int threeSum = nums[i] + nums[left] + nums[right];
-                if (threeSum < 0) {
-                    left++;
-                } else if (threeSum > 0) {
-                    right--;
+            int start = i + 1;
+            int end = nums.length - 1;
+            while (start < end) {
+                int sum = nums[i] + nums[start] + nums[end];
+                if (sum < 0) {
+                    start++;
+                } else if (sum > 0) {
+                    end--;
                 } else {
-                    LinkedList<Integer> res = new LinkedList<>();
-                    res.add(nums[i]);
-                    res.add(nums[left]);
-                    res.add(nums[right]);
-                    result.add(res);
-                    while (left < right && nums[left] == nums[left + 1]) {
-                        left++;
+                    List<Integer> num = new LinkedList<>();
+                    num.add(nums[i]);
+                    num.add(nums[start]);
+                    num.add(nums[end]);
+                    result.add(num);
+                    while (start < end && nums[start] == nums[start + 1]) {
+                        start++;
                     }
-                    while (left < right && nums[right] == nums[right - 1]) {
-                        right--;
+                    while (start < end && nums[end] == nums[end - 1]) {
+                        end--;
                     }
-                    right--;
-                    left++;
+                    start++;
+                    end--;
                 }
             }
         }
