@@ -123,6 +123,7 @@
     - [剑指offer 54.二叉搜索树的第k大节点](/src/main/java/ds/tree/target54/Solution.java)
 
 4. 二分查找
+    - [剑指 Offer II 006.排序数组中两个数字之和](/src/main/java/ds/binary/targetofferII06/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
