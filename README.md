@@ -130,6 +130,7 @@
     - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     - [35.搜索插入位置](/src/main/java/ds/binary/leetcode35/Solution.java)
+    - [剑指 Offer II 068.查找插入位置](/src/main/java/ds/binary/targetofferII068/Solution.java)
     
 5. 双指针
     - [141.环形链表](/src/main/java/ds/pointer/leetcode141/Solution.java)
