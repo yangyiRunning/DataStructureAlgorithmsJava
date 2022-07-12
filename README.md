@@ -1,6 +1,7 @@
 # 常见数据结构与算法小结（Java语言描述）
 
-这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
+这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**
+，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
 1. 数组
     - [搜索二维矩阵](/src/main/java/ds/FindInDoubleArray.java)
@@ -26,32 +27,32 @@
         - [线性表的删除（基于链式存储的物理结构实现）](/src/main/java/ds/LinkDelete.java)
         - [线性表的创建（基于链式存储的物理结构）头插法和尾插法](/src/main/java/ds/LinkCreate.java)
         - [查找线性表中的某一个元素（基于链式存储的物理结构实现）](/src/main/java/ds/LinkGet.java)
-        
+
     2. 栈
         - [顺序栈（基于数组实现的栈）](/src/main/java/ds/ArrayStack.java)
         - [链式栈（基于链表实现的栈）](/src/main/java/ds/LinkStack.java)
-        
+
     3. 队列
         - [顺序队列（基于数组实现的队列）](/src/main/java/ds/ArrayQueue.java)
         - [链式队列（基于链表实现的队列）](/src/main/java/ds/LinkQueue.java)
         - [循环队列（基于数组成环）](/src/main/java/ds/CircleQueue.java)
-        
+
 5. 递归
     - [n的阶乘](/src/main/java/ds/Factorial.java)
     - [斐波拉切数列](/src/main/java/ds/FibonacciArray.java)
     - [位于第几排问题（递归、非递归分别实现）](/src/main/java/ds/LocationRow.java)
     - [n个台阶走法问题（每次可以走1个台阶或者2个台阶）](/src/main/java/ds/OneTwoStep.java)
     - [输出指定路径下的所有文件名（递归、非递归分别实现）](/src/main/java/ds/FileSearch.java)
-    
+
 6. 分治
-    - [x的n次方](/src/main/java/ds/Pow.java) 
+    - [x的n次方](/src/main/java/ds/Pow.java)
 
 11. 堆
     - [TopK](/src/main/java/ds/KthLargest.java)
     - [数组中的第K个最大元素](/src/main/java/ds/FindKthLargest.java)
     - [前K个高频元素](/src/main/java/ds/TopKFrequent.java)
     - [前K个高频单词](/src/main/java/ds/TopKWord.java)
-    
+
 13. 求数
     - [求众数](/src/main/java/ds/MajorityElement.java)
     - [加一](/src/main/java/ds/PlusOne.java)
@@ -62,10 +63,10 @@
 14. 搜索
     - [广度优先搜索](/src/main/java/ds/LevelPrint.java)
     - [深度优先搜索](/src/main/java/ds/DepthPrint.java)
-    
+
 15. 图
     - [图的表示](/src/main/java/ds/Graph.java)
-    
+
 ## LeetCode
 
 1. 反转
@@ -77,7 +78,7 @@
     - [557.反转字符串中的单词III](/src/main/java/ds/reverse/leetcode557/Solution.java)
     - [867.转置矩阵](/src/main/java/ds/reverse/leetcode867/Solution.java)
     - [反转单链表的一部分区间](/src/main/java/ds/reverse/ReverseLinkN.java)
-    
+
 2. 二叉树
     - [144.二叉树的前序遍历](/src/main/java/ds/tree/leetcode144/Solution.java)
     - [二叉树的下一个节点](/src/main/java/ds/tree/NextNodeInTree.java)
@@ -104,7 +105,7 @@
     - [236.二叉树的最近公共祖先](/src/main/java/ds/tree/leetcode236/Solution.java)
     - [814.二叉树剪枝](/src/main/java/ds/tree/leetcode814/Solution.java)
     - [965.单值二叉树](/src/main/java/ds/tree/leetcode965/Solution.java)
-    
+
 3. 二叉查找树
     - [700.二叉搜索树中的搜索](/src/main/java/ds/bst/leetcode700/Solution.java)
     - [98.验证二叉搜索树](/src/main/java/ds/bst/leetcode98/Solution.java)
@@ -123,6 +124,7 @@
     - [剑指offer 54.二叉搜索树的第k大节点](/src/main/java/ds/tree/target54/Solution.java)
 
 4. 二分查找
+    - [704.二分查找](/src/main/java/ds/binary/leetcode704/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
@@ -131,7 +133,7 @@
     - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     - [35.搜索插入位置](/src/main/java/ds/binary/leetcode35/Solution.java)
     - [剑指 Offer II 068.查找插入位置](/src/main/java/ds/binary/targetofferII068/Solution.java)
-    
+
 5. 双指针
     - [141.环形链表](/src/main/java/ds/pointer/leetcode141/Solution.java)
     - [142.环形链表II (已知链表当中有环，返回这个环的起始位置)](/src/main/java/ds/pointer/leetcode142/Solution.java)
@@ -151,7 +153,7 @@
     - [剑指 Offer II 015.字符串中的所有变位词](/src/main/java/ds/pointer/targetofferII015/Solution.java)
     - [11.盛最多水的容器](/src/main/java/ds/pointer/leetcode11/Solution.java)
     - [42.接雨水](/src/main/java/ds/pointer/leetcode42/Solution.java)
-    
+
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
     - [最小覆盖子串](/src/main/java/ds/sliding/MinWindow.java)
@@ -166,38 +168,38 @@
     - [380.常数时间插入、删除和获取随机元素](/src/main/java/ds/design/leetcode380/RandomizedSet.java)
     - [232.用栈实现队列](/src/main/java/ds/stack/leetcode232/MyQueue.java)
     - [225.用队列实现栈](/src/main/java/ds/queue/leetcode225/MyStack.java)
-    
+
 8. 位运算
     - [位1的个数](/src/main/java/ds/bit/HammingWeight.java)
     - [2的幂](/src/main/java/ds/bit/IsPowerOfTwo.java)
     - [比特位计数](/src/main/java/ds/bit/CountBits.java)
     - [136.只出现一次的数字](/src/main/java/ds/bit/leetcode136/Solution.java)
     - [缺失数字](/src/main/java/ds/bit/MissingNumber.java)
-    
+
 9. 回溯(DFS) + 剪枝
     - 排列
-      - [46.全排列](/src/main/java/ds/backtrack/Permute.java)
-      - [47.全排列II](/src/main/java/ds/backtrack/PermuteUnique.java)
+        - [46.全排列](/src/main/java/ds/backtrack/Permute.java)
+        - [47.全排列II](/src/main/java/ds/backtrack/PermuteUnique.java)
     - 组合
-      - [77.组合](/src/main/java/ds/backtrack/Combine.java)
-      - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
-      - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
-      - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
-      - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
+        - [77.组合](/src/main/java/ds/backtrack/Combine.java)
+        - [216.组合总和III](/src/main/java/ds/backtrack/CombinationSum3.java)
+        - [39.组合总和](/src/main/java/ds/backtrack/CombinationSum.java)
+        - [17.电话号码的字母组合](/src/main/java/ds/backtrack/LetterCombinations.java)
+        - [40.组合总和II](/src/main/java/ds/backtrack/CombinationSum2.java)
     - 分割
-      - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
-      - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
+        - [131.分割回文串](/src/main/java/ds/backtrack/Partition.java)
+        - [93. 复原IP地址](/src/main/java/ds/backtrack/RestoreIpAddresses.java)
     - 子集
-      - [78.子集](/src/main/java/ds/backtrack/Subsets.java)
-      - [90.子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
-      - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
+        - [78.子集](/src/main/java/ds/backtrack/Subsets.java)
+        - [90.子集II](/src/main/java/ds/backtrack/SubsetsWithDup.java)
+        - [491.递增子序列](/src/main/java/ds/backtrack/FindSubsequences.java)
     - 棋盘
-      - [51.N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
-      - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
+        - [51.N皇后](/src/main/java/ds/backtrack/SolveNQueens.java)
+        - [37.解数独](/src/main/java/ds/backtrack/SolveSudoku.java)
     - 路径
-      - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
-      - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
-      - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
+        - [112.路径总和](/src/main/java/ds/tree/leetcode112/Solution.java)
+        - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
+        - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
 
 10. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
@@ -223,7 +225,7 @@
     - [剑指offer 06.从尾到头打印链表](/src/main/java/ds/link/targetoffer06/Solution.java)
     - [剑指offer 18.删除链表中的节点](/src/main/java/ds/link/targetoffer18/Solution.java)
     - [234.回文链表](/src/main/java/ds/link/leetcode234/Solution.java)
-    
+
 13. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/leetcode349/Solution.java)
@@ -249,7 +251,7 @@
     - [根据字符出现频率排序](/src/main/java/ds/string/FrequencySort.java)
     - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
     - [单词拆分](/src/main/java/ds/string/WordBreak.java)
-    
+
 15. 排序
     - [冒泡排序](/src/main/java/ds/sort/BubbleSort.java)
     - [插入排序](/src/main/java/ds/sort/InsertSort.java)
@@ -257,47 +259,48 @@
     - [快速排序](/src/main/java/ds/sort/QuickSort.java)
     - [计数排序](/src/main/java/ds/sort/CountSort.java)
     - [堆排序](/src/main/java/ds/sort/BigHeapSort.java)
-    
+
 16. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
     - [376.摆动序列](/src/main/java/ds/greedy/leetcode376/Solution.java)
     - [53.最大子序和](/src/main/java/ds/greedy/leetcode53/Solution.java)
     - [122.买卖股票的最佳时机II](/src/main/java/ds/greedy/leetcode122/Solution.java)
-    
+
 17. 动态规划(DP)
     - 斐波拉切
-      - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
-      - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
-      - [70.爬楼梯](/src/main/java/ds/dp/leetcode70/Solution.java)
-      - [746.使用最小花费爬楼梯](/src/main/java/ds/dp/leetcode746/Solution.java)
+        - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
+        - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
+        - [70.爬楼梯](/src/main/java/ds/dp/leetcode70/Solution.java)
+        - [746.使用最小花费爬楼梯](/src/main/java/ds/dp/leetcode746/Solution.java)
     - 路径
-      - [60.不同路径](/src/main/java/ds/dp/leetcode60/Solution.java)
-      - [63.不同路径II](/src/main/java/ds/dp/leetcode63/Solution.java)
+        - [60.不同路径](/src/main/java/ds/dp/leetcode60/Solution.java)
+        - [63.不同路径II](/src/main/java/ds/dp/leetcode63/Solution.java)
     - [96.不同的二叉搜索树](/src/main/java/ds/dp/leetcode96/Solution.java)
     - [343.整数拆分](/src/main/java/ds/dp/leetcode343/Solution.java)
     - [三角形最小路径和](/src/main/java/ds/dp/MinimumTotal.java)
     - [乘积最大子序列](/src/main/java/ds/dp/MaxProduct.java)
     - 打家劫舍
-      - [198.打家劫舍](/src/main/java/ds/dp/leetcode198/Solution.java)
-      - [213.打家劫舍II](/src/main/java/ds/dp/leetcode213/Solution.java)
-      - [337.打家劫舍III](/src/main/java/ds/dp/leetcode337/Solution.java)
+        - [198.打家劫舍](/src/main/java/ds/dp/leetcode198/Solution.java)
+        - [213.打家劫舍II](/src/main/java/ds/dp/leetcode213/Solution.java)
+        - [337.打家劫舍III](/src/main/java/ds/dp/leetcode337/Solution.java)
     - 杨辉三角
-      - [118.杨辉三角](/src/main/java/ds/dp/leetcode118/Solution.java)
-      - [119.杨辉三角II](/src/main/java/ds/dp/leetcode119/Solution.java)
-    
+        - [118.杨辉三角](/src/main/java/ds/dp/leetcode118/Solution.java)
+        - [119.杨辉三角II](/src/main/java/ds/dp/leetcode119/Solution.java)
+
 18. 栈
     - [20.有效的括号](/src/main/java/ds/stack/leetcode20/Solution.java)
     - [1047.删除字符串中的所有相邻重复项](/src/main/java/ds/stack/leetcode1047/Solution.java)
     - [150.逆波兰表达式求值](/src/main/java/ds/stack/leetcode150/Solution.java)
     - 单调栈
-      - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
-    
+        - [739.每日温度](/src/main/java/ds/stack/leetcode739/Solution.java)
+
 ## 多线程
-  - [1114.按序打印](/src/main/java/thread/leetcode1114/Foo.java)
-  - [1115.交替打印FooBar](/src/main/java/thread/leetcode1115/FooBar.java)
-  - [1116.打印零与奇偶数](/src/main/java/thread/leetcode1116/ZeroEvenOdd.java)
-  - [1117.H2O生成](/src/main/java/thread/leetcode1117/H2O.java)
-  - [1195.交替打印字符串](/src/main/java/thread/leetcode1195/FizzBuzz.java)
+
+- [1114.按序打印](/src/main/java/thread/leetcode1114/Foo.java)
+- [1115.交替打印FooBar](/src/main/java/thread/leetcode1115/FooBar.java)
+- [1116.打印零与奇偶数](/src/main/java/thread/leetcode1116/ZeroEvenOdd.java)
+- [1117.H2O生成](/src/main/java/thread/leetcode1117/H2O.java)
+- [1195.交替打印字符串](/src/main/java/thread/leetcode1195/FizzBuzz.java)
 
 ## PAT
 
