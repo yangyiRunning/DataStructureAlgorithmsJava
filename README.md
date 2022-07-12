@@ -128,6 +128,7 @@
     - [69.x的平方根](/src/main/java/ds/binary/leetcode69/Solution.java)
     - [374.猜数字大小](/src/main/java/ds/binary/leetcode374/Solution.java)
     - [33.搜索旋转排序数组](/src/main/java/ds/binary/leetcode33/Solution.java)
+    - [278.第一个错误的版本](/src/main/java/ds/binary/leetcode278/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
