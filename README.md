@@ -125,12 +125,12 @@
 
 4. 二分查找
     - [704.二分查找](/src/main/java/ds/binary/leetcode704/Solution.java)
+    - [69.x的平方根](/src/main/java/ds/binary/leetcode69/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
     - [查找第一个大于等于给定值的元素](/src/main/java/ds/binary/BSFirstMore.java)
     - [查找最后一个小于等于给定值的元素](/src/main/java/ds/binary/BSEndLess.java)
-    - [x的平方根](/src/main/java/ds/binary/MySqrt.java)
     - [35.搜索插入位置](/src/main/java/ds/binary/leetcode35/Solution.java)
     - [剑指 Offer II 068.查找插入位置](/src/main/java/ds/binary/targetofferII068/Solution.java)
 
