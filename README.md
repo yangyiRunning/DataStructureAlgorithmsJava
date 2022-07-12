@@ -126,6 +126,7 @@
 4. 二分查找
     - [704.二分查找](/src/main/java/ds/binary/leetcode704/Solution.java)
     - [69.x的平方根](/src/main/java/ds/binary/leetcode69/Solution.java)
+    - [374.猜数字大小](/src/main/java/ds/binary/leetcode374/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
