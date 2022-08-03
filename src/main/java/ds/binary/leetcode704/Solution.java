@@ -2,6 +2,7 @@ package ds.binary.leetcode704;
 
 /**
  * 二分查找
+ * 二分查找的3个模板  https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2020/07/29/template_diagram.png
  * LeetCode 704. https://leetcode.cn/problems/binary-search/
  *
  * @author yangyi 2022年07月12日12:11:28
