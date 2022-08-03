@@ -133,6 +133,7 @@
     - [852.山脉数组的峰顶索引](/src/main/java/ds/binary/leetcode162/Solution.java)
     - [剑指 Offer II 069.山峰数组的顶部](/src/main/java/ds/binary/leetcode162/Solution.java)
     - [153.寻找旋转排序数组中的最小值](/src/main/java/ds/binary/leetcode153/Solution.java)
+    - [34.在排序数组中查找元素的第一个和最后一个位置](/src/main/java/ds/binary/leetcode34/Solution.java)
     - [二分查找(递归和非递归实现)](/src/main/java/ds/binary/BinarySearch.java)
     - [查找第一个值等于给定值的元素](/src/main/java/ds/binary/BSFirstEquals.java)
     - [查找最后一个值等于给定值的元素](/src/main/java/ds/binary/BSEndEquals.java)
