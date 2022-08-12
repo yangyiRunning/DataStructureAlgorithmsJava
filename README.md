@@ -322,6 +322,8 @@
 - [183.从不订购的客户](/src/main/java/database/leetcode183/Solution.sql)
 - [196.删除重复的电子邮箱](/src/main/java/database/leetcode196/Solution.sql)
 - [197.上升的温度](/src/main/java/database/leetcode197/Solution.sql)
+- [197.上升的温度](/src/main/java/database/leetcode197/Solution.sql)
+- [511.游戏玩法分析I](/src/main/java/database/leetcode511/Solution.sql)
 
 ## PAT
 
