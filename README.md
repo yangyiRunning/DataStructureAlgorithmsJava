@@ -318,6 +318,7 @@
 - [178.分数排名](/src/main/java/database/leetcode178/Solution.sql)
 - [180.连续出现的数字](/src/main/java/database/leetcode180/Solution.sql)
 - [181.超过经理收入的员工](/src/main/java/database/leetcode181/Solution.sql)
+- [182.查找重复的电子邮箱](/src/main/java/database/leetcode182/Solution.sql)
 
 ## PAT
 
