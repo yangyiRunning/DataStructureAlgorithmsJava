@@ -316,6 +316,7 @@
 - [176.第二高的薪水](/src/main/java/database/leetcode176/Solution.sql)
 - [177.第N高的薪水](/src/main/java/database/leetcode177/Solution.sql)
 - [178.分数排名](/src/main/java/database/leetcode178/Solution.sql)
+- [180.连续出现的数字](/src/main/java/database/leetcode180/Solution.sql)
 
 ## PAT
 
