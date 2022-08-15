@@ -324,6 +324,7 @@
 - [197.上升的温度](/src/main/java/database/leetcode197/Solution.sql)
 - [511.游戏玩法分析I](/src/main/java/database/leetcode511/Solution.sql)
 - [584.寻找用户推荐人](/src/main/java/database/leetcode584/Solution.sql)
+- [595.大的国家](/src/main/java/database/leetcode595/Solution.sql)
 
 ## PAT
 
