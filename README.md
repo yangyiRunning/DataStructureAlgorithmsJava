@@ -330,6 +330,7 @@
 - [1873.计算特殊奖金](/src/main/java/database/leetcode1873/Solution.sql)
 - [627.变更性别](/src/main/java/database/leetcode627/Solution.sql)
 - [586.订单最多的客户](/src/main/java/database/leetcode586/Solution.sql)
+- [620.有趣的电影](/src/main/java/database/leetcode620/Solution.sql)
 
 ## PAT
 
