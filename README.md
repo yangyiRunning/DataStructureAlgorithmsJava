@@ -309,6 +309,7 @@
 - [1116.打印零与奇偶数](/src/main/java/thread/leetcode1116/ZeroEvenOdd.java)
 - [1117.H2O生成](/src/main/java/thread/leetcode1117/H2O.java)
 - [1195.交替打印字符串](/src/main/java/thread/leetcode1195/FizzBuzz.java)
+- [1226.哲学家进餐](/src/main/java/thread/leetcode1226/DiningPhilosophers.java)
 
 ## SQL
 
@@ -326,6 +327,7 @@
 - [584.寻找用户推荐人](/src/main/java/database/leetcode584/Solution.sql)
 - [595.大的国家](/src/main/java/database/leetcode595/Solution.sql)
 - [1757.可回收且低脂的产品](/src/main/java/database/leetcode1757/Solution.sql)
+- [1873.计算特殊奖金](/src/main/java/database/leetcode1873/Solution.sql)
 
 ## PAT
 
