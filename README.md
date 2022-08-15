@@ -328,6 +328,7 @@
 - [595.大的国家](/src/main/java/database/leetcode595/Solution.sql)
 - [1757.可回收且低脂的产品](/src/main/java/database/leetcode1757/Solution.sql)
 - [1873.计算特殊奖金](/src/main/java/database/leetcode1873/Solution.sql)
+- [627.变更性别](/src/main/java/database/leetcode627/Solution.sql)
 
 ## PAT
 
