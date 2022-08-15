@@ -325,6 +325,7 @@
 - [511.游戏玩法分析I](/src/main/java/database/leetcode511/Solution.sql)
 - [584.寻找用户推荐人](/src/main/java/database/leetcode584/Solution.sql)
 - [595.大的国家](/src/main/java/database/leetcode595/Solution.sql)
+- [1757.可回收且低脂的产品](/src/main/java/database/leetcode1757/Solution.sql)
 
 ## PAT
 
