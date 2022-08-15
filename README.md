@@ -331,6 +331,7 @@
 - [627.变更性别](/src/main/java/database/leetcode627/Solution.sql)
 - [586.订单最多的客户](/src/main/java/database/leetcode586/Solution.sql)
 - [620.有趣的电影](/src/main/java/database/leetcode620/Solution.sql)
+- [596.超过5名学生的课](/src/main/java/database/leetcode596/Solution.sql)
 
 ## PAT
 
