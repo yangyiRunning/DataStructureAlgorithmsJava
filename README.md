@@ -340,6 +340,7 @@
 - [1084.销售分析III](/src/main/java/database/leetcode1084/Solution.sql)
 - [626.换座位](/src/main/java/database/leetcode626/Solution.sql)
 - [1050.合作过至少三次的演员和导演](/src/main/java/database/leetcode1050/Solution.sql)
+- [1148.文章浏览I](/src/main/java/database/leetcode1148/Solution.sql)
 
 ## PAT
 
