@@ -339,6 +339,7 @@
 - [608.树节点](/src/main/java/database/leetcode608/Solution.sql)
 - [1084.销售分析III](/src/main/java/database/leetcode1084/Solution.sql)
 - [626.换座位](/src/main/java/database/leetcode626/Solution.sql)
+- [1050.合作过至少三次的演员和导演](/src/main/java/database/leetcode1050/Solution.sql)
 
 ## PAT
 
