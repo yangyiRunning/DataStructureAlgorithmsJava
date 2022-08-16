@@ -333,6 +333,7 @@
 - [620.有趣的电影](/src/main/java/database/leetcode620/Solution.sql)
 - [596.超过5名学生的课](/src/main/java/database/leetcode596/Solution.sql)
 - [1667.修复表中的名字](/src/main/java/database/leetcode1667/Solution.sql)
+- [1484.按日期分组销售产品](/src/main/java/database/leetcode1484/Solution.sql)
 
 ## PAT
 
