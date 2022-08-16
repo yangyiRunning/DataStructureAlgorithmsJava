@@ -342,6 +342,7 @@
 - [1050.合作过至少三次的演员和导演](/src/main/java/database/leetcode1050/Solution.sql)
 - [1148.文章浏览I](/src/main/java/database/leetcode1148/Solution.sql)
 - [1179.重新格式化部门表](/src/main/java/database/leetcode1179/Solution.sql)
+- [1407.排名靠前的旅行者](/src/main/java/database/leetcode1407/Solution.sql)
 
 ## PAT
 
