@@ -345,6 +345,7 @@
 - [1407.排名靠前的旅行者](/src/main/java/db/leetcode1407/Solution.sql)
 - [1581.进店却未进行过交易的顾客](/src/main/java/db/leetcode1581/Solution.sql)
 - [1795.每个产品在不同商店的价格](/src/main/java/db/leetcode1795/Solution.sql)
+- [1965.丢失信息的雇员](/src/main/java/db/leetcode1965/Solution.sql)
 
 ## PAT
 
