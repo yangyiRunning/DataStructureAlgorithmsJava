@@ -350,6 +350,7 @@
 - [1890.2020年最后一次登录](/src/main/java/db/leetcode1890/Solution.sql)
 - [1393.股票的资本损益](/src/main/java/db/leetcode1393/Solution.sql)
 - [1141.查询近30天活跃用户数](/src/main/java/db/leetcode1141/Solution.sql)
+- [184.部门工资最高的员工](/src/main/java/db/leetcode184/Solution.sql)
 
 ## PAT
 
