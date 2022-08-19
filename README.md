@@ -348,6 +348,7 @@
 - [1965.丢失信息的雇员](/src/main/java/db/leetcode1965/Solution.sql)
 - [1729.求关注者的数量](/src/main/java/db/leetcode1729/Solution.sql)
 - [1890.2020年最后一次登录](/src/main/java/db/leetcode1890/Solution.sql)
+- [1393.股票的资本损益](/src/main/java/db/leetcode1393/Solution.sql)
 
 ## PAT
 
