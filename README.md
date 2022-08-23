@@ -352,6 +352,7 @@
 - [1141.查询近30天活跃用户数](/src/main/java/db/leetcode1141/Solution.sql)
 - [184.部门工资最高的员工](/src/main/java/db/leetcode184/Solution.sql)
 - [1741.查找每个员工花费的总时间](/src/main/java/db/leetcode1741/Solution.sql)
+- [1587.银行账户概要II](/src/main/java/db/leetcode1587/Solution.sql)
 
 ## PAT
 
