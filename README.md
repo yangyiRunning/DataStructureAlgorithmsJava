@@ -353,6 +353,7 @@
 - [184.部门工资最高的员工](/src/main/java/db/leetcode184/Solution.sql)
 - [1741.查找每个员工花费的总时间](/src/main/java/db/leetcode1741/Solution.sql)
 - [1587.银行账户概要II](/src/main/java/db/leetcode1587/Solution.sql)
+- [1158.市场分析I](/src/main/java/db/leetcode1158/Solution.sql)
 
 ## PAT
 
