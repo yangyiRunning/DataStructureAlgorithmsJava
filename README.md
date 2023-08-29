@@ -366,6 +366,7 @@
 - [HJ7.取近似值](/src/main/java/od/HJ7/Main.java)
 - [HJ8.合并表记录](/src/main/java/od/HJ8/Main.java)
 - [HJ9.提取不重复的整数](/src/main/java/od/HJ9/Main.java)
+- [HJ10.字符个数统计](/src/main/java/od/HJ10/Main.java)
 
 ## PAT
 
