@@ -358,6 +358,7 @@
 ## 华为OD
 
 - [HJ1.字符串最后一个单词的长度](/src/main/java/od/HJ1/Main.java)
+- [HJ2.计算某字符出现次数](/src/main/java/od/HJ2/Main.java)
 
 ## PAT
 
