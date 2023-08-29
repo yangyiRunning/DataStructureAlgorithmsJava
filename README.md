@@ -363,6 +363,7 @@
 - [HJ4.字符串分隔](/src/main/java/od/HJ4/Main.java)
 - [HJ5.进制转换](/src/main/java/od/HJ5/Main.java)
 - [**HJ6.质数因子**](/src/main/java/od/HJ6/Main.java)
+- [HJ7.取近似值](/src/main/java/od/HJ7/Main.java)
 
 ## PAT
 
