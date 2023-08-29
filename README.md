@@ -362,6 +362,7 @@
 - [HJ3.明明的随机数](/src/main/java/od/HJ3/Main.java)
 - [HJ4.字符串分隔](/src/main/java/od/HJ4/Main.java)
 - [HJ5.进制转换](/src/main/java/od/HJ5/Main.java)
+- [**HJ6.质数因子**](/src/main/java/od/HJ6/Main.java)
 
 ## PAT
 
