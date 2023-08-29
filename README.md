@@ -365,6 +365,7 @@
 - [**HJ6.质数因子**](/src/main/java/od/HJ6/Main.java)
 - [HJ7.取近似值](/src/main/java/od/HJ7/Main.java)
 - [HJ8.合并表记录](/src/main/java/od/HJ8/Main.java)
+- [HJ9.提取不重复的整数](/src/main/java/od/HJ9/Main.java)
 
 ## PAT
 
