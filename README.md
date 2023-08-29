@@ -371,6 +371,7 @@
 - [HJ12.字符串反转](/src/main/java/od/HJ12/Main.java)
 - [HJ13.句子逆序](/src/main/java/od/HJ13/Main.java)
 - [HJ14.字符串排序](/src/main/java/od/HJ14/Main.java)
+- [**HJ15.求int型正整数在内存中存储时1的个数**](/src/main/java/od/HJ15/Main.java)
 
 ## PAT
 
