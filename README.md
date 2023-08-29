@@ -361,6 +361,7 @@
 - [HJ2.计算某字符出现次数](/src/main/java/od/HJ2/Main.java)
 - [HJ3.明明的随机数](/src/main/java/od/HJ3/Main.java)
 - [HJ4.字符串分隔](/src/main/java/od/HJ4/Main.java)
+- [HJ5.进制转换](/src/main/java/od/HJ5/Main.java)
 
 ## PAT
 
