@@ -368,6 +368,7 @@
 - [HJ9.提取不重复的整数](/src/main/java/od/HJ9/Main.java)
 - [HJ10.字符个数统计](/src/main/java/od/HJ10/Main.java)
 - [HJ11.数字颠倒](/src/main/java/od/HJ11/Main.java)
+- [HJ12.字符串反转](/src/main/java/od/HJ12/Main.java)
 
 ## PAT
 
