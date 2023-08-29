@@ -355,6 +355,10 @@
 - [1587.银行账户概要II](/src/main/java/db/leetcode1587/Solution.sql)
 - [1158.市场分析I](/src/main/java/db/leetcode1158/Solution.sql)
 
+## 华为OD
+
+- [HJ1.字符串最后一个单词的长度](/src/main/java/od/HJ1/Main.java)
+
 ## PAT
 
 1. [1001. 害死人不偿命的(3n+1)猜想(15分)](/src/main/java/pat/pat1001/Main.java)
