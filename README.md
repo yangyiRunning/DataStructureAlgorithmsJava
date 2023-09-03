@@ -210,7 +210,10 @@
         - [113.路径总和II](/src/main/java/ds/tree/leetcode113/Solution.java)
         - [257.二叉树的所有路径](/src/main/java/ds/tree/leetcode257/Solution.java)
 
-10. 广度优先搜索(BFS)
+10. 深度优先搜索(DFS)
+    - [129.求根节点到叶节点数字之和](/src/main/java/ds/dfs/leetcode129/Solution.java)
+
+11. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
     - [102.二叉树的层序遍历](/src/main/java/ds/bfs/leetcode102/Solution.java)
     - [107.二叉树的层序遍历II](/src/main/java/ds/bfs/leetcode107/Solution.java)
@@ -224,18 +227,18 @@
     - [103.二叉树的锯齿形层次遍历](/src/main/java/ds/bfs/leetcode103/Solution.java)
     - [117.填充每个节点的下一个右侧节点指针II](/src/main/java/ds/bfs/leetcode117/Solution.java)
 
-11. 数组
+12. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
     - [384.打乱数组](/src/main/java/ds/array/leetcode384/Solution.java)
 
-12. 链表
+13. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
     - [707.设计链表](/src/main/java/ds/link/leetcode707/MyLinkedList.java)
     - [剑指offer 06.从尾到头打印链表](/src/main/java/ds/link/targetoffer06/Solution.java)
     - [剑指offer 18.删除链表中的节点](/src/main/java/ds/link/targetoffer18/Solution.java)
     - [234.回文链表](/src/main/java/ds/link/leetcode234/Solution.java)
 
-13. 哈希表
+14. 哈希表
     - [242.有效的字母异位词](/src/main/java/ds/hashmap/leetcode242/Solution.java)
     - [349.两个数组的交集](/src/main/java/ds/hashmap/leetcode349/Solution.java)
     - [202.快乐数](/src/main/java/ds/hashmap/leetcode202/Solution.java)
@@ -252,7 +255,7 @@
     - [剑指 Offer II 013.二维子矩阵的和](/src/main/java/ds/hashmap/targetofferII013/NumMatrix.java)
     - [409.最长回文串](/src/main/java/ds/hashmap/leetcode409/Solution.java)
 
-14. 字符串
+15. 字符串
     - [Fizz Buzz](/src/main/java/ds/string/FizzBuzz.java)
     - [验证回文字符](/src/main/java/ds/string/ValidPalindromeString.java)
     - [最后一个单词的长度](/src/main/java/ds/string/LengthOfLastWord.java)
@@ -262,7 +265,7 @@
     - [验证回文串](/src/main/java/ds/string/PalindromeI.java)
     - [单词拆分](/src/main/java/ds/string/WordBreak.java)
 
-15. 排序
+16. 排序
     - [冒泡排序](/src/main/java/ds/sort/BubbleSort.java)
     - [插入排序](/src/main/java/ds/sort/InsertSort.java)
     - [选择排序](/src/main/java/ds/sort/SelectionSort.java)
@@ -270,13 +273,13 @@
     - [计数排序](/src/main/java/ds/sort/CountSort.java)
     - [堆排序](/src/main/java/ds/sort/BigHeapSort.java)
 
-16. 贪心
+17. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
     - [376.摆动序列](/src/main/java/ds/greedy/leetcode376/Solution.java)
     - [53.最大子序和](/src/main/java/ds/greedy/leetcode53/Solution.java)
     - [122.买卖股票的最佳时机II](/src/main/java/ds/greedy/leetcode122/Solution.java)
 
-17. 动态规划(DP)
+18. 动态规划(DP)
     - 斐波拉切
         - [斐波拉契数列的4种解法](/src/main/java/ds/dp/Fipolach.java)
         - [509.斐波那契数](/src/main/java/ds/dp/leetcode509/Solution.java)
@@ -298,7 +301,7 @@
         - [118.杨辉三角](/src/main/java/ds/dp/leetcode118/Solution.java)
         - [119.杨辉三角II](/src/main/java/ds/dp/leetcode119/Solution.java)
 
-18. 栈
+19. 栈
     - [20.有效的括号](/src/main/java/ds/stack/leetcode20/Solution.java)
     - [1047.删除字符串中的所有相邻重复项](/src/main/java/ds/stack/leetcode1047/Solution.java)
     - [150.逆波兰表达式求值](/src/main/java/ds/stack/leetcode150/Solution.java)
