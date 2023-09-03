@@ -62,7 +62,11 @@ public class Solution {
         if (root == null) {
             return null;
         }
-        if (root.val == key) {
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        } else if (root.val == key) {
             if (root.left == null) {
                 return root.right;
             }
@@ -74,10 +78,6 @@ public class Solution {
             root.val = min.val;
             //删除右子树中找出来的最小值
             root.right = deleteNode(root.right, min.val);
-        } else if (key < root.val) {
-            root.left = deleteNode(root.left, key);
-        } else {
-            root.right = deleteNode(root.right, key);
         }
         return root;
     }

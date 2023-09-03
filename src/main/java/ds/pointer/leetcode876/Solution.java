@@ -4,7 +4,7 @@ package ds.pointer.leetcode876;
  * 链表的中间节点
  * LeetCode 876 https://leetcode-cn.com/problems/middle-of-the-linked-list/
  *
- * @author yangyi 2020年12月11日00:06:32
+ * @author yangyi 2022年04月24日17:33:20
  */
 public class Solution {
 
@@ -54,7 +54,10 @@ public class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
-        while (fast != null && fast.next != null) {
+        while (true) {
+            if (fast == null || fast.next == null) {
+                break;
+            }
             fast = fast.next.next;
             slow = slow.next;
         }
