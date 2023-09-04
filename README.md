@@ -7,7 +7,7 @@
     - [74.搜索二维矩阵](/src/main/java/ds/array/leetcode74/Solution.java)
     - [442.数组中重复的数据](/src/main/java/ds/array/leetcode442/Solution.java)
     - [88.合并两个有序数组](/src/main/java/ds/array/leetcode88/Solution.java)
-    - [旋转数组](/src/main/java/ds/RotateArray.java)
+    - [189.轮转数组](/src/main/java/ds/array/leetcode189/Solution.java)
     - [有序数组的平方](/src/main/java/ds/SortedSquares.java)
     - [寻找数组的中心索引](/src/main/java/ds/PivotIndex.java)
     - [两个数组的交集II](/src/main/java/ds/Intersect.java)
