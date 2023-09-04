@@ -3,21 +3,6 @@
 这是一个数据结构和算法笔记本，**书写** 并 **整理**一些常见的数据结构和其对应的相关操作。这其中**每一个类文件都是一个可以单独运行查看结果的main方法类**
 ，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
-1. 数组
-    - [74.搜索二维矩阵](/src/main/java/ds/array/leetcode74/Solution.java)
-    - [442.数组中重复的数据](/src/main/java/ds/array/leetcode442/Solution.java)
-    - [88.合并两个有序数组](/src/main/java/ds/array/leetcode88/Solution.java)
-    - [189.轮转数组](/src/main/java/ds/array/leetcode189/Solution.java)
-    - [977.有序数组的平方](/src/main/java/ds/array/leetcode977/Solution.java)
-    - [724.寻找数组的中心下标](/src/main/java/ds/array/leetcode724/Solution.java)
-    - [350.两个数组的交集 II](/src/main/java/ds/array/leetcode350/Solution.java)
-    - [334.递增的三元子序列](/src/main/java/ds/array/leetcode334/Solution.java)
-    - [238.除自身以外数组的乘积](/src/main/java/ds/array/leetcode238/Solution.java)
-    - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
-    - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
-    - [矩阵置零](/src/main/java/ds/SetZeroes.java)
-    - [1486.数组异或操作](/src/main/java/ds/array/leetcode1486/Solution.java)
-
 4. 线性数据结构及其对应的常见算法
 
     1. 线性表(分别基于数组和链表实现一遍)
@@ -230,6 +215,19 @@
 12. 数组
     - [59.螺旋矩阵II](/src/main/java/ds/array/leetcode59/Solution.java)
     - [384.打乱数组](/src/main/java/ds/array/leetcode384/Solution.java)
+    - [74.搜索二维矩阵](/src/main/java/ds/array/leetcode74/Solution.java)
+    - [442.数组中重复的数据](/src/main/java/ds/array/leetcode442/Solution.java)
+    - [88.合并两个有序数组](/src/main/java/ds/array/leetcode88/Solution.java)
+    - [189.轮转数组](/src/main/java/ds/array/leetcode189/Solution.java)
+    - [977.有序数组的平方](/src/main/java/ds/array/leetcode977/Solution.java)
+    - [724.寻找数组的中心下标](/src/main/java/ds/array/leetcode724/Solution.java)
+    - [350.两个数组的交集 II](/src/main/java/ds/array/leetcode350/Solution.java)
+    - [334.递增的三元子序列](/src/main/java/ds/array/leetcode334/Solution.java)
+    - [238.除自身以外数组的乘积](/src/main/java/ds/array/leetcode238/Solution.java)
+    - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
+    - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
+    - [矩阵置零](/src/main/java/ds/SetZeroes.java)
+    - [1486.数组异或操作](/src/main/java/ds/array/leetcode1486/Solution.java)
 
 13. 链表
     - [203.移除链表元素](/src/main/java/ds/link/leetcode203/Solution.java)
