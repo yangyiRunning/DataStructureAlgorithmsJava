@@ -1,39 +1,14 @@
-package ds;
+package ds.array.leetcode350;
 
 import java.util.*;
 
 /**
- * 两个数组的交集 II
- * <p>
- * <p>
- * 给定两个数组，编写一个函数来计算它们的交集。
- * <p>
- * 示例 1:
- * <p>
- * 输入: nums1 = [1,2,2,1], nums2 = [2,2]
- * 输出: [2,2]
- * 示例 2:
- * <p>
- * 输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
- * 输出: [4,9]
- * <p>
- * <p>
- * -------------------------------------------------
- * <p>
- * <p>
- * 说明：
- * <p>
- * 输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。
- * 我们可以不考虑输出结果的顺序。
- * 进阶:
- * <p>
- * 如果给定的数组已经排好序呢？你将如何优化你的算法？
- * 如果 nums1 的大小比 nums2 小很多，哪种方法更优？
- * 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
+ * 350. 两个数组的交集 II
+ * https://leetcode.cn/problems/intersection-of-two-arrays-ii/description/
  *
- * @author yangyi 2019年03月02日22:00:51
+ * @author yangyi 2023年09月04日17:17:39
  */
-public class Intersect {
+public class Solution {
 
     public int[] intersect(int[] nums1, int[] nums2) {
         //key为数字，value为次数
@@ -60,7 +35,7 @@ public class Intersect {
     }
 
     public static void main(String[] args) {
-        Intersect intersect = new Intersect();
+        Solution intersect = new Solution();
         int[] a = {1, 2, 2, 1};
         int[] b = {2, 2};
         int[] a2 = {4, 9, 5};
