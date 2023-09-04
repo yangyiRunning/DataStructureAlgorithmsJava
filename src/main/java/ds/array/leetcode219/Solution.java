@@ -1,24 +1,12 @@
-package ds;
-
-import java.util.Arrays;
+package ds.array.leetcode219;
 
 /**
- * 给定一个整数数组和一个整数 k，判断数组中是否存在两个不同的索引 i 和 j，使得 nums [i] = nums [j]，并且 i 和 j 的差的绝对值最大为 k。
- * <p>
- * 示例 1:
- * <p>
- * 输入: nums = [1,2,3,1], k = 3
- * 输出: true
- * 示例 2:
- * <p>
- * 输入: nums = [1,0,1,1], k = 1
- * 输出: true
- * 示例 3:
- * <p>
- * 输入: nums = [1,2,3,1,2,3], k = 2
- * 输出: false
+ * 219. 存在重复元素 II
+ * https://leetcode.cn/problems/contains-duplicate-ii/description/
+ *
+ * @author yangyi 2023年09月04日18:03:26
  */
-public class ContainsNearbyDuplicate {
+public class Solution {
 
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         for (int i = 0; i < nums.length; i++) {
@@ -35,7 +23,7 @@ public class ContainsNearbyDuplicate {
         int[] nums_1 = {1, 2, 3, 1};
         int[] nums_2 = {1, 0, 1, 1};
         int[] nums_3 = {1, 2, 3, 1, 2, 3};
-        ContainsNearbyDuplicate containsNearbyDuplicate = new ContainsNearbyDuplicate();
+        Solution containsNearbyDuplicate = new Solution();
         System.out.println(containsNearbyDuplicate.containsNearbyDuplicate(nums_1, 3));
         System.out.println(containsNearbyDuplicate.containsNearbyDuplicate(nums_2, 1));
         System.out.println(containsNearbyDuplicate.containsNearbyDuplicate(nums_3, 2));
