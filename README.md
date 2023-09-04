@@ -11,7 +11,7 @@
     - [977.有序数组的平方](/src/main/java/ds/array/leetcode977/Solution.java)
     - [724.寻找数组的中心下标](/src/main/java/ds/array/leetcode724/Solution.java)
     - [350.两个数组的交集 II](/src/main/java/ds/array/leetcode350/Solution.java)
-    - [递增的三元子序列](/src/main/java/ds/IncreasingTriplet.java)
+    - [334.递增的三元子序列](/src/main/java/ds/array/leetcode334/Solution.java)
     - [除自身以外数组的乘积](/src/main/java/ds/ProductExceptSelf.java)
     - [存在重复元素II](/src/main/java/ds/ContainsNearbyDuplicate.java)
     - [存在重复元素III](/src/main/java/ds/ContainsNearbyAlmostDuplicate.java)
