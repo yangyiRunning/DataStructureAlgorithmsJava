@@ -8,7 +8,7 @@
     - [442.数组中重复的数据](/src/main/java/ds/array/leetcode442/Solution.java)
     - [88.合并两个有序数组](/src/main/java/ds/array/leetcode88/Solution.java)
     - [189.轮转数组](/src/main/java/ds/array/leetcode189/Solution.java)
-    - [有序数组的平方](/src/main/java/ds/SortedSquares.java)
+    - [977.有序数组的平方](/src/main/java/ds/array/leetcode977/Solution.java)
     - [寻找数组的中心索引](/src/main/java/ds/PivotIndex.java)
     - [两个数组的交集II](/src/main/java/ds/Intersect.java)
     - [递增的三元子序列](/src/main/java/ds/IncreasingTriplet.java)
