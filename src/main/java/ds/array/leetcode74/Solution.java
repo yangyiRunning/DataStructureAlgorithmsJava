@@ -1,17 +1,12 @@
-package ds;
+package ds.array.leetcode74;
 
 /**
- * 前提: 二维数组是一个从左至右边递增，从上至下递增。
- * <p>
- * 方法:
- * <p>
- * 1. 从二维数组右上角的元素开始find循环查询，并以右上角元素为基准点。
- * 2. 如果要查询的元素比基准点小，基准点向左移。
- * 3. 如果要查询的元素比基准点大，基准点向下移。
+ * 74. 搜索二维矩阵
+ * https://leetcode.cn/problems/search-a-2d-matrix/
  *
- * @author yangyi 2019年02月08日09:20:55
+ * @author yangyi 2023年09月04日11:14:35
  */
-public class FindInDoubleArray {
+public class Solution {
 
     /**
      * @param matrix 待查找的目标二维数组
@@ -60,7 +55,7 @@ public class FindInDoubleArray {
             }
             System.out.println();
         }
-        FindInDoubleArray findInDoubleArray = new FindInDoubleArray();
+        Solution findInDoubleArray = new Solution();
         int target1 = 6;
         int target2 = 8;
         int target3 = 0;

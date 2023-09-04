@@ -4,7 +4,7 @@
 ，相关的关键描述和想说的话都在代码的注释中。（欢迎一同补充和完善，2019年01月04日00:07:40置为public）
 
 1. 数组
-    - [搜索二维矩阵](/src/main/java/ds/FindInDoubleArray.java)
+    - [74.搜索二维矩阵](/src/main/java/ds/array/leetcode74/Solution.java)
     - [数组中重复的数据](/src/main/java/ds/RepeatInArray.java)
     - [合并两个有序数组](/src/main/java/ds/MergeArray.java)
     - [旋转数组](/src/main/java/ds/RotateArray.java)
