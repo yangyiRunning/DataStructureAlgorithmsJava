@@ -197,6 +197,13 @@
 
 10. 深度优先搜索(DFS)
     - [129.求根节点到叶节点数字之和](/src/main/java/ds/dfs/leetcode129/Solution.java)
+    - 岛屿问题
+        - 200
+        - 1254
+        - 1020
+        - 695
+        - 1905
+        - 694
 
 11. 广度优先搜索(BFS)
     - [111.二叉树的最小深度](/src/main/java/ds/bfs/leetcode111/Solution.java)
@@ -270,6 +277,7 @@
     - [快速排序](/src/main/java/ds/sort/QuickSort.java)
     - [计数排序](/src/main/java/ds/sort/CountSort.java)
     - [堆排序](/src/main/java/ds/sort/BigHeapSort.java)
+    - 归并排序
 
 17. 贪心
     - [455.分发饼干](/src/main/java/ds/greedy/leetcode455/Solution.java)
