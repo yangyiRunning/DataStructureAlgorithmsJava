@@ -149,6 +149,7 @@
     - [19.删除链表的倒数第N个节点](/src/main/java/ds/pointer/leetcode19/Solution.java)
     - 会议调度算法
       - [252.会议室](/src/main/java/ds/pointer/leetcode252/Solution.java)
+      - [253.会议室II](/src/main/java/ds/pointer/leetcode253/Solution.java)
 
 6. 滑动窗口
     - [一个数组所有连续K个元素构成的子集的平均数](/src/main/java/ds/sliding/ArrayAverages.java)
