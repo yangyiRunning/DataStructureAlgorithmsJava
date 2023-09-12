@@ -20,7 +20,7 @@ public class QuickSort {
         //递归的终止条件:起始元素的index都大于了终止元素index，必然终止
         if (start > end) {
             return;
-        }2
+        }
 
         //快速排序的核心:计算基准点的位置
         int pivot = getPivotIndex(ints, start, end);
