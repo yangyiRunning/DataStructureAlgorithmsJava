@@ -42,12 +42,13 @@
 | 栈与队列 | 括号匹配、单调栈、单调队列 |
 | 树 | 四种遍历、BST 插入、BST 删除、AVL 插入与四种旋转、Trie 插入与查询、并查集 |
 | 堆 | 插入上浮、弹出下沉、堆排序 |
-| 图 | BFS、DFS、Dijkstra、Bellman-Ford、Kruskal 最小生成树、拓扑排序（Kahn 入度法） |
+| 图 | BFS、DFS、Dijkstra、Bellman-Ford、Floyd、Prim / Kruskal 最小生成树、拓扑排序 |
 | 回溯 | 全排列、子集、N 皇后 |
-| 动态规划 | 01 背包、编辑距离 |
+| 数组技巧 | 前缀和、差分数组、跳跃游戏 |
+| 动态规划 | 爬楼梯、打家劫舍、LIS、01 背包、完全背包、编辑距离 |
 
 完整清单（含还没做的）在 [visualizer/TOPICS.md](visualizer/TOPICS.md)：共 73 项，
-已有 47 项、待做 26 项，按批次往里补。
+已有 56 项、待做 17 项，按批次往里补。
 
 ### 本地跑
 

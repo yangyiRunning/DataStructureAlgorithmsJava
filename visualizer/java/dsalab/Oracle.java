@@ -154,6 +154,38 @@ public final class Oracle {
         return "ans:" + dp[C];
       }
       case "dp-edit-distance": return "dist:" + editDistance(parts[1], parts[2]);
+      case "graph-floyd": return floydAll();
+      case "graph-prim": return primMst(parts[1]);
+      case "dp-climb": return "ans:" + climb(Integer.parseInt(parts[1]));
+      case "dp-rob": return "ans:" + rob(arr0(parts[1]));
+      case "dp-lis": return "ans:" + lis(arr0(parts[1]));
+      case "dp-unbounded": return "ans:" + unbounded(arr0(parts[1]), arr0(parts[2]), Integer.parseInt(parts[3]));
+      case "at-prefix-sum": {
+        int[] a = arr0(parts[1]);
+        int[] pre = new int[a.length + 1];
+        for (int i = 0; i < a.length; i++) pre[i + 1] = pre[i] + a[i];
+        StringBuilder sb = new StringBuilder("pre:");
+        for (int i = 0; i < pre.length; i++) { if (i > 0) sb.append(','); sb.append(pre[i]); }
+        sb.append("|total:").append(pre[pre.length - 1]);
+        return sb.toString();
+      }
+      case "at-diff-array": {
+        int n = Integer.parseInt(parts[1]);
+        int[] d = new int[n + 1];
+        if (!parts[2].isEmpty()) {
+          for (String op : parts[2].split(",")) {
+            String[] lrv = op.split(":");
+            int l = Integer.parseInt(lrv[0]), r = Integer.parseInt(lrv[1]), v = Integer.parseInt(lrv[2]);
+            d[l] += v;
+            d[r + 1] -= v;
+          }
+        }
+        int cur = 0;
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; i++) { cur += d[i]; res.add(cur); }
+        return "arr:" + arr(res);
+      }
+      case "at-jump-game": return "ok:" + canJump(arr0(parts[1]));
       case "graph-bellman-ford": return bellman(parts[1]);
       case "graph-kruskal": return kruskalMst();
       default: throw new IllegalArgumentException("未知命令：" + cmd);
@@ -366,6 +398,111 @@ public final class Oracle {
     List<Integer> a = new ArrayList<>(in);
     a.remove(Integer.valueOf(val));
     return a;
+  }
+
+  // ── 图：Floyd / Prim ──────────────────────────────────
+
+  static String floydAll() {
+    int n = NODES.length;
+    Map<String, Integer> idx = new LinkedHashMap<>();
+    for (int i = 0; i < n; i++) idx.put(NODES[i], i);
+    int[][] d = new int[n][n];
+    for (int[] row : d) java.util.Arrays.fill(row, Integer.MAX_VALUE / 4);
+    for (int i = 0; i < n; i++) d[i][i] = 0;
+    for (Object[] e : EDGES) {
+      int i = idx.get((String) e[0]), j = idx.get((String) e[1]), w = (Integer) e[2];
+      d[i][j] = Math.min(d[i][j], w);
+      d[j][i] = Math.min(d[j][i], w);
+    }
+    for (int k = 0; k < n; k++)
+      for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+          if (d[i][k] + d[k][j] < d[i][j]) d[i][j] = d[i][k] + d[k][j];
+
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < n; i++) {
+      if (i > 0) sb.append(';');
+      sb.append(NODES[i]).append(':');
+      for (int j = 0; j < n; j++) {
+        if (j > 0) sb.append('/');
+        sb.append(d[i][j]);
+      }
+    }
+    return sb.toString();
+  }
+
+  static String primMst(String start) {
+    Set<String> inTree = new LinkedHashSet<>();
+    inTree.add(start);
+    List<String> picked = new ArrayList<>();
+    int total = 0;
+    while (inTree.size() < NODES.length) {
+      Object[] best = null;
+      for (Object[] e : EDGES) {
+        boolean cu = inTree.contains((String) e[0]);
+        boolean cv = inTree.contains((String) e[1]);
+        if (cu == cv) continue;
+        if (best == null || (Integer) e[2] < (Integer) best[2]) best = e;
+      }
+      if (best == null) break;
+      String u = (String) best[0], v = (String) best[1];
+      String outside = inTree.contains(u) ? v : u;
+      inTree.add(outside);
+      total += (Integer) best[2];
+      picked.add(u.compareTo(v) < 0 ? u + "|" + v : v + "|" + u);
+    }
+    picked.sort(String::compareTo);
+    return "total:" + total + "|edges:" + String.join(",", picked);
+  }
+
+  // ── 一维 DP ───────────────────────────────────────────
+
+  static int climb(int n) {
+    if (n <= 2) return n;
+    int a = 1, b = 2;
+    for (int i = 3; i <= n; i++) { int c = a + b; a = b; b = c; }
+    return b;
+  }
+
+  static int rob(int[] nums) {
+    int prev = 0, cur = 0;
+    for (int x : nums) {
+      int take = prev + x;
+      prev = cur;
+      cur = Math.max(cur, take);
+    }
+    return cur;
+  }
+
+  static int lis(int[] nums) {
+    if (nums.length == 0) return 0;
+    int[] dp = new int[nums.length];
+    java.util.Arrays.fill(dp, 1);
+    int best = 1;
+    for (int i = 1; i < nums.length; i++) {
+      for (int j = 0; j < i; j++) {
+        if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
+      best = Math.max(best, dp[i]);
+    }
+    return best;
+  }
+
+  static int unbounded(int[] w, int[] v, int C) {
+    int[] dp = new int[C + 1];
+    for (int i = 0; i < w.length; i++)
+      for (int c = w[i]; c <= C; c++)          // 完全背包一维写法：正序
+        dp[c] = Math.max(dp[c], dp[c - w[i]] + v[i]);
+    return dp[C];
+  }
+
+  static boolean canJump(int[] nums) {
+    int reach = 0;
+    for (int i = 0; i < nums.length; i++) {
+      if (i > reach) return false;
+      reach = Math.max(reach, i + nums[i]);
+    }
+    return true;
   }
 
   // ── 动态规划 ──────────────────────────────────────────

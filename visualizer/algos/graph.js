@@ -672,6 +672,164 @@ function kruskal() {
   return { steps, result: { total, edges: [...treeEdges].sort().join(',') } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// Floyd 多源最短路
+// ─────────────────────────────────────────────────────────────
+
+const floydCode = [
+  'function floyd(d) {',
+  '  // d[i][j] 初始化为直接相连的边权，不直接相连记 Infinity',
+  '  for (let k = 0; k < n; k++) {          // 中转点放最外层',
+  '    for (let i = 0; i < n; i++) {',
+  '      for (let j = 0; j < n; j++) {',
+  '        if (d[i][k] + d[k][j] < d[i][j]) {',
+  '          d[i][j] = d[i][k] + d[k][j];   // 借 k 中转更短',
+  '        }',
+  '      }',
+  '    }',
+  '  }',
+  '  return d;',
+  '}',
+];
+
+function floyd() {
+  const ids = NODES.map((n) => n.id);
+  const n = ids.length;
+  const INF = Infinity;
+
+  const d = Array.from({ length: n }, () => new Array(n).fill(INF));
+  for (let i = 0; i < n; i++) d[i][i] = 0;
+  for (const [u, v, w] of EDGES) {
+    const i = ids.indexOf(u);
+    const j = ids.indexOf(v);
+    d[i][j] = Math.min(d[i][j], w);
+    d[j][i] = Math.min(d[j][i], w);
+  }
+
+  const steps = [];
+  let updates = 0;
+
+  const render = () => d.map((row) => row.map((v) => (v === INF ? '∞' : v)));
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      cells: render(),
+      rowHead: ids,
+      colHead: ids,
+      filled: Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => [r, c])).flat(),
+      ...state,
+    },
+    note,
+    line,
+    counters: { 更新: updates },
+  });
+
+  push({}, `先填初始矩阵：直接相连的边填权重，自己到自己 0，其余无穷大。行是起点、列是终点。`, 0);
+
+  for (let k = 0; k < n; k++) {
+    push({}, `现在允许借 ${ids[k]} 当中转点，检查所有 i→j 能不能更短。注意 k 必须在最外层——放里层就错了。`, 3);
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (d[i][k] === INF || d[k][j] === INF) continue;
+        if (d[i][k] + d[k][j] < d[i][j]) {
+          d[i][j] = d[i][k] + d[k][j];
+          updates += 1;
+          push(
+            { current: [i, j], deps: [[i, k], [k, j]] },
+            `${ids[i]}→${ids[j]} 借 ${ids[k]} 中转：${d[i][k]} + ${d[k][j]} = ${d[i][j]}，比原来的更短，更新。`,
+            6,
+          );
+        }
+      }
+    }
+  }
+
+  push({}, `完成。共更新 ${updates} 次。Floyd 一次算出所有点对的最短距离，代价是 O(n³)；能处理负权边（但不能有负环）。`, 10);
+  return {
+    steps,
+    result: { dist: ids.map((id, i) => `${id}:${ids.map((_, j) => (d[i][j] === INF ? '∞' : d[i][j])).join('/')}`).join(';') },
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Prim 最小生成树
+// ─────────────────────────────────────────────────────────────
+
+const primCode = [
+  'function prim(start) {',
+  '  const inTree = new Set([start]);',
+  '  const picked = [];',
+  '  while (inTree.size < n) {',
+  '    let best = null;   // 连接"树内"和"树外"的最短边',
+  '    for (const [u, v, w] of edges) {',
+  '      if (inTree.has(u) === inTree.has(v)) continue;   // 两端同侧，不跨切分',
+  '      if (!best || w < best[2]) best = [u, v, w];',
+  '    }',
+  '    if (!best) break;',
+  '    inTree.add(inTree.has(best[0]) ? best[1] : best[0]);',
+  '    picked.push(best);',
+  '  }',
+  '  return picked;',
+  '}',
+];
+
+function prim(start) {
+  const steps = [];
+  let picked = 0;
+
+  const inTree = new Set([start]);
+  const edgeState = new Map();
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      nodes: NODES,
+      edges: EDGES.map(([u, v, w]) => ({ u, v, w, state: edgeState.get(undirectedKey(u, v)) ?? 'idle' })),
+      visited: [...inTree],
+      ...state,
+    },
+    note,
+    line,
+    counters: { 选中: picked },
+  });
+
+  push({ current: start, container: { label: '已在树里', items: [...inTree].map((t) => ({ text: t })) } },
+    `Prim 从 ${start} 出发，每次挑一条"一端在树里、一端在树外"的最短边，把外面的点拉进来。`, 0);
+
+  while (inTree.size < NODES.length) {
+    let best = null;
+    for (const [u, v, w] of EDGES) {
+      const cu = inTree.has(u);
+      const cv = inTree.has(v);
+      if (cu === cv) continue;
+      if (!best || w < best[2]) best = [u, v, w];
+    }
+    if (!best) break;
+
+    const [u, v, w] = best;
+    const outside = inTree.has(u) ? v : u;
+    push(
+      { current: outside, container: { label: '已在树里', items: [...inTree].map((t) => ({ text: t })) } },
+      `跨切分的边里 ${u}-${v}（权 ${w}）最短，把 ${outside} 拉进树。`,
+      5,
+    );
+
+    inTree.add(outside);
+    edgeState.set(undirectedKey(u, v), 'tree');
+    picked += 1;
+    push(
+      { current: outside, container: { label: '已在树里', items: [...inTree].map((t) => ({ text: t })) } },
+      `现在树里有 ${inTree.size} 个点，选了 ${picked} 条边。`,
+      11,
+    );
+  }
+
+  const total = EDGES.filter(([u, v]) => edgeState.has(undirectedKey(u, v))).reduce((a, [, , w]) => a + w, 0);
+  push({ container: { label: '已在树里', items: [...inTree].map((t) => ({ text: t })) } },
+    `完成。${NODES.length} 个点、${picked} 条边，总权重 ${total}。和 Kruskal 的答案应该一样（最小生成树可能不唯一，但权重相同）。`, 13);
+  return { steps, result: { total, edges: [...edgeState.keys()].sort().join(',') } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const graphLegend = [
@@ -759,5 +917,31 @@ export const graphAlgorithms = [
     inputs: [{ label: '这张图', make: () => true }],
     code: kruskalCode,
     run: kruskal,
+  },
+  {
+    id: 'graph-floyd',
+    group: '图',
+    title: 'Floyd 多源最短路',
+    brief: '一次算出所有点对的最短距离。三重循环里中转点 k 必须在最外层，写成里层就是错的——这是 Floyd 唯一的坑，也是最常考的点。',
+    view: 'table',
+    facts: [['时间', 'O(n³)'], ['空间', 'O(n²)'], ['优势', '一次算全部点对'], ['负权', '支持，不能有负环']],
+    counters: '更新',
+    legend: [{ cls: 'cell', text: '距离' }, { cls: 'cell is-active', text: '正在更新' }, { cls: 'cell is-compare', text: '中转依赖的两格' }],
+    inputs: [{ label: '这张图', make: () => true }],
+    code: floydCode,
+    run: floyd,
+  },
+  {
+    id: 'graph-prim',
+    group: '图',
+    title: '最小生成树 Prim',
+    brief: '从一个点出发，每次挑"一端在树里、一端在树外"的最短边，把外面的点拉进来。和 Kruskal 的差别：Prim 长点，Kruskal 长边。',
+    view: 'graph',
+    facts: [['时间', 'O(V²) 或 O(E log V)'], ['空间', 'O(V)'], ['思路', '点扩张'], ['对比', 'Kruskal 是边排序']],
+    counters: '选中',
+    legend: graphLegend,
+    inputs: [{ label: '从 A 出发', make: () => 'A' }, { label: '从 D 出发', make: () => 'D' }],
+    code: primCode,
+    run: prim,
   },
 ];

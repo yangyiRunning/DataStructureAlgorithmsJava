@@ -25,6 +25,8 @@ import { trieAlgorithms } from '../algos/trie.js';
 import { unionFindAlgorithms } from '../algos/unionfind.js';
 import { dpAlgorithms } from '../algos/dp.js';
 import { backtrackingAlgorithms } from '../algos/backtracking.js';
+import { dpOneDAlgorithms } from '../algos/dp2.js';
+import { arrayTechAlgorithms } from '../algos/arraytech.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -48,6 +50,8 @@ const ALGOS = [
   ...heapAlgorithms,
   ...graphAlgorithms,
   ...backtrackingAlgorithms,
+  ...dpOneDAlgorithms,
+  ...arrayTechAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -105,6 +109,21 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'graph-floyd':
+      return result.dist;
+    case 'graph-prim':
+      return `total:${result.total}|edges:${result.edges}`;
+    case 'dp-climb':
+    case 'dp-rob':
+    case 'dp-lis':
+    case 'dp-unbounded':
+      return `ans:${result.ans}`;
+    case 'at-prefix-sum':
+      return `pre:${result.pre}|total:${result.total}`;
+    case 'at-diff-array':
+      return `arr:${result.arr}`;
+    case 'at-jump-game':
+      return `ok:${result.ok}`;
     case 'sort-quickselect':
       return `val:${result.val}`;
     case 'bt-permute':
@@ -173,6 +192,21 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'graph-floyd':
+      return algoId;
+    case 'graph-prim':
+      return `${algoId};${input}`;
+    case 'dp-climb':
+      return `${algoId};${input}`;
+    case 'dp-rob':
+    case 'dp-lis':
+    case 'at-prefix-sum':
+    case 'at-jump-game':
+      return `${algoId};${nums(input)}`;
+    case 'dp-unbounded':
+      return `${algoId};${nums(input.w)};${nums(input.v)};${input.C}`;
+    case 'at-diff-array':
+      return `${algoId};${input.n};${input.ops.map(([l, r, v]) => `${l}:${r}:${v}`).join(',')}`;
     case 'sort-quickselect':
       return `${algoId};${nums(input.values)};${input.k}`;
     case 'bt-nqueens':

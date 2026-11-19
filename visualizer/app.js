@@ -27,6 +27,8 @@ import { trieAlgorithms } from './algos/trie.js';
 import { unionFindAlgorithms } from './algos/unionfind.js';
 import { dpAlgorithms } from './algos/dp.js';
 import { backtrackingAlgorithms } from './algos/backtracking.js';
+import { dpOneDAlgorithms } from './algos/dp2.js';
+import { arrayTechAlgorithms } from './algos/arraytech.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -56,7 +58,8 @@ const ALGOS = [
   ...heapAlgorithms,
   ...graphAlgorithms,
   ...dpAlgorithms,
-  ...backtrackingAlgorithms,
+  ...dpOneDAlgorithms,
+  ...arrayTechAlgorithms,
 ];
 
 const $ = (id) => document.getElementById(id);
