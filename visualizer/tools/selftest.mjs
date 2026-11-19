@@ -84,7 +84,8 @@ function checkTrajectory(algo, inputLabel, input, built) {
     return;
   }
 
-  const codeLen = (algo.code ?? []).length;
+  // 有的演示按输入切换代码（四种遍历），行号要按实际那套来查
+  const codeLen = (built.code ?? algo.code ?? []).length;
   // 期望长度取第一帧的快照：新一批演示的输入是对象（{nums,target} 之类），
   // 拿 input.length 比会得到 undefined。用首帧当基准同样能抓出"中途数组被截断"。
   const refLen = steps[0]?.state?.values?.length;

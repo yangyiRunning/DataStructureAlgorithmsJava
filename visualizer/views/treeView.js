@@ -88,7 +88,8 @@ export function render(svg, state) {
   // 按实际高度整体下移居中，深树和浅树都能落在视觉中间。
   const contentTop = 52 - r;
   const contentBottom = 52 + maxDepth * levelH + r;
-  const shift = Math.max(0, (H - 56 - (contentBottom - contentTop)) / 2 - contentTop + 20);
+  const bottomReserve = state.container ? 96 : 56;
+  const shift = Math.max(0, (H - bottomReserve - (contentBottom - contentTop)) / 2 - contentTop + 20);
   const cy = (depth) => 52 + depth * levelH + shift;
   const highlight = new Set(state.highlight ?? []);
   const moving = new Set(state.moving ?? []);
@@ -140,6 +141,29 @@ export function render(svg, state) {
         fill: Math.abs(b) > 1 ? 'var(--swap)' : 'var(--ink-3)',
       }));
     }
+  }
+
+  // 底部容器条：遍历时显示输出序列，层序遍历时显示队列内容
+  const box = state.container;
+  if (box && box.items) {
+    const y = H - 30;
+    svg.appendChild(label(72, y + 18, box.label, { size: 11, fill: 'var(--ink-3)', anchor: 'end' }));
+    const cellW = 38;
+    if (!box.items.length) {
+      svg.appendChild(label(86, y + 18, '（空）', { size: 11, fill: 'var(--ink-3)', anchor: 'start' }));
+    }
+    box.items.forEach((it, i) => {
+      const x = 86 + i * (cellW + 4);
+      if (x + cellW > W - 20) return;
+      const hot = it && typeof it === 'object' && it.hot;
+      svg.appendChild(el('rect', {
+        class: hot ? 'cell is-active' : 'cell',
+        x, y, width: cellW, height: 26, rx: 5,
+      }));
+      svg.appendChild(label(x + cellW / 2, y + 18, String(it?.text ?? it), {
+        size: 11, mono: true, fill: 'var(--ink)',
+      }));
+    });
   }
 
   if (state.note) {

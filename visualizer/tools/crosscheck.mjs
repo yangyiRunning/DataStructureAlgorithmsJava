@@ -87,6 +87,16 @@ function canonical(algoId, result) {
     case 'st-monotonic':
     case 'st-deque':
       return `arr:${result.arr}`;
+    case 'list-middle':
+      return `val:${result.val}`;
+    case 'list-cycle':
+      return `entry:${result.entry}`;
+    case 'list-remove-nth':
+      return `arr:${result.arr}`;
+    case 'tree-traverse':
+      return `order:${result.order}`;
+    case 'tree-bst-delete':
+      return `inorder:${result.inorder}|size:${result.size}`;
     case 'tree-bst-insert':
       return `inorder:${result.inorder}|height:${result.height}|size:${result.size}`;
     case 'tree-avl-insert':
@@ -125,6 +135,16 @@ function serialize(algoId, input) {
     case 'tp-window-var':
     case 'st-brackets':
       return `${algoId};${input}`;
+    case 'list-middle':
+      return `${algoId};${nums(input)}`;
+    case 'list-cycle':
+      return `${algoId};${nums(input.values)};${input.cycleAt == null ? 'null' : input.cycleAt}`;
+    case 'list-remove-nth':
+      return `${algoId};${nums(input.values)};${input.n}`;
+    case 'tree-traverse':
+      return `${algoId};${input.mode}`;
+    case 'tree-bst-delete':
+      return `${algoId};${nums(input.values)};${input.del}`;
     case 'list-insert':
       return `${algoId};${nums(input.values)};${input.at};${input.val}`;
     case 'list-delete':

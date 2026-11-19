@@ -122,13 +122,7 @@ function select(id) {
     dom.facts.appendChild(h('div', {}, [h('dt', { text: k }), h('dd', { text: v })]));
   }
 
-  // 代码栏
-  empty(dom.code);
-  codeLines = (algo.code ?? []).map((line) => {
-    const span = h('span', { class: 'ln', text: line || ' ' });
-    dom.code.appendChild(span);
-    return span;
-  });
+  renderCode(algo.code);
 
   // 图例
   empty(dom.legend);
@@ -178,6 +172,22 @@ function legendColor(cls) {
   return color;
 }
 
+/**
+ * 画代码栏。
+ *
+ * 支持"同一道题的不同写法共用一条目录"：run() 可以在结果里带上 code，
+ * 用哪组输入就换成哪一套代码（四种二叉树遍历就是这么做的）。
+ * 不带 code 就用算法本身的。
+ */
+function renderCode(lines) {
+  empty(dom.code);
+  codeLines = (lines ?? []).map((line) => {
+    const span = h('span', { class: 'ln', text: line || ' ' });
+    dom.code.appendChild(span);
+    return span;
+  });
+}
+
 /** 切到第 idx 组输入用例。地址栏的 ?i= 也走这里，保证两条路径行为完全一致 */
 function chooseInput(idx) {
   const spec = inputSpecs[idx];
@@ -196,6 +206,7 @@ function load(algo, input) {
     player.load([]);
     return;
   }
+  renderCode(built.code ?? algo.code);
   const steps = built.steps.map((s) => ({ view: algo.view, ...s }));
   dom.scrub.max = String(Math.max(0, steps.length - 1));
   respaceCounters(steps[0]?.counters ?? {});

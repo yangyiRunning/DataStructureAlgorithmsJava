@@ -329,6 +329,256 @@ function avlInsert(seq) {
   };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 四种遍历
+// ─────────────────────────────────────────────────────────────
+
+/** 遍历演示用一棵固定的树，形状固定才好对照四种顺序 */
+const FIXED_TREE = [8, 4, 12, 2, 6, 10, 14];
+
+function buildFixedTree() {
+  const pool = new Map();
+  const nodes = FIXED_TREE.map((v) => { const n = makeNode(v); pool.set(n.id, n); return n; });
+  for (let i = 0; i < nodes.length; i++) {
+    const l = 2 * i + 1;
+    const r = 2 * i + 2;
+    if (l < nodes.length) { nodes[i].left = nodes[l]; nodes[l].parent = nodes[i]; }
+    if (r < nodes.length) { nodes[i].right = nodes[r]; nodes[r].parent = nodes[i]; }
+  }
+  return { pool, root: nodes[0] };
+}
+
+const preCode = [
+  'function preorder(node) {',
+  '  if (node === null) return;',
+  '  visit(node);            // 根',
+  '  preorder(node.left);    // 左',
+  '  preorder(node.right);   // 右',
+  '}',
+];
+
+const inCode = [
+  'function inorder(node) {',
+  '  if (node === null) return;',
+  '  inorder(node.left);     // 左',
+  '  visit(node);            // 根',
+  '  inorder(node.right);    // 右',
+  '}',
+];
+
+const postCode = [
+  'function postorder(node) {',
+  '  if (node === null) return;',
+  '  postorder(node.left);   // 左',
+  '  postorder(node.right);  // 右',
+  '  visit(node);            // 根',
+  '}',
+];
+
+const levelCode = [
+  'function levelOrder(root) {',
+  '  if (root === null) return [];',
+  '  const queue = [root], out = [];',
+  '  while (queue.length > 0) {',
+  '    const node = queue.shift();',
+  '    out.push(node.val);',
+  '    if (node.left) queue.push(node.left);',
+  '    if (node.right) queue.push(node.right);',
+  '  }',
+  '  return out;',
+  '}',
+];
+
+function traverse(input) {
+  const { mode } = input;
+  const { pool, root } = buildFixedTree();
+  const steps = [];
+  let visits = 0;
+  const out = [];
+
+  const code = { pre: preCode, in: inCode, post: postCode, level: levelCode }[mode];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      nodes: buildSnap(pool),
+      root: rootOf(pool)?.id ?? null,
+      ...state,
+    },
+    note,
+    line,
+    counters: { 访问: visits, 已输出: out.length },
+  });
+
+  const shown = () => out.map((v) => ({ text: String(v) }));
+
+  push({ container: { label: '输出', items: [] } },
+    mode === 'level' ? '层序遍历用队列：出队一个、把它的孩子入队，天然就是一层一层。'
+      : '递归遍历：所谓"前中后"说的是根在什么时候被访问。', 0);
+
+  if (mode === 'level') {
+    const queue = [root];
+    const label = () => queue.map((n) => ({ text: String(n.val) }));
+    while (queue.length) {
+      const node = queue.shift();
+      push({ highlight: [node.id], container: { label: '队列', items: label() } },
+        `${node.val} 出队。`, 4);
+      visits += 1;
+      out.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+      push({ highlight: [node.id], visited: out.map((v) => findIdByVal(pool, v)).filter(Boolean), container: { label: '队列', items: label() } },
+        `输出 ${node.val}，它的孩子入队。队列里还有 ${queue.length} 个。`, 6);
+    }
+    push({ visited: [...pool.keys()], container: { label: '输出', items: shown() } },
+      `层序结果：${out.join(' → ')}。`, 10);
+    return { steps, code, result: { order: out.join(',') } };
+  }
+
+  const order = mode === 'pre' ? 'pre' : mode === 'in' ? 'in' : 'post';
+  const visitedIds = [];
+  const visit = (node, line) => {
+    visits += 1;
+    out.push(node.val);
+    visitedIds.push(node.id);
+    push({ highlight: [node.id], visited: [...visitedIds], container: { label: '输出', items: shown() } },
+      `访问 ${node.val}（第 ${visits} 个）。`, line);
+  };
+
+  const walk = (node) => {
+    if (!node) return;
+    if (order === 'pre') visit(node, 2);
+    walk(node.left);
+    if (order === 'in') visit(node, 3);
+    walk(node.right);
+    if (order === 'post') visit(node, 4);
+  };
+  walk(root);
+
+  const names = { pre: '前序', in: '中序', post: '后序' };
+  push({ visited: [...pool.keys()], container: { label: '输出', items: shown() } },
+    `${names[order]}遍历结果：${out.join(' → ')}。${order === 'in' ? 'BST 的中序遍历一定是升序，这是判断 BST 有没有建错的办法。' : ''}`, 1);
+  return { steps, code, result: { order: out.join(',') } };
+}
+
+function findIdByVal(pool, val) {
+  for (const [id, n] of pool) if (n.val === val) return id;
+  return null;
+}
+
+// ─────────────────────────────────────────────────────────────
+// BST 删除
+// ─────────────────────────────────────────────────────────────
+
+const deleteCode = [
+  'function remove(node, key) {',
+  '  if (node === null) return null;',
+  '  if (key < node.val) { node.left = remove(node.left, key); return node; }',
+  '  if (key > node.val) { node.right = remove(node.right, key); return node; }',
+  '  // 找到了',
+  '  if (!node.left) return node.right;     // 无左孩子（含叶子）',
+  '  if (!node.right) return node.left;     // 只有左孩子',
+  '  let succ = node.right;                 // 两个孩子：找右子树最小',
+  '  while (succ.left) succ = succ.left;',
+  '  node.val = succ.val;',
+  '  node.right = remove(node.right, succ.val);',
+  '  return node;',
+  '}',
+];
+
+function bstRemove(input) {
+  const { values, del } = input;
+  const pool = new Map();
+  let root = null;
+  for (const v of values) {
+    const n = makeNode(v);
+    pool.set(n.id, n);
+    root = bstInsertNode(root, n);
+  }
+
+  const steps = [];
+  let cmp = 0;
+  let removed = 0;
+  const push = (state, note, line) => steps.push({
+    state: { nodes: buildSnap(pool), root: rootOf(pool)?.id ?? null, showMeta: true, ...state },
+    note,
+    line,
+    counters: { 比较: cmp, 删除: removed },
+  });
+
+  push({}, `树里删掉 ${del}（当前 ${pool.size} 个节点）。删除比插入麻烦：删完之后 BST 的有序性不能被破坏。`, 0);
+
+  const walkDown = (node, key) => {
+    if (node === null) {
+      push({}, `${key} 不在树里，什么都不做。`, 1);
+      return null;
+    }
+    cmp += 1;
+    push({ highlight: [node.id] }, `在 ${node.val} 处比较：${key} ${key < node.val ? '<' : key > node.val ? '>' : '='} ${node.val}`,
+      key < node.val ? 2 : key > node.val ? 3 : 4);
+
+    if (key < node.val) {
+      node.left = walkDown(node.left, key);
+      if (node.left) node.left.parent = node;
+      return node;
+    }
+    if (key > node.val) {
+      node.right = walkDown(node.right, key);
+      if (node.right) node.right.parent = node;
+      return node;
+    }
+
+    // 找到了
+    if (!node.left) {
+      push({ highlight: [node.id] }, `${node.val} 没有左孩子，直接用右孩子顶上来（叶子就是 null）。`, 5);
+      pool.delete(node.id);
+      removed += 1;
+      return node.right;
+    }
+    if (!node.right) {
+      push({ highlight: [node.id] }, `${node.val} 没有右孩子，用左孩子顶上来。`, 6);
+      pool.delete(node.id);
+      removed += 1;
+      return node.left;
+    }
+
+    push({ highlight: [node.id], moving: [node.right.id] },
+      `${node.val} 两个孩子都在。不能直接删，要找右子树里最小的那个（后继）来顶替它的值。`, 7);
+    let succ = node.right;
+    while (succ.left) {
+      succ = succ.left;
+      push({ highlight: [succ.id] }, `往左走找最小：${succ.val}。`, 8);
+    }
+    push({ highlight: [node.id, succ.id], moving: [succ.id] },
+      `后继是 ${succ.val}，把它的值写到要删的节点上。`, 9);
+    node.val = succ.val;
+    node.right = walkDown(node.right, succ.val);
+    if (node.right) node.right.parent = node;
+    return node;
+  };
+
+  const newRoot = walkDown(root, del);
+  const seq = inorder(newRoot);
+  push({ visited: [...pool.keys()] }, `删除完成（剩 ${pool.size} 个节点），中序遍历 ${seq.join(' → ')} 依然是升序，BST 结构没被破坏。`, 11);
+  return { steps, result: { inorder: seq.join(','), size: pool.size } };
+}
+
+/** 插入一个已经建好的节点（bstRemove 里用，避免重复 new） */
+function bstInsertNode(root, node) {
+  if (root === null) return node;
+  let cur = root;
+  while (true) {
+    if (node.val < cur.val) {
+      if (!cur.left) { cur.left = node; node.parent = cur; break; }
+      cur = cur.left;
+    } else if (node.val > cur.val) {
+      if (!cur.right) { cur.right = node; node.parent = cur; break; }
+      cur = cur.right;
+    } else break;
+  }
+  return root;
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const treeLegend = [
@@ -373,5 +623,41 @@ export const treeAlgorithms = [
     ],
     code: avlCode,
     run: avlInsert,
+  },
+  {
+    id: 'tree-traverse',
+    group: '树',
+    title: '二叉树四种遍历',
+    brief: '前中后说的是"根"在第几步被访问：前序是根左右，中序是左根右，后序是左右根；层序用队列一层一层来。同一棵树、四种顺序，切输入按钮对比。',
+    view: 'tree',
+    facts: [['时间', 'O(n)'], ['空间', 'O(h) 递归栈'], ['层序', 'O(w) 队列'], ['中序', 'BST 得升序']],
+    counters: '访问、已输出',
+    legend: treeLegend,
+    inputs: [
+      { label: '前序（根左右）', make: () => ({ mode: 'pre' }) },
+      { label: '中序（左根右）', make: () => ({ mode: 'in' }) },
+      { label: '后序（左右根）', make: () => ({ mode: 'post' }) },
+      { label: '层序（队列）', make: () => ({ mode: 'level' }) },
+    ],
+    code: preCode,
+    run: traverse,
+  },
+  {
+    id: 'tree-bst-delete',
+    group: '树',
+    title: 'BST 删除',
+    brief: '分三种情况：没左孩子、没右孩子、两个孩子都在。最后一种不能直接删，要拿右子树最小的那个（后继）顶替它的值，再去删后继。',
+    view: 'tree',
+    facts: [['平均', 'O(log n)'], ['最坏', 'O(n)'], ['难点', '两孩子的情况'], ['后继', '右子树最左']],
+    counters: '比较、删除',
+    legend: treeLegend,
+    inputs: [
+      { label: '删叶子', make: () => ({ values: [50, 30, 70, 20, 40, 60, 80], del: 20 }) },
+      { label: '删只有一个孩子的', make: () => ({ values: [50, 30, 70, 20, 40, 60, 80], del: 30 }) },
+      { label: '删有两个孩子的', make: () => ({ values: [50, 30, 70, 20, 40, 60, 80], del: 50 }) },
+      { label: '删不存在的', make: () => ({ values: [50, 30, 70, 20, 40], del: 99 }) },
+    ],
+    code: deleteCode,
+    run: bstRemove,
   },
 ];

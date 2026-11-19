@@ -417,6 +417,218 @@ function deleteList(input) {
   return { steps, result: { values: walk(head).map((n) => n.val) } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 快慢指针：找中点
+// ─────────────────────────────────────────────────────────────
+
+const middleCode = [
+  'function middleNode(head) {',
+  '  let slow = head, fast = head;',
+  '  while (fast !== null && fast.next !== null) {',
+  '    slow = slow.next;        // 一步',
+  '    fast = fast.next.next;   // 两步',
+  '  }',
+  '  return slow;              // 偶数个节点时返回后中点',
+  '}',
+];
+
+function listMiddle(values) {
+  const head = buildList(values);
+  const pool = walk(head);
+  const order = pool.map((n) => n.id);
+  const steps = [];
+  let hops = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { nodes: snapshot(pool), order, ...state },
+    note,
+    line,
+    counters: { 移动: hops },
+  });
+
+  let slow = head;
+  let fast = head;
+  const ptrs = (a, b) => [
+    ...(a ? [{ on: a.id, text: 'slow' }] : []),
+    ...(b ? [{ on: b.id, text: 'fast' }] : []),
+  ];
+
+  push({ pointers: ptrs(slow, fast) },
+    '快指针一次走两步、慢指针一次走一步。快指针走到头时，慢指针正好在中间。', 1);
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    hops += 1;
+    push({ pointers: ptrs(slow, fast), highlight: [slow.id] }, `慢指针走到 ${slow.val}。`, 3);
+    fast = fast.next.next;
+    hops += 1;
+    push({ pointers: ptrs(slow, fast) }, `快指针走到 ${fast ? fast.val : '∅'}。`, 4);
+  }
+
+  push({ pointers: [{ on: slow.id, text: 'middle' }], highlight: [slow.id] },
+    `快指针到头，中点是 ${slow.val}。注意循环条件里 fast.next 也要判空，少了它会空指针。`, 6);
+  return { steps, result: { val: slow.val } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Floyd 判圈：入环点
+// ─────────────────────────────────────────────────────────────
+
+const cycleCode = [
+  'function detectCycle(head) {',
+  '  let slow = head, fast = head;',
+  '  while (fast !== null && fast.next !== null) {',
+  '    slow = slow.next;',
+  '    fast = fast.next.next;',
+  '    if (slow === fast) {       // 相遇说明有环',
+  '      let p = head;',
+  '      while (p !== slow) { p = p.next; slow = slow.next; }',
+  '      return p;                // p 就是入环点',
+  '    }',
+  '  }',
+  '  return null;',
+  '}',
+];
+
+function detectCycle(input) {
+  const { values, cycleAt } = input;
+  const head = buildList(values);
+  const pool = walk(head);
+  const order = pool.map((n) => n.id);
+
+  // 造环：把尾巴接到第 cycleAt 个节点上
+  if (cycleAt != null && cycleAt >= 0 && cycleAt < pool.length) {
+    pool[pool.length - 1].next = pool[cycleAt];
+  }
+
+  const steps = [];
+  let hops = 0;
+  const push = (state, note, line) => steps.push({
+    state: { nodes: snapshot(pool), order, ...state },
+    note,
+    line,
+    counters: { 移动: hops },
+  });
+
+  let slow = head;
+  let fast = head;
+  const ptrs = (a, b, extra) => [
+    ...(a ? [{ on: a.id, text: 'slow' }] : []),
+    ...(b ? [{ on: b.id, text: 'fast' }] : []),
+    ...(extra ?? []),
+  ];
+
+  push({ pointers: ptrs(slow, fast) },
+    cycleAt == null ? '这条链表没有环。快慢指针追不上就是没环。' : `这条链表在第 ${cycleAt} 个节点处成环。快慢指针一定会在环里相遇。`, 1);
+
+  let met = null;
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    hops += 1;
+    push({ pointers: ptrs(slow, fast), highlight: [slow.id] }, `慢指针走到 ${slow.val}。`, 3);
+    fast = fast.next.next;
+    hops += 1;
+    push({ pointers: ptrs(slow, fast), highlight: fast && fast === slow ? [fast.id] : [] },
+      `快指针走到 ${fast ? fast.val : '∅'}。${fast && fast === slow ? '两个指针重合了！' : ''}`, 4);
+
+    if (slow === fast) {
+      met = slow;
+      push({ pointers: ptrs(slow, fast), moved: [slow.id] },
+        `相遇在 ${slow.val}。相遇不代表这里就是入环点，还要走第二步。`, 5);
+      break;
+    }
+  }
+
+  if (met === null) {
+    push({ pointers: [] }, '快指针到头了也没相遇，确认无环，返回 null。', 11);
+    return { steps, result: { entry: -1 } };
+  }
+
+  let p = head;
+  push({ pointers: [{ on: p.id, text: 'p' }, { on: met.id, text: 'meet' }] },
+    '关键结论：从 head 走和从相遇点走，同样速度，一定在入环点相遇。所以现在让 p 从 head 出发。', 6);
+
+  let guard = 0;
+  while (p !== met && guard < 100) {
+    p = p.next;
+    met = met.next;
+    hops += 1;
+    guard += 1;
+    push({ pointers: [{ on: p.id, text: 'p' }, { on: met.id, text: 'meet' }], highlight: [p.id] },
+      `p 走到 ${p.val}，相遇点指针也往前一步到 ${met.val}。`, 7);
+  }
+
+  const entryIdx = order.indexOf(p.id);
+  push({ pointers: [{ on: p.id, text: '入环点' }], settled: [p.id] },
+    `两者在 ${p.val} 相遇，这就是入环点，下标 ${entryIdx}。`, 8);
+  return { steps, result: { entry: entryIdx } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 删除倒数第 N 个
+// ─────────────────────────────────────────────────────────────
+
+const nthCode = [
+  'function removeNthFromEnd(head, n) {',
+  '  const dummy = { next: head };   // 哑节点，省掉删头的单独判断',
+  '  let fast = dummy, slow = dummy;',
+  '  for (let i = 0; i <= n; i++) fast = fast.next;',
+  '  while (fast !== null) { fast = fast.next; slow = slow.next; }',
+  '  slow.next = slow.next.next;',
+  '  return dummy.next;',
+  '}',
+];
+
+function removeNth(input) {
+  const { values, n } = input;
+  let head = buildList(values);
+  const pool = new Set(walk(head));
+  const dummy = { id: 'dummy', val: 'dummy', next: head };
+  pool.add(dummy);
+
+  const steps = [];
+  let hops = 0;
+  const orderNow = () => [dummy.id, ...walk(head).map((x) => x.id)];
+  const push = (state, note, line) => steps.push({
+    state: { nodes: snapshot([...pool]), order: orderNow(), ...state },
+    note,
+    line,
+    counters: { 移动: hops },
+  });
+
+  push({ head, pointers: [{ on: dummy.id, text: 'dummy' }, { on: head.id, text: 'head' }] },
+    `删掉倒数第 ${n} 个。哑节点是为了让"删头"和"删中间"变成同一种操作。`, 1);
+
+  let fast = dummy;
+  let slow = dummy;
+  for (let i = 0; i <= n; i++) {
+    fast = fast.next;
+    hops += 1;
+  }
+  push({ head, pointers: [{ on: fast ? fast.id : null, text: 'fast' }, { on: slow.id, text: 'slow' }] },
+    `fast 先走 ${n + 1} 步，走到 ${fast ? fast.val : '∅'}。这样它和 slow 之间正好隔着 ${n} 个节点。`, 3);
+
+  while (fast !== null) {
+    fast = fast.next;
+    slow = slow.next;
+    hops += 1;
+    push({ head, pointers: [
+      ...(fast ? [{ on: fast.id, text: 'fast' }] : []),
+      { on: slow.id, text: 'slow' },
+    ] },
+      `两个指针一起走：fast 到 ${fast ? fast.val : '∅'}，slow 到 ${slow.val}。`, 4);
+  }
+
+  const doomed = slow.next;
+  slow.next = doomed.next;
+  pool.delete(doomed.id);
+  push({ head: dummy.next, pointers: [{ on: slow.id, text: 'slow' }], removed: [doomed.id] },
+    `fast 到头了，slow 正好停在被删节点的前一个（${slow.val}）。让它跨过 ${doomed.val}。`, 5);
+
+  return { steps, result: { arr: walk(dummy.next).map((x) => x.val).join(',') } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const listLegend = [
@@ -474,5 +686,56 @@ export const linkedListAlgorithms = [
     ],
     code: deleteCode,
     run: deleteList,
+  },
+  {
+    id: 'list-middle',
+    group: '链表',
+    title: '快慢指针 · 找中点',
+    brief: '快指针一次两步、慢指针一次一步。快指针到头时慢指针正好在中间，一趟就够，不用先求长度。',
+    view: 'list',
+    facts: [['时间', 'O(n)'], ['空间', 'O(1)'], ['细节', '循环要判 fast.next']],
+    counters: '移动',
+    legend: listLegend,
+    inputs: [
+      { label: '奇数个', make: () => randomList(5) },
+      { label: '偶数个', make: () => randomList(6) },
+      { label: '只有 2 个', make: () => randomList(2) },
+    ],
+    code: middleCode,
+    run: listMiddle,
+  },
+  {
+    id: 'list-cycle',
+    group: '链表',
+    title: 'Floyd 判圈 · 入环点',
+    brief: '快慢指针追上了就说明有环。找入环点靠一个反直觉的结论：从 head 和从相遇点同时走，同速，必在入环点相遇。',
+    view: 'list',
+    facts: [['时间', 'O(n)'], ['空间', 'O(1)'], ['结论', '相遇点到环口 = head 到环口']],
+    counters: '移动',
+    legend: listLegend,
+    inputs: [
+      { label: '有环', make: () => { const v = randomList(6); return { values: v, cycleAt: 2 }; } },
+      { label: '环在头部', make: () => { const v = randomList(5); return { values: v, cycleAt: 0 }; } },
+      { label: '无环', make: () => ({ values: randomList(5), cycleAt: null }) },
+    ],
+    code: cycleCode,
+    run: detectCycle,
+  },
+  {
+    id: 'list-remove-nth',
+    group: '链表',
+    title: '删除倒数第 N 个',
+    brief: '哑节点 + 快慢间隔：fast 先走 n+1 步，然后两个一起走到头，slow 正好停在被删节点的前一个。哑节点让删头不用单独写。',
+    view: 'list',
+    facts: [['时间', 'O(n)'], ['空间', 'O(1)'], ['技巧', '哑节点 + 间隔']],
+    counters: '移动',
+    legend: listLegend,
+    inputs: [
+      { label: '删倒数第 2 个', make: () => ({ values: randomList(5), n: 2 }) },
+      { label: '删倒数第 1 个（尾）', make: () => ({ values: randomList(5), n: 1 }) },
+      { label: '删倒数第 5 个（头）', make: () => ({ values: randomList(5), n: 5 }) },
+    ],
+    code: nthCode,
+    run: removeNth,
   },
 ];

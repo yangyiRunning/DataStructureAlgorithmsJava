@@ -43,6 +43,18 @@ public final class Oracle {
       case "list-reverse": return arr(reverse(ints(parts[1])));
       case "list-insert": return arr(insertAt(ints(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
       case "list-delete": return arr(remove(ints(parts[1]), Integer.parseInt(parts[2])));
+      case "list-middle": return "val:" + middleVal(ints(parts[1]));
+      case "list-cycle": return "entry:" + cycleEntry(ints(parts[1]), parts[2].equals("null") ? -1 : Integer.parseInt(parts[2]));
+      case "list-remove-nth": return "arr:" + arr(removeNth(ints(parts[1]), Integer.parseInt(parts[2])));
+      case "tree-traverse": return "order:" + String.join(",", traverse(parts[1]));
+      case "tree-bst-delete": {
+        Node r = null;
+        for (int v : ints(parts[1])) r = bstPut(r, v);
+        r = bstRemove(r, Integer.parseInt(parts[2]));
+        List<Integer> in2 = new ArrayList<>();
+        inorder(r, in2);
+        return "inorder:" + arr(in2) + "|size:" + size(r);
+      }
       case "tree-bst-insert": {
         List<Integer> seq = ints(parts[1]);
         Node r = null;
@@ -206,6 +218,78 @@ public final class Oracle {
     List<Integer> a = new ArrayList<>(in);
     a.remove(Integer.valueOf(val));
     return a;
+  }
+
+  // ── 链表 2 ────────────────────────────────────────────
+
+  static int middleVal(List<Integer> a) {
+    int slow = 0, fast = 0;
+    while (fast < a.size() - 1) {
+      slow += 1;
+      fast += 2;
+    }
+    return a.get(slow);
+  }
+
+  static int cycleEntry(List<Integer> a, int cycleAt) {
+    if (cycleAt < 0) return -1;
+    int slow = 0, fast = 0;
+    do {
+      slow = next(slow, a.size(), cycleAt);
+      fast = next(next(fast, a.size(), cycleAt), a.size(), cycleAt);
+      if (slow == -1 || fast == -1) return -1;
+    } while (slow != fast);
+    int p = 0;
+    while (p != slow) {
+      p = next(p, a.size(), cycleAt);
+      slow = next(slow, a.size(), cycleAt);
+    }
+    return p;
+  }
+
+  private static int next(int i, int size, int cycleAt) {
+    if (i == size - 1) return cycleAt;
+    return i + 1;
+  }
+
+  static List<Integer> removeNth(List<Integer> a, int n) {
+    List<Integer> out = new ArrayList<>(a);
+    int idx = out.size() - n;
+    if (idx >= 0 && idx < out.size()) out.remove(idx);
+    return out;
+  }
+
+  // ── 四种遍历 ──────────────────────────────────────────
+
+  static final int[] FIXED_TREE = {8, 4, 12, 2, 6, 10, 14};
+
+  static List<String> traverse(String mode) {
+    List<Integer> out = new ArrayList<>();
+    if (mode.equals("level")) {
+      Deque<Integer> q = new ArrayDeque<>();
+      if (FIXED_TREE.length > 0) q.add(0);
+      while (!q.isEmpty()) {
+        int i = q.poll();
+        out.add(FIXED_TREE[i]);
+        int l = 2 * i + 1, r = 2 * i + 2;
+        if (l < FIXED_TREE.length) q.add(l);
+        if (r < FIXED_TREE.length) q.add(r);
+      }
+    } else {
+      dfs(0, mode, out);
+    }
+    List<String> s = new ArrayList<>();
+    for (int v : out) s.add(String.valueOf(v));
+    return s;
+  }
+
+  private static void dfs(int i, String mode, List<Integer> out) {
+    if (i >= FIXED_TREE.length) return;
+    if (mode.equals("pre")) out.add(FIXED_TREE[i]);
+    dfs(2 * i + 1, mode, out);
+    if (mode.equals("in")) out.add(FIXED_TREE[i]);
+    dfs(2 * i + 2, mode, out);
+    if (mode.equals("post")) out.add(FIXED_TREE[i]);
   }
 
   // ── 查找 ──────────────────────────────────────────────
@@ -404,6 +488,29 @@ public final class Oracle {
       } else break;   // 重复值不插
     }
     return root;
+  }
+
+  /** BST 删除：三种情况分开处理，两个孩子的用后继顶替 */
+  static Node bstRemove(Node node, int key) {
+    if (node == null) return null;
+    if (key < node.val) {
+      node.left = bstRemove(node.left, key);
+      if (node.left != null) node.left.parent = node;
+      return node;
+    }
+    if (key > node.val) {
+      node.right = bstRemove(node.right, key);
+      if (node.right != null) node.right.parent = node;
+      return node;
+    }
+    if (node.left == null) return node.right;
+    if (node.right == null) return node.left;
+    Node succ = node.right;
+    while (succ.left != null) succ = succ.left;
+    node.val = succ.val;
+    node.right = bstRemove(node.right, succ.val);
+    if (node.right != null) node.right.parent = node;
+    return node;
   }
 
   /** AVL：与前端同一套旋转顺序和 parent 维护 */
