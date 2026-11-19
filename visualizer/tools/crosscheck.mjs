@@ -109,6 +109,10 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'graph-dijkstra':
       return `dist:${result.dist}`;
+    case 'graph-bellman-ford':
+      return `dist:${result.dist}`;
+    case 'graph-kruskal':
+      return `total:${result.total}|edges:${result.edges}`;
     default:
       return arr(result.values);
   }
@@ -156,8 +160,10 @@ function serialize(algoId, input) {
     case 'graph-bfs':
     case 'graph-dfs':
     case 'graph-dijkstra':
+    case 'graph-bellman-ford':
       return `${algoId};${input}`;
     case 'graph-topo':
+    case 'graph-kruskal':
       return algoId;
     default:
       // 排序、链表反转、BST、AVL、堆排序：输入就是一个数组

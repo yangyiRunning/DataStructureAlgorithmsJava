@@ -38,10 +38,10 @@
 | 栈与队列 | 括号匹配、单调栈、单调队列 |
 | 树 | 四种遍历、BST 插入、BST 删除、AVL 插入与四种旋转 |
 | 堆 | 插入上浮、弹出下沉、堆排序 |
-| 图 | BFS、DFS、Dijkstra、拓扑排序（Kahn 入度法） |
+| 图 | BFS、DFS、Dijkstra、Bellman-Ford、Kruskal 最小生成树、拓扑排序（Kahn 入度法） |
 
 完整清单（含还没做的）在 [visualizer/TOPICS.md](visualizer/TOPICS.md)：共 73 项，
-已有 34 项、待做 39 项，按批次往里补。
+已有 36 项、待做 37 项，按批次往里补。
 
 ### 本地跑
 

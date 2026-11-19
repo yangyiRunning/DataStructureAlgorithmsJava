@@ -103,6 +103,8 @@ public final class Oracle {
       case "graph-dfs": return "order:" + String.join(",", dfs(parts[1]));
       case "graph-dijkstra": return dijkstra(parts[1]);
       case "graph-topo": return "order:" + String.join(",", topo());
+      case "graph-bellman-ford": return bellman(parts[1]);
+      case "graph-kruskal": return kruskalMst();
       default: throw new IllegalArgumentException("未知命令：" + cmd);
     }
   }
@@ -707,6 +709,59 @@ public final class Oracle {
       {"X1", "X2"}, {"X1", "X3"}, {"X2", "X4"}, {"X3", "X4"}, {"X3", "X5"},
       {"X4", "X6"}, {"X5", "X6"},
   };
+
+  static String bellman(String start) {
+    Map<String, Integer> dist = new LinkedHashMap<>();
+    for (String n : NODES) dist.put(n, Integer.MAX_VALUE);
+    dist.put(start, 0);
+    for (int round = 0; round < NODES.length - 1; round++) {
+      boolean changed = false;
+      for (Object[] e : EDGES) {
+        String u = (String) e[0], v = (String) e[1];
+        int w = (Integer) e[2];
+        if (dist.get(u) != Integer.MAX_VALUE && dist.get(u) + w < dist.get(v)) { dist.put(v, dist.get(u) + w); changed = true; }
+        if (dist.get(v) != Integer.MAX_VALUE && dist.get(v) + w < dist.get(u)) { dist.put(u, dist.get(v) + w); changed = true; }
+      }
+      if (!changed) break;
+    }
+    StringBuilder sb = new StringBuilder("dist:");
+    for (int i = 0; i < NODES.length; i++) {
+      if (i > 0) sb.append(',');
+      int d = dist.get(NODES[i]);
+      sb.append(NODES[i]).append('=').append(d == Integer.MAX_VALUE ? "Infinity" : d);
+    }
+    return sb.toString();
+  }
+
+  static String kruskalMst() {
+    Map<String, String> parent = new LinkedHashMap<>();
+    for (String n : NODES) parent.put(n, n);
+    List<Object[]> sorted = new ArrayList<>();
+    for (Object[] e : EDGES) sorted.add(e);
+    sorted.sort((a, b) -> (Integer) a[2] - (Integer) b[2]);
+    List<String> picked = new ArrayList<>();
+    int total = 0;
+    for (Object[] e : sorted) {
+      String u = (String) e[0], v = (String) e[1];
+      int w = (Integer) e[2];
+      String ru = find(parent, u), rv = find(parent, v);
+      if (ru.equals(rv)) continue;
+      parent.put(ru, rv);
+      total += w;
+      picked.add((u.compareTo(v) < 0 ? u + "|" + v : v + "|" + u));
+      if (picked.size() == NODES.length - 1) break;
+    }
+    picked.sort(String::compareTo);
+    return "total:" + total + "|edges:" + String.join(",", picked);
+  }
+
+  private static String find(Map<String, String> parent, String x) {
+    String p = parent.get(x);
+    if (p.equals(x)) return x;
+    String r = find(parent, p);
+    parent.put(x, r);
+    return r;
+  }
 
   static List<String> topo() {
     String[] nodes = {"X1", "X2", "X3", "X4", "X5", "X6"};

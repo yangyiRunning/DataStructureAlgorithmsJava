@@ -501,6 +501,177 @@ function topoSort() {
   };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// Bellman-Ford
+// ─────────────────────────────────────────────────────────────
+
+const bfCode = [
+  'function bellmanFord(start) {',
+  '  const dist = {};  // 未到达记 Infinity',
+  '  dist[start] = 0;',
+  '  for (let round = 0; round < n - 1; round++) {',
+  '    let changed = false;',
+  '    for (const [u, v, w] of edges) {   // 每条边两个方向都试',
+  '      if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; changed = true; }',
+  '      if (dist[v] + w < dist[u]) { dist[u] = dist[v] + w; changed = true; }',
+  '    }',
+  '    if (!changed) break;               // 这一轮没变化，提前结束',
+  '  }',
+  '  return dist;',
+  '}',
+];
+
+function bellmanFord(start) {
+  const steps = [];
+  let relax = 0;
+
+  const dist = {};
+  for (const n of NODES) dist[n.id] = Infinity;
+  dist[start] = 0;
+
+  const edgeState = new Map();
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      nodes: NODES,
+      edges: EDGES.map(([u, v, w]) => ({ u, v, w, state: edgeState.get(undirectedKey(u, v)) ?? 'idle' })),
+      dist: { ...dist },
+      distLabel: 'd=',
+      ...state,
+    },
+    note,
+    line,
+    counters: { 松弛: relax },
+  });
+
+  const show = () => NODES
+    .slice()
+    .sort((a, b) => dist[a.id] - dist[b.id])
+    .map((n) => ({ text: `${n.id}:${dist[n.id] === Infinity ? '∞' : dist[n.id]}` }));
+
+  push({ current: start, container: { label: '距离', items: show() } },
+    `${start} 距离 0。Bellman-Ford 不管图长什么样，把所有边扫 V-1 轮，每轮都尝试松弛。`, 0);
+
+  for (let round = 0; round < NODES.length - 1; round++) {
+    let changed = false;
+    push({ container: { label: '距离', items: show() } }, `第 ${round + 1} 轮开始。`, 3);
+
+    for (const [u, v, w] of EDGES) {
+      for (const [a, b] of [[u, v], [v, u]]) {
+        if (dist[a] + w < dist[b]) {
+          dist[b] = dist[a] + w;
+          relax += 1;
+          changed = true;
+          edgeState.set(undirectedKey(a, b), 'tree');
+          push({ current: b, container: { label: '距离', items: show() } },
+            `松弛 ${a}→${b}：${dist[a] === Infinity ? '∞' : dist[a]} + ${w} = ${dist[b]}，更小，更新。`, 5);
+        }
+      }
+    }
+
+    if (!changed) {
+      push({ container: { label: '距离', items: show() } },
+        `第 ${round + 1} 轮一条边都没更新，说明已经收敛，提前结束（这就是能跑不满 V-1 轮的情况）。`, 8);
+      break;
+    }
+  }
+
+  const answer = NODES.map((n) => `${n.id}:${dist[n.id] === Infinity ? '∞' : dist[n.id]}`).join('  ');
+  push({}, `完成。${answer}`, 10);
+  return { steps, result: { dist: NODES.map((n) => `${n.id}=${dist[n.id]}`).join(',') } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Kruskal 最小生成树
+// ─────────────────────────────────────────────────────────────
+
+const kruskalCode = [
+  'function kruskal() {',
+  '  const parent = {};               // 并查集',
+  '  for (const n of nodes) parent[n] = n;',
+  '  const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])));',
+  '  const sorted = [...edges].sort((a, b) => a[2] - b[2]);',
+  '  const picked = [];',
+  '  for (const [u, v, w] of sorted) {',
+  '    const ru = find(u), rv = find(v);',
+  '    if (ru === rv) continue;        // 同一个集合，连上去就成环',
+  '    parent[ru] = rv;',
+  '    picked.push([u, v, w]);',
+  '    if (picked.length === nodes.length - 1) break;',
+  '  }',
+  '  return picked;',
+  '}',
+];
+
+function kruskal() {
+  const steps = [];
+  let picked = 0;
+
+  const parent = {};
+  for (const n of NODES) parent[n.id] = n.id;
+  const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])));
+
+  const sorted = [...EDGES].sort((a, b) => a[2] - b[2]);
+  const treeEdges = new Set();
+  const edgeState = new Map();
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      nodes: NODES,
+      edges: EDGES.map(([u, v, w]) => ({ u, v, w, state: edgeState.get(undirectedKey(u, v)) ?? 'idle' })),
+      ...state,
+    },
+    note,
+    line,
+    counters: { 考察: cmp, 选中: picked },
+  });
+
+  const shown = () => sorted.map(([u, v, w]) => ({ text: `${u}${v}:${w}` }));
+  let cmp = 0;
+
+  push({ container: { label: '按权排序', items: shown() } },
+    'Kruskal：把所有边按权重从小到大排，依次尝试加进生成树；会成环的就跳过。判环用并查集。', 4);
+
+  for (const [u, v, w] of sorted) {
+    cmp += 1;
+    const ru = find(u);
+    const rv = find(v);
+    const same = ru === rv;
+    push(
+      {
+        current: same ? null : v,
+        container: { label: '按权排序', items: shown().map((it, i) => (i === cmp - 1 ? { ...it, hot: true } : it)) },
+      },
+      `看边 ${u}-${v}（权 ${w}）：两端${same ? '已经连通，加进去会成环，跳过' : '还没连通，可以选'}。`,
+      6,
+    );
+
+    if (same) continue;
+
+    parent[ru] = rv;
+    picked += 1;
+    treeEdges.add(undirectedKey(u, v));
+    edgeState.set(undirectedKey(u, v), 'tree');
+    push(
+      {
+        current: v,
+        container: { label: '按权排序', items: shown() },
+      },
+      `选中 ${u}-${v}（权 ${w}），合并两个集合。目前选了 ${picked} 条边。`,
+      9,
+    );
+
+    if (picked === NODES.length - 1) break;
+  }
+
+  const total = sorted
+    .filter(([u, v]) => treeEdges.has(undirectedKey(u, v)))
+    .reduce((a, [, , w]) => a + w, 0);
+  push({}, `完成。选出的边：${[...treeEdges].map((k) => k.replace('|', '-')).join('、')}，总权重 ${total}。`, 10);
+  return { steps, result: { total, edges: [...treeEdges].sort().join(',') } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const graphLegend = [
@@ -562,5 +733,31 @@ export const graphAlgorithms = [
     inputs: [{ label: '从头播放', make: () => true }],
     code: topoCode,
     run: topoSort,
+  },
+  {
+    id: 'graph-bellman-ford',
+    group: '图',
+    title: 'Bellman-Ford',
+    brief: '不管图什么样，把每条边扫 V-1 轮，每轮都尝试松弛。能处理负权边，也正因为这个特性可以拿来判负环。某一轮没有任何更新就提前结束。',
+    view: 'graph',
+    facts: [['时间', 'O(V·E)'], ['空间', 'O(V)'], ['优势', '支持负权'], ['对比', 'Dijkstra 更快但怕负权']],
+    counters: '松弛',
+    legend: graphLegend,
+    inputs: [{ label: '从 A 出发', make: () => 'A' }, { label: '从 D 出发', make: () => 'D' }],
+    code: bfCode,
+    run: bellmanFord,
+  },
+  {
+    id: 'graph-kruskal',
+    group: '图',
+    title: '最小生成树 Kruskal',
+    brief: '把所有边按权重排序，依次尝试加入；两端已经连通（加进去会成环）就跳过。判环用并查集，选够 V-1 条边就停。',
+    view: 'graph',
+    facts: [['时间', 'O(E log E)'], ['空间', 'O(V)'], ['判环', '并查集'], ['前提', '无向连通图']],
+    counters: '考察、选中',
+    legend: graphLegend,
+    inputs: [{ label: '这张图', make: () => true }],
+    code: kruskalCode,
+    run: kruskal,
   },
 ];
