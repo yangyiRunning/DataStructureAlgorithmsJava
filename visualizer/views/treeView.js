@@ -74,6 +74,7 @@ export function render(svg, state) {
 
   const { pos, height, bf } = analyze(rootId, byId);
   const count = nodes.length;
+  const r = count > 11 ? 15 : 18;
   const maxDepth = Math.max(...[...pos.values()].map((p) => p.depth));
   const cols = Math.max(...[...pos.values()].map((p) => p.col)) + 1;
 
@@ -83,9 +84,12 @@ export function render(svg, state) {
   const startX = (W - slotW * cols) / 2;
   const levelH = Math.min(70, (H - 130) / Math.max(1, maxDepth || 1));
   const cx = (col) => startX + (col + 0.5) * slotW;
-  const cy = (depth) => 52 + depth * levelH;
-  const r = count > 11 ? 15 : 18;
-
+  // 树浅的时候（比如三个节点的旋转演示）内容只占上半屏，看着像没画完。
+  // 按实际高度整体下移居中，深树和浅树都能落在视觉中间。
+  const contentTop = 52 - r;
+  const contentBottom = 52 + maxDepth * levelH + r;
+  const shift = Math.max(0, (H - 56 - (contentBottom - contentTop)) / 2 - contentTop + 20);
+  const cy = (depth) => 52 + depth * levelH + shift;
   const highlight = new Set(state.highlight ?? []);
   const moving = new Set(state.moving ?? []);
   const visited = new Set(state.visited ?? []);

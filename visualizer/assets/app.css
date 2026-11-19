@@ -764,3 +764,30 @@ output {
 .wbg {
   fill: var(--panel);
 }
+
+/* ?clean=1 嵌入模式：只剩演示区 */
+
+body.clean .topbar,
+body.clean .sidebar,
+body.clean .code-pane,
+body.clean .inputs {
+  display: none;
+}
+
+body.clean .layout {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: auto;
+}
+
+body.clean .stage {
+  padding: 18px 22px 22px;
+}
+
+body.clean .stage-head h2 {
+  font-size: 16px;
+}
+
+body.clean .canvas-wrap {
+  margin-top: 12px;
+  padding: 4px;
+}

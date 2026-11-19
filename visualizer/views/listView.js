@@ -13,7 +13,8 @@
 import { el, empty, label } from '../core/svg.js';
 
 const W = 900;
-const H = 380;
+// 链表是横排内容，节点只占中间一条；画布给 210 就够，多出来的高度只会变成空白
+const H = 210;
 
 export function render(svg, state) {
   empty(svg);
@@ -56,7 +57,7 @@ export function render(svg, state) {
   const boxH = 54;
   const totalW = boxW * nodes.length + gap * (nodes.length - 1);
   const startX = Math.max(pad, (W - totalW) / 2);
-  const y = 150;
+  const y = 72;
 
   const xOf = (i) => startX + i * (boxW + gap);
   const idxOf = new Map(nodes.map((n, i) => [n.id, i]));
@@ -153,9 +154,6 @@ export function render(svg, state) {
     }));
   }
 
-  if (state.note) {
-    svg.appendChild(label(W / 2, H - 30, state.note, { size: 12, fill: 'var(--ink-3)' }));
-  }
 }
 
 export const geometry = { W, H };

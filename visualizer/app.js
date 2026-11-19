@@ -282,6 +282,11 @@ dom.speedOut.textContent = `${dom.speed.value} 步/秒`;
 
 // 地址栏带 ?a=sort-quick 可以直接定位到某一条，方便截图和分享
 const params = new URLSearchParams(location.search);
+
+// ?clean=1 只留演示区：去掉顶栏、目录、代码栏和输入按钮。
+// 录 GIF、截 README 配图、把页面嵌到别处都用这个模式，省得每处再写一遍裁剪。
+if (params.has('clean')) document.body.classList.add('clean');
+
 const wanted = params.get('a');
 select(wanted && ALGOS.some((a) => a.id === wanted) ? wanted : ALGOS[0].id);
 
