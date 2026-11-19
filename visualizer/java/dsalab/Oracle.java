@@ -40,6 +40,9 @@ public final class Oracle {
       case "sort-insertion": return arr(insertion(ints(parts[1])));
       case "sort-selection": return arr(selection(ints(parts[1])));
       case "sort-quick": return arr(quick(ints(parts[1])));
+      case "sort-merge": return arr(mergeSort(ints(parts[1])));
+      case "sort-counting": return arr(countingSort(ints(parts[1])));
+      case "sort-shell": return arr(shellSort(ints(parts[1])));
       case "list-reverse": return arr(reverse(ints(parts[1])));
       case "list-insert": return arr(insertAt(ints(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
       case "list-delete": return arr(remove(ints(parts[1]), Integer.parseInt(parts[2])));
@@ -131,6 +134,13 @@ public final class Oracle {
         int r = uf.find(Integer.parseInt(parts[1]));
         return "root:" + r;
       }
+      case "sort-quickselect": {
+        int[] a = arr0(parts[1]);
+        return "val:" + quickSelect(a, Integer.parseInt(parts[2]));
+      }
+      case "bt-permute": return "count:" + permuteCount(arr0(parts[1]));
+      case "bt-subsets": return "count:" + (1 << arr0(parts[1]).length);
+      case "bt-nqueens": return "count:" + nQueens(Integer.parseInt(parts[1]));
       case "dp-knapsack": {
         int[] w = arr0(parts[1]);
         int[] v = arr0(parts[2]);
@@ -241,6 +251,101 @@ public final class Oracle {
     swap(a, i, hi);
     quickRec(a, lo, i - 1);
     quickRec(a, i + 1, hi);
+  }
+
+  static List<Integer> mergeSort(List<Integer> in) {
+    List<Integer> a = new ArrayList<>(in);
+    mergeRec(a, 0, a.size() - 1);
+    return a;
+  }
+
+  private static void mergeRec(List<Integer> a, int lo, int hi) {
+    if (lo >= hi) return;
+    int mid = (lo + hi) >> 1;
+    mergeRec(a, lo, mid);
+    mergeRec(a, mid + 1, hi);
+    List<Integer> tmp = new ArrayList<>();
+    int i = lo, j = mid + 1;
+    while (i <= mid && j <= hi) tmp.add(a.get(i) <= a.get(j) ? a.get(i++) : a.get(j++));
+    while (i <= mid) tmp.add(a.get(i++));
+    while (j <= hi) tmp.add(a.get(j++));
+    for (int k = 0; k < tmp.size(); k++) a.set(lo + k, tmp.get(k));
+  }
+
+  static List<Integer> countingSort(List<Integer> in) {
+    int max = 0;
+    for (int v : in) max = Math.max(max, v);
+    int[] cnt = new int[max + 1];
+    for (int v : in) cnt[v]++;
+    List<Integer> out = new ArrayList<>();
+    for (int v = 0; v <= max; v++) for (int k = 0; k < cnt[v]; k++) out.add(v);
+    return out;
+  }
+
+  static List<Integer> shellSort(List<Integer> in) {
+    List<Integer> a = new ArrayList<>(in);
+    for (int gap = a.size() >> 1; gap > 0; gap >>= 1) {
+      for (int i = gap; i < a.size(); i++) {
+        int key = a.get(i);
+        int j = i - gap;
+        while (j >= 0 && a.get(j) > key) {
+          a.set(j + gap, a.get(j));
+          j -= gap;
+        }
+        a.set(j + gap, key);
+      }
+    }
+    return a;
+  }
+
+  static int quickSelect(int[] in, int k) {
+    int[] a = in.clone();
+    int target = a.length - k;      // 第 k 大 → 升序下标
+    int lo = 0, hi = a.length - 1;
+    while (true) {
+      int p = a[hi], i = lo;
+      for (int j = lo; j < hi; j++) {
+        if (a[j] < p) { int t = a[i]; a[i] = a[j]; a[j] = t; i++; }
+      }
+      int t = a[i]; a[i] = a[hi]; a[hi] = t;
+      if (i == target) return a[i];
+      if (i < target) lo = i + 1; else hi = i - 1;
+    }
+  }
+
+  // ── 回溯 ──────────────────────────────────────────────
+
+  static int permuteCount(int[] nums) {
+    return fact(nums.length);
+  }
+
+  private static int fact(int n) {
+    int r = 1;
+    for (int i = 2; i <= n; i++) r *= i;
+    return r;
+  }
+
+  static int nQueens(int n) {
+    int[] queens = new int[n];
+    java.util.Arrays.fill(queens, -1);
+    return nqDfs(queens, 0, n);
+  }
+
+  private static int nqDfs(int[] queens, int r, int n) {
+    if (r == n) return 1;
+    int total = 0;
+    for (int c = 0; c < n; c++) {
+      boolean ok = true;
+      for (int rr = 0; rr < r; rr++) {
+        int cc = queens[rr];
+        if (cc == c || Math.abs(cc - c) == Math.abs(rr - r)) { ok = false; break; }
+      }
+      if (!ok) continue;
+      queens[r] = c;
+      total += nqDfs(queens, r + 1, n);
+      queens[r] = -1;
+    }
+    return total;
   }
 
   // ── 链表（用 ArrayList 模拟值序列，结论等价） ─────────────

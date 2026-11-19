@@ -433,6 +433,304 @@ function quickSort(input) {
   return { steps, result: { values: a } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 归并排序
+// ─────────────────────────────────────────────────────────────
+
+const mergeCode = [
+  'function mergeSort(a, lo, hi) {',
+  '  if (lo >= hi) return;',
+  '  const mid = (lo + hi) >> 1;',
+  '  mergeSort(a, lo, mid);',
+  '  mergeSort(a, mid + 1, hi);',
+  '  merge(a, lo, mid, hi);',
+  '}',
+  'function merge(a, lo, mid, hi) {',
+  '  const tmp = [];',
+  '  let i = lo, j = mid + 1;',
+  '  while (i <= mid && j <= hi) tmp.push(a[i] <= a[j] ? a[i++] : a[j++]);',
+  '  while (i <= mid) tmp.push(a[i++]);',
+  '  while (j <= hi) tmp.push(a[j++]);',
+  '  for (let k = 0; k < tmp.length; k++) a[lo + k] = tmp[k];',
+  '}',
+];
+
+function mergeSort(input) {
+  const a = input.slice();
+  const steps = [];
+  let compare = 0;
+  let write = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { values: a.slice(), ...state },
+    note,
+    line,
+    counters: { 比较: compare, 写回: write },
+  });
+
+  push({}, '分治：先把区间对半切开，切到只剩一个元素，再两两合并。合并两个有序段时，左边取到小的就拿左边，这样天然稳定。', 0);
+
+  const rec = (lo, hi) => {
+    if (lo >= hi) return;
+    const mid = (lo + hi) >> 1;
+    push({ range: { lo, hi }, rangeLabel: `切分 ${lo}–${hi}`, compare: [mid] },
+      `把 ${lo}–${hi} 从 ${mid} 切成两半。`, 2);
+    rec(lo, mid);
+    rec(mid + 1, hi);
+    merge(lo, mid, hi);
+  };
+
+  const merge = (lo, mid, hi) => {
+    const left = a.slice(lo, mid + 1);
+    const right = a.slice(mid + 1, hi + 1);
+    const out = [];
+    let i = 0;
+    let j = 0;
+
+    push({ range: { lo, hi }, rangeLabel: `合并 ${lo}–${hi}` },
+      `合并两段：左 [${left.join(',')}]，右 [${right.join(',')}]。`, 7);
+
+    while (i < left.length && j < right.length) {
+      compare += 1;
+      const takeLeft = left[i] <= right[j];
+      const v = takeLeft ? left[i++] : right[j++];
+      out.push(v);
+      push(
+        { range: { lo, hi }, rangeLabel: `合并 ${lo}–${hi}`, compare: [lo + i - (takeLeft ? 1 : 0)] },
+        `${takeLeft ? `左 ${v} ≤ 右 ${right[j - 1] ?? '-'}` : `右 ${v} < 左 ${left[i - 1] ?? '-'}`}，取 ${v}。取等号时优先取左边，这就是归并稳定的原因。`,
+        10,
+      );
+    }
+    while (i < left.length) out.push(left[i++]);
+    while (j < right.length) out.push(right[j++]);
+
+    for (let k = 0; k < out.length; k++) {
+      a[lo + k] = out[k];
+      write += 1;
+    }
+    push(
+      { range: { lo, hi }, rangeLabel: `合并 ${lo}–${hi}`, settled: Array.from({ length: hi - lo + 1 }, (_, k) => lo + k), container: { label: '合并结果', items: out.map((v) => ({ text: String(v) })) } },
+      `写回原数组：${out.join('，')}。这两段现在是一个有序段了。`,
+      13,
+    );
+  };
+
+  rec(0, a.length - 1);
+
+  push(
+    { settled: a.map((_, k) => k) },
+    `完成。比较 ${compare} 次、写回 ${write} 次。归并的代价是要一块临时空间，换来了稳定和稳定的 O(n log n)。`,
+    13,
+  );
+  return { steps, result: { values: a } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 计数排序
+// ─────────────────────────────────────────────────────────────
+
+const countCode = [
+  'function countingSort(a) {',
+  '  const max = Math.max(...a);',
+  '  const cnt = new Array(max + 1).fill(0);',
+  '  for (const v of a) cnt[v]++;          // 统计每个值出现几次',
+  '  let k = 0;',
+  '  for (let v = 0; v <= max; v++) {',
+  '    while (cnt[v]-- > 0) a[k++] = v;     // 从小到大倒出来',
+  '  }',
+  '  return a;',
+  '}',
+];
+
+function countingSort(input) {
+  const a = input.slice();
+  const steps = [];
+  let fill = 0;
+
+  const max = Math.max(...a);
+  const cnt = new Array(max + 1).fill(0);
+
+  const push = (state, note, line) => steps.push({
+    state: { values: a.slice(), ...state },
+    note,
+    line,
+    counters: { 计数: fill },
+  });
+
+  push({ container: { label: '计数桶', items: cnt.map((v, i) => ({ text: `${i}:${v}` })) } },
+    `计数排序不比较大小，只数每个值出现几次。值域 0–${max}，所以要 ${max + 1} 个桶——值域一大就不可用了。`, 1);
+
+  for (const v of a) {
+    cnt[v] += 1;
+    fill += 1;
+    push(
+      { compare: [a.indexOf(v)], container: { label: '计数桶', items: cnt.map((c, i) => ({ text: `${i}:${c}`, hot: i === v })) } },
+      `${v} 进桶，现在桶里是 ${cnt[v]} 个。`,
+      3,
+    );
+  }
+
+  push({ settled: [], container: { label: '计数桶', items: cnt.map((c, i) => ({ text: `${i}:${c}` })) } },
+    '统计完了。接下来从 0 号桶开始，每个桶里有几个就吐出几个。', 5);
+
+  let k = 0;
+  for (let v = 0; v <= max; v++) {
+    while (cnt[v] > 0) {
+      cnt[v] -= 1;
+      a[k] = v;
+      k += 1;
+      push(
+        {
+          move: [k - 1],
+          settled: Array.from({ length: k }, (_, x) => x),
+          container: { label: '计数桶', items: cnt.map((c, i) => ({ text: `${i}:${c}`, hot: i === v })) },
+        },
+        `吐出 ${v}，放到下标 ${k - 1}。`,
+        6,
+      );
+    }
+  }
+
+  push({ settled: a.map((_, x) => x) }, '完成。计数排序是稳定的（如果从后往前放），但只能排整数，而且值域不能太大。', 8);
+  return { steps, result: { values: a } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 希尔排序
+// ─────────────────────────────────────────────────────────────
+
+const shellCode = [
+  'function shellSort(a) {',
+  '  for (let gap = a.length >> 1; gap > 0; gap >>= 1) {',
+  '    for (let i = gap; i < a.length; i++) {',
+  '      const key = a[i];',
+  '      let j = i - gap;',
+  '      while (j >= 0 && a[j] > key) {',
+  '        a[j + gap] = a[j];',
+  '        j -= gap;',
+  '      }',
+  '      a[j + gap] = key;',
+  '    }',
+  '  }',
+  '}',
+];
+
+function shellSort(input) {
+  const a = input.slice();
+  const steps = [];
+  let compare = 0;
+  let move = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { values: a.slice(), ...state },
+    note,
+    line,
+    counters: { 比较: compare, 移动: move },
+  });
+
+  push({}, '希尔排序 = 分组插入排序。先用大间隔把远距离的元素排个大概，再逐步缩小间隔，最后一轮 gap=1 时数组已经接近有序，插入排序就很快了。', 0);
+
+  for (let gap = a.length >> 1; gap > 0; gap >>= 1) {
+    push({}, `这一轮间隔 gap = ${gap}，把数组分成 ${gap} 组，组内各自插入排序。`, 1);
+    for (let i = gap; i < a.length; i++) {
+      const key = a[i];
+      let j = i - gap;
+      push({ pivot: i, compare: [i] }, `取出 a[${i}] = ${key}，和它同组的前一个（下标 ${j}）比较。`, 3);
+      while (j >= 0 && a[j] > key) {
+        compare += 1;
+        a[j + gap] = a[j];
+        move += 1;
+        push({ move: [j, j + gap] }, `${a[j + gap]} 比 ${key} 大，往后挪 ${gap} 位。`, 6);
+        j -= gap;
+      }
+      if (j >= 0) compare += 1;
+      a[j + gap] = key;
+      push({ pivot: j + gap }, `${key} 落在下标 ${j + gap}。`, 9);
+    }
+  }
+
+  push({ settled: a.map((_, k) => k) }, `完成。比较 ${compare} 次、移动 ${move} 次。希尔排序不稳定，复杂度取决于间隔序列，这里用的是最简单的折半。`, 11);
+  return { steps, result: { values: a } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 快速选择：第 K 大
+// ─────────────────────────────────────────────────────────────
+
+const selectCode = [
+  'function quickSelect(a, k) {',
+  '  let lo = 0, hi = a.length - 1;',
+  '  while (true) {',
+  '    const p = partition(a, lo, hi);   // 同快排的 Lomuto 分区',
+  '    if (p === k) return a[p];',
+  '    if (p < k) lo = p + 1;            // 答案在右半',
+  '    else hi = p - 1;                  // 答案在左半',
+  '  }',
+  '}',
+];
+
+function quickSelect(input) {
+  const { values, k } = input;
+  const a = values.slice();
+  const steps = [];
+  let compare = 0;
+  let move = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { values: a.slice(), ...state },
+    note,
+    line,
+    counters: { 比较: compare, 移动: move },
+  });
+
+  // "第 k 大"是 1 起算的名次，数组下标是 0 起算，必须换算；直接拿 k 当下标会整体错一位
+  const target = values.length - k;
+  push({}, `找第 ${k} 大，也就是排好序后下标 ${target} 的位置。快排要排完两边，快速选择只往答案所在的那一边走，所以平均是 O(n)。`, 0);
+
+  let lo = 0;
+  let hi = a.length - 1;
+  while (true) {
+    const p = a[hi];
+    let i = lo;
+    push({ pivot: hi, range: { lo, hi }, rangeLabel: `区间 ${lo}–${hi}` }, `区间 ${lo}–${hi}，基准 ${p}。`, 3);
+
+    for (let j = lo; j < hi; j++) {
+      compare += 1;
+      push({ pivot: hi, compare: [j], range: { lo, hi } }, `a[${j}]=${a[j]} 与基准 ${p} 比。`, 3);
+      if (a[j] < p) {
+        if (i !== j) { [a[i], a[j]] = [a[j], a[i]]; move += 1; }
+        i += 1;
+      }
+    }
+    [a[i], a[hi]] = [a[hi], a[i]];
+    move += 1;
+    push({ settled: [i], pivot: i, range: { lo, hi } }, `基准落到 ${i}，它左边的都比它小。`, 3);
+
+    if (i === target) {
+      push({ settled: [i], pivot: i }, `下标 ${i} 正好是目标，答案是 ${a[i]}。只分区了一次，另一边完全没碰。`, 4);
+      return { steps, result: { val: a[i] } };
+    }
+    if (i < target) {
+      lo = i + 1;
+      push({ range: { lo, hi } }, `目标在右边，丢掉左半，只处理 ${lo}–${hi}。`, 5);
+    } else {
+      hi = i - 1;
+      push({ range: { lo, hi } }, `目标在左边，丢掉右半，只处理 ${lo}–${hi}。`, 6);
+    }
+  }
+}
+
+function selectInputs() {
+  const make = () => {
+    const s = new Set();
+    while (s.size < 9) s.add(5 + Math.floor(Math.random() * 80));
+    const values = [...s];
+    return { values, k: 1 + Math.floor(Math.random() * values.length) };
+  };
+  return [{ label: '随机 9 个', make }, { label: '再试一组', make }];
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const arrayLegend = [
@@ -498,5 +796,60 @@ export const sortingAlgorithms = [
     inputs: makeInputs(),
     code: quickCode,
     run: quickSort,
+  },
+  {
+    id: 'sort-merge',
+    group: '排序',
+    title: '归并排序',
+    brief: '先对半切到底，再两两合并。合并时左边取到相等就优先取左边——这一条就是归并能做到稳定的原因。代价是要一块临时空间。',
+    view: 'array',
+    facts: [['平均', 'O(n log n)'], ['最坏', 'O(n log n)'], ['空间', 'O(n)'], ['稳定', '是']],
+    counters: '比较、写回',
+    legend: arrayLegend,
+    inputs: makeInputs(),
+    code: mergeCode,
+    run: mergeSort,
+  },
+  {
+    id: 'sort-counting',
+    group: '排序',
+    title: '计数排序',
+    brief: '不比较，只数每个值出现几次，然后从小到大地倒出来。值域有多大就要多少个桶，所以只能用于整数且值域小的场景。',
+    view: 'array',
+    facts: [['平均', 'O(n + k)'], ['空间', 'O(k) 值域'], ['稳定', '可以做到'], ['限制', '只能排整数']],
+    counters: '计数',
+    legend: arrayLegend,
+    inputs: [
+      { label: '值域 0–12', make: () => Array.from({ length: 10 }, () => Math.floor(Math.random() * 13)) },
+      { label: '值域 0–9', make: () => Array.from({ length: 12 }, () => Math.floor(Math.random() * 10)) },
+    ],
+    code: countCode,
+    run: countingSort,
+  },
+  {
+    id: 'sort-shell',
+    group: '排序',
+    title: '希尔排序',
+    brief: '分组做插入排序，间隔从大往小收。大间隔先把远距离的元素大致归位，最后 gap=1 时数组接近有序，插入排序就不吃亏了。',
+    view: 'array',
+    facts: [['平均', '取决于间隔'], ['空间', 'O(1)'], ['稳定', '否'], ['本质', '分组插入']],
+    counters: '比较、移动',
+    legend: arrayLegend,
+    inputs: makeInputs(),
+    code: shellCode,
+    run: shellSort,
+  },
+  {
+    id: 'sort-quickselect',
+    group: '排序',
+    title: '快速选择 · 第 K 大',
+    brief: '和快排同一套分区，但每次只往答案所在的那半边递归。快排两边都要排是 O(n log n)，快速选择只走一边，平均 O(n)。',
+    view: 'array',
+    facts: [['平均', 'O(n)'], ['最坏', 'O(n²)'], ['空间', 'O(1)'], ['对比', '排完再取是 O(n log n)']],
+    counters: '比较、移动',
+    legend: arrayLegend,
+    inputs: selectInputs(),
+    code: selectCode,
+    run: quickSelect,
   },
 ];

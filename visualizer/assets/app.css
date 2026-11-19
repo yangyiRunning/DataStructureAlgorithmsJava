@@ -968,3 +968,10 @@ body.clean .canvas-wrap {
   fill: var(--cream-2);
   stroke: var(--line);
 }
+
+/* 棋盘（N 皇后） */
+
+.cell.board {
+  fill: #FCFAF6;
+  stroke: #E7E0D5;
+}

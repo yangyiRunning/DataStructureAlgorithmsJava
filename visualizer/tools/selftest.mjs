@@ -16,6 +16,7 @@ import { stackAlgorithms } from '../algos/stack.js';
 import { trieAlgorithms } from '../algos/trie.js';
 import { unionFindAlgorithms } from '../algos/unionfind.js';
 import { dpAlgorithms } from '../algos/dp.js';
+import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -33,6 +34,7 @@ const ALL = [
   ...dpAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
+  ...backtrackingAlgorithms,
 ];
 
 let failures = 0;

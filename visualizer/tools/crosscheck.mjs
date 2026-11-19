@@ -24,6 +24,7 @@ import { stackAlgorithms } from '../algos/stack.js';
 import { trieAlgorithms } from '../algos/trie.js';
 import { unionFindAlgorithms } from '../algos/unionfind.js';
 import { dpAlgorithms } from '../algos/dp.js';
+import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -46,6 +47,7 @@ const ALGOS = [
   ...dpAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
+  ...backtrackingAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -103,6 +105,12 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'sort-quickselect':
+      return `val:${result.val}`;
+    case 'bt-permute':
+    case 'bt-subsets':
+    case 'bt-nqueens':
+      return `count:${result.count}`;
     case 'dp-knapsack':
       return `ans:${result.ans}`;
     case 'dp-edit-distance':
@@ -165,6 +173,10 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'sort-quickselect':
+      return `${algoId};${nums(input.values)};${input.k}`;
+    case 'bt-nqueens':
+      return `${algoId};${input}`;
     case 'dp-knapsack':
       return `${algoId};${nums(input.w)};${nums(input.v)};${input.C}`;
     case 'dp-edit-distance':
