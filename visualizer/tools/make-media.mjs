@@ -61,7 +61,7 @@ const CLIPS = [
     algo: 'sort-quick',
     inputIndex: 0,
     fps: 9,
-    maxFrames: 26,
+    maxFrames: 18,
   },
 ];
 
@@ -117,7 +117,8 @@ async function main() {
     process.stdout.write(`${clip.name}：共 ${total} 步，抽 ${idx.length} 帧 `);
     for (let n = 0; n < idx.length; n++) {
       const q = `a=${clip.algo}&i=${clip.inputIndex}&s=${idx[n] + 1}&clean=1`;
-      await shoot(join(dir, `f${String(n).padStart(3, '0')}.png`), q, 1000, 640);
+      // 窗口给高一点：换版后字号和内边距变大，640 会把下方说明条挤出可视区
+      await shoot(join(dir, `f${String(n).padStart(3, '0')}.png`), q, 1000, 840);
       process.stdout.write('.');
     }
     console.log(' 截图完成');
@@ -125,35 +126,48 @@ async function main() {
     // 拼 GIF 交给 Python（Pillow 有现成的调色板和帧时长控制，自己写太费劲）
     const py = `
 from PIL import Image, ImageChops
-import glob, os, sys
+import glob, os
+import numpy as np
 
 src = sorted(glob.glob(os.path.join(r"""${dir}""", "f*.png")))
+WIDTH = 820
 
-def trim(im, pad=10):
-    """按内容自动裁边：拿左上角当作页面底色，和底色差得多的像素才算内容。
-    这样各视图画布高低不同也不用改裁剪坐标（早先写死坐标，链表视图换了高度就裁歪）。"""
-    bg = Image.new("RGB", im.size, im.getpixel((4, 4)))
-    diff = ImageChops.difference(im, bg).convert("L").point(lambda v: 255 if v > 10 else 0)
-    box = diff.getbbox() or (0, 0, im.size[0], im.size[1])
-    x0, y0, x1, y1 = box
-    return im.crop((max(0, x0 - pad), max(0, y0 - pad),
-                    min(im.size[0], x1 + pad), min(im.size[1], y1 + pad)))
+def trim(im, pad=12, tol=12):
+    """按内容裁边。
 
-# 第一帧先裁一次，后面的帧用同一个尺寸，否则 GIF 各帧大小不一致
+    背景不能再用"取左上角一个像素"那种做法：这一版的页面顶部有一层很淡的纵向光晕，
+    整张图从左到右同色、从上到下在变，拿单点颜色当基准会把边缘裁进正文里去。
+    改成逐行右取底色——页面底色只沿纵向变化，横向是均匀的，
+    所以第 y 行的背景就是它最左边那个像素。"""
+    a = np.asarray(im.convert("RGB")).astype(int)
+    h, w, _ = a.shape
+    rowbg = a[:, 0:1, :]                       # 每行最左像素 = 该行底色
+    mask = np.abs(a - rowbg).max(axis=2) > tol
+    if not mask.any():
+        return im
+    cols = np.where(mask.any(axis=0))[0]
+    rows = np.where(mask.any(axis=1))[0]
+    x0 = max(0, cols.min() - pad); x1 = min(w, cols.max() + 1 + pad)
+    y0 = max(0, rows.min() - pad); y1 = min(h, rows.max() + 1 + pad)
+    return im.crop((x0, y0, x1, y1))
+
 raw = [Image.open(p).convert("RGB") for p in src]
-first = trim(raw[0])
-w, h = first.size
-frames = []
-for i, im in enumerate(raw):
-    t = trim(im)
-    canvas = Image.new("RGB", (w, h), (250, 249, 247))
-    canvas.paste(t, ((w - t.size[0]) // 2, (h - t.size[1]) // 2))
-    frames.append(canvas)
-scale = 880 / w
-frames = [f.resize((880, max(120, int(h * scale))), Image.LANCZOS) for f in frames]
 
-pal = frames[0].quantize(colors=128, method=Image.MEDIANCUT, dither=Image.NONE)
-out = [f.quantize(colors=128, method=Image.MEDIANCUT, dither=Image.NONE) for f in frames]
+# 每帧各自裁，然后统一裁到"所有帧里最大的那个框"，多出来的补底色。
+# 直接按第一帧的尺寸对齐的话，某一帧文字多折一行就会被切掉（前一版就这么切的）。
+trimmed = [trim(im) for im in raw]
+tw = max(t.size[0] for t in trimmed)
+th = max(t.size[1] for t in trimmed)
+bg = raw[0].getpixel((4, 4))
+frames = []
+for t in trimmed:
+    canvas = Image.new("RGB", (tw, th), bg)
+    canvas.paste(t, ((tw - t.size[0]) // 2, (th - t.size[1]) // 2))
+    frames.append(canvas)
+
+# 暖色页面上有很淡的渐变，颜色数给多了全是噪点、GIF 越大越糊；64 色对这种界面够用
+frames = [f.resize((WIDTH, max(140, round(th * WIDTH / tw))), Image.LANCZOS) for f in frames]
+out = [f.quantize(colors=64, method=Image.MEDIANCUT, dither=Image.NONE) for f in frames]
 dur = int(1000 / ${clip.fps})
 durations = [dur] * len(out)
 durations[-1] = 1400          # 最后一帧多停一会儿，看完能记住结论

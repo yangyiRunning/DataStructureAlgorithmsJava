@@ -23,6 +23,36 @@ python3 -m http.server 8788
 - `?a=graph-dijkstra` 打开指定算法
 - `?s=12` 直接停在第 12 步（写截图脚本时用得上）
 
+## 风格：和个人主站同一套令牌
+
+这一页将来要作为作品放进主站，所以视觉语言直接对齐
+`personal-site/web/src/styles/base.css`：暖奶油纸底、琥珀渐变、胶囊按钮、
+大圆角卡片、柔光阴影、大字号粗标题。令牌是同一套值（`--brand-*` / `--ink` / `--sub` /
+`--cream` / `--line` / `--card` / `--shadow` / `--radius` / `--font` / `--mono` / `--ease`），
+改主站那套以后这边跟着对一遍就行。
+
+主站的三条硬约束在这里同样成立，改样式前先看一眼：
+
+- **不用 blur 光斑、玻璃拟态、渐变文字、紫青配色** —— 主站栽过三次，别往回退
+- **`--mono` 只给数字和下标**，正文用系统字体栈；满屏等宽就是"技术风"的来源
+- **动效克制**，且 `prefers-reduced-motion: reduce` 下全部关掉（已实现）
+
+演示语义色单独一组，用主站体系里已有的暖琥珀 + 高考产品页那个蓝，
+没引入第三种陌生色：未处理 `#F1E9DC` / 已就位 `#C9B79B` / 比较中 `#3E7FD9` 描边 /
+移动 `#C96A10` 描边 / 基准 `#B45309` 实心。
+
+### 挂到主站时
+
+全部资源都是相对路径，直接拷到 `personal-site/web/public/dsa/` 即可从 `/dsa/` 访问，
+不需要改任何路径（已实测子目录下 index / app.js / views 全部 200）。
+它是纯静态零依赖，和 `web/public/gaokao/`、`web/public/kaleme/` 同一个形态，
+不进 Vue 构建。
+
+**注意**：子目录能跑是我实测过的（`/dsa/` 下 index、app.js、views 全 200）；
+至于"Vite 会把 `web/public/` 下的文件复制进 `web/dist`、再由 `deploy.sh` 同步上线"这一步，
+是照主站现有两个产品页的形态推断的，我没有实际部署验证。真要上线时先在本地
+`npm --prefix web run build` 看一眼 `web/dist/dsa/` 在不在，别直接信这句话。
+
 ## 配图怎么来的
 
 `media/` 下的三张 GIF 和一张界面图不是录屏，是 `tools/make-media.mjs` 按步号逐帧截的：

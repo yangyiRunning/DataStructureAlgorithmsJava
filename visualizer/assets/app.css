@@ -1,32 +1,68 @@
-/* 视觉基调：暖灰纸底、单强调色、无渐变无阴影堆叠。
-   刻意避开高饱和绿色和紫青渐变——那是落地页模板的味道，不是教学页面。 */
+/* =========================================================
+   数据结构与算法 · 动画演示  |  app.css
+
+   视觉语言对齐 yangyi 个人主站（personal-site/web/src/styles/base.css）：
+   暖奶油纸底 + 琥珀渐变 + 胶囊按钮 + 大圆角卡片 + 柔光阴影 + 大字号粗标题。
+
+   ⚠️ 这不是"随手抄几个颜色"。两边的令牌取同一套值：
+      --brand-1/--brand-2/--grad、--ink/--sub/--mut、--cream/--cream-2/--line/--card、
+      --shadow/--glow、--radius/--r-sm、--font/--mono、--ease
+   主站的规矩是：底色不暗、强调色干净、不用光斑和玻璃拟态、动效克制。
+   这一页将来要作为作品放进主站，所以不放任它自己长成另一种风格。
+
+   语义色（比较 / 移动 / 已就位）另外一组，因为演示需要区分状态；
+   用的是主站体系里本来就有的暖琥珀 + 产品页那个蓝，不引入第三种陌生色。
+   ========================================================= */
 
 :root {
-  --bg: #faf9f7;
-  --panel: #ffffff;
-  --ink: #26241f;
-  --ink-2: #6b655d;
-  --ink-3: #9c948a;
-  --line: #e7e3dd;
-  --line-2: #f1ede8;
+  /* —— 与主站同源的令牌 —— */
+  --brand-1: #E0912F;
+  --brand-2: #B45309;
+  --brand: #C96A10;
+  --grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
 
-  --accent: #4a6b7c;
-  /* 蓝灰：当前基准 / 活动元素 */
-  --accent-soft: #e8eef1;
-  --compare: #8d9aa4;
-  /* 比较中 */
-  --swap: #b06a4a;
-  /* 交换 / 移动 */
-  --settled: #a9b5ab;
-  /* 已排定（低饱和灰绿，不刺眼） */
-  --settled-soft: #eef1ee;
+  --ink: #1F2329;
+  --sub: #646A73;
+  --mut: #8F959E;
 
-  --bar: #ded9d2;
-  --bar-stroke: #cfc8bf;
+  --cream: #FEFDFB;
+  --cream-2: #F8F5F0;
+  --line: #E9E3DA;
+  --card: #FFFFFF;
 
+  --shadow: 0 16px 40px rgba(62, 52, 42, .07);
+  --shadow-lg: 0 30px 70px rgba(62, 52, 42, .11);
+  --glow: 0 8px 18px rgba(180, 83, 9, .16);
+
+  --radius: 24px;
+  --r-sm: 9px;
+
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+
+  /* —— 视图里用到的旧变量名，映射到上面这套 ——
+     视图文件（views/*.js）通过 var(--ink-2) 之类取色，改这里就整体生效，
+     不用去五个视图里逐个替换，也避免漏改。 */
+  --bg: var(--cream);
+  --panel: var(--card);
+  --ink-2: var(--sub);
+  --ink-3: var(--mut);
+
+  /* —— 演示语义色 —— */
+  /* 静默态用暖灰，动作态用琥珀，比较态用那个蓝（高考产品页同色），已就位压暗一档 */
+  --viz-idle: #F1E9DC;
+  --viz-idle-edge: #DFD2BC;
+  --viz-done: #C9B79B;
+  --viz-done-edge: #B3A184;
+  --viz-compare: #E4EDFA;
+  --viz-compare-edge: #3E7FD9;
+  --viz-move: #FBE2C8;
+  --viz-move-edge: #C96A10;
+  --viz-focus: #B45309;
+
+  color-scheme: light;
 }
 
 * {
@@ -40,92 +76,123 @@ body {
 }
 
 body {
-  background: var(--bg);
+  background: var(--cream);
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--font);
   font-size: 15px;
-  line-height: 1.65;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── 顶部 ───────────────────────────────────────────── */
+/* 一层常驻日光：极淡的暖色光晕压在最上面，模拟纸面被打亮的层次。
+   不用 blur 光斑（主站明确否过"雾霾感"），这里只是一段线性渐变。 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 420px;
+  background: linear-gradient(180deg, rgba(245, 165, 36, .06), rgba(254, 253, 251, 0));
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 顶栏 ───────────────────────────────────────────────── */
 
 .topbar {
-  padding: 28px 32px 20px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px 34px 18px;
   border-bottom: 1px solid var(--line);
+  background: rgba(254, 253, 251, .82);
+  backdrop-filter: saturate(1.1) blur(6px);
 }
 
 .brand {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 与主站 logo 同构：琥珀渐变圆角方块 */
+.brand::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--grad);
+  box-shadow: var(--glow);
 }
 
 .brand h1 {
   margin: 0;
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: .01em;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.01em;
 }
 
 .badge {
-  font-size: 12px;
-  color: var(--ink-2);
-  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--brand-2);
+  border: 1.5px solid var(--line);
   border-radius: 999px;
-  padding: 1px 9px;
-  background: var(--panel);
+  padding: 2px 12px;
+  background: var(--card);
 }
 
 .lede {
-  margin: 8px 0 0;
-  max-width: 78ch;
-  color: var(--ink-2);
+  margin: 0;
+  max-width: 74ch;
+  color: var(--sub);
   font-size: 13.5px;
 }
 
 .lede code {
   font-family: var(--mono);
   font-size: 12.5px;
-  background: var(--line-2);
-  padding: 1px 5px;
-  border-radius: 4px;
+  background: var(--cream-2);
+  padding: 1px 6px;
+  border-radius: 6px;
+  color: var(--brand-2);
 }
 
-/* ── 三栏布局 ───────────────────────────────────────── */
+/* ── 三栏布局 ───────────────────────────────────────────── */
 
 .layout {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: 208px minmax(0, 1fr) 392px;
-  gap: 0;
+  grid-template-columns: 214px minmax(0, 1fr) 420px;
   align-items: stretch;
-  min-height: calc(100vh - 130px);
+  min-height: calc(100vh - 132px);
 }
 
 /* 目录 */
 
 .sidebar {
-  border-right: 1px solid var(--line);
-  padding: 20px 12px 32px;
+  padding: 22px 14px 40px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  max-height: calc(100vh - 132px);
   position: sticky;
   top: 0;
   align-self: start;
 }
 
 .nav-group {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
-.nav-group>h3 {
-  margin: 0 0 6px;
-  padding: 0 8px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+.nav-group > h3 {
+  margin: 0 0 8px;
+  padding: 0 10px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--brand-2);
+  letter-spacing: .02em;
 }
 
 .nav-item {
@@ -136,73 +203,96 @@ body {
   background: none;
   font: inherit;
   font-size: 13.5px;
-  color: var(--ink-2);
-  padding: 5px 8px;
-  border-radius: 6px;
+  color: var(--sub);
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
   cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
 }
 
 .nav-item:hover {
-  background: var(--line-2);
+  background: var(--cream-2);
   color: var(--ink);
 }
 
 .nav-item[aria-current="true"] {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 600;
+  background: var(--card);
+  color: var(--brand-2);
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  transform: translateX(2px);
 }
 
 /* 主区 */
 
 .stage {
-  padding: 22px 28px 40px;
+  padding: 26px 30px 48px;
   min-width: 0;
+  animation: rise .45s var(--ease) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .stage-head h2 {
   margin: 0;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.015em;
 }
 
 #brief {
-  margin: 6px 0 0;
-  color: var(--ink-2);
-  font-size: 13.5px;
-  max-width: 70ch;
+  margin: 8px 0 0;
+  color: var(--sub);
+  font-size: 14px;
+  max-width: 66ch;
 }
 
 .facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 20px;
-  margin: 12px 0 0;
+  gap: 8px;
+  margin: 14px 0 0;
   font-size: 12.5px;
-  color: var(--ink-2);
 }
 
 .facts div {
   display: flex;
   gap: 6px;
+  align-items: baseline;
+  background: var(--cream-2);
+  border-radius: 999px;
+  padding: 3px 12px;
 }
 
 .facts dt {
-  color: var(--ink-3);
+  color: var(--mut);
 }
 
 .facts dd {
   margin: 0;
   font-family: var(--mono);
   font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-2);
 }
 
 .canvas-wrap {
-  margin-top: 16px;
-  background: var(--panel);
+  margin-top: 18px;
+  background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 6px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 10px;
 }
 
 #view {
@@ -218,53 +308,56 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 16px 22px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .transport {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
 .transport button {
   font: inherit;
   font-size: 13px;
   line-height: 1;
-  min-width: 34px;
-  height: 30px;
-  padding: 0 8px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--ink-2);
-  border-radius: 7px;
+  min-width: 38px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--sub);
+  border-radius: 999px;
   cursor: pointer;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), color .2s;
 }
 
-.transport button:hover {
-  border-color: var(--bar-stroke);
-  color: var(--ink);
+.transport button:hover:not(:disabled) {
+  color: var(--brand-2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(62, 52, 42, .10);
 }
 
 .transport button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--grad);
+  border: none;
   color: #fff;
-  min-width: 46px;
+  min-width: 54px;
+  box-shadow: var(--glow);
 }
 
 .transport button.primary:hover {
-  filter: brightness(1.08);
+  box-shadow: 0 20px 36px rgba(240, 135, 10, .38);
 }
 
 .transport button:disabled {
-  opacity: .45;
+  opacity: .4;
   cursor: default;
 }
 
 .scrub {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex: 1 1 240px;
   min-width: 200px;
 }
@@ -272,8 +365,8 @@ body {
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
-  border-radius: 2px;
+  height: 5px;
+  border-radius: 3px;
   background: var(--line);
   outline: none;
   flex: 1;
@@ -281,27 +374,28 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--brand);
+  box-shadow: 0 3px 8px rgba(180, 83, 9, .3);
   cursor: pointer;
 }
 
 output {
   font-family: var(--mono);
   font-size: 12px;
-  color: var(--ink-3);
-  min-width: 62px;
+  color: var(--mut);
+  min-width: 64px;
   text-align: right;
 }
 
 .speed {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 12.5px;
-  color: var(--ink-3);
+  color: var(--mut);
 }
 
 .speed input[type="range"] {
@@ -310,21 +404,25 @@ output {
 }
 
 .note {
-  margin: 14px 0 0;
-  min-height: 44px;
-  padding: 10px 14px;
-  background: var(--panel);
+  margin: 16px 0 0;
+  min-height: 46px;
+  padding: 12px 16px;
+  background: var(--card);
   border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  border-radius: 6px;
-  font-size: 13.5px;
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow);
+  font-size: 14px;
   color: var(--ink);
+}
+
+.note:empty {
+  display: none;
 }
 
 /* 输入切换 */
 
 .inputs {
-  margin-top: 16px;
+  margin-top: 18px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -333,46 +431,49 @@ output {
 
 .inputs-label {
   font-size: 12.5px;
-  color: var(--ink-3);
+  color: var(--mut);
 }
 
 #input-buttons {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 #input-buttons button {
   font: inherit;
   font-size: 12.5px;
-  padding: 4px 11px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--ink-2);
+  padding: 6px 15px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--sub);
   border-radius: 999px;
   cursor: pointer;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), color .2s;
 }
 
 #input-buttons button:hover {
-  border-color: var(--bar-stroke);
-  color: var(--ink);
+  color: var(--brand-2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(62, 52, 42, .10);
 }
 
 #input-buttons button[aria-pressed="true"] {
-  background: var(--accent-soft);
-  border-color: #c9d8df;
-  color: var(--accent);
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--glow);
 }
 
-/* ── 代码栏 ─────────────────────────────────────────── */
+/* ── 代码栏 ─────────────────────────────────────────────── */
 
 .code-pane {
+  background: transparent;
   border-left: 1px solid var(--line);
-  background: var(--panel);
-  padding: 18px 18px 28px;
+  padding: 22px 20px 32px;
   font-size: 12.5px;
   overflow-y: auto;
-  max-height: calc(100vh - 130px);
+  max-height: calc(100vh - 132px);
   position: sticky;
   top: 0;
   align-self: start;
@@ -382,29 +483,29 @@ output {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 11.5px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 8px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--brand-2);
+  margin-bottom: 10px;
 }
 
 .line-no {
   font-family: var(--mono);
-  text-transform: none;
-  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--mut);
 }
 
 #code {
   margin: 0;
   font-family: var(--mono);
   font-size: 11px;
-  line-height: 1.75;
-  color: var(--ink-2);
-  background: #fbfaf8;
-  border: 1px solid var(--line-2);
-  border-radius: 8px;
-  padding: 10px 0;
+  line-height: 1.8;
+  color: var(--sub);
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  border-radius: 12px;
+  padding: 12px 0;
   overflow-x: auto;
   counter-reset: ln;
 }
@@ -422,87 +523,308 @@ output {
   width: 26px;
   padding-right: 10px;
   text-align: right;
-  color: #c3bcb2;
+  color: #C9BFB0;
   user-select: none;
 }
 
+/* 当前行：琥珀底色 + 左侧实心竖条。主站里琥珀只用在会发光的东西上，高亮行正合适。 */
 #code .ln.on {
-  background: #f0f4f6;
-  box-shadow: inset 3px 0 0 var(--accent);
+  background: #FBEFD9;
+  box-shadow: inset 3px 0 0 var(--brand);
   color: var(--ink);
 }
 
 /* 计数器 */
 
 .counters {
-  margin-top: 16px;
+  margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 10px;
 }
 
 .counter {
-  background: #fbfaf8;
-  border: 1px solid var(--line-2);
-  border-radius: 8px;
-  padding: 7px 10px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 9px 12px;
 }
 
 .counter .k {
   display: block;
-  font-size: 11px;
-  color: var(--ink-3);
+  font-size: 11.5px;
+  color: var(--mut);
 }
 
 .counter .v {
   font-family: var(--mono);
-  font-size: 15px;
-  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brand-2);
 }
 
 /* 图例 */
 
 .legend {
-  margin-top: 18px;
-  font-size: 12px;
-  color: var(--ink-2);
+  margin-top: 20px;
+  font-size: 12.5px;
+  color: var(--sub);
 }
 
 .legend summary {
   cursor: pointer;
-  color: var(--ink-3);
-  font-size: 11.5px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--brand-2);
 }
 
 .legend ul {
   list-style: none;
-  margin: 10px 0 0;
+  margin: 12px 0 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .legend li {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
 }
 
 .legend .sw {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  border: 1px solid var(--bar-stroke);
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
   flex: none;
 }
 
-/* ── 窄屏 ───────────────────────────────────────────── */
+/* ── SVG 视图元素 ────────────────────────────────────────
+   颜色只能写在 CSS 里：SVG 的 fill 属性写 var(--x) 在部分浏览器不生效。
+   覆盖顺序不能乱——is-settled 在前，is-compare / is-move / is-pivot 在后，
+   后写的规则优先级相同但位置靠后，才能盖住"已就位又被重新比较"的瞬时状态。 */
+
+.bar {
+  fill: var(--viz-idle);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1;
+  transition: fill .15s linear, stroke .15s linear;
+}
+
+.bar.is-settled {
+  fill: var(--viz-done);
+  stroke: var(--viz-done-edge);
+}
+
+.bar.is-compare {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+}
+
+.bar.is-move {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+}
+
+.bar.is-pivot {
+  fill: var(--viz-focus);
+  stroke: var(--viz-focus);
+}
+
+.axis {
+  stroke: var(--line);
+}
+
+.bracket {
+  stroke: #DDD1BC;
+}
+
+.ptr-arrow {
+  fill: var(--brand-2);
+}
+
+/* 链表 */
+
+.node {
+  fill: var(--card);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.6;
+}
+
+.node.is-active {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 2;
+}
+
+.node.is-moved {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+  stroke-width: 2;
+}
+
+.node.is-removed {
+  fill: var(--cream-2);
+  stroke-dasharray: 4 3;
+  opacity: .6;
+}
+
+.edge {
+  stroke: #CBBFA9;
+  stroke-width: 1.5;
+}
+
+.edge.is-back {
+  stroke: var(--viz-move-edge);
+  stroke-width: 2;
+}
+
+.edge.is-tail {
+  stroke: #DDD1BC;
+}
+
+.arrow-head {
+  fill: #CBBFA9;
+}
+
+.arrow-head-back {
+  fill: var(--viz-move-edge);
+}
+
+.ptr-line {
+  stroke: var(--brand-2);
+  stroke-width: 1;
+}
+
+/* 树 */
+
+.tnode {
+  fill: var(--card);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.7;
+}
+
+.tnode.is-active {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 2.2;
+}
+
+.tnode.is-moving {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+  stroke-width: 2.2;
+}
+
+.tnode.is-visited {
+  fill: #F1EADC;
+  stroke: var(--viz-done-edge);
+}
+
+.tree-edge {
+  stroke: #CBBFA9;
+  stroke-width: 1.4;
+}
+
+.tree-edge.is-moving {
+  stroke: var(--viz-move-edge);
+  stroke-width: 2;
+}
+
+/* 堆的数组带：和树上节点共用同一套高亮语义，颜色才能对上 */
+
+.cell {
+  fill: var(--card);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.3;
+}
+
+.cell.is-active {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 1.9;
+}
+
+.cell.is-compare {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 1.6;
+}
+
+.cell.is-settled {
+  fill: #F1EADC;
+  stroke: var(--viz-done-edge);
+}
+
+.tnode.is-compare {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 2;
+}
+
+.tnode.is-settled {
+  fill: #F1EADC;
+  stroke: var(--viz-done-edge);
+}
+
+/* 图 */
+
+.gnode {
+  fill: var(--card);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.7;
+}
+
+.gnode.is-frontier {
+  fill: #FAF3E7;
+  stroke: #D3BD97;
+}
+
+.gnode.is-current {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 2.4;
+}
+
+.gnode.is-visited {
+  fill: #F1EADC;
+  stroke: var(--viz-done-edge);
+}
+
+.gedge {
+  stroke: #CBBFA9;
+  stroke-width: 1.5;
+}
+
+.gedge.is-tree {
+  stroke: var(--brand);
+  stroke-width: 2.4;
+}
+
+.gedge.is-relax {
+  stroke: var(--viz-move-edge);
+  stroke-width: 2.2;
+}
+
+.gedge.is-rejected {
+  stroke: #E2D8C6;
+  stroke-dasharray: 3 3;
+}
+
+.arrow-head-on {
+  fill: var(--brand);
+}
+
+.wbg {
+  fill: var(--card);
+}
+
+/* ── 窄屏 ───────────────────────────────────────────────── */
 
 @media (max-width: 1180px) {
   .layout {
-    grid-template-columns: 176px minmax(0, 1fr);
+    grid-template-columns: 184px minmax(0, 1fr);
   }
 
   .code-pane {
@@ -522,12 +844,11 @@ output {
   .sidebar {
     position: static;
     max-height: none;
-    border-right: 0;
     border-bottom: 1px solid var(--line);
     display: flex;
-    gap: 18px;
+    gap: 20px;
     overflow-x: auto;
-    padding: 12px 16px;
+    padding: 14px 16px;
   }
 
   .nav-group {
@@ -539,233 +860,15 @@ output {
   }
 
   .stage {
-    padding: 18px 16px 32px;
+    padding: 20px 16px 36px;
   }
 
   .topbar {
-    padding: 20px 16px 16px;
+    padding: 18px 16px 16px;
   }
 }
 
-/* ── SVG 视图元素 ────────────────────────────────────────
-   颜色只能写在 CSS 里：SVG 的 fill 属性写 var(--x) 在部分浏览器不生效。
-   覆盖顺序不能乱——is-settled 在前，is-compare / is-move / is-pivot 在后，
-   后写的规则优先级相同但位置靠后，才能盖住"已就位又被重新比较"的瞬时状态。 */
-
-.bar {
-  fill: var(--bar);
-  stroke: var(--bar-stroke);
-  stroke-width: 1;
-  transition: fill .09s linear, stroke .09s linear;
-}
-
-.bar.is-settled {
-  fill: var(--settled);
-  stroke: #9daa9f;
-}
-
-.bar.is-compare {
-  fill: var(--compare);
-  stroke: var(--compare);
-}
-
-.bar.is-move {
-  fill: var(--swap);
-  stroke: var(--swap);
-}
-
-.bar.is-pivot {
-  fill: var(--accent);
-  stroke: var(--accent);
-}
-
-.axis {
-  stroke: var(--line);
-}
-
-.bracket {
-  stroke: #d9d3cb;
-}
-
-.ptr-arrow {
-  fill: var(--accent);
-}
-
-/* 链表 */
-
-.node {
-  fill: #ffffff;
-  stroke: #cfc8bf;
-  stroke-width: 1.4;
-}
-
-.node.is-active {
-  fill: #edf2f4;
-  stroke: var(--accent);
-  stroke-width: 1.8;
-}
-
-.node.is-moved {
-  fill: #f7efe9;
-  stroke: var(--swap);
-}
-
-.node.is-removed {
-  fill: #f3f1ee;
-  stroke-dasharray: 4 3;
-  opacity: .6;
-}
-
-.edge {
-  stroke: #bcb5ab;
-  stroke-width: 1.4;
-}
-
-.edge.is-back {
-  stroke: var(--swap);
-}
-
-.edge.is-tail {
-  stroke: #d6d0c7;
-}
-
-.arrow-head {
-  fill: #bcb5ab;
-}
-
-.arrow-head-back {
-  fill: var(--swap);
-}
-
-.ptr-line {
-  stroke: var(--accent);
-  stroke-width: 1;
-}
-
-/* 树 */
-
-.tnode {
-  fill: #ffffff;
-  stroke: #cfc8bf;
-  stroke-width: 1.5;
-}
-
-.tnode.is-active {
-  fill: #edf2f4;
-  stroke: var(--accent);
-  stroke-width: 2;
-}
-
-.tnode.is-moving {
-  fill: #f7efe9;
-  stroke: var(--swap);
-  stroke-width: 2;
-}
-
-.tnode.is-visited {
-  fill: var(--settled-soft);
-  stroke: #b3bdb4;
-}
-
-.tree-edge {
-  stroke: #c4bdb3;
-  stroke-width: 1.3;
-}
-
-.tree-edge.is-moving {
-  stroke: var(--swap);
-  stroke-width: 1.8;
-}
-
-/* 堆的数组带：和树上节点共用同一套高亮语义，颜色才能对上 */
-
-.cell {
-  fill: #fbfaf8;
-  stroke: #d3ccc2;
-  stroke-width: 1.2;
-}
-
-.cell.is-active {
-  fill: #edf2f4;
-  stroke: var(--accent);
-  stroke-width: 1.7;
-}
-
-.cell.is-compare {
-  fill: #eef1f3;
-  stroke: var(--compare);
-  stroke-width: 1.5;
-}
-
-.cell.is-settled {
-  fill: var(--settled-soft);
-  stroke: #b3bdb4;
-}
-
-.tnode.is-compare {
-  fill: #eef1f3;
-  stroke: var(--compare);
-  stroke-width: 1.9;
-}
-
-.tnode.is-settled {
-  fill: var(--settled-soft);
-  stroke: #b3bdb4;
-}
-
-/* 图 */
-
-.gnode {
-  fill: #ffffff;
-  stroke: #cfc8bf;
-  stroke-width: 1.6;
-}
-
-.gnode.is-frontier {
-  fill: #f3f6f7;
-  stroke: #a3b3bc;
-}
-
-.gnode.is-current {
-  fill: #edf2f4;
-  stroke: var(--accent);
-  stroke-width: 2.4;
-}
-
-.gnode.is-visited {
-  fill: var(--settled-soft);
-  stroke: #b3bdb4;
-}
-
-.gedge {
-  stroke: #c8c1b7;
-  stroke-width: 1.4;
-}
-
-.gedge.is-tree {
-  stroke: var(--accent);
-  stroke-width: 2.2;
-}
-
-.gedge.is-relax {
-  stroke: var(--swap);
-  stroke-width: 2;
-}
-
-.gedge.is-rejected {
-  stroke: #ddd7ce;
-  stroke-dasharray: 3 3;
-}
-
-.arrow-head-on {
-  fill: var(--accent);
-}
-
-.wbg {
-  fill: var(--panel);
-}
-
-/* ?clean=1 嵌入模式：只剩演示区 */
+/* ── 嵌入模式 ?clean=1 ─────────────────────────────────── */
 
 body.clean .topbar,
 body.clean .sidebar,
@@ -780,14 +883,35 @@ body.clean .layout {
 }
 
 body.clean .stage {
-  padding: 18px 22px 22px;
+  padding: 20px 24px 24px;
 }
 
 body.clean .stage-head h2 {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 body.clean .canvas-wrap {
   margin-top: 12px;
-  padding: 4px;
+  padding: 6px;
+}
+
+/* ── 动效降级 ─────────────────────────────────────────────
+   主站要求：所有动效在 reduce 下关闭。这一页只有进场浮现和悬停位移。 */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .stage,
+  .nav-item,
+  .transport button,
+  #input-buttons button,
+  .bar {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .nav-item[aria-current="true"],
+  .transport button:hover:not(:disabled),
+  #input-buttons button:hover {
+    transform: none;
+  }
 }
