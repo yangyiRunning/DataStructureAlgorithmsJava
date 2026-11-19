@@ -65,6 +65,7 @@ const dom = {
 let current = null;      // 当前算法对象
 let codeLines = [];      // 代码栏的 <span> 节点，按行
 let counterNodes = {};   // 计数器节点，避免每步重建
+let inputSpecs = [];     // 当前算法的输入用例，供 ?i= 和按钮共用
 
 const player = new Player({ onChange: paint });
 
@@ -133,14 +134,10 @@ function select(id) {
 
   // 输入按钮
   empty(dom.inputButtons);
+  inputSpecs = algo.inputs ?? [];
   (algo.inputs ?? []).forEach((spec, idx) => {
     const btn = h('button', { type: 'button', text: spec.label, 'aria-pressed': 'false' });
-    btn.addEventListener('click', () => {
-      for (const b of dom.inputButtons.querySelectorAll('button')) {
-        b.setAttribute('aria-pressed', String(b === btn));
-      }
-      load(algo, spec.make());
-    });
+    btn.addEventListener('click', () => chooseInput(idx));
     dom.inputButtons.appendChild(btn);
     if (idx === 0) btn.setAttribute('aria-pressed', 'true');
   });
@@ -173,6 +170,15 @@ function legendColor(cls) {
   probe.remove();
   COLOR_CACHE.set(cls, color);
   return color;
+}
+
+/** 切到第 idx 组输入用例。地址栏的 ?i= 也走这里，保证两条路径行为完全一致 */
+function chooseInput(idx) {
+  const spec = inputSpecs[idx];
+  if (!current || !spec) return;
+  const buttons = dom.inputButtons.querySelectorAll('button');
+  buttons.forEach((b, i) => b.setAttribute('aria-pressed', String(i === idx)));
+  load(current, spec.make());
 }
 
 function load(algo, input) {
@@ -281,5 +287,9 @@ select(wanted && ALGOS.some((a) => a.id === wanted) ? wanted : ALGOS[0].id);
 
 // ?s=12 直接跳到第 12 步。写截图脚本时要停在特定一帧（比如反转进行到一半），
 // 没这个参数就得用无头浏览器去模拟点击，很容易点不稳。
+// ?i=3 打开第 4 组输入用例（比如 AVL 的 LR 那一组）
+const inputIdx = Number(params.get('i'));
+if (Number.isInteger(inputIdx) && inputIdx > 0 && inputIdx < inputSpecs.length) chooseInput(inputIdx);
+
 const at = Number(params.get('s'));
 if (Number.isFinite(at) && at > 0) player.goto(at - 1);
