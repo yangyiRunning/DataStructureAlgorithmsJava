@@ -1,28 +1,42 @@
 /**
- * 数组视图：柱状图 + 下标 + 指针（i / j / key …）。
+ * 数组视图：柱状图或字符格 + 下标 + 指针 + 底部容器条。
  *
- * 排序、二分查找这类"按下标操作"的算法都用它。
- * 视图只读 state，不改 state，也不关心哪个算法在跑——同一份 state 谁都能画。
+ * 两种形态：
+ *   - 有 state.values 时按柱状图画（数值有意义，比如排序、前缀和）
+ *   - 有 state.chars 时按等高等宽的格子画字符（字符串题，柱子会变成一堆等高方块没有意义）
+ *
+ * 底部容器条（state.container）用来显示栈 / 队列 / 窗口内容。
+ * 单调栈、单调队列这类题，光看指针动是看不懂的，必须同时看到容器里的东西。
  */
 import { el, empty, label } from '../core/svg.js';
 
 const W = 900;
-const H = 380;
-const PAD = { top: 46, right: 34, bottom: 86, left: 34 };
+const BASE_H = 430;   // 柱状模式
+const CHAR_H = 300;   // 字符模式：格子高度固定，用不到那么高
+const PAD = { top: 52, right: 34, bottom: 122, left: 34 };
 
 export function render(svg, state) {
   empty(svg);
 
-  const values = state.values ?? [];
+  const chars = state.chars ?? null;
+  const values = state.values ?? (chars ? chars.map(() => 1) : []);
   const n = values.length;
   if (!n) return;
 
+  // 画布高度必须在这里定下来：viewBox 由 geometryFor 报告同一个值，
+  // 两边不一致的话，元素会按 430 的坐标画进 300 的视口，整体压扁。
+  const H = chars ? CHAR_H : BASE_H;
+
   const plotW = W - PAD.left - PAD.right;
-  const plotH = H - PAD.top - PAD.bottom;
-  const baseline = H - PAD.bottom;
+  const plotH = H - PAD.top - PAD.bottom;   // 字符模式由 geometryFor 传入较矮的 H
+  // 字符模式的格子高度固定，按柱子的底部对齐会把内容压到画布最下面，
+  // 括号和格子之间空一大截。所以字符模式单独算基线，把内容顶到靠上的位置。
+  const cellH = Math.min(64, Math.max(40, plotH * 0.34));
+  const baseline = chars ? PAD.top + 60 + cellH : H - PAD.bottom;
+  // 括号跟着内容走：柱状模式在画布顶部，字符模式贴在格子上面
+  const bracketY = chars ? baseline - cellH - 18 : PAD.top - 16;
 
   const slot = plotW / n;
-  // 柱子占格子的 72%，两边留白，相邻柱子才不会糊成一片
   const barW = Math.max(6, slot * 0.72);
   const maxVal = Math.max(...values, 1);
 
@@ -30,26 +44,26 @@ export function render(svg, state) {
   const compare = new Set(state.compare ?? []);
   const move = new Set(state.move ?? []);
   const pivot = state.pivot ?? -1;
+  const window_ = state.window ?? null;
 
-  // 当前处理区间的小括号，画在柱子上方
-  if (state.range) {
-    const { lo, hi } = state.range;
-    if (hi >= lo) {
-      const x1 = PAD.left + lo * slot + slot * 0.5 - barW * 0.5 - 2;
-      const x2 = PAD.left + hi * slot + slot * 0.5 + barW * 0.5 + 2;
-      const y = PAD.top - 16;
-      svg.appendChild(el('path', {
-        class: 'bracket',
-        d: `M ${x1} ${y + 7} L ${x1} ${y} L ${x2} ${y} L ${x2} ${y + 7}`,
-        fill: 'none',
-        'stroke-width': 1.2,
-      }));
-      svg.appendChild(label((x1 + x2) / 2, y - 5,
-        state.rangeLabel ?? `待处理 ${lo}–${hi}`, { size: 11, fill: 'var(--ink-3)' }));
-    }
-  }
+  // 区间括号（递归范围 / 未处理段 / 当前窗口）
+  const drawBracket = (lo, hi, text) => {
+    if (hi < lo) return;
+    const x1 = PAD.left + lo * slot + slot * 0.5 - barW * 0.5 - 2;
+    const x2 = PAD.left + hi * slot + slot * 0.5 + barW * 0.5 + 2;
+    const y = bracketY;
+    svg.appendChild(el('path', {
+      class: 'bracket',
+      d: `M ${x1} ${y + 7} L ${x1} ${y} L ${x2} ${y} L ${x2} ${y + 7}`,
+      fill: 'none',
+      'stroke-width': 1.2,
+    }));
+    svg.appendChild(label((x1 + x2) / 2, y - 5, text, { size: 11, fill: 'var(--ink-3)' }));
+  };
 
-  // 基线
+  if (state.range) drawBracket(state.range.lo, state.range.hi, state.rangeLabel ?? `区间 ${state.range.lo}–${state.range.hi}`);
+  if (window_) drawBracket(window_.lo, window_.hi, state.windowLabel ?? `窗口 ${window_.lo}–${window_.hi}`);
+
   svg.appendChild(el('line', {
     x1: PAD.left - 6,
     x2: W - PAD.right + 6,
@@ -60,46 +74,84 @@ export function render(svg, state) {
   }));
 
   values.forEach((v, i) => {
-    const h = Math.max(3, (v / maxVal) * (plotH - 18));
     const cx = PAD.left + i * slot + slot / 2;
-    const x = cx - barW / 2;
+    // 字符模式用固定高度的格子，柱状模式按值缩放
+    const h = chars ? cellH : Math.max(3, (v / maxVal) * (plotH - 18));
+    const w = chars ? Math.min(52, slot * 0.78) : barW;
+    const x = cx - w / 2;
     const y = baseline - h;
 
-    let cls = 'bar';
+    let cls = chars ? 'cell' : 'bar';
     if (settled.has(i)) cls += ' is-settled';
     if (compare.has(i)) cls += ' is-compare';
     if (move.has(i)) cls += ' is-move';
     if (i === pivot) cls += ' is-pivot';
 
-    svg.appendChild(el('rect', {
-      class: cls,
-      x,
-      y,
-      width: barW,
-      height: h,
-      rx: 2,
-    }));
+    svg.appendChild(el('rect', { class: cls, x, y, width: w, height: h, rx: chars ? 6 : 2 }));
 
-    svg.appendChild(label(cx, y - 6, String(v), { size: 11, mono: true, fill: 'var(--ink-2)' }));
+    if (chars) {
+      svg.appendChild(label(cx, baseline - h / 2 + 6, String(chars[i]), {
+        size: 17, mono: true, fill: 'var(--ink)', weight: 600,
+      }));
+    } else {
+      svg.appendChild(label(cx, y - 6, String(v), { size: 11, mono: true, fill: 'var(--ink-2)' }));
+    }
     svg.appendChild(label(cx, baseline + 17, String(i), { size: 10, mono: true, fill: 'var(--ink-3)' }));
   });
 
-  // 指针：key 用方括号包围，其余是普通字母，一眼能分清"值"和"游标"
+  // 指针：同一个下标上可能同时站着两个（比如 left 和 right 撞在一起），
+  // 各画各的会把文字叠成一坨看不清，所以按下标合并，名字用 / 连起来。
+  const ptrAt = new Map();
   for (const p of state.pointers ?? []) {
     if (p.i == null || p.i < 0 || p.i >= n) continue;
-    const cx = PAD.left + p.i * slot + slot / 2;
-    const y = baseline + 44;
+    if (!ptrAt.has(p.i)) ptrAt.set(p.i, []);
+    ptrAt.get(p.i).push(p);
+  }
+  for (const [i, group] of ptrAt) {
+    const cx = PAD.left + i * slot + slot / 2;
+    const y = baseline + 46;
+    const muted = group.every((g) => g.muted);
     svg.appendChild(el('path', {
       class: 'ptr-arrow',
       d: `M ${cx} ${y - 9} l -4.5 7 l 9 0 Z`,
     }));
-    svg.appendChild(label(cx, y + 16, p.text, {
-      size: 11,
-      mono: true,
-      fill: p.muted ? 'var(--ink-3)' : 'var(--accent)',
-      weight: 600,
+    svg.appendChild(label(cx, y + 16, group.map((g) => g.text).join(' / '), {
+      size: 11, mono: true, weight: 600,
+      fill: muted ? 'var(--ink-3)' : 'var(--brand-2)',
     }));
+  }
+
+  // 底部容器条：栈 / 队列 / 结果序列
+  const box = state.container;
+  if (box && box.items) {
+    // 贴着指针下方放，不要钉在画布最底部——内容短的时候中间会空出一大块
+    const y = Math.min(H - 34, baseline + 96);
+    svg.appendChild(label(72, y + 18, box.label, { size: 11, fill: 'var(--ink-3)', anchor: 'end' }));
+    const cellW = 42;
+    if (!box.items.length) {
+      svg.appendChild(label(86, y + 18, '（空）', { size: 11, fill: 'var(--ink-3)', anchor: 'start' }));
+    }
+    box.items.forEach((it, i) => {
+      const x = 86 + i * (cellW + 4);
+      if (x + cellW > W - 20) return;
+      const hot = it && typeof it === 'object' && it.hot;
+      svg.appendChild(el('rect', {
+        class: hot ? 'cell is-active' : 'cell',
+        x, y, width: cellW, height: 26, rx: 5,
+      }));
+      svg.appendChild(label(x + cellW / 2, y + 18, String(it?.text ?? it), {
+        size: 11, mono: true, fill: 'var(--ink)',
+      }));
+    });
   }
 }
 
-export const geometry = { W, H };
+export const geometry = { W, H: BASE_H };
+
+/**
+ * 字符模式用矮画布：格子高度固定，用 430 的柱子高度会把内容顶到中间留一大片空白。
+ * 柱状模式仍然用满高度，不然数值大的柱子会被压扁。
+ */
+export function geometryFor(state) {
+  return { W, H: state?.chars ? CHAR_H : BASE_H };
+}

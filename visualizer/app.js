@@ -16,6 +16,9 @@ import * as treeView from './views/treeView.js';
 import * as heapView from './views/heapView.js';
 import * as graphView from './views/graphView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
+import { binarySearchAlgorithms } from './algos/binarysearch.js';
+import { twoPointerAlgorithms } from './algos/twopointers.js';
+import { stackAlgorithms } from './algos/stack.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -31,7 +34,10 @@ const VIEWS = {
 
 const ALGOS = [
   ...sortingAlgorithms,
+  ...binarySearchAlgorithms,
   ...linkedListAlgorithms,
+  ...twoPointerAlgorithms,
+  ...stackAlgorithms,
   ...treeAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
@@ -233,7 +239,8 @@ function paint({ step, index, total, playing }) {
   }
 
   const view = VIEWS[step.view] ?? VIEWS.array;
-  const g = view.geometry;
+  // 有的视图尺寸随内容变（比如数组视图的字符模式用矮画布），允许单独提供
+  const g = view.geometryFor?.(step.state) ?? view.geometry;
   if (g) dom.view.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
   view.render(dom.view, step.state, step);
 }

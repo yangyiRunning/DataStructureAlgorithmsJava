@@ -2,7 +2,9 @@
 
 把仓库里那些刷题代码讲义化：每个算法跑一遍，把执行过程逐帧录下来，页面再回放。
 
-在线目录见 `index.html`，16 个演示分成四组：排序、链表、树、堆、图。
+在线目录见 `index.html`，29 个演示分成八组：排序、查找、链表、双指针与滑窗、栈与队列、树、堆、图。
+
+完整知识点清单在 [TOPICS.md](TOPICS.md)：共 73 项，标了哪项已有、哪项待做。
 
 ## 怎么跑
 
@@ -96,7 +98,15 @@ assets/app.css        全部样式（含 SVG 元素的配色规则）
 core/player.js        回放器：只管第几步，不认识任何算法
 core/svg.js           极小的 SVG 构造工具
 views/                视图：array / list / tree / heap / graph
-algos/                算法：每个文件一组，导出一个数组
+algos/sorting.js      排序四件套
+algos/binarysearch.js 二分六个变体
+algos/linkedlist.js   链表三个操作
+algos/twopointers.js  双指针与滑动窗口
+algos/stack.js        括号匹配、单调栈、单调队列
+algos/tree.js         BST 与 AVL
+algos/heap.js         堆的三个演示
+algos/graph.js        BFS / DFS / Dijkstra / 拓扑
+TOPICS.md             知识点清单（施工图，标已有/待做）
 tools/selftest.mjs    轨迹不变量自检
 tools/crosscheck.mjs  JS ↔ Java 对拍
 java/dsalab/Oracle.java  对拍用的 Java 实现

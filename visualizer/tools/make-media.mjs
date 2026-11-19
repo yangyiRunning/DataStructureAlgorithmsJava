@@ -18,6 +18,9 @@ import { dirname, join } from 'node:path';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { sortingAlgorithms } from '../algos/sorting.js';
+import { binarySearchAlgorithms } from '../algos/binarysearch.js';
+import { twoPointerAlgorithms } from '../algos/twopointers.js';
+import { stackAlgorithms } from '../algos/stack.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -57,6 +60,13 @@ const CLIPS = [
     maxFrames: 18,
   },
   {
+    name: 'window-var',
+    algo: 'tp-window-var',
+    inputIndex: 0,
+    fps: 6,
+    maxFrames: 20,
+  },
+  {
     name: 'quick-sort',
     algo: 'sort-quick',
     inputIndex: 0,
@@ -65,7 +75,14 @@ const CLIPS = [
   },
 ];
 
-const ALL = [...sortingAlgorithms, ...linkedListAlgorithms, ...treeAlgorithms];
+const ALL = [
+  ...sortingAlgorithms,
+  ...binarySearchAlgorithms,
+  ...linkedListAlgorithms,
+  ...twoPointerAlgorithms,
+  ...stackAlgorithms,
+  ...treeAlgorithms,
+];
 
 function stepsOf(algoId, inputIndex) {
   const algo = ALL.find((a) => a.id === algoId);
@@ -103,12 +120,16 @@ function shoot(outFile, query, width, height) {
   });
 }
 
+// 只重出某一段：node tools/make-media.mjs window-var
+const only = process.argv[2];
+
 async function main() {
   rmSync(FRAMES, { recursive: true, force: true });
   mkdirSync(FRAMES, { recursive: true });
   mkdirSync(MEDIA, { recursive: true });
 
   for (const clip of CLIPS) {
+    if (only && clip.name !== only) continue;
     const total = stepsOf(clip.algo, clip.inputIndex);
     const idx = sampleIndices(total, clip.maxFrames);
     const dir = join(FRAMES, clip.name);
@@ -185,8 +206,10 @@ print("  ", os.path.getsize(r"""${join(MEDIA, clip.name + '.gif')}""") // 1024, 
   }
 
   // 静态图：整页界面（含代码栏），用来告诉读者"它不只是个动画"
-  await shoot(join(MEDIA, 'ui-full.png'), 'a=tree-avl-insert&i=2&s=14', 1500, 900);
-  console.log('ui-full.png 完成');
+  if (!only) {
+    await shoot(join(MEDIA, 'ui-full.png'), 'a=tree-avl-insert&i=2&s=14', 1500, 900);
+    console.log('ui-full.png 完成');
+  }
 
   console.log('\n产物：');
   for (const f of readdirSync(MEDIA).sort()) {

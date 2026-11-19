@@ -10,6 +10,9 @@
  * 后者交给 tools/crosscheck.mjs 和 Java 实现对比。
  */
 import { sortingAlgorithms } from '../algos/sorting.js';
+import { binarySearchAlgorithms } from '../algos/binarysearch.js';
+import { twoPointerAlgorithms } from '../algos/twopointers.js';
+import { stackAlgorithms } from '../algos/stack.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -17,7 +20,10 @@ import { graphAlgorithms, NODES as GRAPH_NODES, EDGES as GRAPH_EDGES } from '../
 
 const ALL = [
   ...sortingAlgorithms,
+  ...binarySearchAlgorithms,
   ...linkedListAlgorithms,
+  ...twoPointerAlgorithms,
+  ...stackAlgorithms,
   ...treeAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
@@ -79,6 +85,9 @@ function checkTrajectory(algo, inputLabel, input, built) {
   }
 
   const codeLen = (algo.code ?? []).length;
+  // 期望长度取第一帧的快照：新一批演示的输入是对象（{nums,target} 之类），
+  // 拿 input.length 比会得到 undefined。用首帧当基准同样能抓出"中途数组被截断"。
+  const refLen = steps[0]?.state?.values?.length;
   let lastCounters = {};
   let prevView = null;
 
@@ -115,8 +124,8 @@ function checkTrajectory(algo, inputLabel, input, built) {
     // 数组类视图必须每次都是完整快照，长度不能变
     const s = step.state ?? {};
     if (view === 'array' && Array.isArray(s.values)) {
-      if (s.values.length !== input.length) {
-        fail(where, `第 ${i} 步 values 长度 ${s.values.length} ≠ 输入长度 ${input.length}`);
+      if (refLen != null && s.values.length !== refLen) {
+        fail(where, `第 ${i} 步 values 长度 ${s.values.length} ≠ 首帧长度 ${refLen}`);
       }
       for (const idx of [s.settled ?? [], s.compare ?? [], s.move ?? []].flat()) {
         if (idx < 0 || idx >= s.values.length) {

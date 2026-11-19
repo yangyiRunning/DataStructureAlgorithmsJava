@@ -71,6 +71,22 @@ public final class Oracle {
         return "arr:" + arr(h) + "|popped:" + top;
       }
       case "heap-sort": return arr(heapSort(ints(parts[1])));
+      case "bs-standard": return "idx:" + bsStandard(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "bs-left": return "idx:" + bsLeft(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "bs-right": return "idx:" + bsRight(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "bs-lower": return "idx:" + bsLower(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "bs-upper": return "idx:" + bsUpper(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "bs-rotated": return "idx:" + bsRotated(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "tp-two-sum": return "pair:" + twoSum(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "tp-dedupe": {
+        List<Integer> d = dedupe(arr0(parts[1]));
+        return "arr:" + arr(d) + "|len:" + d.size();
+      }
+      case "tp-window-fixed": return "sum:" + maxWindowSum(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "tp-window-var": return "len:" + longestUnique(parts[1]);
+      case "st-brackets": return "ok:" + brackets(parts[1]);
+      case "st-monotonic": return "arr:" + arr(dailyTemps(arr0(parts[1])));
+      case "st-deque": return "arr:" + arr(slidingMax(arr0(parts[1]), Integer.parseInt(parts[2])));
       case "graph-bfs": return "order:" + String.join(",", bfs(parts[1]));
       case "graph-dfs": return "order:" + String.join(",", dfs(parts[1]));
       case "graph-dijkstra": return dijkstra(parts[1]);
@@ -95,6 +111,13 @@ public final class Oracle {
       sb.append(a.get(i));
     }
     return sb.toString();
+  }
+
+  private static int[] arr0(String s) {
+    List<Integer> l = ints(s);
+    int[] a = new int[l.size()];
+    for (int i = 0; i < a.length; i++) a[i] = l.get(i);
+    return a;
   }
 
   private static void swap(List<Integer> a, int i, int j) {
@@ -183,6 +206,169 @@ public final class Oracle {
     List<Integer> a = new ArrayList<>(in);
     a.remove(Integer.valueOf(val));
     return a;
+  }
+
+  // ── 查找 ──────────────────────────────────────────────
+
+  static int bsStandard(int[] a, int t) {
+    int lo = 0, hi = a.length - 1;
+    while (lo <= hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] == t) return mid;
+      if (a[mid] < t) lo = mid + 1; else hi = mid - 1;
+    }
+    return -1;
+  }
+
+  static int bsLeft(int[] a, int t) {
+    int lo = 0, hi = a.length - 1, ans = -1;
+    while (lo <= hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] == t) { ans = mid; hi = mid - 1; }
+      else if (a[mid] < t) lo = mid + 1;
+      else hi = mid - 1;
+    }
+    return ans;
+  }
+
+  static int bsRight(int[] a, int t) {
+    int lo = 0, hi = a.length - 1, ans = -1;
+    while (lo <= hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] == t) { ans = mid; lo = mid + 1; }
+      else if (a[mid] > t) hi = mid - 1;
+      else lo = mid + 1;
+    }
+    return ans;
+  }
+
+  static int bsLower(int[] a, int t) {
+    int lo = 0, hi = a.length;
+    while (lo < hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] < t) lo = mid + 1; else hi = mid;
+    }
+    return lo;
+  }
+
+  static int bsUpper(int[] a, int t) {
+    int lo = 0, hi = a.length - 1, ans = -1;
+    while (lo <= hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] <= t) { ans = mid; lo = mid + 1; }
+      else hi = mid - 1;
+    }
+    return ans;
+  }
+
+  static int bsRotated(int[] a, int t) {
+    int lo = 0, hi = a.length - 1;
+    while (lo <= hi) {
+      int mid = lo + ((hi - lo) >> 1);
+      if (a[mid] == t) return mid;
+      if (a[lo] <= a[mid]) {
+        if (a[lo] <= t && t < a[mid]) hi = mid - 1; else lo = mid + 1;
+      } else {
+        if (a[mid] < t && t <= a[hi]) lo = mid + 1; else hi = mid - 1;
+      }
+    }
+    return -1;
+  }
+
+  // ── 双指针与滑窗 ──────────────────────────────────────
+
+  static String twoSum(int[] a, int t) {
+    int lo = 0, hi = a.length - 1;
+    while (lo < hi) {
+      int sum = a[lo] + a[hi];
+      if (sum == t) return lo + "," + hi;
+      if (sum < t) lo++; else hi--;
+    }
+    return "none";
+  }
+
+  static List<Integer> dedupe(int[] in) {
+    List<Integer> out = new ArrayList<>();
+    if (in.length == 0) return out;
+    out.add(in[0]);
+    int slow = 0;
+    for (int fast = 1; fast < in.length; fast++) {
+      if (in[fast] != out.get(slow)) {
+        slow++;
+        out.add(in[fast]);
+      }
+    }
+    return out;
+  }
+
+  static int maxWindowSum(int[] a, int k) {
+    int sum = 0;
+    for (int i = 0; i < k; i++) sum += a[i];
+    int best = sum;
+    for (int i = k; i < a.length; i++) {
+      sum += a[i] - a[i - k];
+      if (sum > best) best = sum;
+    }
+    return best;
+  }
+
+  static int longestUnique(String s) {
+    Map<Character, Integer> last = new HashMap<>();
+    int left = 0, best = 0;
+    for (int right = 0; right < s.length(); right++) {
+      char c = s.charAt(right);
+      Integer prev = last.get(c);
+      if (prev != null && prev >= left) left = prev + 1;
+      last.put(c, right);
+      if (right - left + 1 > best) best = right - left + 1;
+    }
+    return best;
+  }
+
+  // ── 栈与队列 ──────────────────────────────────────────
+
+  static boolean brackets(String s) {
+    Deque<Character> stack = new ArrayDeque<>();
+    Map<Character, Character> pairs = new HashMap<>();
+    pairs.put(')', '(');
+    pairs.put(']', '[');
+    pairs.put('}', '{');
+    for (char c : s.toCharArray()) {
+      if (!pairs.containsKey(c)) {
+        stack.push(c);
+        continue;
+      }
+      Character top = stack.isEmpty() ? null : stack.pop();
+      if (top == null || !top.equals(pairs.get(c))) return false;
+    }
+    return stack.isEmpty();
+  }
+
+  static List<Integer> dailyTemps(int[] t) {
+    int[] res = new int[t.length];
+    Deque<Integer> stack = new ArrayDeque<>();
+    for (int i = 0; i < t.length; i++) {
+      while (!stack.isEmpty() && t[i] > t[stack.peek()]) {
+        int j = stack.pop();
+        res[j] = i - j;
+      }
+      stack.push(i);
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int v : res) out.add(v);
+    return out;
+  }
+
+  static List<Integer> slidingMax(int[] nums, int k) {
+    Deque<Integer> dq = new ArrayDeque<>();
+    List<Integer> res = new ArrayList<>();
+    for (int i = 0; i < nums.length; i++) {
+      while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast();
+      dq.addLast(i);
+      if (dq.peekFirst() <= i - k) dq.pollFirst();
+      if (i >= k - 1) res.add(nums[dq.peekFirst()]);
+    }
+    return res;
   }
 
   // ── 树 ────────────────────────────────────────────────

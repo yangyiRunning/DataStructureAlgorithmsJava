@@ -18,6 +18,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { sortingAlgorithms } from '../algos/sorting.js';
+import { binarySearchAlgorithms } from '../algos/binarysearch.js';
+import { twoPointerAlgorithms } from '../algos/twopointers.js';
+import { stackAlgorithms } from '../algos/stack.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -30,7 +33,10 @@ const BUILD = join(ROOT, 'build/oracle');
 
 const ALGOS = [
   ...sortingAlgorithms,
+  ...binarySearchAlgorithms,
   ...linkedListAlgorithms,
+  ...twoPointerAlgorithms,
+  ...stackAlgorithms,
   ...treeAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
@@ -61,6 +67,26 @@ function findJdk() {
 function canonical(algoId, result) {
   const arr = (v) => v.join(',');
   switch (algoId) {
+    case 'bs-standard':
+    case 'bs-left':
+    case 'bs-right':
+    case 'bs-lower':
+    case 'bs-upper':
+    case 'bs-rotated':
+      return `idx:${result.idx}`;
+    case 'tp-two-sum':
+      return `pair:${result.pair}`;
+    case 'tp-dedupe':
+      return `arr:${result.arr}|len:${result.len}`;
+    case 'tp-window-fixed':
+      return `sum:${result.sum}`;
+    case 'tp-window-var':
+      return `len:${result.len}`;
+    case 'st-brackets':
+      return `ok:${result.ok}`;
+    case 'st-monotonic':
+    case 'st-deque':
+      return `arr:${result.arr}`;
     case 'tree-bst-insert':
       return `inorder:${result.inorder}|height:${result.height}|size:${result.size}`;
     case 'tree-avl-insert':
@@ -82,6 +108,23 @@ function canonical(algoId, result) {
 function serialize(algoId, input) {
   const nums = (v) => v.join(',');
   switch (algoId) {
+    case 'bs-standard':
+    case 'bs-left':
+    case 'bs-right':
+    case 'bs-lower':
+    case 'bs-upper':
+    case 'bs-rotated':
+    case 'tp-two-sum':
+      return `${algoId};${nums(input.nums)};${input.target}`;
+    case 'tp-dedupe':
+    case 'st-monotonic':
+      return `${algoId};${nums(input)}`;
+    case 'tp-window-fixed':
+    case 'st-deque':
+      return `${algoId};${nums(input.nums)};${input.k}`;
+    case 'tp-window-var':
+    case 'st-brackets':
+      return `${algoId};${input}`;
     case 'list-insert':
       return `${algoId};${nums(input.values)};${input.at};${input.val}`;
     case 'list-delete':
