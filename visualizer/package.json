@@ -1,0 +1,11 @@
+{
+  "name": "dsa-visualizer",
+  "private": true,
+  "type": "module",
+  "description": "数据结构与算法动画演示：轨迹由算法真实执行产生，Java 版实现做对拍",
+  "scripts": {
+    "serve": "python3 -m http.server 8788",
+    "selftest": "node tools/selftest.mjs",
+    "crosscheck": "node tools/crosscheck.mjs"
+  }
+}

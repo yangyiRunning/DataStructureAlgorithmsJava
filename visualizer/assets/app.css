@@ -1,0 +1,766 @@
+/* 视觉基调：暖灰纸底、单强调色、无渐变无阴影堆叠。
+   刻意避开高饱和绿色和紫青渐变——那是落地页模板的味道，不是教学页面。 */
+
+:root {
+  --bg: #faf9f7;
+  --panel: #ffffff;
+  --ink: #26241f;
+  --ink-2: #6b655d;
+  --ink-3: #9c948a;
+  --line: #e7e3dd;
+  --line-2: #f1ede8;
+
+  --accent: #4a6b7c;
+  /* 蓝灰：当前基准 / 活动元素 */
+  --accent-soft: #e8eef1;
+  --compare: #8d9aa4;
+  /* 比较中 */
+  --swap: #b06a4a;
+  /* 交换 / 移动 */
+  --settled: #a9b5ab;
+  /* 已排定（低饱和灰绿，不刺眼） */
+  --settled-soft: #eef1ee;
+
+  --bar: #ded9d2;
+  --bar-stroke: #cfc8bf;
+
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── 顶部 ───────────────────────────────────────────── */
+
+.topbar {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+.badge {
+  font-size: 12px;
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 9px;
+  background: var(--panel);
+}
+
+.lede {
+  margin: 8px 0 0;
+  max-width: 78ch;
+  color: var(--ink-2);
+  font-size: 13.5px;
+}
+
+.lede code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--line-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── 三栏布局 ───────────────────────────────────────── */
+
+.layout {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr) 392px;
+  gap: 0;
+  align-items: stretch;
+  min-height: calc(100vh - 130px);
+}
+
+/* 目录 */
+
+.sidebar {
+  border-right: 1px solid var(--line);
+  padding: 20px 12px 32px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+
+.nav-group {
+  margin-bottom: 22px;
+}
+
+.nav-group>h3 {
+  margin: 0 0 6px;
+  padding: 0 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--line-2);
+  color: var(--ink);
+}
+
+.nav-item[aria-current="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* 主区 */
+
+.stage {
+  padding: 22px 28px 40px;
+  min-width: 0;
+}
+
+.stage-head h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#brief {
+  margin: 6px 0 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  max-width: 70ch;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.facts div {
+  display: flex;
+  gap: 6px;
+}
+
+.facts dt {
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.canvas-wrap {
+  margin-top: 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 6px;
+}
+
+#view {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 控件 */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 22px;
+  margin-top: 14px;
+}
+
+.transport {
+  display: flex;
+  gap: 4px;
+}
+
+.transport button {
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-2);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.transport button:hover {
+  border-color: var(--bar-stroke);
+  color: var(--ink);
+}
+
+.transport button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  min-width: 46px;
+}
+
+.transport button.primary:hover {
+  filter: brightness(1.08);
+}
+
+.transport button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.scrub {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  outline: none;
+  flex: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+output {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  min-width: 62px;
+  text-align: right;
+}
+
+.speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.speed input[type="range"] {
+  width: 92px;
+  flex: none;
+}
+
+.note {
+  margin: 14px 0 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+/* 输入切换 */
+
+.inputs {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inputs-label {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+#input-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+#input-buttons button {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 4px 11px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-2);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+#input-buttons button:hover {
+  border-color: var(--bar-stroke);
+  color: var(--ink);
+}
+
+#input-buttons button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: #c9d8df;
+  color: var(--accent);
+}
+
+/* ── 代码栏 ─────────────────────────────────────────── */
+
+.code-pane {
+  border-left: 1px solid var(--line);
+  background: var(--panel);
+  padding: 18px 18px 28px;
+  font-size: 12.5px;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.line-no {
+  font-family: var(--mono);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+#code {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  background: #fbfaf8;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 10px 0;
+  overflow-x: auto;
+  counter-reset: ln;
+}
+
+#code .ln {
+  display: block;
+  white-space: pre;
+  padding: 0 12px 0 0;
+  counter-increment: ln;
+}
+
+#code .ln::before {
+  content: counter(ln);
+  display: inline-block;
+  width: 26px;
+  padding-right: 10px;
+  text-align: right;
+  color: #c3bcb2;
+  user-select: none;
+}
+
+#code .ln.on {
+  background: #f0f4f6;
+  box-shadow: inset 3px 0 0 var(--accent);
+  color: var(--ink);
+}
+
+/* 计数器 */
+
+.counters {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.counter {
+  background: #fbfaf8;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+
+.counter .k {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.counter .v {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* 图例 */
+
+.legend {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.legend summary {
+  cursor: pointer;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.legend ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend .sw {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--bar-stroke);
+  flex: none;
+}
+
+/* ── 窄屏 ───────────────────────────────────────────── */
+
+@media (max-width: 1180px) {
+  .layout {
+    grid-template-columns: 176px minmax(0, 1fr);
+  }
+
+  .code-pane {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 12px 16px;
+  }
+
+  .nav-group {
+    margin-bottom: 0;
+  }
+
+  .nav-item {
+    white-space: nowrap;
+  }
+
+  .stage {
+    padding: 18px 16px 32px;
+  }
+
+  .topbar {
+    padding: 20px 16px 16px;
+  }
+}
+
+/* ── SVG 视图元素 ────────────────────────────────────────
+   颜色只能写在 CSS 里：SVG 的 fill 属性写 var(--x) 在部分浏览器不生效。
+   覆盖顺序不能乱——is-settled 在前，is-compare / is-move / is-pivot 在后，
+   后写的规则优先级相同但位置靠后，才能盖住"已就位又被重新比较"的瞬时状态。 */
+
+.bar {
+  fill: var(--bar);
+  stroke: var(--bar-stroke);
+  stroke-width: 1;
+  transition: fill .09s linear, stroke .09s linear;
+}
+
+.bar.is-settled {
+  fill: var(--settled);
+  stroke: #9daa9f;
+}
+
+.bar.is-compare {
+  fill: var(--compare);
+  stroke: var(--compare);
+}
+
+.bar.is-move {
+  fill: var(--swap);
+  stroke: var(--swap);
+}
+
+.bar.is-pivot {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.axis {
+  stroke: var(--line);
+}
+
+.bracket {
+  stroke: #d9d3cb;
+}
+
+.ptr-arrow {
+  fill: var(--accent);
+}
+
+/* 链表 */
+
+.node {
+  fill: #ffffff;
+  stroke: #cfc8bf;
+  stroke-width: 1.4;
+}
+
+.node.is-active {
+  fill: #edf2f4;
+  stroke: var(--accent);
+  stroke-width: 1.8;
+}
+
+.node.is-moved {
+  fill: #f7efe9;
+  stroke: var(--swap);
+}
+
+.node.is-removed {
+  fill: #f3f1ee;
+  stroke-dasharray: 4 3;
+  opacity: .6;
+}
+
+.edge {
+  stroke: #bcb5ab;
+  stroke-width: 1.4;
+}
+
+.edge.is-back {
+  stroke: var(--swap);
+}
+
+.edge.is-tail {
+  stroke: #d6d0c7;
+}
+
+.arrow-head {
+  fill: #bcb5ab;
+}
+
+.arrow-head-back {
+  fill: var(--swap);
+}
+
+.ptr-line {
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+/* 树 */
+
+.tnode {
+  fill: #ffffff;
+  stroke: #cfc8bf;
+  stroke-width: 1.5;
+}
+
+.tnode.is-active {
+  fill: #edf2f4;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.tnode.is-moving {
+  fill: #f7efe9;
+  stroke: var(--swap);
+  stroke-width: 2;
+}
+
+.tnode.is-visited {
+  fill: var(--settled-soft);
+  stroke: #b3bdb4;
+}
+
+.tree-edge {
+  stroke: #c4bdb3;
+  stroke-width: 1.3;
+}
+
+.tree-edge.is-moving {
+  stroke: var(--swap);
+  stroke-width: 1.8;
+}
+
+/* 堆的数组带：和树上节点共用同一套高亮语义，颜色才能对上 */
+
+.cell {
+  fill: #fbfaf8;
+  stroke: #d3ccc2;
+  stroke-width: 1.2;
+}
+
+.cell.is-active {
+  fill: #edf2f4;
+  stroke: var(--accent);
+  stroke-width: 1.7;
+}
+
+.cell.is-compare {
+  fill: #eef1f3;
+  stroke: var(--compare);
+  stroke-width: 1.5;
+}
+
+.cell.is-settled {
+  fill: var(--settled-soft);
+  stroke: #b3bdb4;
+}
+
+.tnode.is-compare {
+  fill: #eef1f3;
+  stroke: var(--compare);
+  stroke-width: 1.9;
+}
+
+.tnode.is-settled {
+  fill: var(--settled-soft);
+  stroke: #b3bdb4;
+}
+
+/* 图 */
+
+.gnode {
+  fill: #ffffff;
+  stroke: #cfc8bf;
+  stroke-width: 1.6;
+}
+
+.gnode.is-frontier {
+  fill: #f3f6f7;
+  stroke: #a3b3bc;
+}
+
+.gnode.is-current {
+  fill: #edf2f4;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+
+.gnode.is-visited {
+  fill: var(--settled-soft);
+  stroke: #b3bdb4;
+}
+
+.gedge {
+  stroke: #c8c1b7;
+  stroke-width: 1.4;
+}
+
+.gedge.is-tree {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+}
+
+.gedge.is-relax {
+  stroke: var(--swap);
+  stroke-width: 2;
+}
+
+.gedge.is-rejected {
+  stroke: #ddd7ce;
+  stroke-dasharray: 3 3;
+}
+
+.arrow-head-on {
+  fill: var(--accent);
+}
+
+.wbg {
+  fill: var(--panel);
+}

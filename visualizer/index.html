@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构与算法 · 动画演示</title>
+  <link rel="stylesheet" href="./assets/app.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>数据结构与算法</h1>
+      <span class="badge">动画演示</span>
+    </div>
+    <p class="lede">
+      每一步都是算法真实执行过的状态：执行时逐帧记录快照，页面只负责回放，不另画一套逻辑。
+      演示用的算法与 <code>java/dsalab</code> 里的 Java 实现在同一批随机输入上做过对拍。
+    </p>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="nav" aria-label="演示目录"></nav>
+
+    <main class="stage">
+      <div class="stage-head">
+        <h2 id="title">载入中…</h2>
+        <p id="brief"></p>
+        <dl class="facts" id="facts"></dl>
+      </div>
+
+      <div class="canvas-wrap">
+        <svg id="view" viewBox="0 0 900 380" preserveAspectRatio="xMidYMid meet" role="img"
+          aria-label="算法状态可视化"></svg>
+      </div>
+
+      <div class="controls">
+        <div class="transport">
+          <button type="button" id="btn-first" title="回到第一步（Home）" aria-label="回到第一步">⏮</button>
+          <button type="button" id="btn-prev" title="上一步（←）" aria-label="上一步">◀</button>
+          <button type="button" id="btn-play" class="primary" title="播放 / 暂停（空格）" aria-label="播放或暂停">▶</button>
+          <button type="button" id="btn-next" title="下一步（→）" aria-label="下一步">▶|</button>
+          <button type="button" id="btn-last" title="到最后一步（End）" aria-label="到最后一步">⏭</button>
+        </div>
+
+        <div class="scrub">
+          <input type="range" id="scrub" min="0" max="0" value="0" step="1" aria-label="进度">
+          <output id="progress">0 / 0</output>
+        </div>
+
+        <label class="speed">
+          速度
+          <input type="range" id="speed" min="1" max="30" value="8" step="1" aria-label="播放速度">
+          <output id="speed-out">8 步/秒</output>
+        </label>
+      </div>
+
+      <p class="note" id="note"></p>
+
+      <div class="inputs">
+        <span class="inputs-label">换一组输入</span>
+        <div id="input-buttons"></div>
+      </div>
+    </main>
+
+    <aside class="code-pane">
+      <div class="code-head">
+        <span>当前步骤</span>
+        <span id="line-no" class="line-no">—</span>
+      </div>
+      <pre id="code" aria-label="算法代码"></pre>
+      <div class="counters" id="counters"></div>
+      <details class="legend">
+        <summary>图例</summary>
+        <ul id="legend"></ul>
+      </details>
+    </aside>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+
+</html>
