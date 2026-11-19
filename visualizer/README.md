@@ -2,9 +2,9 @@
 
 把仓库里那些刷题代码讲义化：每个算法跑一遍，把执行过程逐帧录下来，页面再回放。
 
-在线目录见 `index.html`，29 个演示分成八组：排序、查找、链表、双指针与滑窗、栈与队列、树、堆、图。
+在线目录见 `index.html`，75 个演示分成十三组：排序、查找、链表、双指针与滑窗、栈与队列、树、堆、图、数组技巧、动态规划、回溯、字符串、位运算、递归分治、哈希表。
 
-完整知识点清单在 [TOPICS.md](TOPICS.md)：共 73 项，标了哪项已有、哪项待做。
+完整知识点清单在 [TOPICS.md](TOPICS.md)：**73 项已全部完成**，每项都标了对应演示和 LeetCode 代表题。
 
 ## 怎么跑
 
@@ -97,7 +97,7 @@ app.js                外壳：建目录、接控件、按 step.view 分派视�
 assets/app.css        全部样式（含 SVG 元素的配色规则）
 core/player.js        回放器：只管第几步，不认识任何算法
 core/svg.js           极小的 SVG 构造工具
-views/                视图：array / list / tree / heap / graph
+views/                视图：array / list / tree / heap / graph / trie / uf / table / board / pegs / hash
 algos/sorting.js      排序四件套
 algos/binarysearch.js 二分六个变体
 algos/linkedlist.js   链表三个操作
@@ -105,7 +105,12 @@ algos/twopointers.js  双指针与滑动窗口
 algos/stack.js        括号匹配、单调栈、单调队列
 algos/tree.js         BST 与 AVL
 algos/heap.js         堆的三个演示
-algos/graph.js        BFS / DFS / Dijkstra / 拓扑
+algos/graph.js        BFS / DFS / Dijkstra / 拓扑 / Floyd / Prim / Kruskal / 网格 DFS
+algos/dp.js, dp2.js   背包、编辑距离、爬楼梯、打家劫舍、LIS
+algos/backtracking.js 全排列、子集、N 皇后
+algos/misc.js         位运算、KMP、汉诺塔、回文
+algos/hash.js         链地址法、LRU
+algos/advancedtree.js 线段树、树状数组
 TOPICS.md             知识点清单（施工图，标已有/待做）
 tools/selftest.mjs    轨迹不变量自检
 tools/crosscheck.mjs  JS ↔ Java 对拍

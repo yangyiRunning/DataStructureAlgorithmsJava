@@ -20,6 +20,8 @@ import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { dpOneDAlgorithms } from '../algos/dp2.js';
 import { arrayTechAlgorithms } from '../algos/arraytech.js';
 import { miscAlgorithms } from '../algos/misc.js';
+import { hashAlgorithms } from '../algos/hash.js';
+import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -40,6 +42,8 @@ const ALL = [
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
   ...miscAlgorithms,
+  ...hashAlgorithms,
+  ...advancedTreeAlgorithms,
   ...backtrackingAlgorithms,
 ];
 
@@ -181,7 +185,8 @@ function checkTrajectory(algo, inputLabel, input, built) {
       walkTree(rootId);
       if (broken) fail(where, '树结构有环或指向不存在的节点');
       const want = [...inorder].sort((a, b) => a - b);
-      if (inorder.join() !== want.join()) {
+      // 只有二叉搜索树类的中序才该升序；线段树这类不是 BST，要在算法上声明 bst: false
+      if (algo.bst !== false && inorder.join() !== want.join()) {
         fail(where, `中序遍历不是升序，BST 性质被破坏：${inorder.join(',')}`);
       }
       if (algo.id.includes('avl')) {

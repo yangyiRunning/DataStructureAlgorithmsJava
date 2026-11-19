@@ -629,6 +629,182 @@ function removeNth(input) {
   return { steps, result: { arr: walk(dummy.next).map((x) => x.val).join(',') } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 合并两个有序链表
+// ─────────────────────────────────────────────────────────────
+
+const mergeCode = [
+  'function mergeTwoLists(a, b) {',
+  '  const dummy = { next: null };      // 结果链表的哑头',
+  '  let tail = dummy;',
+  '  while (a && b) {',
+  '    if (a.val <= b.val) { tail.next = a; a = a.next; }',
+  '    else { tail.next = b; b = b.next; }',
+  '    tail = tail.next;                // 尾指针跟着走',
+  '  }',
+  '  tail.next = a || b;                // 剩下的整段直接挂上',
+  '  return dummy.next;',
+  '}',
+];
+
+function mergeTwoLists(input) {
+  const { left, right } = input;
+  const aNodes = left.map((v) => makeNode(v));
+  const bNodes = right.map((v) => makeNode(v));
+  aNodes.forEach((n, i) => { n.next = aNodes[i + 1] ?? null; });
+  bNodes.forEach((n, i) => { n.next = bNodes[i + 1] ?? null; });
+
+  const pool = [...aNodes, ...bNodes];
+  // 结果链用「新节点」接：直接复用原节点的话，改写 next 会把 A / B 两行也一起改掉，
+  // 画面上就变成「A 行显示的是合并后的结果」，读者会以为 A 被吃掉了。
+  const outNodes = [];
+  const outPool = [];
+  const steps = [];
+  let cmp = 0;
+
+  const rowsNow = () => [
+    walk(aNodes[0] ?? null).map((n) => n.id),
+    walk(bNodes[0] ?? null).map((n) => n.id),
+    outNodes.map((n) => n.id),
+  ];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      nodes: [...pool, ...outPool].map((n) => ({ id: n.id, val: n.val, next: n.next ? n.next.id : null })),
+      rows: state.rows ?? rowsNow(),
+      rowLabels: ['A', 'B', '结果'],
+      ...state,
+    },
+    note,
+    line,
+    counters: { 比较: cmp, 已合并: outNodes.length },
+  });
+
+  let a = aNodes[0] ?? null;
+  let b = bNodes[0] ?? null;
+
+  push({}, '两条有序链表合成一条。每次取两边头部较小的那个接到结果尾部，某条走完就把另一条剩下的整段挂上。', 1);
+
+  let tail = null;
+  while (a && b) {
+    cmp += 1;
+    const takeA = a.val <= b.val;
+    push({ highlight: [a.id, b.id] },
+      `比较 A 的头 ${a.val} 和 B 的头 ${b.val}，取较小的 ${takeA ? a.val : b.val}。`, 4);
+    const pick = takeA ? a : b;
+    const copy = makeNode(pick.val);
+    outPool.push(copy);
+    if (tail) tail.next = copy;
+    tail = copy;
+    outNodes.push(copy);
+    if (takeA) a = a.next; else b = b.next;
+    push({ moved: [copy.id] }, `取 ${pick.val} 接到结果尾部。结果现在有 ${outNodes.length} 个。`, 6);
+  }
+
+  // 剩下的整段逐个复制（真实实现里是直接挂上，这里为了画面可读改成复制）
+  let rest = a ?? b;
+  while (rest) {
+    const copy = makeNode(rest.val);
+    outPool.push(copy);
+    if (tail) tail.next = copy;
+    tail = copy;
+    outNodes.push(copy);
+    rest = rest.next;
+  }
+  push({}, a || b ? '一边走完了，另一边的剩余部分整段接上去，不用再逐个比较。' : '两边都走完了。', 9);
+
+  return { steps, result: { arr: outNodes.map((n) => n.val).join(',') } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// K 个一组翻转
+// ─────────────────────────────────────────────────────────────
+
+const kGroupCode = [
+  'function reverseKGroup(head, k) {',
+  '  const dummy = { next: head };',
+  '  let groupPrev = dummy;',
+  '  while (true) {',
+  '    let kth = groupPrev;',
+  '    for (let i = 0; i < k && kth; i++) kth = kth.next;',
+  '    if (!kth) break;                 // 不足 k 个，保持原样',
+  '    let prev = kth.next, cur = groupPrev.next;',
+  '    while (cur !== kth.next) {',
+  '      const next = cur.next;',
+  '      cur.next = prev; prev = cur; cur = next;',
+  '    }',
+  '    const newTail = groupPrev.next;',
+  '    groupPrev.next = kth;',
+  '    groupPrev = newTail;',
+  '  }',
+  '  return dummy.next;',
+  '}',
+];
+
+function reverseKGroup(input) {
+  const { values, k } = input;
+  const head = buildList(values);
+  const pool = walk(head);
+  const order = pool.map((n) => n.id);
+
+  const steps = [];
+  let relink = 0;
+  const push = (state, note, line) => steps.push({
+    state: { nodes: snapshot(pool), order, ...state },
+    note,
+    line,
+    counters: { 改指针: relink },
+  });
+
+  push({}, `每 ${k} 个一组翻转，不足 ${k} 个的尾巴保持原样。关键是每组翻转前先确认"后面还剩够不够 ${k} 个"。`, 0);
+
+  const dummy = { id: 'dummy', val: 'dummy', next: head };
+  let groupPrev = dummy;
+
+  while (true) {
+    let kth = groupPrev;
+    let count = 0;
+    while (count < k && kth && kth.next !== null) {
+      kth = kth.next ?? null;
+      if (!kth) break;
+      count += 1;
+    }
+    if (!kth || count < k) {
+      push({ pointers: groupPrev.id !== 'dummy' ? [{ on: groupPrev.id, text: 'groupPrev' }] : [] },
+        `剩下的不够 ${k} 个了，这一段保持原样，结束。`, 7);
+      break;
+    }
+
+    push({ highlight: [kth.id], pointers: [{ on: groupPrev.id, text: 'groupPrev' }] },
+      `从 groupPrev 往后数 ${k} 个，第 ${k} 个是 ${kth.val}，这一段可以翻转。`, 5);
+
+    const stop = kth.next;          // 先存住组后的边界，翻转会改写 kth.next
+    let prev = stop;
+    let cur = groupPrev.next;
+    while (cur !== stop) {
+      const next = cur.next;
+      cur.next = prev;
+      prev = cur;
+      cur = next;
+      relink += 1;
+      push({ highlight: [cur ? cur.id : kth.id], moved: [prev.id] },
+        `组内掉头：${prev.val} 的 next 指向 ${prev.next ? prev.next.val : '∅'}。`, 11);
+    }
+
+    const newTail = groupPrev.next;
+    groupPrev.next = kth;
+    relink += 1;
+    push({ moved: [kth.id], pointers: [{ on: newTail.id, text: '下一组的 groupPrev' }] },
+      `这一组接回去：groupPrev 指向新的组头 ${kth.val}，原来的组头 ${newTail.val} 变成组尾。`, 14);
+    groupPrev = newTail;
+  }
+
+  const finalHead = dummy.next;
+  push({}, `完成。现在链表是 ${walk(finalHead).map((n) => n.val).join('→')}。`, 16);
+  return { steps, result: { arr: walk(finalHead).map((n) => n.val).join(',') } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const listLegend = [
@@ -737,5 +913,38 @@ export const linkedListAlgorithms = [
     ],
     code: nthCode,
     run: removeNth,
+  },
+  {
+    id: 'list-merge',
+    group: '链表',
+    title: '合并两个有序链表',
+    brief: '两边头部取小的接到结果尾部。某条走完就把另一条剩下的整段挂上，不用再逐个比。哑头节点省掉了"结果是空"的单独判断。',
+    view: 'list',
+    facts: [['时间', 'O(m+n)'], ['空间', 'O(1) 复用节点'], ['技巧', '哑头 + 尾指针'], ['坑', '剩下的整段']],
+    counters: '比较、已合并',
+    legend: listLegend,
+    inputs: [
+      { label: '交错', make: () => ({ left: [1, 3, 5], right: [2, 4, 6] }) },
+      { label: '一边先走完', make: () => ({ left: [1, 2, 3], right: [8, 9] }) },
+    ],
+    code: mergeCode,
+    run: mergeTwoLists,
+  },
+  {
+    id: 'list-reverse-k',
+    group: '链表',
+    title: 'K 个一组翻转',
+    brief: '每 k 个一组翻转，不足 k 个的尾巴不动。难点是两个：翻转前要先数够不够 k 个，翻转后要把这一组接回前后两段。',
+    view: 'list',
+    facts: [['时间', 'O(n)'], ['空间', 'O(1)'], ['细节', '先数够再翻'], ['坑', '尾巴不足 k 个']],
+    counters: '改指针',
+    legend: listLegend,
+    inputs: [
+      { label: 'k = 2', make: () => ({ values: randomList(6), k: 2 }) },
+      { label: 'k = 3', make: () => ({ values: randomList(7), k: 3 }) },
+      { label: 'k 比长度大', make: () => ({ values: randomList(4), k: 6 }) },
+    ],
+    code: kGroupCode,
+    run: reverseKGroup,
   },
 ];

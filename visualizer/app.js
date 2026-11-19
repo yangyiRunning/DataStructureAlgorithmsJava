@@ -20,6 +20,7 @@ import * as ufView from './views/ufView.js';
 import * as tableView from './views/tableView.js';
 import * as boardView from './views/boardView.js';
 import * as pegsView from './views/pegsView.js';
+import * as hashView from './views/hashView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
 import { binarySearchAlgorithms } from './algos/binarysearch.js';
 import { twoPointerAlgorithms } from './algos/twopointers.js';
@@ -31,6 +32,8 @@ import { backtrackingAlgorithms } from './algos/backtracking.js';
 import { dpOneDAlgorithms } from './algos/dp2.js';
 import { arrayTechAlgorithms } from './algos/arraytech.js';
 import { miscAlgorithms } from './algos/misc.js';
+import { hashAlgorithms } from './algos/hash.js';
+import { advancedTreeAlgorithms } from './algos/advancedtree.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -47,6 +50,7 @@ const VIEWS = {
   table: tableView,
   board: boardView,
   pegs: pegsView,
+  hash: hashView,
 };
 
 const ALGOS = [
@@ -64,6 +68,8 @@ const ALGOS = [
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
   ...miscAlgorithms,
+  ...hashAlgorithms,
+  ...advancedTreeAlgorithms,
 ];
 
 const $ = (id) => document.getElementById(id);

@@ -20,6 +20,13 @@ export function render(svg, state) {
   empty(svg);
 
   const all = state.nodes ?? [];
+
+  // 多行模式：state.rows = [[id...], [id...]]，每行一条链（合并两个链表时用）
+  if (state.rows) {
+    renderRows(svg, state, all);
+    return;
+  }
+
   const order = state.order ?? all.map((n) => n.id);
   const byId = new Map(all.map((n) => [n.id, n]));
   const nodes = order.map((id) => byId.get(id)).filter(Boolean);
@@ -154,6 +161,60 @@ export function render(svg, state) {
     }));
   }
 
+}
+
+/**
+ * 多行模式：每行一条独立的链，行首有标签。
+ * 合并有序链表这类"两条链一起看"的题需要它，单行视图塞不下两条。
+ */
+function renderRows(svg, state, all) {
+  const byId = new Map(all.map((n) => [n.id, n]));
+  const rows = state.rows;
+  const labels = state.rowLabels ?? [];
+
+  svg.appendChild(el('defs', {}, [
+    el('marker', {
+      id: 'arrow', viewBox: '0 0 10 10', refX: '9', refY: '5',
+      markerWidth: '6', markerHeight: '6', orient: 'auto-start-reverse',
+    }, [el('path', { d: 'M 0 0 L 10 5 L 0 10 z', class: 'arrow-head' })]),
+  ]));
+
+  const rowH = Math.min(96, (H - 80) / rows.length);
+  const boxW = 62;
+  const boxH = 40;
+  const gap = 24;
+
+  rows.forEach((rowIds, ri) => {
+    const y = 44 + ri * rowH;
+    svg.appendChild(label(48, y + boxH / 2 + 4, labels[ri] ?? '', {
+      size: 11, mono: true, fill: 'var(--ink-3)', anchor: 'end',
+    }));
+
+    rowIds.forEach((id, i) => {
+      const n = byId.get(id);
+      if (!n) return;
+      const x = 62 + i * (boxW + gap);
+      let cls = 'node';
+      if ((state.highlight ?? []).includes(id)) cls += ' is-active';
+      if ((state.moved ?? []).includes(id)) cls += ' is-moved';
+
+      svg.appendChild(el('rect', { class: cls, x, y, width: boxW, height: boxH, rx: 6 }));
+      svg.appendChild(label(x + boxW / 2, y + boxH / 2 + 5, String(n.val), {
+        size: 12, mono: true, fill: 'var(--ink)', weight: 600,
+      }));
+
+      const nextId = n.next;
+      const nextIdx = nextId ? rowIds.indexOf(nextId) : -1;
+      if (nextIdx === i + 1) {
+        svg.appendChild(el('line', {
+          class: 'edge', x1: x + boxW + 1, y1: y + boxH / 2,
+          x2: x + boxW + gap - 2, y2: y + boxH / 2, 'marker-end': 'url(#arrow)',
+        }));
+      } else if (nextId == null) {
+        svg.appendChild(label(x + boxW + 10, y + boxH / 2 + 4, '∅', { size: 12, fill: 'var(--ink-3)' }));
+      }
+    });
+  });
 }
 
 export const geometry = { W, H };

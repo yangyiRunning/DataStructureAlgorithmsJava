@@ -311,6 +311,66 @@ function hanoiInputs() {
   ];
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 验证回文串
+// ─────────────────────────────────────────────────────────────
+
+const palinCode = [
+  'function isPalindrome(s) {',
+  '  let i = 0, j = s.length - 1;',
+  '  while (i < j) {',
+  '    if (s[i] !== s[j]) return false;',
+  '    i++; j--;              // 两端同时往中间收',
+  '  }',
+  '  return true;',
+  '}',
+];
+
+function palindrome(input) {
+  const chars = [...input];
+  const steps = [];
+  let cmp = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { chars, ...state },
+    note,
+    line,
+    counters: { 比较: cmp },
+  });
+
+  push({ pointers: [{ i: 0, text: 'i' }, { i: chars.length - 1, text: 'j' }] },
+    '两边指针往中间收，每次比较一对。只要有一对不相等就不是回文。', 0);
+
+  let i = 0;
+  let j = chars.length - 1;
+  while (i < j) {
+    cmp += 1;
+    push({ compare: [i, j], pointers: [{ i, text: 'i' }, { i: j, text: 'j' }] },
+      `比较 ${chars[i]} 和 ${chars[j]}。`, 3);
+    if (chars[i] !== chars[j]) {
+      push({ move: [i, j], pointers: [{ i, text: 'i' }, { i: j, text: 'j' }] },
+        `${chars[i]} ≠ ${chars[j]}，不是回文，返回 false。`, 2);
+      return { steps, result: { ok: 'false' } };
+    }
+    i += 1;
+    j -= 1;
+    push({ settled: Array.from({ length: i }, (_, k) => k).concat(Array.from({ length: chars.length - j - 1 }, (_, k) => j + 1 + k)) },
+      '这一对相等，两边各收一格。', 4);
+  }
+
+  push({ settled: chars.map((_, k) => k) }, '指针相遇了还没发现不等，是回文。', 6);
+  return { steps, result: { ok: 'true' } };
+}
+
+function palinInputs() {
+  return [
+    { label: 'racecar', make: () => 'racecar' },
+    { label: 'abccba', make: () => 'abccba' },
+    { label: 'abcade', make: () => 'abcade' },
+  ];
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const bitLegend = [
@@ -376,5 +436,23 @@ export const miscAlgorithms = [
     inputs: hanoiInputs(),
     code: hanoiCode,
     run: hanoi,
+  },
+  {
+    id: 'str-palindrome',
+    group: '字符串',
+    title: '验证回文串',
+    brief: '首尾各一个指针往中间收，逐个比较。一旦有一对不相等就返回 false，全部对上都相等就是回文。O(n) 一趟，不需要额外空间。',
+    view: 'array',
+    facts: [['时间', 'O(n)'], ['空间', 'O(1)'], ['技巧', '双端收缩'], ['变体', '忽略大小写和标点']],
+    counters: '比较',
+    legend: [
+      { cls: 'cell', text: '字符' },
+      { cls: 'cell is-compare', text: '正在比较的一对' },
+      { cls: 'cell is-settled', text: '已确认相等' },
+      { cls: 'cell is-move', text: '不相等' },
+    ],
+    inputs: palinInputs(),
+    code: palinCode,
+    run: palindrome,
   },
 ];

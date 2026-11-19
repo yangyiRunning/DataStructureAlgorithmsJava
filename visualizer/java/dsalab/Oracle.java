@@ -47,6 +47,15 @@ public final class Oracle {
       case "list-reverse": return arr(reverse(ints(parts[1])));
       case "list-insert": return arr(insertAt(ints(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
       case "list-delete": return arr(remove(ints(parts[1]), Integer.parseInt(parts[2])));
+      case "list-merge": return "arr:" + mergeLists(parts[1], parts[2]);
+      case "list-reverse-k": return "arr:" + reverseK(ints(parts[1]), Integer.parseInt(parts[2]));
+      case "st-two-stacks": return "transfers:" + twoStacks(parts[1]);
+      case "st-circle-queue": return "leftover:" + circleQueue(parts[1]);
+      case "hash-chaining": return chaining(parts[1]);
+      case "hash-lru": return "order:" + lru(parts[1]);
+      case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "adv-segment-tree": return "sum:" + segQuery(parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+      case "adv-fenwick": return "sum:" + fenwick(parts[1], Integer.parseInt(parts[2]));
       case "list-middle": return "val:" + middleVal(ints(parts[1]));
       case "list-cycle": return "entry:" + cycleEntry(ints(parts[1]), parts[2].equals("null") ? -1 : Integer.parseInt(parts[2]));
       case "list-remove-nth": return "arr:" + arr(removeNth(ints(parts[1]), Integer.parseInt(parts[2])));
@@ -772,6 +781,158 @@ public final class Oracle {
     if (mode.equals("in")) out.add(FIXED_TREE[i]);
     dfs(2 * i + 2, mode, out);
     if (mode.equals("post")) out.add(FIXED_TREE[i]);
+  }
+
+  // ── 链表 3 / 队列 / 哈希 / 其余 ───────────────────────
+
+  static String mergeLists(String aSpec, String bSpec) {
+    List<Integer> a = ints(aSpec), b = ints(bSpec);
+    List<Integer> out = new ArrayList<>();
+    int i = 0, j = 0;
+    while (i < a.size() && j < b.size()) {
+      if (a.get(i) <= b.get(j)) out.add(a.get(i++)); else out.add(b.get(j++));
+    }
+    while (i < a.size()) out.add(a.get(i++));
+    while (j < b.size()) out.add(b.get(j++));
+    return arr(out);
+  }
+
+  static String reverseK(List<Integer> in, int k) {
+    List<Integer> a = new ArrayList<>(in);
+    for (int s = 0; s + k <= a.size(); s += k) {
+      for (int i = s, j = s + k - 1; i < j; i++, j--) {
+        Integer t = a.get(i); a.set(i, a.get(j)); a.set(j, t);
+      }
+    }
+    return arr(a);
+  }
+
+  static int twoStacks(String spec) {
+    Deque<Integer> in = new ArrayDeque<>();
+    Deque<Integer> out = new ArrayDeque<>();
+    int transfers = 0;
+    for (String op : spec.split(",")) {
+      if (op.startsWith("push")) {
+        in.push(Integer.parseInt(op.substring(4)));
+      } else {
+        if (out.isEmpty()) {
+          while (!in.isEmpty()) { out.push(in.pop()); transfers++; }
+        }
+        if (!out.isEmpty()) out.pop();
+      }
+    }
+    return transfers;
+  }
+
+  static String circleQueue(String spec) {
+    int n = 6;
+    Integer[] buf = new Integer[n];
+    int head = 0, tail = 0, size = 0;
+    for (String op : spec.split(",")) {
+      if (op.startsWith("enqueue")) {
+        if (size == n) continue;
+        buf[tail] = Integer.parseInt(op.substring(7));
+        tail = (tail + 1) % n;
+        size++;
+      } else {
+        if (size == 0) continue;
+        buf[head] = null;
+        head = (head + 1) % n;
+        size--;
+      }
+    }
+    StringBuilder sb = new StringBuilder();
+    for (Integer v : buf) if (v != null) { if (sb.length() > 0) sb.append(','); sb.append(v); }
+    return sb.toString();
+  }
+
+  static String chaining(String spec) {
+    int N = 5;
+    List<List<Integer>> buckets = new ArrayList<>();
+    for (int i = 0; i < N; i++) buckets.add(new ArrayList<>());
+    int collisions = 0;
+    for (int key : arr0(spec)) {
+      int i = key % N;
+      if (buckets.get(i).contains(key)) continue;
+      if (!buckets.get(i).isEmpty()) collisions++;
+      buckets.get(i).add(key);
+    }
+    int maxChain = 0, total = 0;
+    for (List<Integer> b : buckets) { maxChain = Math.max(maxChain, b.size()); total += b.size(); }
+    return "collisions:" + collisions + "|maxChain:" + maxChain + "|total:" + total;
+  }
+
+  static String lru(String spec) {
+    int capacity = 3;
+    LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
+    for (String op : spec.split(",")) {
+      if (op.startsWith("get")) {
+        int key = Integer.parseInt(op.substring(3));
+        if (!map.containsKey(key)) continue;
+        Integer v = map.remove(key);
+        map.put(key, v);                       // 重新插入 = 移到最新
+      } else {
+        int key = Integer.parseInt(op.substring(3));
+        int val = key * 10;
+        if (map.containsKey(key)) {
+          map.remove(key);
+          map.put(key, val);
+        } else {
+          if (map.size() == capacity) {
+            Integer eldest = map.keySet().iterator().next();
+            map.remove(eldest);
+          }
+          map.put(key, val);
+        }
+      }
+    }
+    List<String> keys = new ArrayList<>();
+    for (Integer k : map.keySet()) keys.add(String.valueOf(k));
+    java.util.Collections.reverse(keys);        // JS 里最近使用在最前
+    return String.join(",", keys);
+  }
+
+  static boolean isPalindrome(String s) {
+    int i = 0, j = s.length() - 1;
+    while (i < j) {
+      if (s.charAt(i) != s.charAt(j)) return false;
+      i++; j--;
+    }
+    return true;
+  }
+
+  static int segQuery(String spec, int ql, int qr) {
+    int[] a = arr0(spec);
+    int[] tree = new int[4 * a.length];
+    segBuild(a, tree, 1, 0, a.length - 1);
+    return segDo(tree, 1, 0, a.length - 1, ql, qr);
+  }
+
+  private static void segBuild(int[] a, int[] t, int node, int l, int r) {
+    if (l == r) { t[node] = a[l]; return; }
+    int mid = (l + r) >> 1;
+    segBuild(a, t, node * 2, l, mid);
+    segBuild(a, t, node * 2 + 1, mid + 1, r);
+    t[node] = t[node * 2] + t[node * 2 + 1];
+  }
+
+  private static int segDo(int[] t, int node, int l, int r, int ql, int qr) {
+    if (qr < l || r < ql) return 0;
+    if (ql <= l && r <= qr) return t[node];
+    int mid = (l + r) >> 1;
+    return segDo(t, node * 2, l, mid, ql, qr) + segDo(t, node * 2 + 1, mid + 1, r, ql, qr);
+  }
+
+  static int fenwick(String spec, int q) {
+    int[] a = arr0(spec);
+    int n = a.length;
+    int[] tree = new int[n + 1];
+    for (int i = 1; i <= n; i++) {
+      for (int j = i; j <= n; j += j & -j) tree[j] += a[i - 1];
+    }
+    int sum = 0;
+    for (int i = q; i > 0; i -= i & -i) sum += tree[i];
+    return sum;
   }
 
   // ── 查找 ──────────────────────────────────────────────

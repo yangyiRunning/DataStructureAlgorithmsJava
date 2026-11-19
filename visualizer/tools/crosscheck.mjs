@@ -28,6 +28,8 @@ import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { dpOneDAlgorithms } from '../algos/dp2.js';
 import { arrayTechAlgorithms } from '../algos/arraytech.js';
 import { miscAlgorithms } from '../algos/misc.js';
+import { hashAlgorithms } from '../algos/hash.js';
+import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -54,6 +56,8 @@ const ALGOS = [
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
   ...miscAlgorithms,
+  ...hashAlgorithms,
+  ...advancedTreeAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -111,6 +115,22 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'list-merge':
+    case 'list-reverse-k':
+      return `arr:${result.arr}`;
+    case 'st-two-stacks':
+      return `transfers:${result.transfers}`;
+    case 'st-circle-queue':
+      return `leftover:${result.leftover}`;
+    case 'hash-chaining':
+      return `collisions:${result.collisions}|maxChain:${result.maxChain}|total:${result.total}`;
+    case 'hash-lru':
+      return `order:${result.order}`;
+    case 'str-palindrome':
+      return `ok:${result.ok}`;
+    case 'adv-segment-tree':
+    case 'adv-fenwick':
+      return `sum:${result.sum}`;
     case 'graph-islands':
       return `count:${result.count}`;
     case 'heap-topk':
@@ -208,6 +228,24 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'list-merge':
+      return `${algoId};${nums(input.left)};${nums(input.right)}`;
+    case 'list-reverse-k':
+      return `${algoId};${nums(input.values)};${input.k}`;
+    case 'st-two-stacks':
+      return `${algoId};${input.map(([o, v]) => (o === 'push' ? `push${v}` : 'pop')).join(',')}`;
+    case 'st-circle-queue':
+      return `${algoId};${input.map(([o, v]) => (o === 'enqueue' ? `enqueue${v}` : 'dequeue')).join(',')}`;
+    case 'hash-chaining':
+      return `${algoId};${nums(input)}`;
+    case 'hash-lru':
+      return `${algoId};${input.map(([o, k]) => `${o}${k}`).join(',')}`;
+    case 'str-palindrome':
+      return `${algoId};${input}`;
+    case 'adv-segment-tree':
+      return `${algoId};${nums(input.arr)};${input.ql};${input.qr}`;
+    case 'adv-fenwick':
+      return `${algoId};${nums(input.arr)};${input.q}`;
     case 'graph-islands':
       return algoId;
     case 'heap-topk':

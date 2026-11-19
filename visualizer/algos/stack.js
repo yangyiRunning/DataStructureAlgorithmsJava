@@ -248,6 +248,162 @@ function dequeInputs() {
   ];
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 两个栈实现队列
+// ─────────────────────────────────────────────────────────────
+
+const twoStackCode = [
+  'function push(x) { inStack.push(x); }',
+  'function pop() {',
+  '  if (outStack.length === 0) {',
+  '    while (inStack.length) outStack.push(inStack.pop());',
+  '  }',
+  '  return outStack.pop();',
+  '}',
+];
+
+function twoStackQueue(input) {
+  const ops = input;
+  const inStack = [];
+  const outStack = [];
+  const steps = [];
+  let transfers = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      values: [],
+      chars: [],
+      container: {
+        label: '栈',
+        items: [
+          { text: 'in' }, ...inStack.map((v) => ({ text: String(v) })),
+          { text: '│' }, { text: 'out' }, ...outStack.map((v) => ({ text: String(v) })),
+        ],
+      },
+      ...state,
+    },
+    note,
+    line,
+    counters: { 搬移: transfers },
+  });
+
+  push({}, '两个栈拼一个队列：进来的都压 in 栈；要出队时把 in 全部倒进 out，从 out 弹就是先进先出。', 0);
+
+  for (const [op, val] of ops) {
+    if (op === 'push') {
+      inStack.push(val);
+      push({}, `push(${val})：直接压进 in 栈。`, 0);
+    } else {
+      if (outStack.length === 0) {
+        push({}, 'out 栈空了，得把 in 里的全部倒过来——倒一次之后，out 顶就是最早的。', 2);
+        while (inStack.length) {
+          outStack.push(inStack.pop());
+          transfers += 1;
+          push({}, `搬一个：${outStack[outStack.length - 1]} 从 in 倒到 out。`, 3);
+        }
+      }
+      const v = outStack.pop();
+      push({}, `pop() 得到 ${v}。`, 5);
+    }
+  }
+
+  push({}, `共搬了 ${transfers} 次。每个元素最多被搬一次，所以摊还下来每次操作还是 O(1)。`, 6);
+  return { steps, result: { transfers } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 循环队列
+// ─────────────────────────────────────────────────────────────
+
+const circleCode = [
+  'function enqueue(x) {',
+  '  if (size === n) return false;   // 满了',
+  '  buf[tail] = x;',
+  '  tail = (tail + 1) % n;          // 到尾部就绕回去',
+  '  size++;',
+  '}',
+  'function dequeue() {',
+  '  if (size === 0) return null;',
+  '  const v = buf[head];',
+  '  head = (head + 1) % n;',
+  '  size--;',
+  '  return v;',
+  '}',
+];
+
+function circleQueue(input) {
+  const n = 6;
+  const ops = input;
+  const buf = new Array(n).fill(null);
+  let head = 0;
+  let tail = 0;
+  let size = 0;
+
+  const steps = [];
+  const push = (state, note, line) => steps.push({
+    state: {
+      chars: buf.map((v) => (v == null ? '·' : String(v))),
+      pointers: [
+        { i: head, text: 'head' },
+        { i: tail, text: 'tail' },
+      ],
+      container: { label: '状态', items: [{ text: `size=${size}`, hot: true }] },
+      ...state,
+    },
+    note,
+    line,
+    counters: { 操作: 0 },
+  });
+
+  push({}, `环形数组当队列：head 指队首、tail 指下一个要写的位置，走到末尾就 % n 绕回去。这样不用搬移元素。`, 0);
+
+  let opsDone = 0;
+  for (const [op, val] of ops) {
+    if (op === 'enqueue') {
+      if (size === n) {
+        push({}, `队列满了（size = ${n}），入队失败。这就是"循环队列要单独记 size"的原因——head === tail 分不清空还是满。`, 1);
+        continue;
+      }
+      buf[tail] = val;
+      const oldTail = tail;
+      tail = (tail + 1) % n;
+      size += 1;
+      opsDone += 1;
+      push({ settled: [oldTail] }, `入队 ${val} 写到下标 ${oldTail}，tail 移到 ${tail}。`, 3);
+    } else {
+      if (size === 0) {
+        push({}, '队列空了，出队失败。', 7);
+        continue;
+      }
+      const v = buf[head];
+      buf[head] = null;
+      const oldHead = head;
+      head = (head + 1) % n;
+      size -= 1;
+      opsDone += 1;
+      push({ move: [oldHead] }, `出队 ${v}，head 移到 ${head}。`, 9);
+    }
+  }
+
+  push({}, `演示结束。整个过程没有搬移任何元素，O(1) 入队出队。`, 11);
+  return { steps, result: { leftover: buf.filter((v) => v != null).join(',') } };
+}
+
+function twoStackInputs() {
+  return [
+    { label: '推 1 2 3 再弹两次', make: () => [['push', 1], ['push', 2], ['push', 3], ['pop'], ['pop']] },
+    { label: '边推边弹', make: () => [['push', 1], ['pop'], ['push', 2], ['push', 3], ['pop']] },
+  ];
+}
+
+function circleInputs() {
+  return [
+    { label: '入队 5 次出队 2 次', make: () => [['enqueue', 1], ['enqueue', 2], ['enqueue', 3], ['enqueue', 4], ['enqueue', 5], ['dequeue'], ['dequeue']] },
+    { label: '绕回一圈', make: () => [['enqueue', 1], ['enqueue', 2], ['enqueue', 3], ['enqueue', 4], ['enqueue', 5], ['enqueue', 6], ['dequeue'], ['dequeue'], ['enqueue', 7]] },
+  ];
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const charStackLegend = [
@@ -302,5 +458,31 @@ export const stackAlgorithms = [
     inputs: dequeInputs(),
     code: dequeCode,
     run: maxSlidingWindow,
+  },
+  {
+    id: 'st-two-stacks',
+    group: '栈与队列',
+    title: '两个栈实现队列',
+    brief: 'in 栈只进、out 栈只出。要出队时把 in 全倒进 out，顺序就反过来了，正好符合先进先出。每个元素最多搬一次，摊还 O(1)。',
+    view: 'array',
+    facts: [['入队', 'O(1)'], ['出队', '摊还 O(1)'], ['搬移', '每元素最多一次'], ['坑', 'out 非空时别急着倒']],
+    counters: '搬移',
+    legend: [],
+    inputs: twoStackInputs(),
+    code: twoStackCode,
+    run: twoStackQueue,
+  },
+  {
+    id: 'st-circle-queue',
+    group: '栈与队列',
+    title: '循环队列',
+    brief: '用一段定长数组首尾相接，head 指队首、tail 指下一个写入位，都靠 % n 绕回。不用搬移元素，入队出队都是 O(1)。',
+    view: 'array',
+    facts: [['入队', 'O(1)'], ['出队', 'O(1)'], ['空间', '固定 n'], ['坑', '空和满要区分']],
+    counters: '操作',
+    legend: [],
+    inputs: circleInputs(),
+    code: circleCode,
+    run: circleQueue,
   },
 ];
