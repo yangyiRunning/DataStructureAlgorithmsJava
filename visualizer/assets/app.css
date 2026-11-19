@@ -975,3 +975,31 @@ body.clean .canvas-wrap {
   fill: #FCFAF6;
   stroke: #E7E0D5;
 }
+
+/* 网格里的水 */
+.cell.board.is-water {
+  fill: #E6DDCC;
+  stroke: #DCD1BC;
+}
+
+/* 汉诺塔 */
+
+.peg {
+  fill: #D9CEB8;
+}
+
+.peg-base {
+  fill: #CBBFA9;
+}
+
+.disk {
+  fill: #F6E7CE;
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.2;
+}
+
+.disk.is-moved {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+  stroke-width: 2;
+}

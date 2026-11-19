@@ -830,6 +830,89 @@ function prim(start) {
   return { steps, result: { total, edges: [...edgeState.keys()].sort().join(',') } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 网格 DFS：岛屿数量
+// ─────────────────────────────────────────────────────────────
+
+const islandCode = [
+  'function numIslands(grid) {',
+  '  let count = 0;',
+  '  const dfs = (r, c) => {',
+  '    if (r < 0 || r >= R || c < 0 || c >= C) return;',
+  '    if (grid[r][c] !== 1) return;',
+  '    grid[r][c] = 0;                 // 淹掉，等于标记已访问',
+  '    dfs(r + 1, c); dfs(r - 1, c);',
+  '    dfs(r, c + 1); dfs(r, c - 1);',
+  '  };',
+  '  for (let r = 0; r < R; r++)',
+  '    for (let c = 0; c < C; c++)',
+  '      if (grid[r][c] === 1) { count++; dfs(r, c); }',
+  '  return count;',
+  '}',
+];
+
+const ISLAND_GRID = [
+  [1, 1, 0, 0, 1],
+  [1, 0, 0, 1, 1],
+  [0, 0, 1, 0, 0],
+  [1, 0, 1, 1, 0],
+];
+
+function numIslands() {
+  const src = ISLAND_GRID;
+  const R = src.length;
+  const C = src[0].length;
+  const grid = src.map((r) => r.slice());
+  const visited = [];
+
+  const steps = [];
+  let islands = 0;
+  let touched = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      grid: grid.map((r) => r.slice()),
+      land: src,                        // 原始地形：渲染时用它区分陆地和水
+      visited: visited.map((v) => v.slice()),
+      ...state,
+    },
+    note,
+    line,
+    counters: { 岛屿数: islands, 访问格: touched },
+  });
+
+  push({ container: { label: '岛屿', items: [{ text: '0' }] } },
+    '网格里 1 是陆地、0 是水。上下左右连通的陆地算一个岛。做法：扫到一块没访问过的陆地，就整片淹掉，岛屿数加一。', 0);
+
+  const dfs = (r, c) => {
+    if (r < 0 || r >= R || c < 0 || c >= C) return;
+    if (grid[r][c] !== 1) return;
+    grid[r][c] = 0;
+    visited.push([r, c]);
+    touched += 1;
+    push({ current: [r, c], container: { label: '岛屿', items: [{ text: String(islands) }] } },
+      `(${r},${c}) 是陆地，淹掉它，然后往四个方向继续找。`, 6);
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
+  };
+
+  for (let r = 0; r < R; r++) {
+    for (let c = 0; c < C; c++) {
+      if (grid[r][c] === 1) {
+        islands += 1;
+        push({ current: [r, c] }, `发现新的一块陆地 (${r},${c})，这是第 ${islands} 个岛，开始把它整片淹掉。`, 11);
+        dfs(r, c);
+      }
+    }
+  }
+
+  push({ container: { label: '岛屿', items: [{ text: String(islands), hot: true }] } }, `扫完了，一共 ${islands} 个岛。复杂度 O(行×列)，每个格子最多访问一次。`, 12);
+  return { steps, result: { count: islands } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const graphLegend = [
@@ -943,5 +1026,18 @@ export const graphAlgorithms = [
     inputs: [{ label: '从 A 出发', make: () => 'A' }, { label: '从 D 出发', make: () => 'D' }],
     code: primCode,
     run: prim,
+  },
+  {
+    id: 'graph-islands',
+    group: '图',
+    title: '网格 DFS · 岛屿数量',
+    brief: '扫到一块没访问过的陆地，就用 DFS 把整片连通区淹掉（标记已访问），岛屿数加一。网格题里"淹掉"比另开一个 visited 数组更省事。',
+    view: 'board',
+    facts: [['时间', 'O(行×列)'], ['空间', 'O(行×列) 栈'], ['方向', '上下左右四个'], ['坑', '别漏掉边界判断']],
+    counters: '岛屿数、访问格',
+    legend: [{ cls: 'cell board', text: '陆地' }, { cls: 'cell board is-water', text: '水' }, { cls: 'cell board is-settled', text: '已淹掉' }, { cls: 'cell board is-active', text: '当前格' }],
+    inputs: [{ label: '这张网格', make: () => true }],
+    code: islandCode,
+    run: numIslands,
   },
 ];

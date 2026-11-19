@@ -247,6 +247,93 @@ function heapSort(input) {
   return { steps, result: { values: h.slice() } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// TopK：小顶堆维护前 K 大
+// ─────────────────────────────────────────────────────────────
+
+const topkCode = [
+  'function topK(nums, k) {',
+  '  const heap = [];                  // 小顶堆，最多放 k 个',
+  '  for (const x of nums) {',
+  '    if (heap.length < k) {',
+  '      heap.push(x); siftUp(heap, heap.length - 1);',
+  '    } else if (x > heap[0]) {       // 比堆顶（当前第 k 大）还大',
+  '      heap[0] = x;                  // 顶掉堆顶',
+  '      siftDown(heap, 0, heap.length);',
+  '    }',
+  '  }',
+  '  return heap;                      // 堆里就是前 k 大',
+  '}',
+];
+
+function topK(input) {
+  const { nums, k } = input;
+  const heap = [];
+  const steps = [];
+  let cmp = 0;
+  let swap = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { values: heap.slice(), ...state },
+    note,
+    line,
+    counters: { 比较: cmp, 交换: swap },
+  });
+
+  push({}, `找前 ${k} 大。用一个容量只有 ${k} 的小顶堆：堆顶就是"目前第 ${k} 名"，新来的比它大才有资格进堆。`, 0);
+
+  const siftUp = (i) => {
+    while (i > 0) {
+      const p = (i - 1) >> 1;
+      cmp += 1;
+      if (heap[p] <= heap[i]) break;
+      [heap[p], heap[i]] = [heap[i], heap[p]];
+      swap += 1;
+      i = p;
+    }
+  };
+
+  const siftDown = (i, size) => {
+    while (true) {
+      let small = i;
+      const l = 2 * i + 1;
+      const r = 2 * i + 2;
+      if (l < size) { cmp += 1; if (heap[l] < heap[small]) small = l; }
+      if (r < size) { cmp += 1; if (heap[r] < heap[small]) small = r; }
+      if (small === i) return;
+      [heap[i], heap[small]] = [heap[small], heap[i]];
+      swap += 1;
+      i = small;
+    }
+  };
+
+  for (const x of nums) {
+    if (heap.length < k) {
+      heap.push(x);
+      siftUp(heap.length - 1);
+      push({ active: [heap.indexOf(x)] }, `${x} 进堆（还没满 ${k} 个），上浮到该待的位置。`, 5);
+    } else if (x > heap[0]) {
+      push({ active: [0], compare: [0] }, `${x} 比堆顶 ${heap[0]} 大，有资格挤进去。`, 6);
+      heap[0] = x;
+      siftDown(0, heap.length);
+      push({ active: [0] }, `顶掉堆顶，新值下沉到该待的位置。`, 8);
+    } else {
+      push({ compare: [0] }, `${x} 不比堆顶 ${heap[0]} 大，直接丢掉。`, 6);
+    }
+  }
+
+  push({}, `堆里剩下的就是前 ${k} 大：${heap.slice().sort((a, b) => b - a).join('，')}。整个过程只扫一遍数组，堆大小固定为 ${k}。`, 10);
+  return { steps, result: { top: heap.slice().sort((a, b) => b - a).join(',') } };
+}
+
+function topkInputs() {
+  return [
+    { label: 'k = 3', make: () => ({ nums: [3, 2, 1, 5, 6, 4], k: 3 }) },
+    { label: '随机 8 个', make: () => ({ nums: Array.from({ length: 8 }, () => 1 + Math.floor(Math.random() * 40)), k: 3 }) },
+  ];
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const heapLegend = [
@@ -305,5 +392,19 @@ export const heapAlgorithms = [
     ],
     code: sortCode,
     run: heapSort,
+  },
+  {
+    id: 'heap-topk',
+    group: '堆',
+    title: 'TopK（小顶堆）',
+    brief: '容量只有 k 的小顶堆，堆顶就是"目前第 k 名"。新元素比堆顶大才进堆、顶掉堆顶。比全排序 O(n log n) 快，是 O(n log k)。',
+    view: 'heap',
+    heapKind: 'min',
+    facts: [['时间', 'O(n log k)'], ['空间', 'O(k)'], ['为什么是小顶堆', '堆顶就是第 k 名'], ['对比', '全排序 O(n log n)']],
+    counters: '比较、交换',
+    legend: heapLegend,
+    inputs: topkInputs(),
+    code: topkCode,
+    run: topK,
   },
 ];

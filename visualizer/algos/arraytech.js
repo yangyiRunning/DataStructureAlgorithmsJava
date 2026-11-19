@@ -182,6 +182,78 @@ function jumpInputs() {
   ];
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 贪心：区间调度
+// ─────────────────────────────────────────────────────────────
+
+const intervalCode = [
+  'function eraseOverlap(intervals) {',
+  '  intervals.sort((a, b) => a[1] - b[1]);   // 按右端点排序',
+  '  let removed = 0, lastEnd = -Infinity;',
+  '  for (const [s, e] of intervals) {',
+  '    if (s >= lastEnd) lastEnd = e;         // 与上一个不重叠，保留',
+  '    else removed++;                        // 重叠，删掉',
+  '  }',
+  '  return removed;',
+  '}',
+];
+
+function eraseOverlap(input) {
+  const list = input.map(([s, e]) => ({ s, e })).sort((a, b) => a.e - b.e);
+  const values = list.map((x) => x.e);
+
+  const steps = [];
+  let kept = 0;
+  let removed = 0;
+  let lastEnd = -Infinity;
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      values,
+      container: { label: '区间(起点-终点)', items: list.map((x) => ({ text: `${x.s}-${x.e}`, hot: x.e === state?.hotE })) },
+      ...state,
+    },
+    note,
+    line,
+    counters: { 保留: kept, 删除: removed },
+  });
+
+  push({}, `求最少删掉几个区间让剩下的互不重叠。贪心策略：按右端点排序，能接上就接。柱子是每个区间的右端点。`, 1);
+
+  list.forEach((x, i) => {
+    if (x.s >= lastEnd) {
+      kept += 1;
+      lastEnd = x.e;
+      push({ settled: [i], pivot: i, hotE: x.e },
+        `区间 [${x.s}, ${x.e}] 的起点 ${x.s} ≥ 上一个的终点 ${lastEnd === x.e ? x.s : lastEnd}，不重叠，保留。`, 4);
+    } else {
+      removed += 1;
+      push({ move: [i], hotE: x.e },
+        `区间 [${x.s}, ${x.e}] 和已保留的重叠了（起点 ${x.s} < 上一个终点 ${lastEnd}），删掉。`, 5);
+    }
+  });
+
+  push({ settled: values.map((_, i) => i) },
+    `共删掉 ${removed} 个，保留 ${kept} 个。按右端点排序是关键：越早结束，给后面留的空间越大。`, 7);
+  return { steps, result: { removed, kept } };
+}
+
+function intervalInputs() {
+  return [
+    { label: '经典用例', make: () => [[1, 2], [2, 3], [3, 4], [1, 3]] },
+    { label: '全重叠', make: () => [[1, 5], [2, 6], [3, 7], [4, 8]] },
+    { label: '随机 5 个', make: () => {
+      const out = [];
+      for (let i = 0; i < 5; i++) {
+        const s = Math.floor(Math.random() * 8);
+        out.push([s, s + 1 + Math.floor(Math.random() * 3)]);
+      }
+      return out;
+    } },
+  ];
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const techLegend = [
@@ -242,5 +314,18 @@ export const arrayTechAlgorithms = [
     inputs: jumpInputs(),
     code: jumpCode,
     run: canJump,
+  },
+  {
+    id: 'at-intervals',
+    group: '数组技巧',
+    title: '贪心 · 区间调度',
+    brief: '按右端点排序，能接上就接，接不上就删。越早结束的区间给后面留的空间越大——这是"用最少删掉换最多保留"的标准贪心。',
+    view: 'array',
+    facts: [['时间', 'O(n log n)'], ['空间', 'O(1)'], ['排序依据', '右端点'], ['同型', '会议室 / 无重叠区间']],
+    counters: '保留、删除',
+    legend: techLegend,
+    inputs: intervalInputs(),
+    code: intervalCode,
+    run: eraseOverlap,
   },
 ];

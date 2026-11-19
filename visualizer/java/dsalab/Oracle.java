@@ -43,6 +43,7 @@ public final class Oracle {
       case "sort-merge": return arr(mergeSort(ints(parts[1])));
       case "sort-counting": return arr(countingSort(ints(parts[1])));
       case "sort-shell": return arr(shellSort(ints(parts[1])));
+      case "sort-radix": return arr(radixSort(ints(parts[1])));
       case "list-reverse": return arr(reverse(ints(parts[1])));
       case "list-insert": return arr(insertAt(ints(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
       case "list-delete": return arr(remove(ints(parts[1]), Integer.parseInt(parts[2])));
@@ -154,6 +155,13 @@ public final class Oracle {
         return "ans:" + dp[C];
       }
       case "dp-edit-distance": return "dist:" + editDistance(parts[1], parts[2]);
+      case "graph-islands": return "count:" + islands();
+      case "heap-topk": return "top:" + topK(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "at-intervals": return intervals(parts[1]);
+      case "bit-single-number": return "ans:" + single(arr0(parts[1]));
+      case "bit-subset-mask": return "count:" + (1 << arr0(parts[1]).length);
+      case "str-kmp": return "idx:" + kmp(parts[1], parts[2]);
+      case "rec-hanoi": return "moves:" + ((1 << Integer.parseInt(parts[1])) - 1);
       case "graph-floyd": return floydAll();
       case "graph-prim": return primMst(parts[1]);
       case "dp-climb": return "ans:" + climb(Integer.parseInt(parts[1]));
@@ -330,6 +338,20 @@ public final class Oracle {
     return a;
   }
 
+  static List<Integer> radixSort(List<Integer> in) {
+    List<Integer> a = new ArrayList<>(in);
+    int max = 0;
+    for (int v : a) max = Math.max(max, v);
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+      List<List<Integer>> buckets = new ArrayList<>();
+      for (int d = 0; d < 10; d++) buckets.add(new ArrayList<>());
+      for (int v : a) buckets.get((v / exp) % 10).add(v);
+      a.clear();
+      for (List<Integer> b : buckets) a.addAll(b);
+    }
+    return a;
+  }
+
   static int quickSelect(int[] in, int k) {
     int[] a = in.clone();
     int target = a.length - k;      // 第 k 大 → 升序下标
@@ -398,6 +420,92 @@ public final class Oracle {
     List<Integer> a = new ArrayList<>(in);
     a.remove(Integer.valueOf(val));
     return a;
+  }
+
+  // ── 网格 DFS ──────────────────────────────────────────
+
+  static final int[][] ISLAND_GRID = {
+      {1, 1, 0, 0, 1},
+      {1, 0, 0, 1, 1},
+      {0, 0, 1, 0, 0},
+      {1, 0, 1, 1, 0},
+  };
+
+  static int islands() {
+    int R = ISLAND_GRID.length, C = ISLAND_GRID[0].length;
+    int[][] g = new int[R][C];
+    for (int i = 0; i < R; i++) g[i] = ISLAND_GRID[i].clone();
+    int count = 0;
+    for (int r = 0; r < R; r++)
+      for (int c = 0; c < C; c++)
+        if (g[r][c] == 1) { count++; flood(g, r, c); }
+    return count;
+  }
+
+  private static void flood(int[][] g, int r, int c) {
+    if (r < 0 || r >= g.length || c < 0 || c >= g[0].length) return;
+    if (g[r][c] != 1) return;
+    g[r][c] = 0;
+    flood(g, r + 1, c); flood(g, r - 1, c);
+    flood(g, r, c + 1); flood(g, r, c - 1);
+  }
+
+  // ── TopK ──────────────────────────────────────────────
+
+  static String topK(int[] nums, int k) {
+    java.util.PriorityQueue<Integer> pq = new java.util.PriorityQueue<>();
+    for (int x : nums) {
+      pq.add(x);
+      if (pq.size() > k) pq.poll();
+    }
+    List<Integer> out = new ArrayList<>(pq);
+    out.sort((a, b) -> b - a);
+    return arr(out);
+  }
+
+  // ── 区间调度 ──────────────────────────────────────────
+
+  static String intervals(String spec) {
+    List<int[]> list = new ArrayList<>();
+    if (!spec.isEmpty()) {
+      for (String part : spec.split(",")) {
+        String[] se = part.split("-");
+        list.add(new int[]{Integer.parseInt(se[0]), Integer.parseInt(se[1])});
+      }
+    }
+    list.sort((a, b) -> a[1] - b[1]);
+    int removed = 0, kept = 0, lastEnd = Integer.MIN_VALUE;
+    for (int[] it : list) {
+      if (it[0] >= lastEnd) { lastEnd = it[1]; kept++; }
+      else removed++;
+    }
+    return "removed:" + removed + "|kept:" + kept;
+  }
+
+  // ── 位运算 / 字符串 / 递归 ────────────────────────────
+
+  static int single(int[] nums) {
+    int ans = 0;
+    for (int x : nums) ans ^= x;
+    return ans;
+  }
+
+  static int kmp(String s, String p) {
+    int n = p.length();
+    int[] next = new int[n];
+    int k = 0;
+    for (int i = 1; i < n; i++) {
+      while (k > 0 && p.charAt(i) != p.charAt(k)) k = next[k - 1];
+      if (p.charAt(i) == p.charAt(k)) k++;
+      next[i] = k;
+    }
+    int j = 0;
+    for (int i = 0; i < s.length(); i++) {
+      while (j > 0 && s.charAt(i) != p.charAt(j)) j = next[j - 1];
+      if (s.charAt(i) == p.charAt(j)) j++;
+      if (j == n) return i - j + 1;
+    }
+    return -1;
   }
 
   // ── 图：Floyd / Prim ──────────────────────────────────

@@ -731,6 +731,68 @@ function selectInputs() {
   return [{ label: '随机 9 个', make }, { label: '再试一组', make }];
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 基数排序
+// ─────────────────────────────────────────────────────────────
+
+const radixCode = [
+  'function radixSort(a) {',
+  '  const max = Math.max(...a);',
+  '  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {',
+  '    const buckets = Array.from({ length: 10 }, () => []);',
+  '    for (const v of a) buckets[Math.floor(v / exp) % 10].push(v);',
+  '    let k = 0;',
+  '    for (const b of buckets) for (const v of b) a[k++] = v;',
+  '  }',
+  '  return a;',
+  '}',
+];
+
+function radixSort(input) {
+  let a = input.slice();
+  const steps = [];
+  let moved = 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { values: a.slice(), ...state },
+    note,
+    line,
+    counters: { 写回: moved },
+  });
+
+  const max = Math.max(...a);
+  push({}, `按位排序：先按个位分桶、收回来；再按十位分桶、收回来……从低位到高位走完，数组就正序了。`, 1);
+
+  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+    const digit = exp === 1 ? '个位' : exp === 10 ? '十位' : '百位';
+    const buckets = Array.from({ length: 10 }, () => []);
+    for (const v of a) buckets[Math.floor(v / exp) % 10].push(v);
+
+    push(
+      { container: { label: `按${digit}分桶`, items: buckets.map((b, i) => ({ text: `${i}:${b.length}` })) } },
+      `这一轮看${digit}。每个桶就是一个数字 0–9，桶里按原顺序放着该位等于它的数。`,
+      4,
+    );
+
+    let k = 0;
+    for (const b of buckets) {
+      for (const v of b) {
+        a[k++] = v;
+        moved += 1;
+      }
+    }
+    push(
+      { settled: a.map((_, i) => i), container: { label: `按${digit}收回`, items: a.map((v) => ({ text: String(v) })) } },
+      `从 0 号桶到 9 号桶依次收回：${a.join('，')}。注意桶内保持原顺序——这是基数排序能稳定的原因。`,
+      6,
+    );
+  }
+
+  push({ settled: a.map((_, i) => i) }, `完成。d 位数就要跑 d 轮，每轮 O(n)，总计 O(d·n)。它不是比较排序，所以能突破 O(n log n)。`, 8);
+  return { steps, result: { values: a } };
+}
+
 // ─────────────────────────────────────────────────────────────
 
 const arrayLegend = [
@@ -851,5 +913,21 @@ export const sortingAlgorithms = [
     inputs: selectInputs(),
     code: selectCode,
     run: quickSelect,
+  },
+  {
+    id: 'sort-radix',
+    group: '排序',
+    title: '基数排序',
+    brief: '从低位到高位，每轮按一位数字分十个桶再收回。不是比较排序，所以能突破 O(n log n)——代价是只能排非负整数，且要额外空间。',
+    view: 'array',
+    facts: [['时间', 'O(d·n)'], ['空间', 'O(n + 10)'], ['稳定', '是'], ['限制', '非负整数']],
+    counters: '写回',
+    legend: arrayLegend,
+    inputs: [
+      { label: '三位数 6 个', make: () => Array.from({ length: 6 }, () => 10 + Math.floor(Math.random() * 990)) },
+      { label: '两位数 6 个', make: () => Array.from({ length: 6 }, () => 10 + Math.floor(Math.random() * 90)) },
+    ],
+    code: radixCode,
+    run: radixSort,
   },
 ];

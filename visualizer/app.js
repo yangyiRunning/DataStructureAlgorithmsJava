@@ -19,6 +19,7 @@ import * as trieView from './views/trieView.js';
 import * as ufView from './views/ufView.js';
 import * as tableView from './views/tableView.js';
 import * as boardView from './views/boardView.js';
+import * as pegsView from './views/pegsView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
 import { binarySearchAlgorithms } from './algos/binarysearch.js';
 import { twoPointerAlgorithms } from './algos/twopointers.js';
@@ -29,6 +30,7 @@ import { dpAlgorithms } from './algos/dp.js';
 import { backtrackingAlgorithms } from './algos/backtracking.js';
 import { dpOneDAlgorithms } from './algos/dp2.js';
 import { arrayTechAlgorithms } from './algos/arraytech.js';
+import { miscAlgorithms } from './algos/misc.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -44,6 +46,7 @@ const VIEWS = {
   uf: ufView,
   table: tableView,
   board: boardView,
+  pegs: pegsView,
 };
 
 const ALGOS = [
@@ -60,6 +63,7 @@ const ALGOS = [
   ...dpAlgorithms,
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
+  ...miscAlgorithms,
 ];
 
 const $ = (id) => document.getElementById(id);

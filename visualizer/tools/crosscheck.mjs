@@ -27,6 +27,7 @@ import { dpAlgorithms } from '../algos/dp.js';
 import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { dpOneDAlgorithms } from '../algos/dp2.js';
 import { arrayTechAlgorithms } from '../algos/arraytech.js';
+import { miscAlgorithms } from '../algos/misc.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -52,6 +53,7 @@ const ALGOS = [
   ...backtrackingAlgorithms,
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
+  ...miscAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -109,6 +111,20 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'graph-islands':
+      return `count:${result.count}`;
+    case 'heap-topk':
+      return `top:${result.top}`;
+    case 'at-intervals':
+      return `removed:${result.removed}|kept:${result.kept}`;
+    case 'bit-single-number':
+      return `ans:${result.ans}`;
+    case 'bit-subset-mask':
+      return `count:${result.count}`;
+    case 'str-kmp':
+      return `idx:${result.idx}`;
+    case 'rec-hanoi':
+      return `moves:${result.moves}`;
     case 'graph-floyd':
       return result.dist;
     case 'graph-prim':
@@ -192,6 +208,19 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'graph-islands':
+      return algoId;
+    case 'heap-topk':
+      return `${algoId};${nums(input.nums)};${input.k}`;
+    case 'at-intervals':
+      return `${algoId};${input.map(([s, e]) => `${s}-${e}`).join(',')}`;
+    case 'bit-single-number':
+    case 'bit-subset-mask':
+      return `${algoId};${nums(input)}`;
+    case 'str-kmp':
+      return `${algoId};${input.s};${input.p}`;
+    case 'rec-hanoi':
+      return `${algoId};${input}`;
     case 'graph-floyd':
       return algoId;
     case 'graph-prim':

@@ -19,6 +19,7 @@ import { dpAlgorithms } from '../algos/dp.js';
 import { backtrackingAlgorithms } from '../algos/backtracking.js';
 import { dpOneDAlgorithms } from '../algos/dp2.js';
 import { arrayTechAlgorithms } from '../algos/arraytech.js';
+import { miscAlgorithms } from '../algos/misc.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -38,6 +39,7 @@ const ALL = [
   ...graphAlgorithms,
   ...dpOneDAlgorithms,
   ...arrayTechAlgorithms,
+  ...miscAlgorithms,
   ...backtrackingAlgorithms,
 ];
 
@@ -202,10 +204,13 @@ function checkTrajectory(algo, inputLabel, input, built) {
         fail(where, `堆排序结果是 ${vals.join(',')}，不是升序`);
       }
     } else {
+      // 默认按大顶堆校验；演示用的小顶堆要在算法上声明 heapKind: 'min'
+      const isMin = algo.heapKind === 'min';
       for (let i = 1; i < vals.length; i++) {
         const p = (i - 1) >> 1;
-        if (vals[p] < vals[i]) {
-          fail(where, `大顶堆性质被破坏：下标 ${p} 的 ${vals[p]} < 下标 ${i} 的 ${vals[i]}`);
+        const broken = isMin ? vals[p] > vals[i] : vals[p] < vals[i];
+        if (broken) {
+          fail(where, `${isMin ? '小' : '大'}顶堆性质被破坏：下标 ${p} 的 ${vals[p]}、下标 ${i} 的 ${vals[i]}`);
         }
       }
     }

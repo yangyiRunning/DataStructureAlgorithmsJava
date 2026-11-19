@@ -13,6 +13,12 @@ const H = 400;
 export function render(svg, state) {
   empty(svg);
 
+  // 网格模式：state.grid 存在时按 0/1 画，不再按皇后画
+  if (state.grid) {
+    renderGrid(svg, state);
+    return;
+  }
+
   const n = state.n ?? 4;
   const size = Math.min(74, (H - 150) / n, (W - 240) / n);
   const x0 = (W - size * n) / 2;
@@ -62,6 +68,61 @@ export function render(svg, state) {
     svg.appendChild(label(72, cy + 18, box.label, { size: 11, fill: 'var(--ink-3)', anchor: 'end' }));
     box.items.forEach((it, i) => {
       const cw = 38;
+      const x = 86 + i * (cw + 4);
+      if (x + cw > W - 20) return;
+      svg.appendChild(el('rect', {
+        class: it?.hot ? 'cell is-active' : 'cell', x, y: cy, width: cw, height: 26, rx: 5,
+      }));
+      svg.appendChild(label(x + cw / 2, cy + 18, String(it?.text ?? it), {
+        size: 11, mono: true, fill: 'var(--ink)',
+      }));
+    });
+  }
+}
+
+/**
+ * 通用网格：0/1 的棋盘类问题（岛屿数量等）。
+ * 和皇后模式共用画布尺寸，只是格子的语义换成"陆地 / 水 / 已访问 / 当前"。
+ */
+function renderGrid(svg, state) {
+  const grid = state.land ?? state.grid;   // 原始地形，不随"淹掉"改变
+  const rows = grid.length;
+  const cols = grid[0].length;
+  const size = Math.min(66, (H - 150) / rows, (W - 240) / cols);
+  const x0 = (W - size * cols) / 2;
+  const y0 = 56;
+
+  const visited = new Set((state.visited ?? []).map(([r, c]) => `${r},${c}`));
+  const cur = state.current;
+  const chain = new Set((state.chain ?? []).map(([r, c]) => `${r},${c}`));
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const key = `${r},${c}`;
+      const land = grid[r][c] === 1;
+      let cls = 'cell board';
+      if (!land) cls += ' is-water';
+      if (visited.has(key)) cls += ' is-settled';
+      if (chain.has(key)) cls += ' is-compare';
+      if (cur && cur[0] === r && cur[1] === c) cls += ' is-active';
+
+      svg.appendChild(el('rect', {
+        class: cls, x: x0 + c * size, y: y0 + r * size, width: size - 3, height: size - 3, rx: 4,
+      }));
+      if (land && visited.has(key)) {
+        svg.appendChild(label(x0 + c * size + (size - 3) / 2, y0 + r * size + size / 2 + 5, '·', {
+          size: 16, mono: true, fill: 'var(--brand-2)', weight: 700,
+        }));
+      }
+    }
+  }
+
+  if (state.container?.items) {
+    const box = state.container;
+    const cy = H - 30;
+    svg.appendChild(label(72, cy + 18, box.label, { size: 11, fill: 'var(--ink-3)', anchor: 'end' }));
+    box.items.forEach((it, i) => {
+      const cw = 44;
       const x = 86 + i * (cw + 4);
       if (x + cw > W - 20) return;
       svg.appendChild(el('rect', {
