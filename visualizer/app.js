@@ -15,10 +15,16 @@ import * as listView from './views/listView.js';
 import * as treeView from './views/treeView.js';
 import * as heapView from './views/heapView.js';
 import * as graphView from './views/graphView.js';
+import * as trieView from './views/trieView.js';
+import * as ufView from './views/ufView.js';
+import * as tableView from './views/tableView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
 import { binarySearchAlgorithms } from './algos/binarysearch.js';
 import { twoPointerAlgorithms } from './algos/twopointers.js';
 import { stackAlgorithms } from './algos/stack.js';
+import { trieAlgorithms } from './algos/trie.js';
+import { unionFindAlgorithms } from './algos/unionfind.js';
+import { dpAlgorithms } from './algos/dp.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -30,6 +36,9 @@ const VIEWS = {
   tree: treeView,
   heap: heapView,
   graph: graphView,
+  trie: trieView,
+  uf: ufView,
+  table: tableView,
 };
 
 const ALGOS = [
@@ -39,8 +48,11 @@ const ALGOS = [
   ...twoPointerAlgorithms,
   ...stackAlgorithms,
   ...treeAlgorithms,
+  ...trieAlgorithms,
+  ...unionFindAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
+  ...dpAlgorithms,
 ];
 
 const $ = (id) => document.getElementById(id);

@@ -13,6 +13,9 @@ import { sortingAlgorithms } from '../algos/sorting.js';
 import { binarySearchAlgorithms } from '../algos/binarysearch.js';
 import { twoPointerAlgorithms } from '../algos/twopointers.js';
 import { stackAlgorithms } from '../algos/stack.js';
+import { trieAlgorithms } from '../algos/trie.js';
+import { unionFindAlgorithms } from '../algos/unionfind.js';
+import { dpAlgorithms } from '../algos/dp.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -25,6 +28,9 @@ const ALL = [
   ...twoPointerAlgorithms,
   ...stackAlgorithms,
   ...treeAlgorithms,
+  ...trieAlgorithms,
+  ...unionFindAlgorithms,
+  ...dpAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
 ];

@@ -21,6 +21,9 @@ import { sortingAlgorithms } from '../algos/sorting.js';
 import { binarySearchAlgorithms } from '../algos/binarysearch.js';
 import { twoPointerAlgorithms } from '../algos/twopointers.js';
 import { stackAlgorithms } from '../algos/stack.js';
+import { trieAlgorithms } from '../algos/trie.js';
+import { unionFindAlgorithms } from '../algos/unionfind.js';
+import { dpAlgorithms } from '../algos/dp.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -60,6 +63,13 @@ const CLIPS = [
     maxFrames: 18,
   },
   {
+    name: 'dp-edit',
+    algo: 'dp-edit-distance',
+    inputIndex: 0,
+    fps: 6,
+    maxFrames: 18,
+  },
+  {
     name: 'window-var',
     algo: 'tp-window-var',
     inputIndex: 0,
@@ -82,6 +92,9 @@ const ALL = [
   ...twoPointerAlgorithms,
   ...stackAlgorithms,
   ...treeAlgorithms,
+  ...trieAlgorithms,
+  ...unionFindAlgorithms,
+  ...dpAlgorithms,
 ];
 
 function stepsOf(algoId, inputIndex) {

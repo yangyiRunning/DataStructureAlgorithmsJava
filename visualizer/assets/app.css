@@ -740,6 +740,13 @@ output {
   stroke-width: 1.3;
 }
 
+/* 未填的格子：淡底、无数字。必须写在 is-active / is-compare 之前，
+   否则同权重下后面的规则会被它覆盖，正在算的格子反而显示成空白。 */
+.cell.is-empty {
+  fill: #FCFAF6;
+  stroke: #EFE9E0;
+}
+
 .cell.is-active {
   fill: var(--viz-compare);
   stroke: var(--viz-compare-edge);
@@ -747,9 +754,9 @@ output {
 }
 
 .cell.is-compare {
-  fill: var(--viz-compare);
-  stroke: var(--viz-compare-edge);
-  stroke-width: 1.6;
+  fill: #F1F6FC;
+  stroke: #A7C4E8;
+  stroke-width: 1.4;
 }
 
 .cell.is-settled {
@@ -914,4 +921,50 @@ body.clean .canvas-wrap {
   #input-buttons button:hover {
     transform: none;
   }
+}
+
+/* Trie 与并查集 */
+
+.trie-terminal {
+  stroke: var(--brand);
+  stroke-width: 1.4;
+}
+
+.uf-box {
+  fill: var(--card);
+  stroke: var(--viz-idle-edge);
+  stroke-width: 1.7;
+}
+
+.uf-box.is-active {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+  stroke-width: 2.2;
+}
+
+.uf-box.is-moved {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+}
+
+.uf-edge {
+  stroke: #CBBFA9;
+  stroke-width: 1.5;
+}
+
+.uf-edge.is-hot {
+  stroke: var(--viz-move-edge);
+  stroke-width: 2.2;
+}
+
+.uf-root-ring {
+  stroke: var(--brand);
+  stroke-width: 1.6;
+}
+
+/* 表格（DP 填表） */
+
+.cell.head {
+  fill: var(--cream-2);
+  stroke: var(--line);
 }

@@ -103,6 +103,47 @@ public final class Oracle {
       case "graph-dfs": return "order:" + String.join(",", dfs(parts[1]));
       case "graph-dijkstra": return dijkstra(parts[1]);
       case "graph-topo": return "order:" + String.join(",", topo());
+      case "trie-insert": {
+        String[] words = parts[1].split(",");
+        Trie t = new Trie();
+        for (String w : words) t.insert(w);
+        return "nodes:" + t.count() + "|terminals:" + t.terminals;
+      }
+      case "trie-query": {
+        Trie t = new Trie();
+        for (String w : new String[]{"cat", "car", "dog"}) t.insert(w);
+        boolean ok = parts[2].equals("prefix") ? t.startsWith(parts[1]) : t.search(parts[1]);
+        return "ok:" + ok;
+      }
+      case "uf-union": {
+        Uf uf = new Uf(7);
+        if (!parts[1].isEmpty()) {
+          for (String pair : parts[1].split(",")) {
+            String[] ab = pair.split("-");
+            uf.union(Integer.parseInt(ab[0]), Integer.parseInt(ab[1]));
+          }
+        }
+        return "unions:" + uf.unions;
+      }
+      case "uf-find": {
+        Uf uf = new Uf(7);
+        for (int i = 1; i < 7; i++) uf.parent[i] = i - 1;   // 先造一条链
+        int r = uf.find(Integer.parseInt(parts[1]));
+        return "root:" + r;
+      }
+      case "dp-knapsack": {
+        int[] w = arr0(parts[1]);
+        int[] v = arr0(parts[2]);
+        int C = Integer.parseInt(parts[3]);
+        int[] dp = new int[C + 1];
+        for (int i = 0; i < w.length; i++) {
+          for (int c = C; c >= w[i]; c--) {          // 01 背包一维写法必须倒着走
+            dp[c] = Math.max(dp[c], dp[c - w[i]] + v[i]);
+          }
+        }
+        return "ans:" + dp[C];
+      }
+      case "dp-edit-distance": return "dist:" + editDistance(parts[1], parts[2]);
       case "graph-bellman-ford": return bellman(parts[1]);
       case "graph-kruskal": return kruskalMst();
       default: throw new IllegalArgumentException("未知命令：" + cmd);
@@ -220,6 +261,95 @@ public final class Oracle {
     List<Integer> a = new ArrayList<>(in);
     a.remove(Integer.valueOf(val));
     return a;
+  }
+
+  // ── 动态规划 ──────────────────────────────────────────
+
+  static int editDistance(String a, String b) {
+    int m = a.length(), n = b.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 0; i <= m; i++) dp[i][0] = i;
+    for (int j = 0; j <= n; j++) dp[0][j] = j;
+    for (int i = 1; i <= m; i++) {
+      for (int j = 1; j <= n; j++) {
+        if (a.charAt(i - 1) == b.charAt(j - 1)) dp[i][j] = dp[i - 1][j - 1];
+        else dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+      }
+    }
+    return dp[m][n];
+  }
+
+  // ── Trie ──────────────────────────────────────────────
+
+  static final class Trie {
+    final Map<Character, Trie> next = new HashMap<>();
+    boolean terminal;
+    int terminals;
+
+    void insert(String w) {
+      Trie node = this;
+      for (char c : w.toCharArray()) node = node.next.computeIfAbsent(c, k -> new Trie());
+      if (!node.terminal) { node.terminal = true; terminals++; }
+    }
+
+    boolean search(String w) {
+      Trie node = walk(w);
+      return node != null && node.terminal;
+    }
+
+    boolean startsWith(String p) {
+      return walk(p) != null;
+    }
+
+    private Trie walk(String w) {
+      Trie node = this;
+      for (char c : w.toCharArray()) {
+        node = node.next.get(c);
+        if (node == null) return null;
+      }
+      return node;
+    }
+
+    int count() {
+      int n = 1;
+      for (Trie t : next.values()) n += t.count();
+      return n;
+    }
+  }
+
+  // ── 并查集 ────────────────────────────────────────────
+
+  static final class Uf {
+    final int[] parent;
+    final int[] rank;
+    int unions;
+
+    Uf(int n) {
+      parent = new int[n];
+      rank = new int[n];
+      for (int i = 0; i < n; i++) parent[i] = i;
+    }
+
+    int find(int x) {
+      int r = x;
+      while (parent[r] != r) r = parent[r];
+      while (parent[x] != r) {
+        int nx = parent[x];
+        parent[x] = r;
+        x = nx;
+      }
+      return r;
+    }
+
+    boolean union(int a, int b) {
+      int ra = find(a), rb = find(b);
+      if (ra == rb) return false;
+      if (rank[ra] < rank[rb]) parent[ra] = rb;
+      else if (rank[ra] > rank[rb]) parent[rb] = ra;
+      else { parent[rb] = ra; rank[ra]++; }
+      unions++;
+      return true;
+    }
   }
 
   // ── 链表 2 ────────────────────────────────────────────

@@ -21,6 +21,9 @@ import { sortingAlgorithms } from '../algos/sorting.js';
 import { binarySearchAlgorithms } from '../algos/binarysearch.js';
 import { twoPointerAlgorithms } from '../algos/twopointers.js';
 import { stackAlgorithms } from '../algos/stack.js';
+import { trieAlgorithms } from '../algos/trie.js';
+import { unionFindAlgorithms } from '../algos/unionfind.js';
+import { dpAlgorithms } from '../algos/dp.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -38,6 +41,9 @@ const ALGOS = [
   ...twoPointerAlgorithms,
   ...stackAlgorithms,
   ...treeAlgorithms,
+  ...trieAlgorithms,
+  ...unionFindAlgorithms,
+  ...dpAlgorithms,
   ...heapAlgorithms,
   ...graphAlgorithms,
 ];
@@ -97,6 +103,18 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'dp-knapsack':
+      return `ans:${result.ans}`;
+    case 'dp-edit-distance':
+      return `dist:${result.dist}`;
+    case 'trie-insert':
+      return `nodes:${result.nodes}|terminals:${result.terminals}`;
+    case 'trie-query':
+      return `ok:${result.ok}`;
+    case 'uf-union':
+      return `unions:${result.unions}`;
+    case 'uf-find':
+      return `root:${result.root}`;
     case 'tree-bst-insert':
       return `inorder:${result.inorder}|height:${result.height}|size:${result.size}`;
     case 'tree-avl-insert':
@@ -147,6 +165,18 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'dp-knapsack':
+      return `${algoId};${nums(input.w)};${nums(input.v)};${input.C}`;
+    case 'dp-edit-distance':
+      return `${algoId};${input.a};${input.b}`;
+    case 'trie-insert':
+      return `${algoId};${input.join(',')}`;
+    case 'trie-query':
+      return `${algoId};${input.word};${input.mode}`;
+    case 'uf-union':
+      return `${algoId};${input.map(([a, b]) => `${a}-${b}`).join(',')}`;
+    case 'uf-find':
+      return `${algoId};${input}`;
     case 'tree-bst-delete':
       return `${algoId};${nums(input.values)};${input.del}`;
     case 'list-insert':
