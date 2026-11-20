@@ -385,6 +385,48 @@ document.addEventListener('click', (e) => {
   if (lang === 'js' && lastPaint) paint(lastPaint);   // 切回 JS 时补上行高亮
 });
 
+
+// ── 夜灯模式 ──────────────────────────────────────────────────
+// 和主站 personal-site 共用 localStorage 的 'yy-theme' 键：
+// 在主站切了夜灯，进到这里也是夜灯，不用再点一次。
+const THEME_KEY = 'yy-theme';
+const root = document.documentElement;
+
+function applyTheme(dark) {
+  if (dark) root.setAttribute('data-theme', 'dark');
+  else root.removeAttribute('data-theme');
+  document.querySelector('meta[name=theme-color]')
+    ?.setAttribute('content', dark ? '#0D1424' : '#FEFDFB');
+  const btn = $('theme-toggle');
+  if (btn) {
+    btn.setAttribute('aria-label', dark ? '切换到日光模式' : '切换到夜灯模式');
+    btn.setAttribute('title', dark ? '切换到日光模式' : '切换到夜灯模式');
+    btn.setAttribute('aria-pressed', String(dark));
+  }
+}
+
+(function initTheme() {
+  // 地址栏 ?theme=dark / ?theme=light 优先，方便截图和分享指定配色
+  const forced = new URLSearchParams(location.search).get('theme');
+  if (forced === 'dark' || forced === 'light') {
+    applyTheme(forced === 'dark');
+    try { localStorage.setItem(THEME_KEY, forced); } catch {}
+    return;
+  }
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch {}
+  // 没存过就跟系统偏好走；存过就听存的那次
+  const dark = saved ? saved === 'dark'
+    : window.matchMedia?.('(prefers-color-scheme: dark)').matches === true;
+  applyTheme(dark);
+})();
+
+$('theme-toggle')?.addEventListener('click', () => {
+  const dark = root.getAttribute('data-theme') !== 'dark';
+  applyTheme(dark);
+  try { localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); } catch {}
+});
+
 // ── 启动 ──────────────────────────────────────────────────────
 
 buildNav();

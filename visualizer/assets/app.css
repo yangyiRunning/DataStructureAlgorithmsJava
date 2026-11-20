@@ -62,7 +62,100 @@
   --viz-move-edge: #C96A10;
   --viz-focus: #B45309;
 
+  /* —— 结构色：这些原本散在样式里写死，深色模式一来就全露馅 ——
+     提成令牌之后，只改这一组就能整体换肤。 */
+  --topbar-bg: rgba(254, 253, 251, .82);
+  --sun-layer: linear-gradient(180deg, rgba(245, 165, 36, .06), rgba(254, 253, 251, 0));
+  --btn-shadow: 0 8px 18px rgba(62, 52, 42, .10);
+  --btn-shadow-hot: 0 20px 36px rgba(240, 135, 10, .38);
+  --knob-shadow: 0 3px 8px rgba(180, 83, 9, .3);
+  --on-brand: #FFFFFF;
+  --code-lineno: #C9BFB0;
+  --code-line-bg: #FBEFD9;
+  --axis: #DDD1BC;
+  --axis-strong: #CBBFA9;
+  --node-idle-fill: var(--node-idle-fill);
+  --cell-bg: #FCFAF6;
+  --cell-line: #EFE9E0;
+  --cell-compare-fill: var(--cell-compare-fill);
+  --cell-compare-line: #A7C4E8;
+  --frontier-fill: var(--frontier-fill);
+  --frontier-line: #D3BD97;
+  --edge-rejected: #E2D8C6;
+  --board-line: #E7E0D5;
+  --water-fill: var(--water-fill);
+  --water-line: #DCD1BC;
+  --peg-fill: var(--peg-fill);
+  --disk-fill: var(--disk-fill);
+
   color-scheme: light;
+}
+
+/* =========================================================
+   夜灯模式
+   ---------------------------------------------------------
+   配色照搬主站 personal-site/web/src/styles/base.css 的深色令牌：
+   底色用**深蓝**而不是纯黑（纯黑显浑，蓝调有空气感），
+   琥珀在夜里提亮一档，因为它要和蓝底形成互补的"一盏暖灯"。
+
+   这里额外多一层：演示用的语义色（静默 / 比较 / 移动 / 已就位）
+   在深色底下必须整组重配，直接沿用白天的浅色会把柱子糊成一片。
+   ========================================================= */
+html[data-theme="dark"] {
+  --cream: #0D1424;
+  --cream-2: #131C30;
+  --card: #18223A;
+  --line: #27334E;
+
+  --ink: #EEF2F9;
+  --sub: #A8B4CA;
+  --mut: #74829C;
+
+  --brand-1: #FFB65C;
+  --brand-2: #FF9526;
+  --brand: #FFA53D;
+  --grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
+
+  --shadow: 0 16px 40px rgba(4, 8, 18, .55);
+  --shadow-lg: 0 30px 70px rgba(4, 8, 18, .65);
+  --glow: 0 8px 26px rgba(255, 149, 38, .26);
+
+  /* 演示语义色：静默压暗，动作和比较提亮，避免在深底上糊成一片 */
+  --viz-idle: #24304A;
+  --viz-idle-edge: #35435F;
+  --viz-done: #4A5A78;
+  --viz-done-edge: #607190;
+  --viz-compare: #1E3355;
+  --viz-compare-edge: #6FA9EE;
+  --viz-move: rgba(255, 165, 61, .30);
+  --viz-move-edge: #FFB65C;
+  --viz-focus: #FFB65C;
+
+  --topbar-bg: rgba(13, 20, 36, .82);
+  --sun-layer: linear-gradient(180deg, rgba(255, 165, 61, .10), rgba(13, 20, 36, 0));
+  --btn-shadow: 0 8px 18px rgba(4, 8, 18, .5);
+  --btn-shadow-hot: 0 20px 36px rgba(255, 149, 38, .28);
+  --knob-shadow: 0 3px 8px rgba(0, 0, 0, .5);
+  --on-brand: #0D1424;      /* 灯是亮的，按钮上的字要用夜色 */
+  --code-lineno: #5A6884;
+  --code-line-bg: rgba(255, 165, 61, .14);
+  --axis: #2C3A57;
+  --axis-strong: #3A4A6B;
+  --node-idle-fill: #1F2A44;
+  --cell-bg: #17223A;
+  --cell-line: #2A3752;
+  --cell-compare-fill: #1B2C4A;
+  --cell-compare-line: #4A72A8;
+  --frontier-fill: #2A2318;
+  --frontier-line: #6B5533;
+  --edge-rejected: #2F3B55;
+  --board-line: #2C3A57;
+  --water-fill: #101A2E;
+  --water-line: #22304B;
+  --peg-fill: #3E4C68;
+  --disk-fill: #2A3550;
+
+  color-scheme: dark;
 }
 
 * {
@@ -91,12 +184,59 @@ body::before {
   position: fixed;
   inset: 0 0 auto 0;
   height: 420px;
-  background: linear-gradient(180deg, rgba(245, 165, 36, .06), rgba(254, 253, 251, 0));
+  background: var(--sun-layer);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ── 顶栏 ───────────────────────────────────────────────── */
+
+.topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+}
+
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+/* 圆形图标按钮：GitHub 链接和日夜切换同款，别让它们在顶栏里各长各的 */
+.icon-btn,
+.icon-link {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--sub);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color .22s var(--ease), border-color .22s var(--ease),
+    transform .22s var(--ease), box-shadow .22s var(--ease);
+}
+
+.icon-btn:hover,
+.icon-link:hover {
+  color: var(--brand-2);
+  border-color: var(--brand-1);
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow);
+}
+
+.icon-btn svg,
+.icon-link svg {
+  width: 19px;
+  height: 19px;
+}
 
 .topbar {
   position: relative;
@@ -107,7 +247,7 @@ body::before {
   gap: 8px;
   padding: 20px 34px 18px;
   border-bottom: 1px solid var(--line);
-  background: rgba(254, 253, 251, .82);
+  background: var(--topbar-bg);
   backdrop-filter: saturate(1.1) blur(6px);
 }
 
@@ -334,19 +474,19 @@ body::before {
 .transport button:hover:not(:disabled) {
   color: var(--brand-2);
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(62, 52, 42, .10);
+  box-shadow: var(--btn-shadow);
 }
 
 .transport button.primary {
   background: var(--grad);
   border: none;
-  color: #fff;
+  color: var(--on-brand);
   min-width: 54px;
   box-shadow: var(--glow);
 }
 
 .transport button.primary:hover {
-  box-shadow: 0 20px 36px rgba(240, 135, 10, .38);
+  box-shadow: var(--btn-shadow-hot);
 }
 
 .transport button:disabled {
@@ -378,7 +518,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 16px;
   border-radius: 50%;
   background: var(--brand);
-  box-shadow: 0 3px 8px rgba(180, 83, 9, .3);
+  box-shadow: var(--knob-shadow);
   cursor: pointer;
 }
 
@@ -455,13 +595,13 @@ output {
 #input-buttons button:hover {
   color: var(--brand-2);
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(62, 52, 42, .10);
+  box-shadow: var(--btn-shadow);
 }
 
 #input-buttons button[aria-pressed="true"] {
   background: var(--grad);
   border-color: transparent;
-  color: #fff;
+  color: var(--on-brand);
   box-shadow: var(--glow);
 }
 
@@ -523,13 +663,13 @@ output {
   width: 26px;
   padding-right: 10px;
   text-align: right;
-  color: #C9BFB0;
+  color: var(--code-lineno);
   user-select: none;
 }
 
 /* 当前行：琥珀底色 + 左侧实心竖条。主站里琥珀只用在会发光的东西上，高亮行正合适。 */
 #code .ln.on {
-  background: #FBEFD9;
+  background: var(--code-line-bg);
   box-shadow: inset 3px 0 0 var(--brand);
   color: var(--ink);
 }
@@ -637,7 +777,7 @@ output {
 }
 
 .bracket {
-  stroke: #DDD1BC;
+  stroke: var(--axis);
 }
 
 .ptr-arrow {
@@ -671,7 +811,7 @@ output {
 }
 
 .edge {
-  stroke: #CBBFA9;
+  stroke: var(--axis-strong);
   stroke-width: 1.5;
 }
 
@@ -681,11 +821,11 @@ output {
 }
 
 .edge.is-tail {
-  stroke: #DDD1BC;
+  stroke: var(--axis);
 }
 
 .arrow-head {
-  fill: #CBBFA9;
+  fill: var(--axis-strong);
 }
 
 .arrow-head-back {
@@ -718,12 +858,12 @@ output {
 }
 
 .tnode.is-visited {
-  fill: #F1EADC;
+  fill: var(--node-idle-fill);
   stroke: var(--viz-done-edge);
 }
 
 .tree-edge {
-  stroke: #CBBFA9;
+  stroke: var(--axis-strong);
   stroke-width: 1.4;
 }
 
@@ -743,8 +883,8 @@ output {
 /* 未填的格子：淡底、无数字。必须写在 is-active / is-compare 之前，
    否则同权重下后面的规则会被它覆盖，正在算的格子反而显示成空白。 */
 .cell.is-empty {
-  fill: #FCFAF6;
-  stroke: #EFE9E0;
+  fill: var(--cell-bg);
+  stroke: var(--cell-line);
 }
 
 .cell.is-active {
@@ -754,13 +894,13 @@ output {
 }
 
 .cell.is-compare {
-  fill: #F1F6FC;
-  stroke: #A7C4E8;
+  fill: var(--cell-compare-fill);
+  stroke: var(--cell-compare-line);
   stroke-width: 1.4;
 }
 
 .cell.is-settled {
-  fill: #F1EADC;
+  fill: var(--node-idle-fill);
   stroke: var(--viz-done-edge);
 }
 
@@ -771,7 +911,7 @@ output {
 }
 
 .tnode.is-settled {
-  fill: #F1EADC;
+  fill: var(--node-idle-fill);
   stroke: var(--viz-done-edge);
 }
 
@@ -784,8 +924,8 @@ output {
 }
 
 .gnode.is-frontier {
-  fill: #FAF3E7;
-  stroke: #D3BD97;
+  fill: var(--frontier-fill);
+  stroke: var(--frontier-line);
 }
 
 .gnode.is-current {
@@ -795,12 +935,12 @@ output {
 }
 
 .gnode.is-visited {
-  fill: #F1EADC;
+  fill: var(--node-idle-fill);
   stroke: var(--viz-done-edge);
 }
 
 .gedge {
-  stroke: #CBBFA9;
+  stroke: var(--axis-strong);
   stroke-width: 1.5;
 }
 
@@ -815,7 +955,7 @@ output {
 }
 
 .gedge.is-rejected {
-  stroke: #E2D8C6;
+  stroke: var(--edge-rejected);
   stroke-dasharray: 3 3;
 }
 
@@ -948,7 +1088,7 @@ body.clean .canvas-wrap {
 }
 
 .uf-edge {
-  stroke: #CBBFA9;
+  stroke: var(--axis-strong);
   stroke-width: 1.5;
 }
 
@@ -972,28 +1112,28 @@ body.clean .canvas-wrap {
 /* 棋盘（N 皇后） */
 
 .cell.board {
-  fill: #FCFAF6;
-  stroke: #E7E0D5;
+  fill: var(--cell-bg);
+  stroke: var(--board-line);
 }
 
 /* 网格里的水 */
 .cell.board.is-water {
-  fill: #E6DDCC;
-  stroke: #DCD1BC;
+  fill: var(--water-fill);
+  stroke: var(--water-line);
 }
 
 /* 汉诺塔 */
 
 .peg {
-  fill: #D9CEB8;
+  fill: var(--peg-fill);
 }
 
 .peg-base {
-  fill: #CBBFA9;
+  fill: var(--axis-strong);
 }
 
 .disk {
-  fill: #F6E7CE;
+  fill: var(--disk-fill);
   stroke: var(--viz-idle-edge);
   stroke-width: 1.2;
 }
@@ -1027,10 +1167,10 @@ body.clean .canvas-wrap {
 .lang-switch button[aria-pressed="true"] {
   background: var(--grad);
   border-color: transparent;
-  color: #fff;
+  color: var(--on-brand);
   box-shadow: var(--glow);
 }
 
 .axis.zero {
-  stroke: #CBBFA9;
+  stroke: var(--axis-strong);
 }

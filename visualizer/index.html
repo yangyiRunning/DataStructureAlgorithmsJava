@@ -5,18 +5,37 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>数据结构与算法 · 动画演示</title>
+  <meta name="theme-color" content="#FEFDFB">
   <link rel="stylesheet" href="./assets/app.css?v=20261120a">
 </head>
 
 <body>
   <header class="topbar">
-    <div class="brand">
-      <h1>数据结构与算法</h1>
-      <span class="badge">动画演示</span>
+    <div class="topbar-row">
+      <div class="brand">
+        <h1>数据结构与算法</h1>
+        <span class="badge">动画演示</span>
+      </div>
+      <div class="topbar-tools">
+        <a class="icon-link" href="https://github.com/yangyiRunning/DataStructureAlgorithmsJava"
+           target="_blank" rel="noopener" aria-label="在 GitHub 上看源码" title="在 GitHub 上看源码">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.11-1.5-1.11-1.5-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.9 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.23C22 6.58 17.52 2 12 2Z"/>
+          </svg>
+        </a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="切换到夜灯模式" title="切换到夜灯模式">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.1"/>
+            <path d="M12 2.6v2.1M12 19.3v2.1M2.6 12h2.1M19.3 12h2.1M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M18.7 5.3l-1.5 1.5M6.8 17.2l-1.5 1.5"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <p class="lede">
       每一步都是算法真实执行过的状态：执行时逐帧记录快照，页面只负责回放，不另画一套逻辑。
-      演示用的算法与 <code>java/dsalab</code> 里的 Java 实现在同一批随机输入上做过对拍。
+      演示用的算法与 <code>java/dsalab</code>（Java）、<code>python/dsalab.py</code>（Python）
+      两套独立实现在同一批随机输入上做过三方对拍。
     </p>
   </header>
 
