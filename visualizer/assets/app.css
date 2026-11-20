@@ -102,60 +102,78 @@
    在深色底下必须整组重配，直接沿用白天的浅色会把柱子糊成一片。
    ========================================================= */
 html[data-theme="dark"] {
-  --cream: #0D1424;
-  --cream-2: #131C30;
-  --card: #18223A;
-  --line: #27334E;
+  /* 底色再压深一档，把面板和画布拉开层次。
+     上一版页面 #0D1424、卡片 #18223A —— 两层只差 3% 亮度，
+     柱子又用 #24304A，等于深蓝压深蓝，整页糊成一片。 */
+  --cream: #080E1B;
+  --cream-2: #121A2C;
+  --card: #172032;
+  --line: #33415F;
 
-  --ink: #EEF2F9;
-  --sub: #A8B4CA;
-  --mut: #74829C;
+  --ink: #F5F8FC;
+  --sub: #D2DBEA;          /* 正文：11px 等宽字在深底上必须更亮 */
+  --mut: #A2AFC6;          /* 次要文字：原来 #74829C 基本看不见 */
 
-  --brand-1: #FFB65C;
-  --brand-2: #FF9526;
-  --brand: #FFA53D;
+  --brand-1: #FFC478;
+  --brand-2: #FF9A2E;
+  --brand: #FFAE47;
   --grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
 
-  --shadow: 0 16px 40px rgba(4, 8, 18, .55);
-  --shadow-lg: 0 30px 70px rgba(4, 8, 18, .65);
-  --glow: 0 8px 26px rgba(255, 149, 38, .26);
+  --shadow: 0 16px 40px rgba(0, 0, 0, .55);
+  --shadow-lg: 0 30px 70px rgba(0, 0, 0, .65);
+  --glow: 0 8px 26px rgba(255, 154, 46, .3);
 
-  /* 演示语义色：静默压暗，动作和比较提亮，避免在深底上糊成一片 */
-  --viz-idle: #24304A;
-  --viz-idle-edge: #35435F;
-  --viz-done: #4A5A78;
-  --viz-done-edge: #607190;
-  --viz-compare: #1E3355;
-  --viz-compare-edge: #6FA9EE;
-  --viz-move: rgba(255, 165, 61, .30);
-  --viz-move-edge: #FFB65C;
-  --viz-focus: #FFB65C;
+  /* —— 演示语义色：这一组是"看不见"的元凶，必须整体抬亮 ——
+     静默柱要能一眼看出形状，比较态要跳出来，已就位要退后但不消失。 */
+  --viz-idle: #4A6295;
+  --viz-idle-edge: #6680B8;
+  --viz-done: #6B7FA8;
+  --viz-done-edge: #8FA2C8;
+  --viz-compare: #2B4E80;
+  --viz-compare-edge: #9CC6FA;
+  --viz-move: rgba(255, 174, 71, .4);
+  --viz-move-edge: #FFC478;
+  --viz-focus: #FFC478;
 
-  --topbar-bg: rgba(13, 20, 36, .82);
-  --sun-layer: linear-gradient(180deg, rgba(255, 165, 61, .10), rgba(13, 20, 36, 0));
-  --btn-shadow: 0 8px 18px rgba(4, 8, 18, .5);
-  --btn-shadow-hot: 0 20px 36px rgba(255, 149, 38, .28);
-  --knob-shadow: 0 3px 8px rgba(0, 0, 0, .5);
-  --on-brand: #0D1424;      /* 灯是亮的，按钮上的字要用夜色 */
-  --code-lineno: #5A6884;
-  --code-line-bg: rgba(255, 165, 61, .14);
-  --axis: #2C3A57;
-  --axis-strong: #3A4A6B;
-  --node-idle-fill: #1F2A44;
-  --cell-bg: #17223A;
-  --cell-line: #2A3752;
-  --cell-compare-fill: #1B2C4A;
-  --cell-compare-line: #4A72A8;
-  --frontier-fill: #2A2318;
-  --frontier-line: #6B5533;
-  --edge-rejected: #2F3B55;
-  --board-line: #2C3A57;
-  --water-fill: #101A2E;
-  --water-line: #22304B;
-  --peg-fill: #3E4C68;
-  --disk-fill: #2A3550;
+  --topbar-bg: rgba(10, 16, 32, .88);
+  --sun-layer: linear-gradient(180deg, rgba(255, 174, 71, .10), rgba(10, 16, 32, 0));
+  --btn-shadow: 0 8px 18px rgba(0, 0, 0, .5);
+  --btn-shadow-hot: 0 20px 36px rgba(255, 154, 46, .3);
+  --knob-shadow: 0 3px 8px rgba(0, 0, 0, .55);
+  --on-brand: #0A1020;
+  --code-lineno: #7A89A8;
+  --code-line-bg: rgba(255, 174, 71, .18);
+  --axis: #3A4A6E;
+  --axis-strong: #4E6088;
+  --node-idle-fill: #33425F;
+  --cell-bg: #212D45;
+  --cell-line: #3A4967;
+  --cell-compare-fill: #21406B;
+  --cell-compare-line: #5A88C4;
+  --frontier-fill: #3A2E18;
+  --frontier-line: #8A6D3A;
+  --edge-rejected: #3A4763;
+  --board-line: #35435F;
+  --water-fill: #0F1728;
+  --water-line: #2A3A58;
+  --peg-fill: #4C5C7C;
+  --disk-fill: #33405E;
 
   color-scheme: dark;
+}
+
+/* 深色下画布比卡片再暗一档，柱子才立得起来 */
+html[data-theme="dark"] .canvas-wrap {
+  background: #0F1626;
+}
+
+/* 深色下给面板补一圈描边：光靠填充区分不开"页面"和"卡片" */
+html[data-theme="dark"] .canvas-wrap,
+html[data-theme="dark"] #code,
+html[data-theme="dark"] .stat,
+html[data-theme="dark"] .note,
+html[data-theme="dark"] .algo-card {
+  border-color: var(--line);
 }
 
 * {
