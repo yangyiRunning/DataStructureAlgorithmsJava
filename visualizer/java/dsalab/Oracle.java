@@ -54,6 +54,15 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "ai-forward": {
+        double[] r = nnForward();
+        return "h:" + f3(r[0]) + "," + f3(r[1]) + "|o:" + f3(r[2]) + "|loss:" + f3(r[3]);
+      }
+      case "ai-backward": {
+        double[] r = nnBackward();
+        return "gw2:" + f3(r[0]) + "," + f3(r[1]) + "|gz1:" + f3(r[2]) + "," + f3(r[3])
+            + "|o:" + f3(r[4]) + "," + f3(r[5]) + "|loss:" + f3(r[6]) + "," + f3(r[7]);
+      }
       case "ai-softmax": {
         double[] r = softmax(Double.parseDouble(parts[1]));
         StringBuilder sb = new StringBuilder("p:");
@@ -1105,6 +1114,50 @@ public final class Oracle {
       {1, 1, 1}, {2, 1.4, 1}, {1.4, 2.2, 1}, {2.6, 2.0, 1},
       {4.2, 4.4, 2}, {5, 5.2, 2}, {4.6, 3.6, 2}, {5.4, 4.0, 2},
   };
+
+  static final double[] NN_X = {1.0, 0.5};
+  static final double[][] NN_W1 = {{0.6, -0.4}, {0.3, 0.8}};
+  static final double[] NN_B1 = {0.1, -0.2};
+  static final double[] NN_W2 = {0.7, -0.5};
+  static final double NN_B2 = 0.05;
+  static final double NN_Y = 1.0;
+
+  static double sigmoid(double z) { return 1 / (1 + Math.exp(-z)); }
+
+  /** 返回 {h0, h1, o, loss} */
+  static double[] nnForward() {
+    double[] h = new double[2];
+    for (int i = 0; i < 2; i++)
+      h[i] = sigmoid(NN_B1[i] + NN_W1[i][0] * NN_X[0] + NN_W1[i][1] * NN_X[1]);
+    double z2 = NN_B2 + NN_W2[0] * h[0] + NN_W2[1] * h[1];
+    double o = sigmoid(z2);
+    return new double[]{h[0], h[1], o, 0.5 * (o - NN_Y) * (o - NN_Y)};
+  }
+
+  /** 返回 {gw2_0, gw2_1, gz1_0, gz1_1, o, o2, loss0, loss1} */
+  static double[] nnBackward() {
+    double[] f = nnForward();
+    double h0 = f[0], h1 = f[1], o = f[2], loss0 = f[3];
+    double dL_do = o - NN_Y;
+    double dL_dz2 = dL_do * o * (1 - o);
+    double[] gw2 = {dL_dz2 * h0, dL_dz2 * h1};
+    double dL_dh0 = dL_dz2 * NN_W2[0], dL_dh1 = dL_dz2 * NN_W2[1];
+    double gz1_0 = dL_dh0 * h0 * (1 - h0);
+    double gz1_1 = dL_dh1 * h1 * (1 - h1);
+
+    double lr = 0.5;
+    double[] nw2 = {NN_W2[0] - lr * gw2[0], NN_W2[1] - lr * gw2[1]};
+    double[][] nw1 = new double[2][2];
+    for (int i = 0; i < 2; i++)
+      for (int j = 0; j < 2; j++)
+        nw1[i][j] = NN_W1[i][j] - lr * (i == 0 ? gz1_0 : gz1_1) * NN_X[j];
+
+    double nh0 = sigmoid(NN_B1[0] + nw1[0][0] * NN_X[0] + nw1[0][1] * NN_X[1]);
+    double nh1 = sigmoid(NN_B1[1] + nw1[1][0] * NN_X[0] + nw1[1][1] * NN_X[1]);
+    double o2 = sigmoid(NN_B2 + nw2[0] * nh0 + nw2[1] * nh1);
+    double loss1 = 0.5 * (o2 - NN_Y) * (o2 - NN_Y);
+    return new double[]{gw2[0], gw2[1], gz1_0, gz1_1, o, o2, loss0, loss1};
+  }
 
   static final double[] SOFTMAX_LOGITS = {2.0, 1.0, 0.1};
 

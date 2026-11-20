@@ -2737,6 +2737,48 @@ def ai_logistic(lr, steps):
         b -= lr * db / n
     return w0, w1, b, loss()
 
+
+# ── 神经网络（2-2-1） ─────────────────────────────────────
+
+_NN_X = [1.0, 0.5]
+_NN_W1 = [[0.6, -0.4], [0.3, 0.8]]
+_NN_B1 = [0.1, -0.2]
+_NN_W2 = [0.7, -0.5]
+_NN_B2 = 0.05
+_NN_Y = 1.0
+
+
+def _sigmoid(z):
+    import math
+    return 1 / (1 + math.exp(-z))
+
+
+def ai_forward():
+    x = _NN_X
+    h = [_sigmoid(_NN_B1[i] + _NN_W1[i][0] * x[0] + _NN_W1[i][1] * x[1]) for i in range(2)]
+    z2 = _NN_B2 + _NN_W2[0] * h[0] + _NN_W2[1] * h[1]
+    o = _sigmoid(z2)
+    loss = 0.5 * (o - _NN_Y) ** 2
+    return h, o, loss
+
+
+def ai_backward(lr=0.5):
+    x = _NN_X
+    h, o, loss0 = ai_forward()
+    dL_do = o - _NN_Y
+    dL_dz2 = dL_do * o * (1 - o)
+    grad_w2 = [dL_dz2 * h[0], dL_dz2 * h[1]]
+    dL_dh = [dL_dz2 * _NN_W2[0], dL_dz2 * _NN_W2[1]]
+    dL_dz1 = [dL_dh[i] * h[i] * (1 - h[i]) for i in range(2)]
+
+    new_w2 = [_NN_W2[i] - lr * grad_w2[i] for i in range(2)]
+    new_w1 = [[_NN_W1[i][j] - lr * dL_dz1[i] * x[j] for j in range(2)] for i in range(2)]
+
+    h2 = [_sigmoid(_NN_B1[i] + new_w1[i][0] * x[0] + new_w1[i][1] * x[1]) for i in range(2)]
+    o2 = _sigmoid(_NN_B2 + new_w2[0] * h2[0] + new_w2[1] * h2[1])
+    loss1 = 0.5 * (o2 - _NN_Y) ** 2
+    return grad_w2, dL_dz1, o, o2, loss0, loss1
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -3134,6 +3176,15 @@ def _run(spec):
     if cmd == "ai-logistic":
         w0, w1, b, loss = ai_logistic(float(parts[1]), int(parts[2]))
         return "w0:%s,w1:%s,b:%s,loss:%s" % (_f3(w0), _f3(w1), _f3(b), _f3(loss))
+
+    if cmd == "ai-forward":
+        h, o, loss = ai_forward()
+        return "h:%s,%s|o:%s|loss:%s" % (_f3(h[0]), _f3(h[1]), _f3(o), _f3(loss))
+    if cmd == "ai-backward":
+        gw2, gz1, o, o2, l0, l1 = ai_backward()
+        return "gw2:%s,%s|gz1:%s,%s|o:%s,%s|loss:%s,%s" % (
+            _f3(gw2[0]), _f3(gw2[1]), _f3(gz1[0]), _f3(gz1[1]),
+            _f3(o), _f3(o2), _f3(l0), _f3(l1))
 
     raise ValueError("还没实现：" + cmd)
 

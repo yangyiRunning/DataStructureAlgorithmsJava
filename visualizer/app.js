@@ -22,6 +22,7 @@ import * as boardView from './views/boardView.js';
 import * as pegsView from './views/pegsView.js';
 import * as hashView from './views/hashView.js';
 import * as scatterView from './views/scatterView.js';
+import * as networkView from './views/networkView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
 import { binarySearchAlgorithms } from './algos/binarysearch.js';
 import { twoPointerAlgorithms } from './algos/twopointers.js';
@@ -65,6 +66,7 @@ const VIEWS = {
   pegs: pegsView,
   hash: hashView,
   scatter: scatterView,
+  network: networkView,
 };
 
 const ALGOS = [

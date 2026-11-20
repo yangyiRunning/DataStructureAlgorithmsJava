@@ -640,6 +640,169 @@ function logistic(input) {
   return { steps: steps_, result: { w0, w1, b, loss: loss() } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 神经网络：前向传播 / 反向传播（同一个 2-2-1 网络）
+// ─────────────────────────────────────────────────────────────
+
+const NN_X = [1.0, 0.5];
+const NN_W1 = [[0.6, -0.4], [0.3, 0.8]];   // W1[i][j]：输入 j → 隐藏 i
+const NN_B1 = [0.1, -0.2];
+const NN_W2 = [0.7, -0.5];                 // 隐藏 → 输出
+const NN_B2 = 0.05;
+const NN_Y = 1.0;                          // 目标值
+
+const sigmoid = (z) => 1 / (1 + Math.exp(-z));
+
+function nnLayers(acts, grads) {
+  return [
+    {
+      name: '输入层',
+      nodes: [
+        { id: 'x0', label: 'x₁', value: acts.x[0] },
+        { id: 'x1', label: 'x₂', value: acts.x[1] },
+      ],
+    },
+    {
+      name: '隐藏层',
+      nodes: [
+        { id: 'h0', label: 'h₁', value: acts.h[0] },
+        { id: 'h1', label: 'h₂', value: acts.h[1] },
+      ],
+    },
+    { name: '输出层', nodes: [{ id: 'o0', label: 'o', value: acts.o }] },
+  ];
+}
+
+const nnEdges = (w1, w2) => [
+  { from: 'x0', to: 'h0', w: w1[0][0] },
+  { from: 'x0', to: 'h1', w: w1[1][0] },
+  { from: 'x1', to: 'h0', w: w1[0][1] },
+  { from: 'x1', to: 'h1', w: w1[1][1] },
+  { from: 'h0', to: 'o0', w: w2[0] },
+  { from: 'h1', to: 'o0', w: w2[1] },
+];
+
+const nnForwardCode = [
+  '// 逐层：先算加权和 z，再过一个 sigmoid',
+  'for (const layer of [hidden, output]) {',
+  '  for (const node of layer) {',
+  '    const z = bias[node] + sum(w[i] * input[i]);',
+  '    out[node] = 1 / (1 + Math.exp(-z));   // sigmoid 把 z 压进 (0,1)',
+  '  }',
+  '  input = out;   // 这层的输出就是下一层的输入',
+  '}',
+];
+
+function nnForward() {
+  const steps = [];
+  const x = NN_X;
+  const h = [0, 0];
+  const z1 = [0, 0];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      layers: nnLayers({ x, h: state?.h ?? h.map(() => null), o: state?.o ?? null }),
+      edges: nnEdges(NN_W1, NN_W2),
+      phase: 'forward',
+      ...state,
+    },
+    note, line, counters: { 层: 0 },
+  });
+
+  push({}, `网络是 2-2-1：两个输入、两个隐藏节点、一个输出。输入 x=(${x[0]}, ${x[1]})，权重如图。`, 0);
+
+  for (let i = 0; i < 2; i++) {
+    const z = NN_B1[i] + NN_W1[i][0] * x[0] + NN_W1[i][1] * x[1];
+    z1[i] = z;
+    h[i] = sigmoid(z);
+    push(
+      { h: h.slice(), activeNodes: ['x0', 'x1', `h${i}`], activeEdges: [`x0->h${i}`, `x1->h${i}`] },
+      `隐藏节点 h${i + 1}：加权和 z = ${z.toFixed(3)}，过 sigmoid 得 ${h[i].toFixed(3)}。`,
+      3,
+    );
+  }
+
+  const z2 = NN_B2 + NN_W2[0] * h[0] + NN_W2[1] * h[1];
+  const o = sigmoid(z2);
+  push(
+    { o, activeNodes: ['h0', 'h1', 'o0'], activeEdges: ['h0->o0', 'h1->o0'] },
+    `输出层：z = ${z2.toFixed(3)}，sigmoid 后得 ${o.toFixed(3)}。这就是预测值。`,
+    5,
+  );
+
+  const loss = 0.5 * (o - NN_Y) ** 2;
+  push({ o }, `预测 ${o.toFixed(3)}、目标 ${NN_Y}，损失 0.5·(o−y)² = ${loss.toFixed(3)}。前向到此结束。`, 6);
+  return { steps, result: { h, o, loss } };
+}
+
+const nnBackwardCode = [
+  '// 误差先从输出往回走，再按链式法则摊到每条边上',
+  'const dL_do = o - y;',
+  'const dL_dz2 = dL_do * o * (1 - o);        // sigmoid 的导数',
+  'for (each hidden node) {',
+  '  const dL_dh = dL_dz2 * W2[i];',
+  '  const dL_dz1 = dL_dh * h * (1 - h);',
+  '  W2[i] -= lr * dL_dz2 * h;                // 更新这一层的权重',
+  '}',
+];
+
+function nnBackward() {
+  const steps = [];
+  const x = NN_X;
+  // 先做一遍前向，拿到各层激活
+  const h = [sigmoid(NN_B1[0] + NN_W1[0][0] * x[0] + NN_W1[0][1] * x[1]),
+             sigmoid(NN_B1[1] + NN_W1[1][0] * x[0] + NN_W1[1][1] * x[1])];
+  const z2 = NN_B2 + NN_W2[0] * h[0] + NN_W2[1] * h[1];
+  const o = sigmoid(z2);
+  const loss0 = 0.5 * (o - NN_Y) ** 2;
+
+  const w1 = NN_W1.map((r) => r.slice());
+  const w2 = NN_W2.slice();
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      layers: nnLayers({ x, h, o: state?.o ?? o }),
+      edges: nnEdges(state?.w1 ?? w1, state?.w2 ?? w2),
+      phase: 'backward',
+      ...state,
+    },
+    note, line, counters: { 层: 0 },
+  });
+
+  push({ w1, w2 }, `前向算完：o = ${o.toFixed(3)}，损失 ${loss0.toFixed(3)}。现在要从输出往回推梯度。`, 0);
+
+  const dL_do = o - NN_Y;
+  const dL_dz2 = dL_do * o * (1 - o);
+  push({ w1, w2, activeNodes: ['o0'], activeEdges: ['h0->o0', 'h1->o0'] },
+    `输出层梯度：dL/do = ${dL_do.toFixed(3)}，再乘 sigmoid 导数得 dL/dz₂ = ${dL_dz2.toFixed(3)}。`, 2);
+
+  const gradW2 = [dL_dz2 * h[0], dL_dz2 * h[1]];
+  push({ w1, w2, activeNodes: ['h0', 'h1'], activeEdges: ['h0->o0', 'h1->o0'] },
+    `两条输出边的梯度 = dL/dz₂ × 上游激活：${gradW2.map((g) => g.toFixed(3)).join('、')}。`, 4);
+
+  const dL_dh = [dL_dz2 * w2[0], dL_dz2 * w2[1]];
+  const dL_dz1 = [dL_dh[0] * h[0] * (1 - h[0]), dL_dh[1] * h[1] * (1 - h[1])];
+  push({ w1, w2, activeNodes: ['h0', 'h1'], activeEdges: ['x0->h0', 'x1->h0', 'x0->h1', 'x1->h1'] },
+    `继续往回：dL/dz₁ = ${dL_dz1.map((g) => g.toFixed(3)).join('、')}（同样乘 sigmoid 导数）。`, 5);
+
+  // 更新权重（一步梯度下降）
+  const lr = 0.5;
+  const newW2 = w2.map((w, i) => w - lr * gradW2[i]);
+  const newW1 = w1.map((row, i) => row.map((w, j) => w - lr * dL_dz1[i] * x[j]));
+  push({ w1: newW1, w2: newW2, activeEdges: ['h0->o0', 'h1->o0'] },
+    `按梯度下降更新：输出层权重变成 ${newW2.map((w) => w.toFixed(3)).join('、')}。`, 7);
+
+  const h2 = [sigmoid(NN_B1[0] + newW1[0][0] * x[0] + newW1[0][1] * x[1]),
+              sigmoid(NN_B1[1] + newW1[1][0] * x[0] + newW1[1][1] * x[1])];
+  const o2 = sigmoid(NN_B2 + newW2[0] * h2[0] + newW2[1] * h2[1]);
+  const loss1 = 0.5 * (o2 - NN_Y) ** 2;
+  push({ w1: newW1, w2: newW2, o: o2 },
+    `再前向一次：o 从 ${o.toFixed(3)} 变成 ${o2.toFixed(3)}，损失从 ${loss0.toFixed(3)} 降到 ${loss1.toFixed(3)}。一步就有效。`, 7);
+
+  return { steps, result: { gradW2, gradZ1: dL_dz1, newW2, newW1, o, o2, loss0, loss1 } };
+}
+
 // 两批合并成对外的一个数组
 const aiBatch2 = [
   {
@@ -704,4 +867,35 @@ const aiBatch2 = [
   },
 ];
 
-export const aiAlgorithms = [...aiBatch1, ...aiBatch2];
+const aiBatch3 = [
+  {
+    id: 'ai-forward',
+    group: 'AI 算法',
+    title: '神经网络 · 前向传播',
+    brief: '2-2-1 的小网络：每层先算加权和、再过 sigmoid。网络图的边上标着权重，节点下面标激活值。',
+    view: 'network',
+    facts: [['时间', '每层 O(节点数×输入数)'], ['空间', 'O(参数量)'], ['激活', 'sigmoid'], ['看什么', '数值一层层往后传']],
+    counters: '层', legend: [
+      { cls: 'circle', text: '神经元' }, { cls: 'circle is-active', text: '正在算' }, { cls: 'line', text: '权重' },
+    ],
+    inputs: [{ label: '固定权重，x=(1, 0.5)', make: () => true }],
+    code: nnForwardCode,
+    run: nnForward,
+  },
+  {
+    id: 'ai-backward',
+    group: 'AI 算法',
+    title: '神经网络 · 反向传播',
+    brief: '误差从输出往回走：乘 sigmoid 导数、按权重摊到每条边，再用梯度下降改权重。蓝虚线就是"往回传"的那一层。',
+    view: 'network',
+    facts: [['时间', 'O(参数量)'], ['空间', 'O(参数量)'], ['关键', '链式法则'], ['对比', '前向算值，反向算梯度']],
+    counters: '层', legend: [
+      { cls: 'circle', text: '神经元' }, { cls: 'line', text: '前向权重' }, { cls: 'line is-back', text: '梯度回传' },
+    ],
+    inputs: [{ label: '一步梯度下降，lr=0.5', make: () => true }],
+    code: nnBackwardCode,
+    run: nnBackward,
+  },
+];
+
+export const aiAlgorithms = [...aiBatch1, ...aiBatch2, ...aiBatch3];

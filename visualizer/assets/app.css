@@ -1247,3 +1247,32 @@ body.clean .canvas-wrap {
   stroke: var(--brand-2);
   stroke-width: 2.4;
 }
+
+/* ── 网络图视图（前向 / 反向传播） ─────────────────────── */
+
+.nnode {
+  fill: var(--card);
+  stroke: var(--axis-strong);
+  stroke-width: 1.8;
+}
+
+.nnode.is-active {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+  stroke-width: 2.8;
+}
+
+.nedge {
+  stroke: var(--axis);
+  stroke-width: 1.4;
+}
+
+.nedge.is-active {
+  stroke: var(--brand-2);
+  stroke-width: 2.6;
+}
+
+/* 反向传播用蓝（和"比较"同一个语义色）：一眼分得清数据往哪边走 */
+.nedge.is-back {
+  stroke: var(--viz-compare-edge);
+}

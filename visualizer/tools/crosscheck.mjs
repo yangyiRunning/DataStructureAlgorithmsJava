@@ -139,6 +139,13 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'ai-forward':
+      return `h:${f3(result.h[0])},${f3(result.h[1])}|o:${f3(result.o)}|loss:${f3(result.loss)}`;
+    case 'ai-backward': {
+      const r = result;
+      return `gw2:${f3(r.gradW2[0])},${f3(r.gradW2[1])}|gz1:${f3(r.gradZ1[0])},${f3(r.gradZ1[1])}`
+        + `|o:${f3(r.o)},${f3(r.o2)}|loss:${f3(r.loss0)},${f3(r.loss1)}`;
+    }
     case 'ai-softmax':
       return `p:${result.probs.map((v) => f3(v)).join(',')}|sum:${f3(result.sum)}`;
     case 'ai-conv':
@@ -439,6 +446,9 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'ai-forward':
+    case 'ai-backward':
+      return algoId;
     case 'ai-softmax':
       return `${algoId};${input.T}`;
     case 'ai-conv':
