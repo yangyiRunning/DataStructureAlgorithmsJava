@@ -1536,6 +1536,140 @@ def lc_top_k_frequent(nums, k):
             heap.pop(0)                   # 挤掉频次最小的那个
     return sorted(x for x, _ in heap)
 
+
+# ── 热门题 4 ──────────────────────────────────────────────
+
+def lc_add_two(a, b):
+    out, carry, i, j = [], 0, 0, 0
+    while i < len(a) or j < len(b) or carry:
+        va = a[i] if i < len(a) else 0
+        vb = b[j] if j < len(b) else 0
+        s = va + vb + carry
+        carry = s // 10
+        out.append(s % 10)
+        i += 1
+        j += 1
+    return out
+
+
+class _LNode:
+    __slots__ = ("val", "next")
+
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+
+def _build_lists(pre_a, pre_b, shared):
+    """shared 里的节点被两条链共用，这才是"相交"的含义"""
+    shared_nodes = [_LNode(v) for v in shared]
+    for i, n in enumerate(shared_nodes[:-1]):
+        n.next = shared_nodes[i + 1]
+
+    def chain(vals):
+        nodes = [_LNode(v) for v in vals]
+        for i, n in enumerate(nodes[:-1]):
+            n.next = nodes[i + 1]
+        if nodes and shared_nodes:
+            nodes[-1].next = shared_nodes[0]
+        return nodes[0] if nodes else (shared_nodes[0] if shared_nodes else None)
+
+    return chain(pre_a), chain(pre_b)
+
+
+def lc_intersection(pre_a, pre_b, shared):
+    a, b = _build_lists(pre_a, pre_b, shared)
+    pa, pb = a, b
+    steps = 0
+    limit = len(pre_a) + len(pre_b) + 2 * len(shared) + 2
+    # 走到 null 就换到另一条链的头：两个指针走的总长相同，必同时抵达交点
+    while pa is not pb and steps <= limit:
+        pa = b if pa is None else (pa.next if pa is not None else None)
+        pb = a if pb is None else (pb.next if pb is not None else None)
+        steps += 1
+        if pa is None and pb is None:
+            break
+    return pa.val if pa is not None else -1
+
+
+def lc_palindrome_list(nums):
+    return nums == nums[::-1]
+
+
+def lc_largest_rect(h):
+    stack, best = [], 0
+    for i in range(len(h) + 1):
+        cur = 0 if i == len(h) else h[i]      # 末尾补 0 把栈清空
+        while stack and h[stack[-1]] > cur:
+            height = h[stack.pop()]
+            left = stack[-1] + 1 if stack else 0
+            best = max(best, height * (i - left))
+        stack.append(i)
+    return best
+
+
+def lc_group_anagrams(strs):
+    groups = {}
+    for s in strs:
+        key = "".join(sorted(s))              # 排序后的串当键
+        groups.setdefault(key, []).append(s)
+    return len(groups)
+
+
+def lc_generate_parens(n):
+    res = []
+
+    def dfs(cur, open_cnt, close_cnt):
+        if len(cur) == n * 2:
+            res.append(cur)
+            return
+        if open_cnt < n:
+            dfs(cur + "(", open_cnt + 1, close_cnt)
+        if close_cnt < open_cnt:
+            dfs(cur + ")", open_cnt, close_cnt + 1)
+
+    dfs("", 0, 0)
+    return len(res)
+
+
+_WORD_BOARD = [
+    ["A", "B", "C", "E"],
+    ["S", "F", "C", "S"],
+    ["A", "D", "E", "E"],
+]
+
+
+def lc_word_search(word):
+    board = [row[:] for row in _WORD_BOARD]
+    R, C = len(board), len(board[0])
+
+    def dfs(r, c, i):
+        if i == len(word):
+            return True
+        if r < 0 or r >= R or c < 0 or c >= C or board[r][c] != word[i]:
+            return False
+        tmp = board[r][c]
+        board[r][c] = "#"                     # 占住，防止走回头路
+        for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):
+            if dfs(nr, nc, i + 1):
+                return True
+        board[r][c] = tmp                     # 撤销
+        return False
+
+    return any(dfs(r, c, 0) for r in range(R) for c in range(C))
+
+
+def lc_word_break(s, words):
+    word_set = set(words)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+    return dp[len(s)]
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -1752,6 +1886,24 @@ def _run(spec):
         return "minutes:%d" % lc_oranges()
     if cmd == "lc-top-k-frequent":
         return "top:" + _arr(lc_top_k_frequent(_ints(parts[1]), int(parts[2])))
+
+    if cmd == "lc-add-two":
+        return "arr:" + _arr(lc_add_two(_ints(parts[1]), _ints(parts[2])))
+    if cmd == "lc-intersection":
+        shared = _ints(parts[3]) if len(parts) > 3 and parts[3] else []
+        return "val:%d" % lc_intersection(_ints(parts[1]), _ints(parts[2]), shared)
+    if cmd == "lc-palindrome-list":
+        return "ok:%s" % ("true" if lc_palindrome_list(_ints(parts[1])) else "false")
+    if cmd == "lc-largest-rect":
+        return "area:%d" % lc_largest_rect(_ints(parts[1]))
+    if cmd == "lc-group-anagrams":
+        return "count:%d" % lc_group_anagrams(parts[1].split(","))
+    if cmd == "lc-generate-parens":
+        return "count:%d" % lc_generate_parens(int(parts[1]))
+    if cmd == "lc-word-search":
+        return "ok:%s" % ("true" if lc_word_search(parts[1]) else "false")
+    if cmd == "lc-word-break":
+        return "ok:%s" % ("true" if lc_word_break(parts[1], parts[2].split(",")) else "false")
 
     raise ValueError("还没实现：" + cmd)
 

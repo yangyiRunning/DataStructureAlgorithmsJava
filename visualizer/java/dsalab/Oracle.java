@@ -54,6 +54,17 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-add-two": return "arr:" + arr(addTwo(arr0(parts[1]), arr0(parts[2])));
+      case "lc-intersection": {
+        List<Integer> shared = parts.length > 3 && !parts[3].isEmpty() ? ints(parts[3]) : new ArrayList<>();
+        return "val:" + intersect(arr0(parts[1]), arr0(parts[2]), shared);
+      }
+      case "lc-palindrome-list": return "ok:" + isPalinList(arr0(parts[1]));
+      case "lc-largest-rect": return "area:" + largestRect(arr0(parts[1]));
+      case "lc-group-anagrams": return "count:" + groupAnagrams(parts[1]);
+      case "lc-generate-parens": return "count:" + genParens(Integer.parseInt(parts[1]));
+      case "lc-word-search": return "ok:" + wordSearch(parts[1]);
+      case "lc-word-break": return "ok:" + wordBreak(parts[1], parts[2].split(","));
       case "lc-longest-consecutive": return "len:" + longestConsecutive(arr0(parts[1]));
       case "lc-min-stack": return "out:" + minStack(parts[1]);
       case "lc-decode-string": return "out:" + decodeString(parts[1]);
@@ -956,6 +967,136 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static final class LNode {
+    int val;
+    LNode next;
+    LNode(int v) { val = v; }
+  }
+
+  static List<Integer> addTwo(int[] a, int[] b) {
+    List<Integer> out = new ArrayList<>();
+    int carry = 0, i = 0, j = 0;
+    while (i < a.length || j < b.length || carry != 0) {
+      int va = i < a.length ? a[i] : 0;
+      int vb = j < b.length ? b[j] : 0;
+      int sum = va + vb + carry;
+      carry = sum / 10;
+      out.add(sum % 10);
+      i++; j++;
+    }
+    return out;
+  }
+
+  /** shared 里的节点被两条链共用，这才是"相交"的含义 */
+  static int intersect(int[] preA, int[] preB, List<Integer> shared) {
+    LNode[] sharedNodes = new LNode[shared.size()];
+    for (int i = 0; i < shared.size(); i++) sharedNodes[i] = new LNode(shared.get(i));
+    for (int i = 0; i + 1 < sharedNodes.length; i++) sharedNodes[i].next = sharedNodes[i + 1];
+    LNode sharedHead = sharedNodes.length > 0 ? sharedNodes[0] : null;
+
+    LNode a = buildChain(preA, sharedHead);
+    LNode b = buildChain(preB, sharedHead);
+
+    LNode pa = a, pb = b;
+    int steps = 0, limit = preA.length + preB.length + 2 * shared.size() + 2;
+    while (pa != pb && steps <= limit) {
+      pa = pa == null ? b : pa.next;
+      pb = pb == null ? a : pb.next;
+      steps++;
+    }
+    return pa == null ? -1 : pa.val;
+  }
+
+  private static LNode buildChain(int[] vals, LNode tail) {
+    LNode head = null, prev = null;
+    for (int v : vals) {
+      LNode n = new LNode(v);
+      if (prev == null) head = n; else prev.next = n;
+      prev = n;
+    }
+    if (prev != null) prev.next = tail;
+    return head != null ? head : tail;
+  }
+
+  static boolean isPalinList(int[] nums) {
+    for (int i = 0, j = nums.length - 1; i < j; i++, j--) if (nums[i] != nums[j]) return false;
+    return true;
+  }
+
+  static int largestRect(int[] h) {
+    Deque<Integer> stack = new ArrayDeque<>();
+    int best = 0;
+    for (int i = 0; i <= h.length; i++) {
+      int cur = i == h.length ? 0 : h[i];
+      while (!stack.isEmpty() && h[stack.peek()] > cur) {
+        int height = h[stack.pop()];
+        int left = stack.isEmpty() ? 0 : stack.peek() + 1;
+        best = Math.max(best, height * (i - left));
+      }
+      stack.push(i);
+    }
+    return best;
+  }
+
+  static int groupAnagrams(String spec) {
+    Map<String, Integer> groups = new HashMap<>();
+    for (String w : spec.split(",", -1)) {
+      char[] cs = w.toCharArray();
+      java.util.Arrays.sort(cs);
+      groups.merge(new String(cs), 1, Integer::sum);
+    }
+    return groups.size();
+  }
+
+  static int genParens(int n) {
+    int[] count = new int[1];
+    genDfs("", 0, 0, n, count);
+    return count[0];
+  }
+
+  private static void genDfs(String cur, int open, int close, int n, int[] count) {
+    if (cur.length() == n * 2) { count[0]++; return; }
+    if (open < n) genDfs(cur + "(", open + 1, close, n, count);
+    if (close < open) genDfs(cur + ")", open, close + 1, n, count);
+  }
+
+  static final char[][] WORD_BOARD = {
+      {'A', 'B', 'C', 'E'},
+      {'S', 'F', 'C', 'S'},
+      {'A', 'D', 'E', 'E'},
+  };
+
+  static boolean wordSearch(String word) {
+    char[][] board = new char[WORD_BOARD.length][];
+    for (int i = 0; i < WORD_BOARD.length; i++) board[i] = WORD_BOARD[i].clone();
+    for (int r = 0; r < board.length; r++)
+      for (int c = 0; c < board[0].length; c++)
+        if (wsDfs(board, r, c, word, 0)) return true;
+    return false;
+  }
+
+  private static boolean wsDfs(char[][] board, int r, int c, String word, int i) {
+    if (i == word.length()) return true;
+    if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) return false;
+    if (board[r][c] != word.charAt(i)) return false;
+    char tmp = board[r][c];
+    board[r][c] = '#';
+    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    for (int[] d : dirs) if (wsDfs(board, r + d[0], c + d[1], word, i + 1)) return true;
+    board[r][c] = tmp;
+    return false;
+  }
+
+  static boolean wordBreak(String s, String[] words) {
+    Set<String> set = new HashSet<>(java.util.Arrays.asList(words));
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+    for (int i = 1; i <= s.length(); i++)
+      for (int j = 0; j < i; j++)
+        if (dp[j] && set.contains(s.substring(j, i))) { dp[i] = true; break; }
+    return dp[s.length()];
+  }
 
   static int longestConsecutive(int[] nums) {
     Set<Integer> set = new HashSet<>();

@@ -33,6 +33,7 @@ import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { leetcode2Algorithms } from '../algos/leetcode2.js';
 import { leetcode3Algorithms } from '../algos/leetcode3.js';
+import { leetcode4Algorithms } from '../algos/leetcode4.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -64,6 +65,7 @@ const ALGOS = [
   ...leetcodeAlgorithms,
   ...leetcode2Algorithms,
   ...leetcode3Algorithms,
+  ...leetcode4Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -121,6 +123,19 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-add-two':
+      return `arr:${result.arr}`;
+    case 'lc-intersection':
+      return `val:${result.val}`;
+    case 'lc-palindrome-list':
+    case 'lc-word-search':
+    case 'lc-word-break':
+      return `ok:${result.ok}`;
+    case 'lc-largest-rect':
+      return `area:${result.area}`;
+    case 'lc-group-anagrams':
+    case 'lc-generate-parens':
+      return `count:${result.count}`;
     case 'lc-longest-consecutive':
       return `len:${result.len}`;
     case 'lc-min-stack':
@@ -271,6 +286,21 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-add-two':
+      return `${algoId};${nums(input.a)};${nums(input.b)}`;
+    case 'lc-intersection':
+      return `${algoId};${nums(input.preA)};${nums(input.preB)};${nums(input.shared)}`;
+    case 'lc-palindrome-list':
+    case 'lc-largest-rect':
+      return `${algoId};${nums(input)}`;
+    case 'lc-group-anagrams':
+      return `${algoId};${input.join(',')}`;
+    case 'lc-generate-parens':
+      return `${algoId};${input}`;
+    case 'lc-word-search':
+      return `${algoId};${input}`;
+    case 'lc-word-break':
+      return `${algoId};${input.s};${input.words.join(',')}`;
     case 'lc-longest-consecutive':
       return `${algoId};${nums(input)}`;
     case 'lc-min-stack':

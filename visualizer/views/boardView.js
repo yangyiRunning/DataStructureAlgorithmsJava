@@ -109,7 +109,14 @@ function renderGrid(svg, state) {
       svg.appendChild(el('rect', {
         class: cls, x: x0 + c * size, y: y0 + r * size, width: size - 3, height: size - 3, rx: 4,
       }));
-      if (land && visited.has(key)) {
+      // 网格里有字符就画字符（单词搜索这类题型），否则陆地上画个点表示已访问
+      const ch = state.gridText?.[r]?.[c];
+      if (ch != null) {
+        svg.appendChild(label(x0 + c * size + (size - 3) / 2, y0 + r * size + size / 2 + 6, ch, {
+          size: Math.min(18, size * 0.45), mono: true,
+          fill: visited.has(key) ? 'var(--brand-2)' : 'var(--ink)', weight: 600,
+        }));
+      } else if (land && visited.has(key)) {
         svg.appendChild(label(x0 + c * size + (size - 3) / 2, y0 + r * size + size / 2 + 5, '·', {
           size: 16, mono: true, fill: 'var(--brand-2)', weight: 700,
         }));
