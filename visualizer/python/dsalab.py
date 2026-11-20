@@ -2248,6 +2248,162 @@ def lc_contains_nearby(nums, k):
             win.discard(nums[i - k])
     return False
 
+
+# ── 热门题 10 ─────────────────────────────────────────────
+
+def _level_order(root):
+    out = []
+    q = deque([root])
+    while q:
+        n = q.popleft()
+        if n is None:
+            out.append("null")
+            continue
+        out.append(str(n.val))
+        q.append(n.left)
+        q.append(n.right)
+    while out and out[-1] == "null":
+        out.pop()
+    return out
+
+
+def lc_search_bst(levels, val):
+    node = _build_tree3(levels)
+    while node:
+        if node.val == val:
+            return True
+        node = node.left if val < node.val else node.right
+    return False
+
+
+def lc_bst_lca(levels, p, q):
+    node = _build_tree3(levels)
+    while node:
+        if p < node.val and q < node.val:
+            node = node.left
+        elif p > node.val and q > node.val:
+            node = node.right
+        else:
+            return node.val
+    return -1
+
+
+def lc_sorted_to_bst(nums):
+    def build(lo, hi):
+        if lo > hi:
+            return None
+        mid = (lo + hi) // 2
+        n = _TNode(nums[mid])
+        n.left = build(lo, mid - 1)
+        n.right = build(mid + 1, hi)
+        return n
+
+    root = build(0, len(nums) - 1)
+    return _level_order(root)
+
+
+def lc_balanced(levels):
+    ok = [True]
+
+    def depth(n):
+        if n is None:
+            return 0
+        l, r = depth(n.left), depth(n.right)
+        if abs(l - r) > 1:
+            ok[0] = False
+        return 1 + max(l, r)
+
+    depth(_build_tree3(levels))
+    return ok[0]
+
+
+def lc_min_depth(levels):
+    def dfs(n):
+        if n is None:
+            return 0
+        if n.left is None:
+            return 1 + dfs(n.right)      # 只有一边孩子，不能算 0
+        if n.right is None:
+            return 1 + dfs(n.left)
+        return 1 + min(dfs(n.left), dfs(n.right))
+
+    return dfs(_build_tree3(levels))
+
+
+def lc_tree_paths(levels):
+    res = []
+
+    def dfs(n, path):
+        if n is None:
+            return
+        p = path + [str(n.val)]
+        if n.left is None and n.right is None:
+            res.append("->".join(p))
+            return
+        dfs(n.left, p)
+        dfs(n.right, p)
+
+    dfs(_build_tree3(levels), [])
+    return len(res)
+
+
+def lc_right_view(levels):
+    root = _build_tree3(levels)
+    if root is None:
+        return []
+    res = []
+    q = [root]
+    while q:
+        res.append(q[-1].val)            # 每层最后一个
+        nq = []
+        for n in q:
+            if n.left:
+                nq.append(n.left)
+            if n.right:
+                nq.append(n.right)
+        q = nq
+    return res
+
+
+def lc_merge_trees(a_levels, b_levels):
+    def walk(x, y):
+        if x is None:
+            return y
+        if y is None:
+            return x
+        x.val += y.val
+        x.left = walk(x.left, y.left)
+        x.right = walk(x.right, y.right)
+        return x
+
+    root = walk(_build_tree3(a_levels), _build_tree3(b_levels))
+    return _level_order(root)
+
+
+def lc_kth_smallest(levels, k):
+    st = []
+    node = _build_tree3(levels)
+    while node or st:
+        while node:
+            st.append(node)
+            node = node.left
+        node = st.pop()
+        k -= 1
+        if k == 0:
+            return node.val
+        node = node.right
+    return -1
+
+
+def lc_remove_dup_2(nums):
+    a = list(nums)
+    slow = 0
+    for x in a:
+        if slow < 2 or x != a[slow - 2]:   # 最多留两个
+            a[slow] = x
+            slow += 1
+    return a[:slow]
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2573,6 +2729,28 @@ def _run(spec):
         return "ok:%s" % ("true" if lc_word_pattern(parts[1], parts[2]) else "false")
     if cmd == "lc-contains-nearby":
         return "ok:%s" % ("true" if lc_contains_nearby(_ints(parts[1]), int(parts[2])) else "false")
+
+    if cmd == "lc-search-bst":
+        return "ok:%s" % ("true" if lc_search_bst(_levels(parts[1]), int(parts[2])) else "false")
+    if cmd == "lc-bst-lca":
+        return "lca:%d" % lc_bst_lca(_levels(parts[1]), int(parts[2]), int(parts[3]))
+    if cmd == "lc-sorted-to-bst":
+        return "order:" + ",".join(lc_sorted_to_bst(_ints(parts[1])))
+    if cmd == "lc-balanced":
+        return "ok:%s" % ("true" if lc_balanced(_levels(parts[1])) else "false")
+    if cmd == "lc-min-depth":
+        return "depth:%d" % lc_min_depth(_levels(parts[1]))
+    if cmd == "lc-tree-paths":
+        return "count:%d" % lc_tree_paths(_levels(parts[1]))
+    if cmd == "lc-right-view":
+        return "arr:" + _arr(lc_right_view(_levels(parts[1])))
+    if cmd == "lc-merge-trees":
+        return "order:" + ",".join(lc_merge_trees(_levels(parts[1]), _levels(parts[2])))
+    if cmd == "lc-kth-smallest":
+        return "num:%d" % lc_kth_smallest(_levels(parts[1]), int(parts[2]))
+    if cmd == "lc-remove-dup-2":
+        out = lc_remove_dup_2(_ints(parts[1]))
+        return "len:%d|arr:%s" % (len(out), _arr(out))
 
     raise ValueError("还没实现：" + cmd)
 

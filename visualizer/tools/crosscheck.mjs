@@ -39,6 +39,7 @@ import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { leetcode9Algorithms } from '../algos/leetcode9.js';
+import { leetcode10Algorithms } from '../algos/leetcode10.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -76,6 +77,7 @@ const ALGOS = [
   ...leetcode7Algorithms,
   ...leetcode8Algorithms,
   ...leetcode9Algorithms,
+  ...leetcode10Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -133,6 +135,24 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-search-bst':
+    case 'lc-balanced':
+      return `ok:${result.ok}`;
+    case 'lc-bst-lca':
+      return `lca:${result.lca}`;
+    case 'lc-sorted-to-bst':
+    case 'lc-merge-trees':
+      return `order:${result.order}`;
+    case 'lc-min-depth':
+      return `depth:${result.depth}`;
+    case 'lc-tree-paths':
+      return `count:${result.count}`;
+    case 'lc-right-view':
+      return `arr:${result.arr}`;
+    case 'lc-kth-smallest':
+      return `num:${result.num}`;
+    case 'lc-remove-dup-2':
+      return `len:${result.len}|arr:${result.arr}`;
     case 'lc-reorder-list':
     case 'lc-sort-list':
     case 'lc-odd-even-list':
@@ -341,6 +361,8 @@ function canonical(algoId, result) {
 }
 
 /** 把输入序列化成 Oracle 认的一行，分号分组、逗号分项 */
+const lv = (arr) => arr.map((v) => (v == null ? 'null' : v)).join(',');
+
 function serialize(algoId, input) {
   const nums = (v) => v.join(',');
   switch (algoId) {
@@ -369,6 +391,21 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-search-bst':
+      return `${algoId};${lv(input.levels)};${input.val}`;
+    case 'lc-bst-lca':
+    case 'lc-kth-smallest':
+      return `${algoId};${lv(input.levels)};${algoId === 'lc-bst-lca' ? input.p : input.k}${algoId === 'lc-bst-lca' ? `;${input.q}` : ''}`;
+    case 'lc-sorted-to-bst':
+    case 'lc-remove-dup-2':
+      return `${algoId};${nums(input)}`;
+    case 'lc-balanced':
+    case 'lc-min-depth':
+    case 'lc-tree-paths':
+    case 'lc-right-view':
+      return `${algoId};${lv(input)}`;
+    case 'lc-merge-trees':
+      return `${algoId};${lv(input.a)};${lv(input.b)}`;
     case 'lc-reorder-list':
     case 'lc-sort-list':
     case 'lc-odd-even-list':

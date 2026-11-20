@@ -54,6 +54,19 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-search-bst": return "ok:" + searchBst(parts[1], Integer.parseInt(parts[2]));
+      case "lc-bst-lca": return "lca:" + bstLca(parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+      case "lc-sorted-to-bst": return "order:" + levelOrder(sortedToBst(arr0(parts[1])));
+      case "lc-balanced": return "ok:" + balanced(parts[1]);
+      case "lc-min-depth": return "depth:" + minDepth(parts[1]);
+      case "lc-tree-paths": return "count:" + treePaths(parts[1]);
+      case "lc-right-view": return "arr:" + arr(rightView(parts[1]));
+      case "lc-merge-trees": return "order:" + levelOrder(mergeTrees(parts[1], parts[2]));
+      case "lc-kth-smallest": return "num:" + kthSmallest(parts[1], Integer.parseInt(parts[2]));
+      case "lc-remove-dup-2": {
+        List<Integer> out = removeDup2(arr0(parts[1]));
+        return "len:" + out.size() + "|arr:" + arr(out);
+      }
       case "lc-reorder-list": return "arr:" + arr(reorderList(arr0(parts[1])));
       case "lc-sort-list": return "arr:" + arr(sortList(arr0(parts[1])));
       case "lc-odd-even-list": return "arr:" + arr(oddEvenList(arr0(parts[1])));
@@ -1012,6 +1025,143 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static String levelOrder(Node root) {
+    List<String> out = new ArrayList<>();
+    java.util.LinkedList<Node> q = new java.util.LinkedList<>();
+    q.add(root);
+    while (!q.isEmpty()) {
+      Node n = q.poll();
+      if (n == null) { out.add("null"); continue; }
+      out.add(String.valueOf(n.val));
+      q.add(n.left);
+      q.add(n.right);
+    }
+    while (!out.isEmpty() && out.get(out.size() - 1).equals("null")) out.remove(out.size() - 1);
+    return String.join(",", out);
+  }
+
+  static boolean searchBst(String spec, int val) {
+    Node n = treeFromLevels(spec);
+    while (n != null) {
+      if (n.val == val) return true;
+      n = val < n.val ? n.left : n.right;
+    }
+    return false;
+  }
+
+  static int bstLca(String spec, int p, int q) {
+    Node n = treeFromLevels(spec);
+    while (n != null) {
+      if (p < n.val && q < n.val) n = n.left;
+      else if (p > n.val && q > n.val) n = n.right;
+      else return n.val;
+    }
+    return -1;
+  }
+
+  static Node sortedToBst(int[] nums) {
+    return buildBst(nums, 0, nums.length - 1);
+  }
+
+  private static Node buildBst(int[] nums, int lo, int hi) {
+    if (lo > hi) return null;
+    int mid = (lo + hi) / 2;
+    Node n = new Node(nums[mid]);
+    n.left = buildBst(nums, lo, mid - 1);
+    n.right = buildBst(nums, mid + 1, hi);
+    return n;
+  }
+
+  static boolean balanced(String spec) {
+    boolean[] ok = {true};
+    balDepth(treeFromLevels(spec), ok);
+    return ok[0];
+  }
+
+  private static int balDepth(Node n, boolean[] ok) {
+    if (n == null) return 0;
+    int l = balDepth(n.left, ok), r = balDepth(n.right, ok);
+    if (Math.abs(l - r) > 1) ok[0] = false;
+    return 1 + Math.max(l, r);
+  }
+
+  static int minDepth(String spec) { return minDep(treeFromLevels(spec)); }
+
+  private static int minDep(Node n) {
+    if (n == null) return 0;
+    if (n.left == null) return 1 + minDep(n.right);
+    if (n.right == null) return 1 + minDep(n.left);
+    return 1 + Math.min(minDep(n.left), minDep(n.right));
+  }
+
+  static int treePaths(String spec) {
+    int[] count = new int[1];
+    tpDfs(treeFromLevels(spec), new ArrayList<>(), count);
+    return count[0];
+  }
+
+  private static void tpDfs(Node n, List<String> path, int[] count) {
+    if (n == null) return;
+    path.add(String.valueOf(n.val));
+    if (n.left == null && n.right == null) count[0]++;
+    else { tpDfs(n.left, path, count); tpDfs(n.right, path, count); }
+    path.remove(path.size() - 1);
+  }
+
+  static List<Integer> rightView(String spec) {
+    List<Integer> out = new ArrayList<>();
+    Node root = treeFromLevels(spec);
+    if (root == null) return out;
+    List<Node> level = new ArrayList<>();
+    level.add(root);
+    while (!level.isEmpty()) {
+      out.add(level.get(level.size() - 1).val);
+      List<Node> next = new ArrayList<>();
+      for (Node n : level) {
+        if (n.left != null) next.add(n.left);
+        if (n.right != null) next.add(n.right);
+      }
+      level = next;
+    }
+    return out;
+  }
+
+  static Node mergeTrees(String a, String b) {
+    return mergeWalk(treeFromLevels(a), treeFromLevels(b));
+  }
+
+  private static Node mergeWalk(Node x, Node y) {
+    if (x == null) return y;
+    if (y == null) return x;
+    x.val += y.val;
+    x.left = mergeWalk(x.left, y.left);
+    x.right = mergeWalk(x.right, y.right);
+    return x;
+  }
+
+  static int kthSmallest(String spec, int k) {
+    Deque<Node> st = new ArrayDeque<>();
+    Node node = treeFromLevels(spec);
+    while (node != null || !st.isEmpty()) {
+      while (node != null) { st.push(node); node = node.left; }
+      node = st.pop();
+      if (--k == 0) return node.val;
+      node = node.right;
+    }
+    return -1;
+  }
+
+  static List<Integer> removeDup2(int[] nums) {
+    int[] a = nums.clone();
+    int slow = 0;
+    for (int x : a) {
+      if (slow < 2 || x != a[slow - 2]) a[slow++] = x;
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int i = 0; i < slow; i++) out.add(a[i]);
+    return out;
+  }
 
   static LNode chain(int[] vals) {
     LNode head = null, prev = null;

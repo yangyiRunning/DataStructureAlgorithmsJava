@@ -31,6 +31,7 @@ import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { leetcode9Algorithms } from '../algos/leetcode9.js';
+import { leetcode10Algorithms } from '../algos/leetcode10.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -62,6 +63,7 @@ const ALL = [
   ...leetcode7Algorithms,
   ...leetcode8Algorithms,
   ...leetcode9Algorithms,
+  ...leetcode10Algorithms,
   ...backtrackingAlgorithms,
 ];
 
