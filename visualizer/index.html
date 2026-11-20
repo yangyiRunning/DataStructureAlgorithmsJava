@@ -42,7 +42,15 @@
   </header>
 
   <div class="layout">
-    <nav class="sidebar" id="nav" aria-label="演示目录"></nav>
+    <aside class="sidebar">
+      <!-- 筛选框必须放在 #nav 外面：buildNav() 每次会清空 #nav 重建列表 -->
+      <div class="nav-filter-wrap">
+        <input id="nav-filter" type="search" placeholder="筛选演示…（如 kmeans、注意力、栈）"
+               aria-label="筛选演示" autocomplete="off" spellcheck="false">
+        <p class="nav-count" id="nav-count"></p>
+      </div>
+      <nav class="navlist" id="nav" aria-label="演示目录"></nav>
+    </aside>
 
     <main class="stage">
       <div class="stage-head">

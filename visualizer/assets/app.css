@@ -361,6 +361,52 @@ body::before {
   position: sticky;
   top: 0;
   align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navlist {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-filter-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0 6px 10px;
+  background: var(--cream);
+}
+
+#nav-filter {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 11px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+#nav-filter::placeholder {
+  color: var(--mut);
+}
+
+#nav-filter:focus {
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-1) 22%, transparent);
+}
+
+.nav-count {
+  margin: 6px 2px 0;
+  font-size: 11.5px;
+  color: var(--mut);
+  min-height: 1.2em;
 }
 
 .nav-group {
@@ -1039,7 +1085,45 @@ output {
     padding: 14px 16px;
   }
 
-  .nav-group {
+  .nav-filter-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0 6px 10px;
+  background: var(--cream);
+}
+
+#nav-filter {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 11px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+#nav-filter::placeholder {
+  color: var(--mut);
+}
+
+#nav-filter:focus {
+  border-color: var(--brand-1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-1) 22%, transparent);
+}
+
+.nav-count {
+  margin: 6px 2px 0;
+  font-size: 11.5px;
+  color: var(--mut);
+  min-height: 1.2em;
+}
+
+.nav-group {
     margin-bottom: 0;
   }
 

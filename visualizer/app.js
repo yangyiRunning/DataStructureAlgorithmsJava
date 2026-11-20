@@ -69,36 +69,42 @@ const VIEWS = {
   network: networkView,
 };
 
-const ALGOS = [
-  ...sortingAlgorithms,
-  ...binarySearchAlgorithms,
-  ...linkedListAlgorithms,
-  ...twoPointerAlgorithms,
-  ...stackAlgorithms,
-  ...treeAlgorithms,
-  ...trieAlgorithms,
-  ...unionFindAlgorithms,
-  ...heapAlgorithms,
-  ...graphAlgorithms,
-  ...dpAlgorithms,
-  ...dpOneDAlgorithms,
-  ...arrayTechAlgorithms,
-  ...miscAlgorithms,
-  ...hashAlgorithms,
-  ...advancedTreeAlgorithms,
-  ...leetcodeAlgorithms,
-  ...leetcode2Algorithms,
-  ...leetcode3Algorithms,
-  ...leetcode4Algorithms,
-  ...leetcode5Algorithms,
-  ...leetcode6Algorithms,
-  ...leetcode7Algorithms,
-  ...leetcode8Algorithms,
-  ...leetcode9Algorithms,
-  ...leetcode10Algorithms,
-  ...leetcode11Algorithms,
-  ...aiAlgorithms,
+// 只在这里列一次。原来 import 和 ALGOS 是两张表，
+// 加新模块时容易只加 import 忘了展开 —— 回溯那 3 个演示就这样从页面上
+// 消失了整整几轮，而自检、对拍都读模块、不走这条路，全绿。
+const MODULES = [
+  sortingAlgorithms,
+  binarySearchAlgorithms,
+  linkedListAlgorithms,
+  twoPointerAlgorithms,
+  stackAlgorithms,
+  treeAlgorithms,
+  trieAlgorithms,
+  unionFindAlgorithms,
+  heapAlgorithms,
+  graphAlgorithms,
+  dpAlgorithms,
+  dpOneDAlgorithms,
+  arrayTechAlgorithms,
+  miscAlgorithms,
+  hashAlgorithms,
+  advancedTreeAlgorithms,
+  backtrackingAlgorithms,
+  leetcodeAlgorithms,
+  leetcode2Algorithms,
+  leetcode3Algorithms,
+  leetcode4Algorithms,
+  leetcode5Algorithms,
+  leetcode6Algorithms,
+  leetcode7Algorithms,
+  leetcode8Algorithms,
+  leetcode9Algorithms,
+  leetcode10Algorithms,
+  leetcode11Algorithms,
+  aiAlgorithms,
 ];
+
+const ALGOS = MODULES.flatMap((m) => m ?? []);
 
 const $ = (id) => document.getElementById(id);
 
@@ -124,6 +130,7 @@ const dom = {
   btnLast: $('btn-last'),
   inputButtons: $('input-buttons'),
   langSwitch: $('lang-switch'),
+  navFilter: $('nav-filter'),
 };
 
 let current = null;      // 当前算法对象
@@ -157,9 +164,40 @@ function buildNav() {
       });
       btn.addEventListener('click', () => select(algo.id));
       btn.dataset.id = algo.id;
+      // 关键词里带上分组名和 brief：搜 "注意力" 能命中，"attention" 也能
+      const raw = `${algo.group} ${algo.title} ${algo.brief ?? ''}`.toLowerCase();
+      btn.dataset.key = raw;
+      btn.dataset.compact = raw.replace(/[\s\-_·、，。（）()]/g, '');
       wrap.appendChild(btn);
     }
+    wrap.dataset.group = group;
     dom.nav.appendChild(wrap);
+  }
+}
+
+/**
+ * 侧边栏筛选。
+ * 179 个演示排在一条竖列里，"AI 算法"在最后，光靠滚很难找到——
+ * 输入框比目录树更直接。
+ */
+function filterNav() {
+  const q = ($('nav-filter')?.value ?? '').trim().toLowerCase();
+  let shown = 0;
+  let total = 0;
+  for (const wrap of dom.nav.querySelectorAll('.nav-group')) {
+    let groupHit = 0;
+    for (const btn of wrap.querySelectorAll('.nav-item')) {
+      total += 1;
+      const qc = q.replace(/[\s\-_·、，。（）()]/g, '');
+      const hit = !q || btn.dataset.key.includes(q) || (qc && btn.dataset.compact.includes(qc));
+      btn.hidden = !hit;
+      if (hit) { groupHit += 1; shown += 1; }
+    }
+    wrap.hidden = groupHit === 0;
+  }
+  const count = $('nav-count');
+  if (count) {
+    count.textContent = q ? `筛出 ${shown} / ${total} 个演示` : '';
   }
 }
 
@@ -391,6 +429,15 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowLeft') { e.preventDefault(); player.pause(); player.prev(); }
   else if (e.key === 'Home') { e.preventDefault(); player.pause(); player.first(); }
   else if (e.key === 'End') { e.preventDefault(); player.pause(); player.last(); }
+});
+
+$('nav-filter')?.addEventListener('input', filterNav);
+// 按 "/" 直接跳到筛选框，避免每次都去点
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+    e.preventDefault();
+    $('nav-filter')?.focus();
+  }
 });
 
 // 语言切换：只影响代码栏，动画和计数不受影响。
