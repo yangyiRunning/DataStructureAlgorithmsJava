@@ -298,14 +298,23 @@ body::before {
   gap: 10px;
 }
 
-/* 与主站 logo 同构：琥珀渐变圆角方块 */
-.brand::before {
-  content: "";
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background: var(--grad);
-  box-shadow: var(--glow);
+/* 标志：纸 + 灯，取自主站 SiteNav 的 mark。
+   尺寸给到 26px——20px 时灯和纸的边界会糊在一起。 */
+.brand .mark {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  overflow: visible;
+  color: var(--ink);
+}
+
+/* 悬停时那盏灯亮一下，和主站一致 */
+.brand .mark circle {
+  transition: r .22s var(--ease);
+}
+
+.brand:hover .mark circle {
+  r: 4.6;
 }
 
 .brand h1 {
