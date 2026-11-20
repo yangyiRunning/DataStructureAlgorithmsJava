@@ -410,16 +410,59 @@ body::before {
 }
 
 .nav-group {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
-.nav-group > h3 {
-  margin: 0 0 8px;
-  padding: 0 10px;
+/* 组头是按钮：整行可点，右边小三角表示折叠状态 */
+.nav-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0 0 6px;
+  padding: 6px 10px;
+  font: inherit;
   font-size: 12.5px;
   font-weight: 800;
   color: var(--brand-2);
   letter-spacing: .02em;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background .18s var(--ease);
+}
+
+.nav-group-head:hover {
+  background: var(--cream-2);
+}
+
+.nav-group-name { flex: 1; }
+
+/* 组里有多少条：收起来时也知道这组多大 */
+.nav-group-n {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mut);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-caret {
+  font-size: 11px;
+  color: var(--sub);
+  line-height: 1;
+  transition: transform .22s var(--ease);
+}
+
+.nav-group.is-collapsed .nav-caret {
+  transform: rotate(-90deg);
+}
+
+/* 用 !important 挡住窄屏那条 .nav-group{margin-bottom:0} 之外的可能覆盖；
+   实际只需要这一条 display */
+.nav-group.is-collapsed .nav-group-body {
+  display: none;
 }
 
 .nav-item {

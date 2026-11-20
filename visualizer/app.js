@@ -145,6 +145,18 @@ const player = new Player({ onChange: paint });
 
 // ── 目录 ──────────────────────────────────────────────────────
 
+// 「AI 算法」提到最前面：它是后来加的，也是最想让人先看到的一组。
+// 其余分组保持原来的顺序。
+const FIRST_GROUPS = ['AI 算法'];
+
+const COLLAPSE_KEY = 'dsa-nav-collapsed';
+const readCollapsed = () => {
+  try { return new Set(JSON.parse(localStorage.getItem(COLLAPSE_KEY) ?? '[]')); } catch { return new Set(); }
+};
+const writeCollapsed = (set) => {
+  try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify([...set])); } catch {}
+};
+
 function buildNav() {
   empty(dom.nav);
   const groups = new Map();
@@ -152,9 +164,41 @@ function buildNav() {
     if (!groups.has(algo.group)) groups.set(algo.group, []);
     groups.get(algo.group).push(algo);
   }
-  for (const [group, items] of groups) {
+
+  const order = [...groups.keys()].sort((a, b) => {
+    const ia = FIRST_GROUPS.indexOf(a);
+    const ib = FIRST_GROUPS.indexOf(b);
+    if (ia >= 0 || ib >= 0) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    return 0;   // 其余保持插入顺序（sort 是稳定的）
+  });
+
+  const collapsed = readCollapsed();
+
+  for (const group of order) {
+    const items = groups.get(group);
     const wrap = h('div', { class: 'nav-group' });
-    wrap.appendChild(h('h3', { text: group }));
+    wrap.dataset.group = group;
+
+    // 组头做成按钮：点一下折叠 / 展开
+    const head = h('button', {
+      type: 'button',
+      class: 'nav-group-head',
+      'aria-expanded': 'true',
+    });
+    head.appendChild(h('span', { class: 'nav-group-name', text: `${group}` }));
+    head.appendChild(h('span', { class: 'nav-group-n', text: String(items.length) }));
+    head.appendChild(h('span', { class: 'nav-caret', text: '▾', 'aria-hidden': 'true' }));
+
+    const body = h('div', { class: 'nav-group-body' });
+
+    head.addEventListener('click', () => {
+      const set = readCollapsed();
+      const nowCollapsed = !wrap.classList.contains('is-collapsed');
+      if (nowCollapsed) set.add(group); else set.delete(group);
+      writeCollapsed(set);
+      applyCollapse(wrap, nowCollapsed);
+    });
+
     for (const algo of items) {
       const btn = h('button', {
         type: 'button',
@@ -168,11 +212,34 @@ function buildNav() {
       const raw = `${algo.group} ${algo.title} ${algo.brief ?? ''}`.toLowerCase();
       btn.dataset.key = raw;
       btn.dataset.compact = raw.replace(/[\s\-_·、，。（）()]/g, '');
-      wrap.appendChild(btn);
+      body.appendChild(btn);
     }
-    wrap.dataset.group = group;
+
+    wrap.appendChild(head);
+    wrap.appendChild(body);
     dom.nav.appendChild(wrap);
+
+    if (collapsed.has(group)) applyCollapse(wrap, true);
   }
+}
+
+/** 折叠只看 class，样式与 aria 一起改，免得出现"看着收起了但屏幕阅读器还念出来" */
+function applyCollapse(wrap, collapsed) {
+  wrap.classList.toggle('is-collapsed', collapsed);
+  const head = wrap.querySelector('.nav-group-head');
+  head?.setAttribute('aria-expanded', String(!collapsed));
+  head?.setAttribute('aria-label', `${collapsed ? '展开' : '收起'} ${wrap.dataset.group}`);
+}
+
+/** 选中某个算法时，把它所在的分组展开 */
+function expandGroupOf(algoId) {
+  const btn = dom.nav.querySelector(`.nav-item[data-id="${algoId}"]`);
+  const wrap = btn?.closest('.nav-group');
+  if (!wrap || !wrap.classList.contains('is-collapsed')) return;
+  applyCollapse(wrap, false);
+  const set = readCollapsed();
+  set.delete(wrap.dataset.group);
+  writeCollapsed(set);
 }
 
 /**
@@ -194,6 +261,8 @@ function filterNav() {
       if (hit) { groupHit += 1; shown += 1; }
     }
     wrap.hidden = groupHit === 0;
+    // 搜索命中时把组展开，不然会看到"搜到了但被折叠起来"
+    if (q && groupHit > 0) applyCollapse(wrap, false);
   }
   const count = $('nav-count');
   if (count) {
@@ -207,6 +276,8 @@ function select(id) {
   const algo = ALGOS.find((a) => a.id === id);
   if (!algo) return;
   current = algo;
+  // 从筛选结果或外部链接跳进来时，别让目标藏在折叠起来的分组里
+  expandGroupOf(id);
 
   for (const btn of dom.nav.querySelectorAll('.nav-item')) {
     btn.setAttribute('aria-current', String(btn.dataset.id === id));
