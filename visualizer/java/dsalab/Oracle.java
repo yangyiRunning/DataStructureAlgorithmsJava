@@ -54,6 +54,19 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-dup-exists": return "ok:" + dupExists(arr0(parts[1]));
+      case "lc-majority": return "num:" + majority(arr0(parts[1]));
+      case "lc-missing-number": return "num:" + missingNum(arr0(parts[1]));
+      case "lc-remove-element": {
+        List<Integer> out = removeElem(arr0(parts[1]), Integer.parseInt(parts[2]));
+        return "len:" + out.size() + "|arr:" + arr(out);
+      }
+      case "lc-merge-sorted-arr": return "arr:" + arr(mergeSorted(arr0(parts[1]), Integer.parseInt(parts[2]), arr0(parts[3]), Integer.parseInt(parts[4])));
+      case "lc-plus-one": return "arr:" + arr(plusOne(arr0(parts[1])));
+      case "lc-reverse-string": return "out:" + new StringBuilder(parts[1]).reverse();
+      case "lc-anagram": return "ok:" + isAnagram(parts[1], parts[2]);
+      case "lc-subsequence": return "ok:" + isSubseq(parts[1], parts[2]);
+      case "lc-count-ones": return "count:" + Integer.bitCount(Integer.parseInt(parts[1]));
       case "lc-invert-tree": return "order:" + invertTree(parts[1]);
       case "lc-path-sum": return "ok:" + pathSum(parts[1], Integer.parseInt(parts[2]));
       case "lc-first-missing": return "ans:" + firstMissing(arr0(parts[1]));
@@ -979,6 +992,80 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static boolean dupExists(int[] nums) {
+    Set<Integer> seen = new HashSet<>();
+    for (int v : nums) if (!seen.add(v)) return true;
+    return false;
+  }
+
+  static int majority(int[] nums) {
+    int cand = nums[0], count = 0;
+    for (int x : nums) {
+      if (count == 0) cand = x;
+      count += x == cand ? 1 : -1;
+    }
+    return cand;
+  }
+
+  static int missingNum(int[] nums) {
+    int x = nums.length;
+    for (int i = 0; i < nums.length; i++) x ^= i ^ nums[i];
+    return x;
+  }
+
+  static List<Integer> removeElem(int[] nums, int val) {
+    int slow = 0;
+    int[] a = nums.clone();
+    for (int fast = 0; fast < a.length; fast++) if (a[fast] != val) a[slow++] = a[fast];
+    List<Integer> out = new ArrayList<>();
+    for (int i = 0; i < slow; i++) out.add(a[i]);
+    return out;
+  }
+
+  static List<Integer> mergeSorted(int[] a, int m, int[] b, int n) {
+    int[] nums = a.clone();
+    int i = m - 1, j = n - 1, k = m + n - 1;
+    while (j >= 0) {
+      if (i >= 0 && nums[i] > b[j]) nums[k--] = nums[i--];
+      else nums[k--] = b[j--];
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int v : nums) out.add(v);
+    return out;
+  }
+
+  static List<Integer> plusOne(int[] digits) {
+    int[] a = digits.clone();
+    for (int i = a.length - 1; i >= 0; i--) {
+      if (a[i] < 9) { a[i]++; return box(a); }
+      a[i] = 0;
+    }
+    List<Integer> out = new ArrayList<>();
+    out.add(1);
+    for (int v : a) out.add(v);
+    return out;
+  }
+
+  private static List<Integer> box(int[] a) {
+    List<Integer> out = new ArrayList<>();
+    for (int v : a) out.add(v);
+    return out;
+  }
+
+  static boolean isAnagram(String s, String t) {
+    if (s.length() != t.length()) return false;
+    int[] cnt = new int[26];
+    for (int i = 0; i < s.length(); i++) { cnt[s.charAt(i) - 97]++; cnt[t.charAt(i) - 97]--; }
+    for (int v : cnt) if (v != 0) return false;
+    return true;
+  }
+
+  static boolean isSubseq(String s, String t) {
+    int i = 0;
+    for (int k = 0; k < t.length() && i < s.length(); k++) if (t.charAt(k) == s.charAt(i)) i++;
+    return i == s.length();
+  }
 
   static String invertTree(String spec) {
     Node root = treeFromLevels(spec);

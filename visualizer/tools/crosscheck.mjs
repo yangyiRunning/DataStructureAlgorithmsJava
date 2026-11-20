@@ -36,6 +36,7 @@ import { leetcode3Algorithms } from '../algos/leetcode3.js';
 import { leetcode4Algorithms } from '../algos/leetcode4.js';
 import { leetcode5Algorithms } from '../algos/leetcode5.js';
 import { leetcode6Algorithms } from '../algos/leetcode6.js';
+import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -70,6 +71,7 @@ const ALGOS = [
   ...leetcode4Algorithms,
   ...leetcode5Algorithms,
   ...leetcode6Algorithms,
+  ...leetcode7Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -127,6 +129,22 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-dup-exists':
+    case 'lc-anagram':
+    case 'lc-subsequence':
+      return `ok:${result.ok}`;
+    case 'lc-majority':
+    case 'lc-missing-number':
+      return `num:${result.num}`;
+    case 'lc-remove-element':
+      return `len:${result.len}|arr:${result.arr}`;
+    case 'lc-merge-sorted-arr':
+    case 'lc-plus-one':
+      return `arr:${result.arr}`;
+    case 'lc-reverse-string':
+      return `out:${result.out}`;
+    case 'lc-count-ones':
+      return `count:${result.count}`;
     case 'lc-invert-tree':
       return `order:${result.order}`;
     case 'lc-path-sum':
@@ -314,6 +332,22 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-dup-exists':
+    case 'lc-majority':
+    case 'lc-missing-number':
+    case 'lc-plus-one':
+      return `${algoId};${nums(input)}`;
+    case 'lc-remove-element':
+      return `${algoId};${nums(input.nums)};${input.val}`;
+    case 'lc-merge-sorted-arr':
+      return `${algoId};${nums(input.a)};${input.m};${nums(input.b)};${input.n}`;
+    case 'lc-reverse-string':
+      return `${algoId};${input}`;
+    case 'lc-anagram':
+    case 'lc-subsequence':
+      return `${algoId};${input.s};${input.t}`;
+    case 'lc-count-ones':
+      return `${algoId};${input}`;
     case 'lc-invert-tree':
       return `${algoId};${input.map((v) => (v == null ? 'null' : v)).join(',')}`;
     case 'lc-path-sum':

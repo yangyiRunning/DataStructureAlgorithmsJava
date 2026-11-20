@@ -1859,6 +1859,95 @@ def lc_path_sum(levels, target):
 
     return dfs(root, target)
 
+
+# ── 热门题 7 ──────────────────────────────────────────────
+
+def lc_dup_exists(nums):
+    seen = set()
+    for x in nums:
+        if x in seen:
+            return True
+        seen.add(x)
+    return False
+
+
+def lc_majority(nums):
+    cand, count = nums[0], 0
+    for x in nums:
+        if count == 0:
+            cand = x
+        count += 1 if x == cand else -1
+    return cand
+
+
+def lc_missing_number(nums):
+    x = len(nums)
+    for i, v in enumerate(nums):
+        x ^= i ^ v
+    return x
+
+
+def lc_remove_element(nums, val):
+    a = list(nums)
+    slow = 0
+    for fast in range(len(a)):
+        if a[fast] != val:
+            a[slow] = a[fast]
+            slow += 1
+    return a[:slow]
+
+
+def lc_merge_sorted_arr(a, m, b, n):
+    nums = list(a)
+    i, j, k = m - 1, n - 1, m + n - 1
+    while j >= 0:
+        if i >= 0 and nums[i] > b[j]:
+            nums[k] = nums[i]; i -= 1
+        else:
+            nums[k] = b[j]; j -= 1
+        k -= 1
+    return nums
+
+
+def lc_plus_one(digits):
+    a = list(digits)
+    for i in range(len(a) - 1, -1, -1):
+        if a[i] < 9:
+            a[i] += 1
+            return a
+        a[i] = 0
+    return [1] + a
+
+
+def lc_reverse_string(s):
+    return s[::-1]
+
+
+def lc_anagram(s, t):
+    if len(s) != len(t):
+        return False
+    cnt = [0] * 26
+    for i in range(len(s)):
+        cnt[ord(s[i]) - 97] += 1
+        cnt[ord(t[i]) - 97] -= 1
+    return all(v == 0 for v in cnt)
+
+
+def lc_subsequence(s, t):
+    i = 0
+    for ch in t:
+        if i < len(s) and ch == s[i]:
+            i += 1
+    return i == len(s)
+
+
+def lc_count_ones(n):
+    count = 0
+    while n:
+        n &= n - 1                     # 抹掉最低位的 1
+        count += 1
+    return count
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2120,6 +2209,28 @@ def _run(spec):
         return "order:" + ",".join(lc_invert_tree(_levels(parts[1])))
     if cmd == "lc-path-sum":
         return "ok:%s" % ("true" if lc_path_sum(_levels(parts[1]), int(parts[2])) else "false")
+
+    if cmd == "lc-dup-exists":
+        return "ok:%s" % ("true" if lc_dup_exists(_ints(parts[1])) else "false")
+    if cmd == "lc-majority":
+        return "num:%d" % lc_majority(_ints(parts[1]))
+    if cmd == "lc-missing-number":
+        return "num:%d" % lc_missing_number(_ints(parts[1]))
+    if cmd == "lc-remove-element":
+        out = lc_remove_element(_ints(parts[1]), int(parts[2]))
+        return "len:%d|arr:%s" % (len(out), _arr(out))
+    if cmd == "lc-merge-sorted-arr":
+        return "arr:" + _arr(lc_merge_sorted_arr(_ints(parts[1]), int(parts[2]), _ints(parts[3]), int(parts[4])))
+    if cmd == "lc-plus-one":
+        return "arr:" + _arr(lc_plus_one(_ints(parts[1])))
+    if cmd == "lc-reverse-string":
+        return "out:" + lc_reverse_string(parts[1])
+    if cmd == "lc-anagram":
+        return "ok:%s" % ("true" if lc_anagram(parts[1], parts[2]) else "false")
+    if cmd == "lc-subsequence":
+        return "ok:%s" % ("true" if lc_subsequence(parts[1], parts[2]) else "false")
+    if cmd == "lc-count-ones":
+        return "count:%d" % lc_count_ones(int(parts[1]))
 
     raise ValueError("还没实现：" + cmd)
 
