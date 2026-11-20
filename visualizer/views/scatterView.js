@@ -88,6 +88,19 @@ export function render(svg, state) {
     }));
   }
 
+  // 竖直分割线：决策树按阈值切分时用
+  if (state.splitX != null) {
+    const x = sx(state.splitX);
+    svg.appendChild(el('line', {
+      x1: x, y1: PAD.top, x2: x, y2: PAD.top + plotH,
+      stroke: 'var(--viz-compare-edge)', 'stroke-width': 2.2,
+      'stroke-dasharray': '7 5',
+    }));
+    svg.appendChild(label(x + 6, PAD.top + 14, `切在 x = ${Number(state.splitX).toFixed(2)}`, {
+      size: 10.5, mono: true, fill: 'var(--viz-compare-edge)', weight: 700,
+    }));
+  }
+
   // 拟合直线
   if (state.line) {
     const { m, b } = state.line;

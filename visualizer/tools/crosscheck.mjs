@@ -139,6 +139,13 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'ai-attention': {
+      const w = result.weights.map((row) => row.map((v) => f3(v)).join(',')).join('|');
+      const out = result.out.map((vec) => vec.map((v) => f3(v)).join(',')).join(',');
+      return `w:${w}|out:${out}`;
+    }
+    case 'ai-tree-split':
+      return `thr:${f3(result.threshold)},gini:${f3(result.gini)},candidates:${result.candidates.length}`;
     case 'ai-forward':
       return `h:${f3(result.h[0])},${f3(result.h[1])}|o:${f3(result.o)}|loss:${f3(result.loss)}`;
     case 'ai-backward': {
@@ -448,6 +455,8 @@ function serialize(algoId, input) {
       return `${algoId};${input.mode}`;
     case 'ai-forward':
     case 'ai-backward':
+    case 'ai-attention':
+    case 'ai-tree-split':
       return algoId;
     case 'ai-softmax':
       return `${algoId};${input.T}`;

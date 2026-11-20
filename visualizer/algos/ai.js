@@ -803,6 +803,155 @@ function nnBackward() {
   return { steps, result: { gradW2, gradZ1: dL_dz1, newW2, newW1, o, o2, loss0, loss1 } };
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// 注意力机制（单头 self-attention）
+// ─────────────────────────────────────────────────────────────
+
+const ATTN_X = [[1, 0], [0, 1], [1, 1]];
+const ATTN_WQ = [[1, 0], [0, 1]];
+const ATTN_WK = [[1, 0], [0, 1]];
+const ATTN_WV = [[0.5, 0.5], [0.5, 0.5]];
+
+const matVec = (M, v) => M.map((row) => row[0] * v[0] + row[1] * v[1]);
+
+const attnCode = [
+  '// 每个 token 各自算出 Q / K / V，然后两两点积打分',
+  'const Q = X.map((x) => mul(x, Wq));',
+  'const K = X.map((x) => mul(x, Wk));',
+  'const V = X.map((x) => mul(x, Wv));',
+  'const scores = Q.map((q) => K.map((k) => dot(q, k) / Math.sqrt(d)));',
+  'const weights = scores.map(row => softmax(row));   // 每一行各自归一化',
+  'const out = weights.map((w, i) => sum(w[j] * V[j]));',
+];
+
+function attention() {
+  const X = ATTN_X;
+  const Q = X.map((x) => matVec(ATTN_WQ, x));
+  const K = X.map((x) => matVec(ATTN_WK, x));
+  const V = X.map((x) => matVec(ATTN_WV, x));
+  const d = 2;
+  const scores = Q.map((q) => K.map((k) => (q[0] * k[0] + q[1] * k[1]) / Math.sqrt(d)));
+  const weights = scores.map((row) => {
+    const exps = row.map((z) => Math.exp(z));
+    const sum = exps.reduce((a, b) => a + b, 0);
+    return exps.map((e) => e / sum);
+  });
+  const out = weights.map((w) => {
+    const r = [0, 0];
+    for (let j = 0; j < 3; j += 1) { r[0] += w[j] * V[j][0]; r[1] += w[j] * V[j][1]; }
+    return r;
+  });
+
+  const steps = [];
+  const shown = [[null, null, null], [null, null, null], [null, null, null]];
+
+  const push = (state, note, line) => steps.push({
+    // 注意顺序：先铺 ...state，再写格式化后的 cells，
+    // 否则调用方传进来的原始浮点会把格式化结果覆盖掉（踩过一次）
+    state: {
+      ...state,
+      cells: (state?.cells ?? shown).map((r) => r.map((v) => (v == null ? '' : Number(v.toFixed(3))))),
+      rowHead: ['T₁', 'T₂', 'T₃'],
+      colHead: ['T₁', 'T₂', 'T₃'],
+      filled: (state?.cells ?? shown)
+        .flatMap((row, r) => row.map((v, c) => (v == null ? null : [r, c])))
+        .filter(Boolean),
+      container: {
+        label: 'Q / K / V',
+        items: [
+          { text: `Q₁(${Q[0].map((v) => v.toFixed(1)).join(',')})`, hot: true },
+          { text: `K₁(${K[0].map((v) => v.toFixed(1)).join(',')})` },
+          { text: `V₁(${V[0].map((v) => v.toFixed(1)).join(',')})` },
+        ],
+      },
+    },
+    note, line, counters: { 行: 0 },
+  });
+
+  push({}, `三个 token，每个先各自算 Q、K、V。打分 = Q·K / √d，d 是维度（这里是 2）。`, 0);
+
+  for (let i = 0; i < 3; i += 1) {
+    for (let j = 0; j < 3; j += 1) {
+      shown[i][j] = scores[i][j];
+      push({ cells: shown.map((r) => r.slice()), current: [i, j] },
+        `第 ${i + 1} 行第 ${j + 1} 列：T${i + 1} 的 Q 点乘 T${j + 1} 的 K，除以 √2 得 ${scores[i][j].toFixed(3)}。`, 4);
+    }
+    // 这一行做完 softmax
+    for (let j = 0; j < 3; j += 1) shown[i][j] = weights[i][j];
+    push({ cells: shown.map((r) => r.slice()), current: [i, 0] },
+      `第 ${i + 1} 行做 softmax：三个分数变成加起来为 1 的权重 [${weights[i].map((v) => v.toFixed(3)).join(', ')}]。`, 5);
+  }
+
+  push({ cells: weights.map((r) => r.slice()) },
+    `权重矩阵每行和都是 1。最后拿它去加权求和各 token 的 V：输出 ${out.map((v) => `(${v.map((x) => x.toFixed(3)).join(',')})`).join(' ')}。`, 6);
+
+  return { steps, result: { scores, weights, out } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 决策树划分（按 Gini 挑阈值）
+// ─────────────────────────────────────────────────────────────
+
+const SPLIT_POINTS = [
+  { x: 1, y: 1, group: 1 }, { x: 2, y: 1, group: 1 },
+  { x: 3, y: 1, group: 2 }, { x: 4, y: 1, group: 2 },
+  { x: 5, y: 1, group: 1 },
+  { x: 6, y: 1, group: 2 }, { x: 7, y: 1, group: 2 }, { x: 8, y: 1, group: 2 },
+];
+
+const gini = (labels) => {
+  if (!labels.length) return 0;
+  const c1 = labels.filter((l) => l === 1).length;
+  const p1 = c1 / labels.length;
+  const p2 = 1 - p1;
+  return 1 - p1 * p1 - p2 * p2;
+};
+
+const splitCode = [
+  '// 把候选阈值一个个试过去，谁的加权 Gini 最低就选谁',
+  'for (const thr of candidates) {',
+  '  const left = points.filter(p => p.x <= thr);',
+  '  const right = points.filter(p => p.x > thr);',
+  '  const g = (left.length * gini(left) + right.length * gini(right)) / n;',
+  '  if (g < best) { best = g; bestThr = thr; }',
+  '}',
+];
+
+function treeSplit() {
+  const pts = SPLIT_POINTS;
+  const steps = [];
+  const candidates = [];
+  for (let i = 0; i < pts.length - 1; i += 1) {
+    if (pts[i].group !== pts[i + 1].group) candidates.push((pts[i].x + pts[i + 1].x) / 2);
+  }
+
+  let best = Infinity;
+  let bestThr = candidates[0] ?? 0;
+
+  const push = (state, note, line) => steps.push({
+    state: { points: pts, splitX: state?.splitX ?? null, yMin: 0, yMax: 2, ...state },
+    note, line, counters: { 候选: 0 },
+  });
+
+  push({}, `8 个样本、一个特征 x（纵轴只是把点摆开，没有含义）。决策树要找个阈值切开，让两边尽量"纯"。候选阈值取在两类交界处：${candidates.map((c) => c.toFixed(2)).join('、')}。`, 0);
+
+  for (const thr of candidates) {
+    const left = pts.filter((p) => p.x <= thr);
+    const right = pts.filter((p) => p.x > thr);
+    const g = (left.length * gini(left.map((p) => p.group))
+      + right.length * gini(right.map((p) => p.group))) / pts.length;
+    const better = g < best;
+    if (better) { best = g; bestThr = thr; }
+    push({ splitX: thr, highlight: pts.map((p, i) => (p.x <= thr ? i : -1)).filter((i) => i >= 0) },
+      `切在 ${thr.toFixed(2)}：左 ${left.length} 个、右 ${right.length} 个，加权 Gini = ${g.toFixed(3)}${better ? '，比之前都好，记下' : '，不如之前的' }。`, 5);
+  }
+
+  push({ splitX: bestThr },
+    `最好的阈值是 ${bestThr.toFixed(2)}，加权 Gini 降到 ${best.toFixed(3)}（0 表示切完两边都纯）。`, 5);
+  return { steps, result: { threshold: bestThr, gini: best, candidates } };
+}
+
 // 两批合并成对外的一个数组
 const aiBatch2 = [
   {
@@ -898,4 +1047,33 @@ const aiBatch3 = [
   },
 ];
 
-export const aiAlgorithms = [...aiBatch1, ...aiBatch2, ...aiBatch3];
+const aiBatch4 = [
+  {
+    id: 'ai-attention',
+    group: 'AI 算法',
+    title: '注意力机制 · 单头 self-attention',
+    brief: '每个 token 算出 Q、K、V；Q 和 K 两两点积打分，每行 softmax 成权重，再拿权重去加权求和各家的 V。表格里就是那个权重矩阵。',
+    view: 'table',
+    facts: [['时间', 'O(n²·d)'], ['空间', 'O(n²)'], ['看什么', '权重矩阵每行和为 1'], ['关键', '除以 √d 防梯度消失']],
+    counters: '行', legend: [
+      { cls: 'cell', text: '打分 / 权重' }, { cls: 'cell is-active', text: '当前格' },
+    ],
+    inputs: [{ label: '3 个 token、维度 2', make: () => true }],
+    code: attnCode,
+    run: attention,
+  },
+  {
+    id: 'ai-tree-split',
+    group: 'AI 算法',
+    title: '决策树划分 · 按 Gini 挑阈值',
+    brief: '把候选阈值一个个试过去，算左右两边的加权 Gini，谁最低就选谁。Gini 为 0 表示切完两边都纯。',
+    view: 'scatter',
+    facts: [['时间', '候选数 × O(n)'], ['空间', 'O(n)'], ['指标', '加权 Gini'], ['贪心', '每层只挑当前最优']],
+    counters: '候选', legend: SCATTER_LEGEND,
+    inputs: [{ label: '8 个样本、一个特征', make: () => true }],
+    code: splitCode,
+    run: treeSplit,
+  },
+];
+
+export const aiAlgorithms = [...aiBatch1, ...aiBatch2, ...aiBatch3, ...aiBatch4];

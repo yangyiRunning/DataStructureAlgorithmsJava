@@ -2779,6 +2779,66 @@ def ai_backward(lr=0.5):
     loss1 = 0.5 * (o2 - _NN_Y) ** 2
     return grad_w2, dL_dz1, o, o2, loss0, loss1
 
+
+# ── 注意力 / 决策树划分 ──────────────────────────────────
+
+_ATTN_X = [[1, 0], [0, 1], [1, 1]]
+_ATTN_WQ = [[1, 0], [0, 1]]
+_ATTN_WK = [[1, 0], [0, 1]]
+_ATTN_WV = [[0.5, 0.5], [0.5, 0.5]]
+
+
+def ai_attention():
+    import math
+    def mv(M, v):
+        return [M[0][0] * v[0] + M[0][1] * v[1], M[1][0] * v[0] + M[1][1] * v[1]]
+
+    Q = [mv(_ATTN_WQ, x) for x in _ATTN_X]
+    K = [mv(_ATTN_WK, x) for x in _ATTN_X]
+    V = [mv(_ATTN_WV, x) for x in _ATTN_X]
+    d = 2
+    scores = [[(Q[i][0] * K[j][0] + Q[i][1] * K[j][1]) / math.sqrt(d) for j in range(3)] for i in range(3)]
+    weights = []
+    for row in scores:
+        exps = [math.exp(z) for z in row]
+        total = sum(exps)
+        weights.append([e / total for e in exps])
+    out = []
+    for w in weights:
+        r0 = sum(w[j] * V[j][0] for j in range(3))
+        r1 = sum(w[j] * V[j][1] for j in range(3))
+        out.append([r0, r1])
+    return scores, weights, out
+
+
+_SPLIT_POINTS = [
+    (1, 1), (2, 1), (3, 2), (4, 2), (5, 1), (6, 2), (7, 2), (8, 2),
+]
+
+
+def _gini(labels):
+    if not labels:
+        return 0.0
+    p1 = sum(1 for l in labels if l == 1) / len(labels)
+    p2 = 1 - p1
+    return 1 - p1 * p1 - p2 * p2
+
+
+def ai_tree_split():
+    pts = _SPLIT_POINTS
+    candidates = []
+    for i in range(len(pts) - 1):
+        if pts[i][1] != pts[i + 1][1]:
+            candidates.append((pts[i][0] + pts[i + 1][0]) / 2)
+    best, best_thr = float("inf"), candidates[0] if candidates else 0.0
+    for thr in candidates:
+        left = [g for x, g in pts if x <= thr]
+        right = [g for x, g in pts if x > thr]
+        g = (len(left) * _gini(left) + len(right) * _gini(right)) / len(pts)
+        if g < best:
+            best, best_thr = g, thr
+    return best_thr, best, len(candidates)
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -3185,6 +3245,15 @@ def _run(spec):
         return "gw2:%s,%s|gz1:%s,%s|o:%s,%s|loss:%s,%s" % (
             _f3(gw2[0]), _f3(gw2[1]), _f3(gz1[0]), _f3(gz1[1]),
             _f3(o), _f3(o2), _f3(l0), _f3(l1))
+
+    if cmd == "ai-attention":
+        scores, weights, out = ai_attention()
+        rows = "|".join(",".join(_f3(v) for v in row) for row in weights)
+        outs = ",".join(_f3(v) for vec in out for v in vec)
+        return "w:%s|out:%s" % (rows, outs)
+    if cmd == "ai-tree-split":
+        thr, g, n = ai_tree_split()
+        return "thr:%s,gini:%s,candidates:%d" % (_f3(thr), _f3(g), n)
 
     raise ValueError("还没实现：" + cmd)
 

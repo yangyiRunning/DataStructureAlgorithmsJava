@@ -33,6 +33,7 @@ import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { leetcode9Algorithms } from '../algos/leetcode9.js';
 import { leetcode10Algorithms } from '../algos/leetcode10.js';
 import { leetcode11Algorithms } from '../algos/leetcode11.js';
+import { aiAlgorithms } from '../algos/ai.js';
 
 const ALL = [
   ...sortingAlgorithms, ...binarySearchAlgorithms, ...linkedListAlgorithms,
@@ -42,7 +43,7 @@ const ALL = [
   ...hashAlgorithms, ...advancedTreeAlgorithms, ...leetcodeAlgorithms, ...leetcode2Algorithms,
   ...leetcode3Algorithms, ...leetcode4Algorithms, ...leetcode5Algorithms, ...leetcode6Algorithms,
   ...leetcode7Algorithms, ...leetcode8Algorithms, ...leetcode9Algorithms, ...leetcode10Algorithms,
-  ...leetcode11Algorithms,
+  ...leetcode11Algorithms, ...aiAlgorithms,
 ];
 
 /** 每种视图靠什么才算"有主内容" */
@@ -58,6 +59,8 @@ const NEED = {
   uf: (s) => (s.elements?.length ?? 0) > 0,
   hash: (s) => (s.buckets?.length ?? 0) > 0,
   pegs: (s) => (s.pegs?.length ?? 0) > 0,
+  scatter: (s) => (s.points?.length ?? 0) > 0,
+  network: (s) => (s.layers?.length ?? 0) > 0,
 };
 
 let bad = 0;

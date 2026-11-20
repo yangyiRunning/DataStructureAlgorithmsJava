@@ -54,6 +54,29 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "ai-attention": {
+        double[][][] r = attention();
+        double[][] w = r[1];
+        StringBuilder sb = new StringBuilder("w:");
+        for (int i = 0; i < w.length; i++) {
+          if (i > 0) sb.append('|');
+          for (int j = 0; j < w[i].length; j++) {
+            if (j > 0) sb.append(',');
+            sb.append(f3(w[i][j]));
+          }
+        }
+        sb.append("|out:");
+        double[][] out = r[2];
+        for (int i = 0; i < out.length; i++) {
+          if (i > 0) sb.append(',');
+          sb.append(f3(out[i][0])).append(',').append(f3(out[i][1]));
+        }
+        return sb.toString();
+      }
+      case "ai-tree-split": {
+        double[] r = treeSplit();
+        return "thr:" + f3(r[0]) + ",gini:" + f3(r[1]) + ",candidates:" + (int) r[2];
+      }
       case "ai-forward": {
         double[] r = nnForward();
         return "h:" + f3(r[0]) + "," + f3(r[1]) + "|o:" + f3(r[2]) + "|loss:" + f3(r[3]);
@@ -1114,6 +1137,73 @@ public final class Oracle {
       {1, 1, 1}, {2, 1.4, 1}, {1.4, 2.2, 1}, {2.6, 2.0, 1},
       {4.2, 4.4, 2}, {5, 5.2, 2}, {4.6, 3.6, 2}, {5.4, 4.0, 2},
   };
+
+  static final double[][] ATTN_X = {{1, 0}, {0, 1}, {1, 1}};
+  static final double[][] ATTN_WQ = {{1, 0}, {0, 1}};
+  static final double[][] ATTN_WK = {{1, 0}, {0, 1}};
+  static final double[][] ATTN_WV = {{0.5, 0.5}, {0.5, 0.5}};
+
+  static final int[][] SPLIT_POINTS = {
+      {1, 1}, {2, 1}, {3, 2}, {4, 2}, {5, 1}, {6, 2}, {7, 2}, {8, 2},
+  };
+
+  static double[] matVec(double[][] M, double[] v) {
+    return new double[]{M[0][0] * v[0] + M[0][1] * v[1], M[1][0] * v[0] + M[1][1] * v[1]};
+  }
+
+  /** 返回 {scores, weights, out} */
+  static double[][][] attention() {
+    double[][] Q = new double[3][], K = new double[3][], V = new double[3][];
+    for (int i = 0; i < 3; i++) {
+      Q[i] = matVec(ATTN_WQ, ATTN_X[i]);
+      K[i] = matVec(ATTN_WK, ATTN_X[i]);
+      V[i] = matVec(ATTN_WV, ATTN_X[i]);
+    }
+    double[][] scores = new double[3][3];
+    double[][] weights = new double[3][3];
+    for (int i = 0; i < 3; i++) {
+      double sum = 0;
+      double[] exps = new double[3];
+      for (int j = 0; j < 3; j++) {
+        scores[i][j] = (Q[i][0] * K[j][0] + Q[i][1] * K[j][1]) / Math.sqrt(2);
+        exps[j] = Math.exp(scores[i][j]);
+        sum += exps[j];
+      }
+      for (int j = 0; j < 3; j++) weights[i][j] = exps[j] / sum;
+    }
+    double[][] out = new double[3][2];
+    for (int i = 0; i < 3; i++)
+      for (int j = 0; j < 3; j++) {
+        out[i][0] += weights[i][j] * V[j][0];
+        out[i][1] += weights[i][j] * V[j][1];
+      }
+    return new double[][][]{scores, weights, out};
+  }
+
+  static double gini1d(List<Integer> labels) {
+    if (labels.isEmpty()) return 0;
+    int c1 = 0;
+    for (int l : labels) if (l == 1) c1++;
+    double p1 = (double) c1 / labels.size();
+    double p2 = 1 - p1;
+    return 1 - p1 * p1 - p2 * p2;
+  }
+
+  /** 返回 {threshold, gini, candidateCount} */
+  static double[] treeSplit() {
+    List<Double> candidates = new ArrayList<>();
+    for (int i = 0; i + 1 < SPLIT_POINTS.length; i++)
+      if (SPLIT_POINTS[i][1] != SPLIT_POINTS[i + 1][1])
+        candidates.add((SPLIT_POINTS[i][0] + SPLIT_POINTS[i + 1][0]) / 2.0);
+    double best = Double.MAX_VALUE, bestThr = candidates.isEmpty() ? 0 : candidates.get(0);
+    for (double thr : candidates) {
+      List<Integer> left = new ArrayList<>(), right = new ArrayList<>();
+      for (int[] p : SPLIT_POINTS) (p[0] <= thr ? left : right).add(p[1]);
+      double g = (left.size() * gini1d(left) + right.size() * gini1d(right)) / SPLIT_POINTS.length;
+      if (g < best) { best = g; bestThr = thr; }
+    }
+    return new double[]{bestThr, best, candidates.size()};
+  }
 
   static final double[] NN_X = {1.0, 0.5};
   static final double[][] NN_W1 = {{0.6, -0.4}, {0.3, 0.8}};
