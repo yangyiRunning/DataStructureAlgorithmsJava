@@ -1817,6 +1817,48 @@ def lc_merge_k(lists):
             heapq.heappush(heap, (lists[li][nxt], li, nxt))
     return out
 
+
+# ── 热门题 6 ──────────────────────────────────────────────
+
+def lc_invert_tree(levels):
+    root = _build_tree3(levels)
+
+    def walk(node):
+        if node is None:
+            return
+        node.left, node.right = node.right, node.left   # 交换左右子树
+        walk(node.left)
+        walk(node.right)
+
+    walk(root)
+    out = []
+    q = deque([root])
+    while q:
+        n = q.popleft()
+        if n is None:
+            out.append("null")
+            continue
+        out.append(str(n.val))
+        q.append(n.left)
+        q.append(n.right)
+    while out and out[-1] == "null":
+        out.pop()
+    return out
+
+
+def lc_path_sum(levels, target):
+    root = _build_tree3(levels)
+
+    def dfs(node, rest):
+        if node is None:
+            return False
+        if node.left is None and node.right is None:    # 必须到叶子才判
+            return rest == node.val
+        left = rest - node.val
+        return dfs(node.left, left) or dfs(node.right, left)
+
+    return dfs(root, target)
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2073,6 +2115,11 @@ def _run(spec):
     if cmd == "lc-merge-k":
         lists = [[int(x) for x in seg.split(",")] if seg else [] for seg in parts[1].split("|")]
         return "arr:" + _arr(lc_merge_k(lists))
+
+    if cmd == "lc-invert-tree":
+        return "order:" + ",".join(lc_invert_tree(_levels(parts[1])))
+    if cmd == "lc-path-sum":
+        return "ok:%s" % ("true" if lc_path_sum(_levels(parts[1]), int(parts[2])) else "false")
 
     raise ValueError("还没实现：" + cmd)
 

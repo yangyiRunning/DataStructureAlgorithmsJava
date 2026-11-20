@@ -54,6 +54,8 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-invert-tree": return "order:" + invertTree(parts[1]);
+      case "lc-path-sum": return "ok:" + pathSum(parts[1], Integer.parseInt(parts[2]));
       case "lc-first-missing": return "ans:" + firstMissing(arr0(parts[1]));
       case "lc-longest-palindrome": return "len:" + longestPalin(parts[1]).length();
       case "lc-common-prefix": return "prefix:" + commonPrefix(parts[1]);
@@ -977,6 +979,41 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static String invertTree(String spec) {
+    Node root = treeFromLevels(spec);
+    invertWalk(root);
+    List<String> out = new ArrayList<>();
+    java.util.LinkedList<Node> q = new java.util.LinkedList<>();   // 允许 null
+    q.add(root);
+    while (!q.isEmpty()) {
+      Node n = q.poll();
+      if (n == null) { out.add("null"); continue; }
+      out.add(String.valueOf(n.val));
+      q.add(n.left);
+      q.add(n.right);
+    }
+    while (!out.isEmpty() && out.get(out.size() - 1).equals("null")) out.remove(out.size() - 1);
+    return String.join(",", out);
+  }
+
+  private static void invertWalk(Node n) {
+    if (n == null) return;
+    Node t = n.left; n.left = n.right; n.right = t;
+    invertWalk(n.left);
+    invertWalk(n.right);
+  }
+
+  static boolean pathSum(String spec, int target) {
+    return pathDfs(treeFromLevels(spec), target);
+  }
+
+  private static boolean pathDfs(Node n, int rest) {
+    if (n == null) return false;
+    if (n.left == null && n.right == null) return rest == n.val;   // 必须到叶子
+    int left = rest - n.val;
+    return pathDfs(n.left, left) || pathDfs(n.right, left);
+  }
 
   static int firstMissing(int[] nums) {
     int[] a = nums.clone();

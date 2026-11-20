@@ -35,6 +35,7 @@ import { leetcode2Algorithms } from '../algos/leetcode2.js';
 import { leetcode3Algorithms } from '../algos/leetcode3.js';
 import { leetcode4Algorithms } from '../algos/leetcode4.js';
 import { leetcode5Algorithms } from '../algos/leetcode5.js';
+import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -68,6 +69,7 @@ const ALGOS = [
   ...leetcode3Algorithms,
   ...leetcode4Algorithms,
   ...leetcode5Algorithms,
+  ...leetcode6Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -125,6 +127,10 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-invert-tree':
+      return `order:${result.order}`;
+    case 'lc-path-sum':
+      return `ok:${result.ok}`;
     case 'lc-first-missing':
       return `ans:${result.ans}`;
     case 'lc-longest-palindrome':
@@ -308,6 +314,10 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-invert-tree':
+      return `${algoId};${input.map((v) => (v == null ? 'null' : v)).join(',')}`;
+    case 'lc-path-sum':
+      return `${algoId};${input.levels.map((v) => (v == null ? 'null' : v)).join(',')};${input.target}`;
     case 'lc-first-missing':
       return `${algoId};${nums(input)}`;
     case 'lc-longest-palindrome':

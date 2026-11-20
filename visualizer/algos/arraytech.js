@@ -270,7 +270,7 @@ export const arrayTechAlgorithms = [
     title: '前缀和',
     brief: 'pre[i] 存前 i 个元素之和。有了它，任意区间和在 O(1) 就能算出来：pre[r+1] - pre[l]。建表花 O(n)，之后每次查询都不用再遍历。',
     view: 'array',
-    facts: [['建表', 'O(n)'], ['区间查询', 'O(1)'], ['空间', 'O(n)'], ['注意', 'pre 比原数组长一位']],
+    facts: [['时间', '建表 O(n) / 查询 O(1)'], ['空间', 'O(n)'], ['注意', 'pre 比原数组长一位']],
     counters: '建表',
     legend: techLegend,
     inputs: [
@@ -286,7 +286,7 @@ export const arrayTechAlgorithms = [
     title: '差分数组',
     brief: '区间加 v 不用真去加整段，只在 d[l] 加 v、d[r+1] 减 v，最后扫一遍前缀和就还原了。m 次区间操作从 O(mn) 降到 O(m+n)。',
     view: 'array',
-    facts: [['区间加', 'O(1)'], ['还原', 'O(n)'], ['空间', 'O(n)'], ['注意', 'r+1 别越界']],
+    facts: [['时间', 'm 次区间加 O(m) / 还原 O(n)'], ['空间', 'O(n)'], ['注意', 'r+1 别越界']],
     counters: '操作数',
     legend: techLegend,
     inputs: [

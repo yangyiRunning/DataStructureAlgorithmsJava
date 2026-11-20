@@ -222,7 +222,7 @@ export const trieAlgorithms = [
     title: 'Trie 插入',
     brief: '每个节点是一个字符，从根往下拼。公共前缀共用节点，所以 cat / car 只多出最后那个 r。最后一步必须打词尾标记，否则它只是个前缀。',
     view: 'trie',
-    facts: [['插入', 'O(词长)'], ['查找', 'O(词长)'], ['空间', 'O(总字符数)'], ['优势', '前缀共用']],
+    facts: [['时间', '插入 / 查找都 O(词长)'], ['空间', 'O(总字符数)'], ['优势', '前缀共用']],
     counters: '新建节点、节点总数',
     legend: trieLegend,
     inputs: [
@@ -238,7 +238,7 @@ export const trieAlgorithms = [
     title: 'Trie 查询：search 与 startsWith',
     brief: '两个操作走法完全一样，只差最后一步：search 要求落在词尾，startsWith 走到就行。写错这一处，前缀就会被当成完整的词返回。',
     view: 'trie',
-    facts: [['search', 'O(词长)'], ['startsWith', 'O(前缀长)'], ['易错', '词尾判断']],
+    facts: [['时间', 'O(词长)'], ['空间', 'O(1) 额外'], ['易错', '词尾判断']],
     counters: '走了几步',
     legend: trieLegend,
     inputs: [

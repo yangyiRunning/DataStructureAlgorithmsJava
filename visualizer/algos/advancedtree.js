@@ -193,7 +193,7 @@ export const advancedTreeAlgorithms = [
     brief: '每个节点存一段区间的和。查询时整段被包住就直接取，只有部分相交才往下分——所以 O(log n) 而不是 O(n)。',
     view: 'tree',
     bst: false,          // 线段树不是二叉搜索树，中序不要求升序
-    facts: [['建树', 'O(n)'], ['查询', 'O(log n)'], ['修改', 'O(log n)'], ['空间', 'O(4n)']],
+    facts: [['时间', '建树 O(n) / 查询修改 O(log n)'], ['空间', 'O(4n)']],
     counters: '访问节点',
     legend: [{ cls: 'tnode', text: '节点' }, { cls: 'tnode is-active', text: '正在处理' }, { cls: 'tnode is-visited', text: '整段取用' }],
     inputs: segInputs(),
@@ -206,7 +206,7 @@ export const advancedTreeAlgorithms = [
     title: '树状数组 · lowbit',
     brief: '第 i 个位置存"从 i 往前 lowbit(i) 个元素的和"。查询时 i -= lowbit 往前跳，修改时 i += lowbit 往上跳，都是 O(log n)。',
     view: 'array',
-    facts: [['建树', 'O(n log n) 或 O(n)'], ['查询', 'O(log n)'], ['修改', 'O(log n)'], ['代码量', '极短']],
+    facts: [['时间', '建树 O(n log n) / 查询修改 O(log n)'], ['空间', 'O(n)'], ['代码量', '极短']],
     counters: '步数',
     legend: [{ cls: 'bar', text: 'tree 数组' }, { cls: 'bar is-settled', text: '本次用到的位置' }],
     inputs: bitInputs(),

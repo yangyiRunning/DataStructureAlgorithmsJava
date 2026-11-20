@@ -594,7 +594,7 @@ export const treeAlgorithms = [
     title: '二叉搜索树插入',
     brief: '比当前节点小就往左、大就往右，一路走到空位挂上去。代价是树形完全由插入顺序决定——顺序排好的输入会把树拉成一条链。',
     view: 'tree',
-    facts: [['平均', 'O(log n)'], ['最坏', 'O(n) 退化成链'], ['空间', 'O(1) 迭代'], ['中序', '必为升序']],
+    facts: [['时间', '平均 O(log n) / 最坏 O(n)'], ['空间', 'O(1) 迭代'], ['中序', '必为升序']],
     counters: '比较、节点数',
     legend: treeLegend,
     inputs: [
@@ -611,7 +611,7 @@ export const treeAlgorithms = [
     title: 'AVL 插入与旋转',
     brief: '每次插完沿回溯路径更新高度、算平衡因子，一旦某点两边高差超过 1 就旋转。四种失衡 LL / RR / LR / RL，前两个一次旋完，后两个要旋两次。',
     view: 'tree',
-    facts: [['查找 / 插入', 'O(log n)'], ['平衡条件', '|bf| ≤ 1'], ['旋转', '单旋 O(1)'], ['LR/RL', '双旋']],
+    facts: [['时间', 'O(log n) 查找与插入'], ['空间', 'O(1) 每次旋转'], ['平衡条件', '|bf| ≤ 1'], ['LR/RL', '双旋']],
     counters: '比较、旋转、节点数',
     legend: treeLegend,
     inputs: [
@@ -648,7 +648,7 @@ export const treeAlgorithms = [
     title: 'BST 删除',
     brief: '分三种情况：没左孩子、没右孩子、两个孩子都在。最后一种不能直接删，要拿右子树最小的那个（后继）顶替它的值，再去删后继。',
     view: 'tree',
-    facts: [['平均', 'O(log n)'], ['最坏', 'O(n)'], ['难点', '两孩子的情况'], ['后继', '右子树最左']],
+    facts: [['时间', '平均 O(log n) / 最坏 O(n)'], ['空间', 'O(h) 递归栈'], ['难点', '两孩子的情况'], ['后继', '右子树最左']],
     counters: '比较、删除',
     legend: treeLegend,
     inputs: [

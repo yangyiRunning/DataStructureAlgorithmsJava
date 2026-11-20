@@ -515,7 +515,8 @@ export const leetcode2Algorithms = [
     title: '104. 二叉树的最大深度',
     brief: '1 + max(左深, 右深)。后序遍历的典型：先拿子树结果，再算自己。',
     view: 'tree',
-    bst: false,   // 任意二叉树，不是 BST facts: [['时间', 'O(n)'], ['空间', 'O(h)'], ['遍历序', '后序'], ['同型', '最小深度 / 平衡树']],
+    bst: false,   // 任意二叉树，不是 BST
+    facts: [['时间', 'O(n)'], ['空间', 'O(h) 递归栈'], ['遍历序', '后序'], ['同型', '最小深度 / 平衡树']],
     counters: '访问', legend: treeLegend2,
     inputs: [
       { label: '3 9 20 null null 15 7', make: () => [3, 9, 20, null, null, 15, 7] },
@@ -529,7 +530,8 @@ export const leetcode2Algorithms = [
     title: '101. 对称二叉树',
     brief: '对称不是"左右子树各自对称"，而是"左子树的左边对右子树的右边"。所以比的是两棵镜像子树。',
     view: 'tree',
-    bst: false,   // 任意二叉树，不是 BST facts: [['时间', 'O(n)'], ['空间', 'O(h)'], ['关键', '左对右、右对左'], ['易错', '只比同侧']],
+    bst: false,   // 任意二叉树，不是 BST
+    facts: [['时间', 'O(n)'], ['空间', 'O(h) 递归栈'], ['关键', '左对右、右对左'], ['易错', '只比同侧']],
     counters: '比较', legend: treeLegend2,
     inputs: [
       { label: '对称 1 2 2 3 4 4 3', make: () => [1, 2, 2, 3, 4, 4, 3] },
@@ -543,7 +545,8 @@ export const leetcode2Algorithms = [
     title: '543. 二叉树的直径',
     brief: '直径不一定过根。递归时在每个节点都算一次"左深 + 右深"，取全局最大——这就是树形 DP 的雏形。',
     view: 'tree',
-    bst: false,   // 任意二叉树，不是 BST facts: [['时间', 'O(n)'], ['空间', 'O(h)'], ['关键', '每个节点都要算'], ['易错', '只算根']],
+    bst: false,   // 任意二叉树，不是 BST
+    facts: [['时间', 'O(n)'], ['空间', 'O(h) 递归栈'], ['关键', '每个节点都要算'], ['易错', '只算根']],
     counters: '访问', legend: treeLegend2,
     inputs: [
       { label: '1 2 3 4 5', make: () => [1, 2, 3, 4, 5] },

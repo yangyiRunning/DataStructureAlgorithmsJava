@@ -834,7 +834,7 @@ export const linkedListAlgorithms = [
     title: '按位置插入',
     brief: '头插要改 head 本身；中间插要先走到前一个节点，再分两步接上新节点。两步顺序反了就把后半段弄丢。',
     view: 'list',
-    facts: [['头插', 'O(1)'], ['中间插', 'O(k)'], ['空间', 'O(1)']],
+    facts: [['时间', '头插 O(1) / 中间插 O(k)'], ['空间', 'O(1)']],
     counters: '走位、改指针',
     legend: listLegend,
     inputs: [

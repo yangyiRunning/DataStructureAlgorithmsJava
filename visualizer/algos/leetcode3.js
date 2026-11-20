@@ -441,7 +441,7 @@ export const leetcode3Algorithms = [
     group: '热门题',
     title: '155. 最小栈',
     brief: '再开一个辅助栈，同步记录「到这里为止的最小值」。push 时两边一起压，pop 时一起弹，getMin 直接看辅助栈顶。',
-    view: 'array', growable: true, facts: [['push', 'O(1)'], ['getMin', 'O(1)'], ['空间', 'O(n) 双栈'], ['思路', '空间换时间']],
+    view: 'array', growable: true, facts: [['时间', 'push/pop/top/getMin 都 O(1)'], ['空间', 'O(n) 双栈'], ['思路', '空间换时间']],
     counters: '操作', legend: arrLegend,
     inputs: [
       { label: '压 3 5 2 再弹一次', make: () => [['push', 3], ['push', 5], ['push', 2], ['getMin'], ['pop'], ['getMin'], ['top']] },

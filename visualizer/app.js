@@ -39,6 +39,7 @@ import { leetcode2Algorithms } from './algos/leetcode2.js';
 import { leetcode3Algorithms } from './algos/leetcode3.js';
 import { leetcode4Algorithms } from './algos/leetcode4.js';
 import { leetcode5Algorithms } from './algos/leetcode5.js';
+import { leetcode6Algorithms } from './algos/leetcode6.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -80,6 +81,7 @@ const ALGOS = [
   ...leetcode3Algorithms,
   ...leetcode4Algorithms,
   ...leetcode5Algorithms,
+  ...leetcode6Algorithms,
 ];
 
 const $ = (id) => document.getElementById(id);
@@ -357,17 +359,20 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'End') { e.preventDefault(); player.pause(); player.last(); }
 });
 
-// 语言切换：只影响代码栏，动画和计数不受影响
-dom.langSwitch?.addEventListener('click', (e) => {
-  const btn = e.target.closest('button[data-lang]');
+// 语言切换：只影响代码栏，动画和计数不受影响。
+// 用文档级委托而不是绑在具体节点上——绑节点时只要那一次 querySelector 拿到 null，
+// 按钮就会静默失效（"点了没反应"就是这么来的）。
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest?.('button[data-lang]');
   if (!btn) return;
+  e.preventDefault();
   lang = btn.dataset.lang;
-  for (const b of dom.langSwitch.querySelectorAll('button')) {
+  const box = btn.parentElement;
+  if (box) for (const b of box.querySelectorAll('button')) {
     b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
   }
   paintCode();
-  // 切回来之后把当前行的高亮补上（Python 行号对不上，就不高亮了）
-  if (lang === 'js') paint(lastPaint);
+  if (lang === 'js' && lastPaint) paint(lastPaint);   // 切回 JS 时补上行高亮
 });
 
 // ── 启动 ──────────────────────────────────────────────────────
@@ -403,6 +408,13 @@ select(wanted && ALGOS.some((a) => a.id === wanted) ? wanted : ALGOS[0].id);
 // ?i=3 打开第 4 组输入用例（比如 AVL 的 LR 那一组）
 const inputIdx = Number(params.get('i'));
 if (Number.isInteger(inputIdx) && inputIdx > 0 && inputIdx < inputSpecs.length) chooseInput(inputIdx);
+
+// URL 指定了 Python 版时，把按钮状态也对齐，别出现"代码是 Python、按钮亮着 JS"
+if (lang === 'py') {
+  for (const b of document.querySelectorAll('#lang-switch button')) {
+    b.setAttribute('aria-pressed', String(b.dataset.lang === 'py'));
+  }
+}
 
 const at = Number(params.get('s'));
 if (Number.isFinite(at) && at > 0) player.goto(at - 1);
