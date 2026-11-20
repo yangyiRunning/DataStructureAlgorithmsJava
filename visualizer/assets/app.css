@@ -251,6 +251,20 @@ body::before {
   backdrop-filter: saturate(1.1) blur(6px);
 }
 
+.back-home {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--mut);
+  text-decoration: none;
+  transition: color .2s var(--ease), transform .2s var(--ease);
+}
+
+.back-home:hover {
+  color: var(--brand-2);
+  transform: translateX(-2px);
+}
+
 .brand {
   display: flex;
   align-items: center;

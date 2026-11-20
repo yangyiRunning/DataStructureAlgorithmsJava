@@ -427,6 +427,12 @@ $('theme-toggle')?.addEventListener('click', () => {
   try { localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); } catch {}
 });
 
+// 挂在主站 /dsa/ 下时，给一个回主站的入口；单独打开时不显示（根路径没有主站）
+if (location.pathname.startsWith('/dsa/')) {
+  const back = $('back-home');
+  if (back) back.hidden = false;
+}
+
 // ── 启动 ──────────────────────────────────────────────────────
 
 buildNav();
