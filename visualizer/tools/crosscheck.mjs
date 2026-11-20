@@ -41,6 +41,7 @@ import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { leetcode9Algorithms } from '../algos/leetcode9.js';
 import { leetcode10Algorithms } from '../algos/leetcode10.js';
 import { leetcode11Algorithms } from '../algos/leetcode11.js';
+import { aiAlgorithms } from '../algos/ai.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -80,6 +81,7 @@ const ALGOS = [
   ...leetcode9Algorithms,
   ...leetcode10Algorithms,
   ...leetcode11Algorithms,
+  ...aiAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -137,6 +139,20 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'ai-gradient-descent': {
+      const r = result;
+      return `w:${f3(r.w)},b:${f3(r.b)},loss:${f3(r.loss)}`;
+    }
+    case 'ai-kmeans': {
+      const cs = result.centers.map((c) => `${f3(c.x)},${f3(c.y)}`).join('|');
+      return `centers:${cs}|assign:${result.assign.join(',')}`;
+    }
+    case 'ai-knn':
+      return `label:${result.label}|votes:1=${result.votes[1] ?? 0},2=${result.votes[2] ?? 0}`;
+    case 'ai-perceptron': {
+      const r = result;
+      return `w0:${f3(r.w0)},w1:${f3(r.w1)},b:${f3(r.b)},errors:${r.totalErrors}`;
+    }
     case 'lc-ransom':
     case 'lc-power-of-two':
     case 'lc-palindrome-number':
@@ -383,6 +399,7 @@ function canonical(algoId, result) {
 }
 
 /** 把输入序列化成 Oracle 认的一行，分号分组、逗号分项 */
+const f3 = (v) => (Math.abs(v) < 1e-9 ? 0 : v).toFixed(3);
 const lv = (arr) => arr.map((v) => (v == null ? 'null' : v)).join(',');
 
 function serialize(algoId, input) {
@@ -413,6 +430,14 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'ai-gradient-descent':
+      return `${algoId};${input.lr};${input.steps}`;
+    case 'ai-kmeans':
+      return `${algoId};${input.k};${input.iters}`;
+    case 'ai-knn':
+      return `${algoId};${input.query.x};${input.query.y};${input.k}`;
+    case 'ai-perceptron':
+      return `${algoId};${input.lr};${input.maxEpoch}`;
     case 'lc-ransom':
       return `${algoId};${input.ransom};${input.mag}`;
     case 'lc-rob-2':

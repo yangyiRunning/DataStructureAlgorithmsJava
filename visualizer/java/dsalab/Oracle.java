@@ -54,6 +54,35 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "ai-gradient-descent": {
+        double[] r = gradientDescent(Double.parseDouble(parts[1]), Integer.parseInt(parts[2]));
+        return "w:" + f3(r[0]) + ",b:" + f3(r[1]) + ",loss:" + f3(r[2]);
+      }
+      case "ai-kmeans": {
+        int k = Integer.parseInt(parts[1]), iters = Integer.parseInt(parts[2]);
+        double[][] cs = new double[k][2];
+        StringBuilder sb = new StringBuilder("centers:");
+        int[] assign = kmeans(k, iters, cs);
+        for (int i = 0; i < k; i++) {
+          if (i > 0) sb.append('|');
+          sb.append(f3(cs[i][0])).append(',').append(f3(cs[i][1]));
+        }
+        sb.append("|assign:");
+        for (int i = 0; i < assign.length; i++) {
+          if (i > 0) sb.append(',');
+          sb.append(assign[i]);
+        }
+        return sb.toString();
+      }
+      case "ai-knn": {
+        int[] out = new int[3];
+        knn(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Integer.parseInt(parts[3]), out);
+        return "label:" + out[0] + "|votes:1=" + out[1] + ",2=" + out[2];
+      }
+      case "ai-perceptron": {
+        double[] r = perceptron(Double.parseDouble(parts[1]), Integer.parseInt(parts[2]));
+        return "w0:" + f3(r[0]) + ",w1:" + f3(r[1]) + ",b:" + f3(r[2]) + ",errors:" + (int) r[3];
+      }
       case "lc-ransom": return "ok:" + canConstruct(parts[1], parts[2]);
       case "lc-rob-2": return "ans:" + rob2(arr0(parts[1]));
       case "lc-unique-paths-2": return "paths:" + uniquePaths2();
@@ -1037,6 +1066,131 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  // ── AI 算法 ────────────────────────────────────────────
+
+  static final double[][] GD_POINTS = {
+      {1, 2.1}, {2, 3.9}, {3, 6.2}, {4, 7.8},
+      {5, 10.1}, {6, 12.3}, {7, 13.8}, {8, 16.2},
+  };
+
+  static final double[][] KM_POINTS = {
+      {1, 1}, {1.6, 1.8}, {2.2, 1.1},
+      {5.5, 5.2}, {6.1, 6.0}, {5.1, 6.2},
+      {9.2, 1.5}, {9.9, 2.2}, {8.6, 2.4},
+  };
+
+  static final double[][] KNN_POINTS = {
+      {1, 1.2, 1}, {2, 2.4, 1}, {3, 1.8, 1}, {1.5, 3.1, 1}, {2.6, 3.6, 1},
+      {6, 5.2, 2}, {7.2, 6.1, 2}, {6.6, 4.4, 2}, {8, 5.6, 2}, {7.4, 4.2, 2},
+  };
+
+  static final double[][] PERCEPTRON_POINTS = {
+      {1, 1, 1}, {2, 1.4, 1}, {1.4, 2.2, 1}, {2.6, 2.0, 1},
+      {4.2, 4.4, 2}, {5, 5.2, 2}, {4.6, 3.6, 2}, {5.4, 4.0, 2},
+  };
+
+  static String f3(double v) { return Math.abs(v) < 1e-9 ? "0.000" : String.format(java.util.Locale.ROOT, "%.3f", v); }
+
+  /** 返回 {w, b, loss} */
+  static double[] gradientDescent(double lr, int steps) {
+    double w = 0, b = 0;
+    int n = GD_POINTS.length;
+    for (int s = 0; s < steps; s++) {
+      double dw = 0, db = 0;
+      for (double[] p : GD_POINTS) {
+        double err = (w * p[0] + b) - p[1];
+        dw += 2 * err * p[0];
+        db += 2 * err;
+      }
+      w -= lr * dw / n;
+      b -= lr * db / n;
+    }
+    double loss = 0;
+    for (double[] p : GD_POINTS) {
+      double e = (w * p[0] + b) - p[1];
+      loss += e * e;
+    }
+    return new double[]{w, b, loss / n};
+  }
+
+  static int[] kmeans(int k, int iters, double[][] outCenters) {
+    double[][] centers = new double[k][2];
+    for (int i = 0; i < k; i++) { centers[i][0] = KM_POINTS[i][0]; centers[i][1] = KM_POINTS[i][1]; }
+    int[] assign = new int[KM_POINTS.length];
+    for (int it = 0; it < iters; it++) {
+      for (int i = 0; i < KM_POINTS.length; i++) {
+        int best = 0;
+        double bestD = Double.MAX_VALUE;
+        for (int ci = 0; ci < k; ci++) {
+          double dx = KM_POINTS[i][0] - centers[ci][0];
+          double dy = KM_POINTS[i][1] - centers[ci][1];
+          double d = dx * dx + dy * dy;
+          if (d < bestD) { bestD = d; best = ci; }
+        }
+        assign[i] = best;
+      }
+      double[][] nc = new double[k][2];
+      for (int ci = 0; ci < k; ci++) {
+        double sx = 0, sy = 0;
+        int cnt = 0;
+        for (int j = 0; j < KM_POINTS.length; j++) {
+          if (assign[j] == ci) { sx += KM_POINTS[j][0]; sy += KM_POINTS[j][1]; cnt++; }
+        }
+        if (cnt == 0) { nc[ci][0] = centers[ci][0]; nc[ci][1] = centers[ci][1]; }
+        else { nc[ci][0] = sx / cnt; nc[ci][1] = sy / cnt; }
+      }
+      centers = nc;
+    }
+    for (int i = 0; i < k; i++) { outCenters[i][0] = centers[i][0]; outCenters[i][1] = centers[i][1]; }
+    return assign;
+  }
+
+  /** out = {label, votes1, votes2} */
+  static void knn(double qx, double qy, int k, int[] out) {
+    int n = KNN_POINTS.length;
+    Integer[] idx = new Integer[n];
+    final double[] dist = new double[n];
+    for (int i = 0; i < n; i++) {
+      idx[i] = i;
+      double dx = KNN_POINTS[i][0] - qx, dy = KNN_POINTS[i][1] - qy;
+      dist[i] = dx * dx + dy * dy;
+    }
+    java.util.Arrays.sort(idx, (a, b) -> {
+      int c = Double.compare(dist[a], dist[b]);
+      return c != 0 ? c : Integer.compare(a, b);
+    });
+    int v1 = 0, v2 = 0;
+    for (int i = 0; i < k && i < n; i++) {
+      if ((int) KNN_POINTS[idx[i]][2] == 1) v1++; else v2++;
+    }
+    out[0] = v1 >= v2 ? 1 : 2;
+    out[1] = v1;
+    out[2] = v2;
+  }
+
+  /** 返回 {w0, w1, b, totalErrors} */
+  static double[] perceptron(double lr, int maxEpoch) {
+    double[] w = {0, 0};
+    double b = 0;
+    int total = 0;
+    for (int epoch = 0; epoch < maxEpoch; epoch++) {
+      int errors = 0;
+      for (double[] p : PERCEPTRON_POINTS) {
+        double yy = p[2] == 1 ? 1 : -1;
+        int pred = (w[0] * p[0] + w[1] * p[1] + b) > 0 ? 1 : -1;
+        if (pred != (int) yy) {
+          w[0] += lr * yy * p[0];
+          w[1] += lr * yy * p[1];
+          b += lr * yy;
+          errors++;
+          total++;
+        }
+      }
+      if (errors == 0) break;
+    }
+    return new double[]{w[0], w[1], b, total};
+  }
 
   static boolean canConstruct(String ransom, String mag) {
     int[] cnt = new int[26];

@@ -1215,3 +1215,35 @@ body.clean .canvas-wrap {
 .axis.zero {
   stroke: var(--axis-strong);
 }
+
+/* ── 散点视图（AI 算法用） ─────────────────────────────── */
+
+.scatter-dot {
+  fill: var(--viz-done);
+  stroke: var(--viz-done-edge);
+  stroke-width: 1.4;
+}
+
+.scatter-dot.is-class-1 {
+  fill: var(--viz-compare);
+  stroke: var(--viz-compare-edge);
+}
+
+.scatter-dot.is-class-2 {
+  fill: var(--viz-done);
+  stroke: var(--viz-done-edge);
+}
+
+/* 被选中的点（最近邻、本轮分到的样本）：放大 + 琥珀描边，一眼能挑出来 */
+.scatter-dot.is-hot {
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
+  stroke-width: 2.6;
+}
+
+/* 质心画成空心方块，和圆形的样本点区分开 */
+.scatter-centroid {
+  fill: var(--card);
+  stroke: var(--brand-2);
+  stroke-width: 2.4;
+}

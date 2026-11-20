@@ -2552,6 +2552,100 @@ def lc_fizz_buzz(n):
         else: out.append(str(i))
     return out
 
+
+# ── AI 算法 ───────────────────────────────────────────────
+
+_GD_POINTS = [(1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8),
+              (5, 10.1), (6, 12.3), (7, 13.8), (8, 16.2)]
+
+_KM_POINTS = [(1, 1), (1.6, 1.8), (2.2, 1.1),
+              (5.5, 5.2), (6.1, 6.0), (5.1, 6.2),
+              (9.2, 1.5), (9.9, 2.2), (8.6, 2.4)]
+
+_KNN_POINTS = [(1, 1.2, 1), (2, 2.4, 1), (3, 1.8, 1), (1.5, 3.1, 1), (2.6, 3.6, 1),
+               (6, 5.2, 2), (7.2, 6.1, 2), (6.6, 4.4, 2), (8, 5.6, 2), (7.4, 4.2, 2)]
+
+_PERCEPTRON_POINTS = [(1, 1, 1), (2, 1.4, 1), (1.4, 2.2, 1), (2.6, 2.0, 1),
+                      (4.2, 4.4, 2), (5, 5.2, 2), (4.6, 3.6, 2), (5.4, 4.0, 2)]
+
+
+def _f3(v):
+    return "0.000" if abs(v) < 1e-9 else "%.3f" % v
+
+
+def ai_gradient_descent(lr, steps):
+    w = b = 0.0
+    n = len(_GD_POINTS)
+
+    def loss():
+        return sum((w * x + b - y) ** 2 for x, y in _GD_POINTS) / n
+
+    for _ in range(steps):
+        dw = db = 0.0
+        for x, y in _GD_POINTS:
+            err = (w * x + b) - y
+            dw += 2 * err * x
+            db += 2 * err
+        w -= lr * dw / n
+        b -= lr * db / n
+    return w, b, loss()
+
+
+def ai_kmeans(k, iters):
+    pts = list(_KM_POINTS)
+    centers = [[x, y] for x, y in pts[:k]]
+    assign = [0] * len(pts)
+    for _ in range(iters):
+        assign = []
+        for x, y in pts:
+            best, best_d = 0, float("inf")
+            for ci, (cx, cy) in enumerate(centers):
+                d = (x - cx) ** 2 + (y - cy) ** 2
+                if d < best_d:
+                    best_d, best = d, ci
+            assign.append(best)
+        new_centers = []
+        for ci in range(k):
+            own = [pts[j] for j in range(len(pts)) if assign[j] == ci]
+            if not own:
+                new_centers.append(centers[ci])
+            else:
+                new_centers.append([sum(p[0] for p in own) / len(own),
+                                    sum(p[1] for p in own) / len(own)])
+        centers = new_centers
+    return centers, assign
+
+
+def ai_knn(qx, qy, k):
+    dists = [((x - qx) ** 2 + (y - qy) ** 2, i) for i, (x, y, _g) in enumerate(_KNN_POINTS)]
+    dists.sort()                          # 距离相同按下标，和 JS 的稳定排序一致
+    votes = {}
+    for _d, i in dists[:k]:
+        g = _KNN_POINTS[i][2]
+        votes[g] = votes.get(g, 0) + 1
+    label = 1 if votes.get(1, 0) >= votes.get(2, 0) else 2
+    return label, votes
+
+
+def ai_perceptron(lr, max_epoch):
+    w = [0.0, 0.0]
+    b = 0.0
+    total = 0
+    for _ in range(max_epoch):
+        errors = 0
+        for x, y, g in _PERCEPTRON_POINTS:
+            yy = 1 if g == 1 else -1
+            pred = 1 if (w[0] * x + w[1] * y + b) > 0 else -1
+            if pred != yy:
+                w[0] += lr * yy * x
+                w[1] += lr * yy * y
+                b += lr * yy
+                errors += 1
+                total += 1
+        if errors == 0:
+            break
+    return w, b, total
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2924,6 +3018,20 @@ def _run(spec):
         return "out:" + lc_excel_title(int(parts[1]))
     if cmd == "lc-fizz-buzz":
         return "out:" + ",".join(lc_fizz_buzz(int(parts[1])))
+
+    if cmd == "ai-gradient-descent":
+        w, b, loss = ai_gradient_descent(float(parts[1]), int(parts[2]))
+        return "w:%s,b:%s,loss:%s" % (_f3(w), _f3(b), _f3(loss))
+    if cmd == "ai-kmeans":
+        centers, assign = ai_kmeans(int(parts[1]), int(parts[2]))
+        cs = "|".join("%s,%s" % (_f3(x), _f3(y)) for x, y in centers)
+        return "centers:%s|assign:%s" % (cs, ",".join(str(a) for a in assign))
+    if cmd == "ai-knn":
+        label, votes = ai_knn(float(parts[1]), float(parts[2]), int(parts[3]))
+        return "label:%d|votes:1=%d,2=%d" % (label, votes.get(1, 0), votes.get(2, 0))
+    if cmd == "ai-perceptron":
+        w, b, total = ai_perceptron(float(parts[1]), int(parts[2]))
+        return "w0:%s,w1:%s,b:%s,errors:%d" % (_f3(w[0]), _f3(w[1]), _f3(b), total)
 
     raise ValueError("还没实现：" + cmd)
 

@@ -21,6 +21,7 @@ import * as tableView from './views/tableView.js';
 import * as boardView from './views/boardView.js';
 import * as pegsView from './views/pegsView.js';
 import * as hashView from './views/hashView.js';
+import * as scatterView from './views/scatterView.js';
 import { sortingAlgorithms } from './algos/sorting.js';
 import { binarySearchAlgorithms } from './algos/binarysearch.js';
 import { twoPointerAlgorithms } from './algos/twopointers.js';
@@ -45,6 +46,7 @@ import { leetcode8Algorithms } from './algos/leetcode8.js';
 import { leetcode9Algorithms } from './algos/leetcode9.js';
 import { leetcode10Algorithms } from './algos/leetcode10.js';
 import { leetcode11Algorithms } from './algos/leetcode11.js';
+import { aiAlgorithms } from './algos/ai.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -62,6 +64,7 @@ const VIEWS = {
   board: boardView,
   pegs: pegsView,
   hash: hashView,
+  scatter: scatterView,
 };
 
 const ALGOS = [
@@ -92,6 +95,7 @@ const ALGOS = [
   ...leetcode9Algorithms,
   ...leetcode10Algorithms,
   ...leetcode11Algorithms,
+  ...aiAlgorithms,
 ];
 
 const $ = (id) => document.getElementById(id);
