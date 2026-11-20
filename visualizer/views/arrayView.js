@@ -38,7 +38,16 @@ export function render(svg, state) {
 
   const slot = plotW / n;
   const barW = Math.max(6, slot * 0.72);
+
+  // 有负数时以 0 为基线双向画：正数往上、负数往下。
+  // 只按最大值缩放的话，负数会被压成一条线，三数之和这类题根本看不出哪个是高是低。
+  const minVal = Math.min(...values, 0);
   const maxVal = Math.max(...values, 1);
+  const span = (maxVal - minVal) || 1;
+  const plotH0 = plotH - 18;
+  const yOf = (v) => baseline - ((v - minVal) / span) * plotH0;
+  const zeroY = yOf(0);
+  const hasNeg = minVal < 0;
 
   const settled = new Set(state.settled ?? []);
   const compare = new Set(state.compare ?? []);
@@ -73,13 +82,27 @@ export function render(svg, state) {
     'stroke-width': 1,
   }));
 
+  // 0 基线：只在有负数时单独画一条，正数时它和底轴重合
+  if (hasNeg && !chars) {
+    svg.appendChild(el('line', {
+      class: 'axis zero',
+      x1: PAD.left - 6,
+      x2: W - PAD.right + 6,
+      y1: zeroY,
+      y2: zeroY,
+      'stroke-width': 1,
+    }));
+  }
+
   values.forEach((v, i) => {
     const cx = PAD.left + i * slot + slot / 2;
-    // 字符模式用固定高度的格子，柱状模式按值缩放
-    const h = chars ? cellH : Math.max(3, (v / maxVal) * (plotH - 18));
+    // 字符模式用固定高度的格子；柱状模式从 0 基线往上或往下画
+    const yTop = chars ? baseline - cellH : yOf(Math.max(v, 0));
+    const yBottom = chars ? baseline : yOf(Math.min(v, 0));
+    const h = Math.max(chars ? cellH : 2, yBottom - yTop);
     const w = chars ? Math.min(52, slot * 0.78) : barW;
     const x = cx - w / 2;
-    const y = baseline - h;
+    const y = chars ? baseline - cellH : Math.min(yTop, yBottom);
 
     let cls = chars ? 'cell' : 'bar';
     if (settled.has(i)) cls += ' is-settled';
@@ -93,8 +116,10 @@ export function render(svg, state) {
       svg.appendChild(label(cx, baseline - h / 2 + 6, String(chars[i]), {
         size: 17, mono: true, fill: 'var(--ink)', weight: 600,
       }));
+    } else if (v < 0) {
+      svg.appendChild(label(cx, zeroY + 14, String(v), { size: 11, mono: true, fill: 'var(--ink-2)' }));
     } else {
-      svg.appendChild(label(cx, y - 6, String(v), { size: 11, mono: true, fill: 'var(--ink-2)' }));
+      svg.appendChild(label(cx, yTop - 6, String(v), { size: 11, mono: true, fill: 'var(--ink-2)' }));
     }
     svg.appendChild(label(cx, baseline + 17, String(i), { size: 10, mono: true, fill: 'var(--ink-3)' }));
   });

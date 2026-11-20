@@ -1226,6 +1226,58 @@ def adv_fenwick(nums, q):
         i -= i & -i
     return total
 
+
+# ── 热门题 ────────────────────────────────────────────────
+
+def lc_three_sum(nums):
+    a = sorted(nums)
+    res = 0
+    for i in range(len(a) - 2):
+        if i > 0 and a[i] == a[i - 1]:
+            continue                        # 第一个数去重
+        lo, hi = i + 1, len(a) - 1
+        while lo < hi:
+            s = a[i] + a[lo] + a[hi]
+            if s == 0:
+                res += 1
+                while lo < hi and a[lo] == a[lo + 1]:
+                    lo += 1
+                while lo < hi and a[hi] == a[hi - 1]:
+                    hi -= 1
+                lo += 1; hi -= 1
+            elif s < 0:
+                lo += 1
+            else:
+                hi -= 1
+    return res
+
+
+def lc_container(height):
+    lo, hi, best = 0, len(height) - 1, 0
+    while lo < hi:
+        best = max(best, min(height[lo], height[hi]) * (hi - lo))
+        if height[lo] < height[hi]:
+            lo += 1
+        else:
+            hi -= 1
+    return best
+
+
+def lc_max_subarray(nums):
+    cur = best = nums[0]
+    for v in nums[1:]:
+        cur = max(v, cur + v)              # 接着前面，还是从这里重开
+        best = max(best, cur)
+    return best
+
+
+def lc_unique_paths(m, n):
+    dp = [[1] * n for _ in range(m)]
+    for r in range(1, m):
+        for c in range(1, n):
+            dp[r][c] = dp[r - 1][c] + dp[r][c - 1]
+    return dp[m - 1][n - 1]
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -1399,6 +1451,15 @@ def _run(spec):
         return "sum:%d" % adv_segment_tree(_ints(parts[1]), int(parts[2]), int(parts[3]))
     if cmd == "adv-fenwick":
         return "sum:%d" % adv_fenwick(_ints(parts[1]), int(parts[2]))
+
+    if cmd == "lc-three-sum":
+        return "count:%d" % lc_three_sum(_ints(parts[1]))
+    if cmd == "lc-container":
+        return "max:%d" % lc_container(_ints(parts[1]))
+    if cmd == "lc-max-subarray":
+        return "sum:%d" % lc_max_subarray(_ints(parts[1]))
+    if cmd == "lc-unique-paths":
+        return "paths:%d" % lc_unique_paths(int(parts[1]), int(parts[2]))
 
     raise ValueError("还没实现：" + cmd)
 

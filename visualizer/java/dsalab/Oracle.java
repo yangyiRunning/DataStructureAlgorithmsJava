@@ -54,6 +54,10 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-three-sum": return "count:" + threeSum(arr0(parts[1]));
+      case "lc-container": return "max:" + maxArea(arr0(parts[1]));
+      case "lc-max-subarray": return "sum:" + maxSub(arr0(parts[1]));
+      case "lc-unique-paths": return "paths:" + uniquePaths(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
       case "adv-segment-tree": return "sum:" + segQuery(parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
       case "adv-fenwick": return "sum:" + fenwick(parts[1], Integer.parseInt(parts[2]));
       case "list-middle": return "val:" + middleVal(ints(parts[1]));
@@ -933,6 +937,57 @@ public final class Oracle {
     int sum = 0;
     for (int i = q; i > 0; i -= i & -i) sum += tree[i];
     return sum;
+  }
+
+  // ── 热门题 ────────────────────────────────────────────
+
+  static int threeSum(int[] in) {
+    int[] a = in.clone();
+    java.util.Arrays.sort(a);
+    int res = 0;
+    for (int i = 0; i < a.length - 2; i++) {
+      if (i > 0 && a[i] == a[i - 1]) continue;
+      int lo = i + 1, hi = a.length - 1;
+      while (lo < hi) {
+        int s = a[i] + a[lo] + a[hi];
+        if (s == 0) {
+          res++;
+          while (lo < hi && a[lo] == a[lo + 1]) lo++;
+          while (lo < hi && a[hi] == a[hi - 1]) hi--;
+          lo++; hi--;
+        } else if (s < 0) lo++;
+        else hi--;
+      }
+    }
+    return res;
+  }
+
+  static int maxArea(int[] h) {
+    int lo = 0, hi = h.length - 1, best = 0;
+    while (lo < hi) {
+      best = Math.max(best, Math.min(h[lo], h[hi]) * (hi - lo));
+      if (h[lo] < h[hi]) lo++; else hi--;
+    }
+    return best;
+  }
+
+  static int maxSub(int[] nums) {
+    int cur = nums[0], best = nums[0];
+    for (int i = 1; i < nums.length; i++) {
+      cur = Math.max(nums[i], cur + nums[i]);
+      best = Math.max(best, cur);
+    }
+    return best;
+  }
+
+  static int uniquePaths(int m, int n) {
+    int[][] dp = new int[m][n];
+    for (int r = 0; r < m; r++) dp[r][0] = 1;
+    for (int c = 0; c < n; c++) dp[0][c] = 1;
+    for (int r = 1; r < m; r++)
+      for (int c = 1; c < n; c++)
+        dp[r][c] = dp[r - 1][c] + dp[r][c - 1];
+    return dp[m - 1][n - 1];
   }
 
   // ── 查找 ──────────────────────────────────────────────

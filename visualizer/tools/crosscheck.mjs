@@ -30,6 +30,7 @@ import { arrayTechAlgorithms } from '../algos/arraytech.js';
 import { miscAlgorithms } from '../algos/misc.js';
 import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
+import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -58,6 +59,7 @@ const ALGOS = [
   ...miscAlgorithms,
   ...hashAlgorithms,
   ...advancedTreeAlgorithms,
+  ...leetcodeAlgorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -115,6 +117,14 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-three-sum':
+      return `count:${result.count}`;
+    case 'lc-container':
+      return `max:${result.max}`;
+    case 'lc-max-subarray':
+      return `sum:${result.sum}`;
+    case 'lc-unique-paths':
+      return `paths:${result.paths}`;
     case 'list-merge':
     case 'list-reverse-k':
       return `arr:${result.arr}`;
@@ -228,6 +238,12 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-three-sum':
+    case 'lc-container':
+    case 'lc-max-subarray':
+      return `${algoId};${nums(input)}`;
+    case 'lc-unique-paths':
+      return `${algoId};${input.m};${input.n}`;
     case 'list-merge':
       return `${algoId};${nums(input.left)};${nums(input.right)}`;
     case 'list-reverse-k':

@@ -1030,3 +1030,7 @@ body.clean .canvas-wrap {
   color: #fff;
   box-shadow: var(--glow);
 }
+
+.axis.zero {
+  stroke: #CBBFA9;
+}

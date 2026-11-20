@@ -22,6 +22,7 @@ import { arrayTechAlgorithms } from '../algos/arraytech.js';
 import { miscAlgorithms } from '../algos/misc.js';
 import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
+import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -44,6 +45,7 @@ const ALL = [
   ...miscAlgorithms,
   ...hashAlgorithms,
   ...advancedTreeAlgorithms,
+  ...leetcodeAlgorithms,
   ...backtrackingAlgorithms,
 ];
 
