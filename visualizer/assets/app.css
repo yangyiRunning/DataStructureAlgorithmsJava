@@ -62,6 +62,13 @@
   --viz-move-edge: #C96A10;
   --viz-focus: #B45309;
 
+  /* —— 补上被引用却从没定义过的三个变量 ——
+     var() 解析失败不会报错，直接回落到默认黑；
+     亮色下是"黑字"，看着正常，夜灯下就成了隐形字。 */
+  --accent: var(--brand-2);   /* 图上的距离、链表上的标记数字 */
+  --swap: #C2410C;            /* 失衡 / 需要交换这类警示 */
+  --sans: var(--font);
+
   /* —— 结构色：这些原本散在样式里写死，深色模式一来就全露馅 ——
      提成令牌之后，只改这一组就能整体换肤。 */
   --topbar-bg: rgba(254, 253, 251, .82);
@@ -134,6 +141,8 @@ html[data-theme="dark"] {
   --viz-move: rgba(255, 174, 71, .4);
   --viz-move-edge: #FFC478;
   --viz-focus: #FFC478;
+  --accent: var(--brand-1);
+  --swap: #FF9E7A;            /* 夜灯下用暖橙红，压得住深蓝底 */
 
   --topbar-bg: rgba(10, 16, 32, .88);
   --sun-layer: linear-gradient(180deg, rgba(255, 174, 71, .10), rgba(10, 16, 32, 0));
