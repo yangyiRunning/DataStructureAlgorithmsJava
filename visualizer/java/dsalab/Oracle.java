@@ -54,6 +54,18 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-ransom": return "ok:" + canConstruct(parts[1], parts[2]);
+      case "lc-rob-2": return "ans:" + rob2(arr0(parts[1]));
+      case "lc-unique-paths-2": return "paths:" + uniquePaths2();
+      case "lc-min-path-sum": return "sum:" + minPathSum();
+      case "lc-lcs": return "len:" + lcs(parts[1], parts[2]);
+      case "lc-stock-2": return "profit:" + stock2(arr0(parts[1]));
+      case "lc-power-of-two": return "ok:" + powerOfTwo(Integer.parseInt(parts[1]));
+      case "lc-palindrome-number": return "ok:" + palinNum(Integer.parseInt(parts[1]));
+      case "lc-roman": return "num:" + romanToInt(parts[1]);
+      case "lc-reverse-int": return "num:" + reverseInt(Integer.parseInt(parts[1]));
+      case "lc-excel-title": return "out:" + excelTitle(Integer.parseInt(parts[1]));
+      case "lc-fizz-buzz": return "out:" + String.join(",", fizzBuzz(Integer.parseInt(parts[1])));
       case "lc-search-bst": return "ok:" + searchBst(parts[1], Integer.parseInt(parts[2]));
       case "lc-bst-lca": return "lca:" + bstLca(parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
       case "lc-sorted-to-bst": return "order:" + levelOrder(sortedToBst(arr0(parts[1])));
@@ -1025,6 +1037,131 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static boolean canConstruct(String ransom, String mag) {
+    int[] cnt = new int[26];
+    for (char ch : mag.toCharArray()) cnt[ch - 97]++;
+    for (char ch : ransom.toCharArray()) if (--cnt[ch - 97] < 0) return false;
+    return true;
+  }
+
+  static int rob2(int[] nums) {
+    if (nums.length == 1) return nums[0];
+    int[] a = java.util.Arrays.copyOfRange(nums, 0, nums.length - 1);
+    int[] b = java.util.Arrays.copyOfRange(nums, 1, nums.length);
+    return Math.max(robLine(a), robLine(b));
+  }
+
+  private static int robLine(int[] arr) {
+    int prev = 0, cur = 0;
+    for (int x : arr) { int t = Math.max(cur, prev + x); prev = cur; cur = t; }
+    return cur;
+  }
+
+  static final int[][] OBSTACLE_GRID = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+
+  static int uniquePaths2() {
+    int m = OBSTACLE_GRID.length, n = OBSTACLE_GRID[0].length;
+    int[][] dp = new int[m][n];
+    for (int r = 0; r < m; r++) {
+      for (int c = 0; c < n; c++) {
+        if (OBSTACLE_GRID[r][c] == 1) dp[r][c] = 0;
+        else if (r == 0 && c == 0) dp[r][c] = 1;
+        else dp[r][c] = (r > 0 ? dp[r - 1][c] : 0) + (c > 0 ? dp[r][c - 1] : 0);
+      }
+    }
+    return dp[m - 1][n - 1];
+  }
+
+  static final int[][] COST_GRID = {{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
+
+  static int minPathSum() {
+    int m = COST_GRID.length, n = COST_GRID[0].length;
+    int[][] dp = new int[m][];
+    for (int r = 0; r < m; r++) dp[r] = COST_GRID[r].clone();
+    for (int r = 0; r < m; r++) {
+      for (int c = 0; c < n; c++) {
+        if (r == 0 && c == 0) continue;
+        int up = r > 0 ? dp[r - 1][c] : Integer.MAX_VALUE;
+        int left = c > 0 ? dp[r][c - 1] : Integer.MAX_VALUE;
+        dp[r][c] += Math.min(up, left);
+      }
+    }
+    return dp[m - 1][n - 1];
+  }
+
+  static int lcs(String a, String b) {
+    int m = a.length(), n = b.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 1; i <= m; i++)
+      for (int j = 1; j <= n; j++)
+        dp[i][j] = a.charAt(i - 1) == b.charAt(j - 1)
+            ? dp[i - 1][j - 1] + 1
+            : Math.max(dp[i - 1][j], dp[i][j - 1]);
+    return dp[m][n];
+  }
+
+  static int stock2(int[] p) {
+    int profit = 0;
+    for (int i = 1; i < p.length; i++) if (p[i] > p[i - 1]) profit += p[i] - p[i - 1];
+    return profit;
+  }
+
+  static boolean powerOfTwo(int n) { return n > 0 && (n & (n - 1)) == 0; }
+
+  static boolean palinNum(int x) {
+    if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+    int rev = 0;
+    while (x > rev) {
+      rev = rev * 10 + x % 10;
+      x /= 10;
+    }
+    return x == rev || x == rev / 10;
+  }
+
+  static final Map<Character, Integer> ROMAN = Map.of(
+      'I', 1, 'V', 5, 'X', 10, 'L', 50, 'C', 100, 'D', 500, 'M', 1000);
+
+  static int romanToInt(String s) {
+    int total = 0;
+    for (int i = 0; i < s.length(); i++) {
+      int cur = ROMAN.get(s.charAt(i));
+      int nxt = i + 1 < s.length() ? ROMAN.get(s.charAt(i + 1)) : 0;
+      total += cur < nxt ? -cur : cur;
+    }
+    return total;
+  }
+
+  static int reverseInt(int x) {
+    long rev = 0;
+    while (x != 0) {
+      rev = rev * 10 + x % 10;
+      x = x / 10;
+      if (rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE) return 0;
+    }
+    return (int) rev;
+  }
+
+  static String excelTitle(int n) {
+    StringBuilder sb = new StringBuilder();
+    while (n > 0) {
+      n -= 1;
+      sb.insert(0, (char) ('A' + n % 26));
+      n /= 26;
+    }
+    return sb.toString();
+  }
+
+  static List<String> fizzBuzz(int n) {
+    List<String> out = new ArrayList<>();
+    for (int i = 1; i <= n; i++) {
+      if (i % 15 == 0) out.add("FizzBuzz");
+      else if (i % 3 == 0) out.add("Fizz");
+      else if (i % 5 == 0) out.add("Buzz");
+      else out.add(String.valueOf(i));
+    }
+    return out;
+  }
 
   static String levelOrder(Node root) {
     List<String> out = new ArrayList<>();

@@ -2404,6 +2404,154 @@ def lc_remove_dup_2(nums):
             slow += 1
     return a[:slow]
 
+
+# ── 热门题 11 ─────────────────────────────────────────────
+
+def lc_ransom(ransom, mag):
+    cnt = [0] * 26
+    for ch in mag:
+        cnt[ord(ch) - 97] += 1
+    for ch in ransom:
+        cnt[ord(ch) - 97] -= 1
+        if cnt[ord(ch) - 97] < 0:
+            return False
+    return True
+
+
+def lc_rob_2(nums):
+    def line(arr):
+        prev = cur = 0
+        for x in arr:
+            prev, cur = cur, max(cur, prev + x)
+        return cur
+
+    if len(nums) == 1:
+        return nums[0]
+    # 首尾不能同时偷
+    return max(line(nums[:-1]), line(nums[1:]))
+
+
+_OBSTACLE_GRID = [
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0],
+]
+
+
+def lc_unique_paths_2():
+    g = _OBSTACLE_GRID
+    m, n = len(g), len(g[0])
+    dp = [[0] * n for _ in range(m)]
+    for r in range(m):
+        for c in range(n):
+            if g[r][c] == 1:
+                dp[r][c] = 0
+            elif r == 0 and c == 0:
+                dp[r][c] = 1
+            else:
+                up = dp[r - 1][c] if r else 0
+                left = dp[r][c - 1] if c else 0
+                dp[r][c] = up + left
+    return dp[m - 1][n - 1]
+
+
+_COST_GRID = [
+    [1, 3, 1],
+    [1, 5, 1],
+    [4, 2, 1],
+]
+
+
+def lc_min_path_sum():
+    g = _COST_GRID
+    m, n = len(g), len(g[0])
+    dp = [row[:] for row in g]
+    for r in range(m):
+        for c in range(n):
+            if r == 0 and c == 0:
+                continue
+            up = dp[r - 1][c] if r else float("inf")
+            left = dp[r][c - 1] if c else float("inf")
+            dp[r][c] += min(up, left)
+    return dp[m - 1][n - 1]
+
+
+def lc_lcs(a, b):
+    m, n = len(a), len(b)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if a[i - 1] == b[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+
+
+def lc_stock_2(prices):
+    profit = 0
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i - 1]:
+            profit += prices[i] - prices[i - 1]   # 吃掉每一段上涨
+    return profit
+
+
+def lc_power_of_two(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+
+def lc_palindrome_number(x):
+    if x < 0 or (x % 10 == 0 and x != 0):
+        return False
+    rev = 0
+    while x > rev:
+        rev = rev * 10 + x % 10
+        x //= 10
+    return x == rev or x == rev // 10
+
+
+_ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+
+
+def lc_roman(s):
+    total = 0
+    for i, ch in enumerate(s):
+        cur = _ROMAN[ch]
+        nxt = _ROMAN[s[i + 1]] if i + 1 < len(s) else 0
+        total += -cur if cur < nxt else cur   # 左小则减
+    return total
+
+
+def lc_reverse_int(x):
+    rev = 0
+    sign = -1 if x < 0 else 1
+    x = abs(x)
+    while x:
+        rev = rev * 10 + x % 10
+        x //= 10
+        if rev > 2147483648 or (sign > 0 and rev > 2147483647):
+            return 0                       # 溢出返回 0
+    return sign * rev
+
+
+def lc_excel_title(n):
+    s = ""
+    while n > 0:
+        n -= 1                             # 字母是 1..26，先减一
+        s = chr(65 + n % 26) + s
+        n //= 26
+    return s
+
+
+def lc_fizz_buzz(n):
+    out = []
+    for i in range(1, n + 1):
+        if i % 15 == 0: out.append("FizzBuzz")   # 15 必须放最前面
+        elif i % 3 == 0: out.append("Fizz")
+        elif i % 5 == 0: out.append("Buzz")
+        else: out.append(str(i))
+    return out
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2751,6 +2899,31 @@ def _run(spec):
     if cmd == "lc-remove-dup-2":
         out = lc_remove_dup_2(_ints(parts[1]))
         return "len:%d|arr:%s" % (len(out), _arr(out))
+
+    if cmd == "lc-ransom":
+        return "ok:%s" % ("true" if lc_ransom(parts[1], parts[2]) else "false")
+    if cmd == "lc-rob-2":
+        return "ans:%d" % lc_rob_2(_ints(parts[1]))
+    if cmd == "lc-unique-paths-2":
+        return "paths:%d" % lc_unique_paths_2()
+    if cmd == "lc-min-path-sum":
+        return "sum:%d" % lc_min_path_sum()
+    if cmd == "lc-lcs":
+        return "len:%d" % lc_lcs(parts[1], parts[2])
+    if cmd == "lc-stock-2":
+        return "profit:%d" % lc_stock_2(_ints(parts[1]))
+    if cmd == "lc-power-of-two":
+        return "ok:%s" % ("true" if lc_power_of_two(int(parts[1])) else "false")
+    if cmd == "lc-palindrome-number":
+        return "ok:%s" % ("true" if lc_palindrome_number(int(parts[1])) else "false")
+    if cmd == "lc-roman":
+        return "num:%d" % lc_roman(parts[1])
+    if cmd == "lc-reverse-int":
+        return "num:%d" % lc_reverse_int(int(parts[1]))
+    if cmd == "lc-excel-title":
+        return "out:" + lc_excel_title(int(parts[1]))
+    if cmd == "lc-fizz-buzz":
+        return "out:" + ",".join(lc_fizz_buzz(int(parts[1])))
 
     raise ValueError("还没实现：" + cmd)
 

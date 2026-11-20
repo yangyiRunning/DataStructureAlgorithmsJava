@@ -44,6 +44,7 @@ import { leetcode7Algorithms } from './algos/leetcode7.js';
 import { leetcode8Algorithms } from './algos/leetcode8.js';
 import { leetcode9Algorithms } from './algos/leetcode9.js';
 import { leetcode10Algorithms } from './algos/leetcode10.js';
+import { leetcode11Algorithms } from './algos/leetcode11.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -90,6 +91,7 @@ const ALGOS = [
   ...leetcode8Algorithms,
   ...leetcode9Algorithms,
   ...leetcode10Algorithms,
+  ...leetcode11Algorithms,
 ];
 
 const $ = (id) => document.getElementById(id);

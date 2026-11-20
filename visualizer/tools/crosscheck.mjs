@@ -40,6 +40,7 @@ import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { leetcode9Algorithms } from '../algos/leetcode9.js';
 import { leetcode10Algorithms } from '../algos/leetcode10.js';
+import { leetcode11Algorithms } from '../algos/leetcode11.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -78,6 +79,7 @@ const ALGOS = [
   ...leetcode8Algorithms,
   ...leetcode9Algorithms,
   ...leetcode10Algorithms,
+  ...leetcode11Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -135,6 +137,26 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-ransom':
+    case 'lc-power-of-two':
+    case 'lc-palindrome-number':
+      return `ok:${result.ok}`;
+    case 'lc-rob-2':
+      return `ans:${result.ans}`;
+    case 'lc-unique-paths-2':
+      return `paths:${result.paths}`;
+    case 'lc-min-path-sum':
+      return `sum:${result.sum}`;
+    case 'lc-lcs':
+      return `len:${result.len}`;
+    case 'lc-stock-2':
+      return `profit:${result.profit}`;
+    case 'lc-roman':
+    case 'lc-reverse-int':
+      return `num:${result.num}`;
+    case 'lc-excel-title':
+    case 'lc-fizz-buzz':
+      return `out:${result.out}`;
     case 'lc-search-bst':
     case 'lc-balanced':
       return `ok:${result.ok}`;
@@ -391,6 +413,24 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-ransom':
+      return `${algoId};${input.ransom};${input.mag}`;
+    case 'lc-rob-2':
+    case 'lc-stock-2':
+      return `${algoId};${nums(input)}`;
+    case 'lc-unique-paths-2':
+    case 'lc-min-path-sum':
+      return algoId;
+    case 'lc-lcs':
+      return `${algoId};${input.a};${input.b}`;
+    case 'lc-power-of-two':
+    case 'lc-palindrome-number':
+    case 'lc-reverse-int':
+    case 'lc-excel-title':
+    case 'lc-fizz-buzz':
+      return `${algoId};${input}`;
+    case 'lc-roman':
+      return `${algoId};${input}`;
     case 'lc-search-bst':
       return `${algoId};${lv(input.levels)};${input.val}`;
     case 'lc-bst-lca':
