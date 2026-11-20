@@ -1948,6 +1948,116 @@ def lc_count_ones(n):
         count += 1
     return count
 
+
+# ── 热门题 8 ──────────────────────────────────────────────
+
+def lc_disappeared(nums):
+    a = list(nums)
+    n = len(a)
+    for x in a:
+        idx = (x - 1) % n
+        a[idx] += n                       # 原地打标记
+    return [i + 1 for i in range(n) if a[i] <= n]
+
+
+def lc_subarray_sum(nums, k):
+    seen = {0: 1}
+    total = count = 0
+    for x in nums:
+        total += x
+        count += seen.get(total - k, 0)
+        seen[total] = seen.get(total, 0) + 1
+    return count
+
+
+def lc_min_subarray(target, nums):
+    left = total = 0
+    best = float("inf")
+    for right, x in enumerate(nums):
+        total += x
+        while total >= target:
+            best = min(best, right - left + 1)
+            total -= nums[left]
+            left += 1
+    return 0 if best == float("inf") else best
+
+
+def lc_max_consecutive(nums):
+    cur = best = 0
+    for x in nums:
+        cur = cur + 1 if x == 1 else 0
+        best = max(best, cur)
+    return best
+
+
+def lc_pivot_index(nums):
+    total = sum(nums)
+    left = 0
+    for i, v in enumerate(nums):
+        if left == total - left - v:
+            return i
+        left += v
+    return -1
+
+
+def lc_pascal(n):
+    res = []
+    for i in range(n):
+        row = [1] * (i + 1)
+        for j in range(1, i):
+            row[j] = res[i - 1][j - 1] + res[i - 1][j]
+        res.append(row)
+    return res[-1] if res else []
+
+
+_SET_ZERO_M = [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+]
+
+
+def lc_set_zeroes():
+    m = [row[:] for row in _SET_ZERO_M]
+    rows = {r for r in range(len(m)) for c in range(len(m[0])) if m[r][c] == 0}
+    cols = {c for r in range(len(m)) for c in range(len(m[0])) if m[r][c] == 0}
+    for r in range(len(m)):
+        for c in range(len(m[0])):
+            if r in rows or c in cols:
+                m[r][c] = 0
+    return [v for row in m for v in row]
+
+
+def lc_last_word(s):
+    i = len(s) - 1
+    while i >= 0 and s[i] == " ":
+        i -= 1
+    length = 0
+    while i >= 0 and s[i] != " ":
+        length += 1
+        i -= 1
+    return length
+
+
+def lc_strstr(haystack, needle):
+    n = len(needle)
+    for i in range(len(haystack) - n + 1):
+        if haystack[i:i + n] == needle:
+            return i
+    return -1
+
+
+def lc_isomorphic(s, t):
+    m1, m2 = {}, {}
+    for a, b in zip(s, t):
+        if a in m1 and m1[a] != b:
+            return False
+        if b in m2 and m2[b] != a:
+            return False
+        m1[a] = b
+        m2[b] = a
+    return True
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2231,6 +2341,27 @@ def _run(spec):
         return "ok:%s" % ("true" if lc_subsequence(parts[1], parts[2]) else "false")
     if cmd == "lc-count-ones":
         return "count:%d" % lc_count_ones(int(parts[1]))
+
+    if cmd == "lc-disappeared":
+        return "arr:" + _arr(lc_disappeared(_ints(parts[1])))
+    if cmd == "lc-subarray-sum":
+        return "count:%d" % lc_subarray_sum(_ints(parts[1]), int(parts[2]))
+    if cmd == "lc-min-subarray":
+        return "len:%d" % lc_min_subarray(int(parts[1]), _ints(parts[2]))
+    if cmd == "lc-max-consecutive":
+        return "max:%d" % lc_max_consecutive(_ints(parts[1]))
+    if cmd == "lc-pivot-index":
+        return "idx:%d" % lc_pivot_index(_ints(parts[1]))
+    if cmd == "lc-pascal":
+        return "arr:" + _arr(lc_pascal(int(parts[1])))
+    if cmd == "lc-set-zeroes":
+        return "arr:" + _arr(lc_set_zeroes())
+    if cmd == "lc-last-word":
+        return "len:%d" % lc_last_word(parts[1])
+    if cmd == "lc-strstr":
+        return "idx:%d" % lc_strstr(parts[1], parts[2])
+    if cmd == "lc-isomorphic":
+        return "ok:%s" % ("true" if lc_isomorphic(parts[1], parts[2]) else "false")
 
     raise ValueError("还没实现：" + cmd)
 

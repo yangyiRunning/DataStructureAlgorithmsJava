@@ -54,6 +54,16 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-disappeared": return "arr:" + arr(disappeared(arr0(parts[1])));
+      case "lc-subarray-sum": return "count:" + subarraySum(arr0(parts[1]), Integer.parseInt(parts[2]));
+      case "lc-min-subarray": return "len:" + minSubArray(Integer.parseInt(parts[1]), arr0(parts[2]));
+      case "lc-max-consecutive": return "max:" + maxConsecutive(arr0(parts[1]));
+      case "lc-pivot-index": return "idx:" + pivotIndex(arr0(parts[1]));
+      case "lc-pascal": return "arr:" + arr(pascal(Integer.parseInt(parts[1])));
+      case "lc-set-zeroes": return "arr:" + arr(setZeroes());
+      case "lc-last-word": return "len:" + lastWord(parts[1]);
+      case "lc-strstr": return "idx:" + strStr(parts[1], parts[2]);
+      case "lc-isomorphic": return "ok:" + isIsomorphic(parts[1], parts[2]);
       case "lc-dup-exists": return "ok:" + dupExists(arr0(parts[1]));
       case "lc-majority": return "num:" + majority(arr0(parts[1]));
       case "lc-missing-number": return "num:" + missingNum(arr0(parts[1]));
@@ -992,6 +1002,115 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static List<Integer> disappeared(int[] nums) {
+    int[] a = nums.clone();
+    int n = a.length;
+    for (int x : nums) {
+      int idx = (x - 1) % n;
+      a[idx] += n;
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int i = 0; i < n; i++) if (a[i] <= n) out.add(i + 1);
+    return out;
+  }
+
+  static int subarraySum(int[] nums, int k) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    seen.put(0, 1);
+    int sum = 0, count = 0;
+    for (int x : nums) {
+      sum += x;
+      count += seen.getOrDefault(sum - k, 0);
+      seen.merge(sum, 1, Integer::sum);
+    }
+    return count;
+  }
+
+  static int minSubArray(int target, int[] nums) {
+    int left = 0, sum = 0, best = Integer.MAX_VALUE;
+    for (int right = 0; right < nums.length; right++) {
+      sum += nums[right];
+      while (sum >= target) {
+        best = Math.min(best, right - left + 1);
+        sum -= nums[left++];
+      }
+    }
+    return best == Integer.MAX_VALUE ? 0 : best;
+  }
+
+  static int maxConsecutive(int[] nums) {
+    int cur = 0, best = 0;
+    for (int x : nums) { cur = x == 1 ? cur + 1 : 0; best = Math.max(best, cur); }
+    return best;
+  }
+
+  static int pivotIndex(int[] nums) {
+    int total = 0;
+    for (int v : nums) total += v;
+    int left = 0;
+    for (int i = 0; i < nums.length; i++) {
+      if (left == total - left - nums[i]) return i;
+      left += nums[i];
+    }
+    return -1;
+  }
+
+  static List<Integer> pascal(int n) {
+    List<List<Integer>> res = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      List<Integer> row = new ArrayList<>();
+      for (int j = 0; j <= i; j++) row.add(1);
+      for (int j = 1; j < i; j++) row.set(j, res.get(i - 1).get(j - 1) + res.get(i - 1).get(j));
+      res.add(row);
+    }
+    return res.isEmpty() ? new ArrayList<>() : res.get(res.size() - 1);
+  }
+
+  static final int[][] SET_ZERO_M = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+
+  static List<Integer> setZeroes() {
+    int R = SET_ZERO_M.length, C = SET_ZERO_M[0].length;
+    int[][] m = new int[R][C];
+    Set<Integer> rows = new HashSet<>(), cols = new HashSet<>();
+    for (int r = 0; r < R; r++) {
+      m[r] = SET_ZERO_M[r].clone();
+      for (int c = 0; c < C; c++) if (m[r][c] == 0) { rows.add(r); cols.add(c); }
+    }
+    for (int r = 0; r < R; r++)
+      for (int c = 0; c < C; c++)
+        if (rows.contains(r) || cols.contains(c)) m[r][c] = 0;
+    List<Integer> out = new ArrayList<>();
+    for (int r = 0; r < R; r++) for (int c = 0; c < C; c++) out.add(m[r][c]);
+    return out;
+  }
+
+  static int lastWord(String s) {
+    int i = s.length() - 1;
+    while (i >= 0 && s.charAt(i) == ' ') i--;
+    int len = 0;
+    while (i >= 0 && s.charAt(i) != ' ') { len++; i--; }
+    return len;
+  }
+
+  static int strStr(String hay, String needle) {
+    int n = needle.length();
+    for (int i = 0; i + n <= hay.length(); i++) {
+      if (hay.substring(i, i + n).equals(needle)) return i;
+    }
+    return -1;
+  }
+
+  static boolean isIsomorphic(String s, String t) {
+    Map<Character, Character> m1 = new HashMap<>(), m2 = new HashMap<>();
+    for (int i = 0; i < s.length(); i++) {
+      char a = s.charAt(i), b = t.charAt(i);
+      Character x = m1.get(a), y = m2.get(b);
+      if ((x != null && x != b) || (y != null && y != a)) return false;
+      m1.put(a, b); m2.put(b, a);
+    }
+    return true;
+  }
 
   static boolean dupExists(int[] nums) {
     Set<Integer> seen = new HashSet<>();

@@ -37,6 +37,7 @@ import { leetcode4Algorithms } from '../algos/leetcode4.js';
 import { leetcode5Algorithms } from '../algos/leetcode5.js';
 import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { leetcode7Algorithms } from '../algos/leetcode7.js';
+import { leetcode8Algorithms } from '../algos/leetcode8.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -72,6 +73,7 @@ const ALGOS = [
   ...leetcode5Algorithms,
   ...leetcode6Algorithms,
   ...leetcode7Algorithms,
+  ...leetcode8Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -129,6 +131,24 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-disappeared':
+    case 'lc-pascal':
+    case 'lc-set-zeroes':
+      return `arr:${result.arr}`;
+    case 'lc-subarray-sum':
+      return `count:${result.count}`;
+    case 'lc-min-subarray':
+      return `len:${result.len}`;
+    case 'lc-max-consecutive':
+      return `max:${result.max}`;
+    case 'lc-pivot-index':
+      return `idx:${result.idx}`;
+    case 'lc-last-word':
+      return `len:${result.len}`;
+    case 'lc-strstr':
+      return `idx:${result.idx}`;
+    case 'lc-isomorphic':
+      return `ok:${result.ok}`;
     case 'lc-dup-exists':
     case 'lc-anagram':
     case 'lc-subsequence':
@@ -332,6 +352,24 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-disappeared':
+    case 'lc-max-consecutive':
+    case 'lc-pivot-index':
+      return `${algoId};${nums(input)}`;
+    case 'lc-subarray-sum':
+      return `${algoId};${nums(input.nums)};${input.k}`;
+    case 'lc-min-subarray':
+      return `${algoId};${input.target};${nums(input.nums)}`;
+    case 'lc-pascal':
+      return `${algoId};${input}`;
+    case 'lc-set-zeroes':
+      return algoId;
+    case 'lc-last-word':
+      return `${algoId};${input}`;
+    case 'lc-strstr':
+      return `${algoId};${input.haystack};${input.needle}`;
+    case 'lc-isomorphic':
+      return `${algoId};${input.s};${input.t}`;
     case 'lc-dup-exists':
     case 'lc-majority':
     case 'lc-missing-number':
