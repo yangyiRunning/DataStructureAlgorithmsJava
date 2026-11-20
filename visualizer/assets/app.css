@@ -74,19 +74,19 @@
   --code-line-bg: #FBEFD9;
   --axis: #DDD1BC;
   --axis-strong: #CBBFA9;
-  --node-idle-fill: var(--node-idle-fill);
+  --node-idle-fill: #F1EADC;
   --cell-bg: #FCFAF6;
   --cell-line: #EFE9E0;
-  --cell-compare-fill: var(--cell-compare-fill);
+  --cell-compare-fill: #F1F6FC;
   --cell-compare-line: #A7C4E8;
-  --frontier-fill: var(--frontier-fill);
+  --frontier-fill: #FAF3E7;
   --frontier-line: #D3BD97;
   --edge-rejected: #E2D8C6;
   --board-line: #E7E0D5;
-  --water-fill: var(--water-fill);
+  --water-fill: #E6DDCC;
   --water-line: #DCD1BC;
-  --peg-fill: var(--peg-fill);
-  --disk-fill: var(--disk-fill);
+  --peg-fill: #D9CEB8;
+  --disk-fill: #F6E7CE;
 
   color-scheme: light;
 }
