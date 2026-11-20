@@ -54,6 +54,13 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-longest-consecutive": return "len:" + longestConsecutive(arr0(parts[1]));
+      case "lc-min-stack": return "out:" + minStack(parts[1]);
+      case "lc-decode-string": return "out:" + decodeString(parts[1]);
+      case "lc-lca": return "lca:" + lcaValue(parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+      case "lc-validate-bst": return "ok:" + validateBst(parts[1]);
+      case "lc-oranges": return "minutes:" + oranges();
+      case "lc-top-k-frequent": return "top:" + topKFrequent(arr0(parts[1]), Integer.parseInt(parts[2]));
       case "lc-stock": return "profit:" + stock(arr0(parts[1]));
       case "lc-max-product": return "product:" + maxProduct(arr0(parts[1]));
       case "lc-move-zero": return "arr:" + arr(moveZero(arr0(parts[1])));
@@ -949,6 +956,136 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static int longestConsecutive(int[] nums) {
+    Set<Integer> set = new HashSet<>();
+    for (int v : nums) set.add(v);
+    int best = 0;
+    for (int x : set) {
+      if (set.contains(x - 1)) continue;
+      int y = x;
+      while (set.contains(y + 1)) y++;
+      best = Math.max(best, y - x + 1);
+    }
+    return best;
+  }
+
+  static String minStack(String spec) {
+    Deque<Integer> stack = new ArrayDeque<>();
+    Deque<Integer> mins = new ArrayDeque<>();
+    List<Integer> out = new ArrayList<>();
+    for (String op : spec.split(",")) {
+      if (op.startsWith("push")) {
+        int v = Integer.parseInt(op.substring(4));
+        stack.push(v);
+        mins.push(mins.isEmpty() ? v : Math.min(v, mins.peek()));
+      } else if (op.equals("pop")) {
+        if (!stack.isEmpty()) { stack.pop(); mins.pop(); }
+      } else if (op.equals("top")) {
+        if (!stack.isEmpty()) out.add(stack.peek());
+      } else {
+        if (!mins.isEmpty()) out.add(mins.peek());
+      }
+    }
+    return arr(out);
+  }
+
+  static String decodeString(String s) {
+    Deque<Object[]> stack = new ArrayDeque<>();
+    StringBuilder cur = new StringBuilder();
+    int num = 0;
+    for (char ch : s.toCharArray()) {
+      if (ch >= '0' && ch <= '9') num = num * 10 + (ch - '0');
+      else if (ch == '[') { stack.push(new Object[]{cur.toString(), num}); cur.setLength(0); num = 0; }
+      else if (ch == ']') {
+        Object[] top = stack.pop();
+        String prev = (String) top[0];
+        int n = (Integer) top[1];
+        StringBuilder rep = new StringBuilder(cur);
+        cur.setLength(0);
+        cur.append(prev);
+        for (int i = 0; i < n; i++) cur.append(rep);
+      } else cur.append(ch);
+    }
+    return cur.toString();
+  }
+
+  static int lcaValue(String spec, int p, int q) {
+    Node root = treeFromLevels(spec);
+    Node ans = lcaDfs(root, p, q);
+    return ans == null ? -1 : ans.val;
+  }
+
+  private static Node lcaDfs(Node node, int p, int q) {
+    if (node == null || node.val == p || node.val == q) return node;
+    Node l = lcaDfs(node.left, p, q);
+    Node r = lcaDfs(node.right, p, q);
+    if (l != null && r != null) return node;
+    return l != null ? l : r;
+  }
+
+  static boolean validateBst(String spec) {
+    return validDfs(treeFromLevels(spec), Long.MIN_VALUE, Long.MAX_VALUE);
+  }
+
+  private static boolean validDfs(Node node, long low, long high) {
+    if (node == null) return true;
+    if (node.val <= low || node.val >= high) return false;
+    return validDfs(node.left, low, node.val) && validDfs(node.right, node.val, high);
+  }
+
+  static final int[][] ORANGE_GRID = {
+      {2, 1, 1, 1, 2},
+      {1, 1, 0, 1, 1},
+      {0, 1, 1, 0, 1},
+  };
+
+  static int oranges() {
+    int R = ORANGE_GRID.length, C = ORANGE_GRID[0].length;
+    int[][] g = new int[R][C];
+    int fresh = 0;
+    Deque<int[]> q = new ArrayDeque<>();
+    for (int r = 0; r < R; r++) {
+      g[r] = ORANGE_GRID[r].clone();
+      for (int c = 0; c < C; c++) {
+        if (g[r][c] == 1) fresh++;
+        if (g[r][c] == 2) q.add(new int[]{r, c});
+      }
+    }
+    int minutes = 0;
+    while (!q.isEmpty() && fresh > 0) {
+      int size = q.size();
+      for (int i = 0; i < size; i++) {
+        int[] cur = q.poll();
+        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int[] d : dirs) {
+          int nr = cur[0] + d[0], nc = cur[1] + d[1];
+          if (nr < 0 || nr >= R || nc < 0 || nc >= C) continue;
+          if (g[nr][nc] != 1) continue;
+          g[nr][nc] = 2;
+          fresh--;
+          q.add(new int[]{nr, nc});
+        }
+      }
+      minutes++;
+    }
+    return fresh == 0 ? minutes : -1;
+  }
+
+  static String topKFrequent(int[] nums, int k) {
+    Map<Integer, Integer> cnt = new LinkedHashMap<>();
+    for (int v : nums) cnt.merge(v, 1, Integer::sum);
+    List<int[]> heap = new ArrayList<>();
+    for (Map.Entry<Integer, Integer> e : cnt.entrySet()) {
+      heap.add(new int[]{e.getKey(), e.getValue()});
+      heap.sort((a, b) -> a[1] - b[1]);          // 稳定排序
+      if (heap.size() > k) heap.remove(0);
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int[] e : heap) out.add(e[0]);
+    out.sort(Integer::compareTo);
+    return arr(out);
+  }
 
   static int stock(int[] p) {
     int min = Integer.MAX_VALUE, best = 0;

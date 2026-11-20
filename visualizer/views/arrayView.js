@@ -21,7 +21,8 @@ export function render(svg, state) {
   const chars = state.chars ?? null;
   const values = state.values ?? (chars ? chars.map(() => 1) : []);
   const n = values.length;
-  if (!n) return;
+  // 没有数组但有容器条（比如"两个栈实现队列"），也要把容器画出来，不能整块空白
+  if (!n && !state.container?.items) return;
 
   // 画布高度必须在这里定下来：viewBox 由 geometryFor 报告同一个值，
   // 两边不一致的话，元素会按 430 的坐标画进 300 的视口，整体压扁。

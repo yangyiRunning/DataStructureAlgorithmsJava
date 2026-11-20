@@ -1407,6 +1407,135 @@ def lc_coin_change(coins, amount):
                 dp[a] = dp[a - c] + 1
     return -1 if dp[amount] == INF else dp[amount]
 
+
+# ── 热门题 3 ──────────────────────────────────────────────
+
+def lc_longest_consecutive(nums):
+    st = set(nums)
+    best = 0
+    for x in st:
+        if x - 1 in st:
+            continue                        # 只从序列起点开始数
+        y = x
+        while y + 1 in st:
+            y += 1
+        best = max(best, y - x + 1)
+    return best
+
+
+def lc_min_stack(spec):
+    stack, mins, out = [], [], []
+    for op in spec.split(","):
+        if op.startswith("push"):
+            v = int(op[4:])
+            stack.append(v)
+            mins.append(min(v, mins[-1]) if mins else v)
+        elif op == "pop":
+            if stack:
+                stack.pop(); mins.pop()
+        elif op == "top":
+            if stack:
+                out.append(stack[-1])
+        else:
+            if mins:
+                out.append(mins[-1])
+    return out
+
+
+def lc_decode_string(s):
+    stack = []
+    cur, num = "", 0
+    for ch in s:
+        if ch.isdigit():
+            num = num * 10 + int(ch)
+        elif ch == "[":
+            stack.append((cur, num))
+            cur, num = "", 0
+        elif ch == "]":
+            prev, n = stack.pop()
+            cur = prev + cur * n
+        else:
+            cur += ch
+    return cur
+
+
+def _build_tree3(levels):
+    nodes = [_TNode(v) if v is not None else None for v in levels]
+    for i, node in enumerate(nodes):
+        if node is None:
+            continue
+        l, r = 2 * i + 1, 2 * i + 2
+        if l < len(nodes):
+            node.left = nodes[l]
+        if r < len(nodes):
+            node.right = nodes[r]
+    return nodes[0]
+
+
+def lc_lca(levels, p, q):
+    root = _build_tree3(levels)
+
+    def dfs(node):
+        if node is None or node.val == p or node.val == q:
+            return node
+        l, r = dfs(node.left), dfs(node.right)
+        if l and r:
+            return node                     # 两边各找到一个 -> 当前就是分叉点
+        return l or r
+
+    ans = dfs(root)
+    return ans.val if ans else -1
+
+
+def lc_validate_bst(levels):
+    root = _build_tree3(levels)
+
+    def walk(node, low, high):
+        if node is None:
+            return True
+        if not (low < node.val < high):
+            return False
+        return walk(node.left, low, node.val) and walk(node.right, node.val, high)
+
+    return walk(root, float("-inf"), float("inf"))
+
+
+_ORANGE_GRID = [
+    [2, 1, 1, 1, 2],
+    [1, 1, 0, 1, 1],
+    [0, 1, 1, 0, 1],
+]
+
+
+def lc_oranges():
+    g = [row[:] for row in _ORANGE_GRID]
+    R, C = len(g), len(g[0])
+    fresh = sum(row.count(1) for row in g)
+    q = deque([(r, c) for r in range(R) for c in range(C) if g[r][c] == 2])
+    minutes = 0
+    while q and fresh > 0:
+        for _ in range(len(q)):
+            r, c = q.popleft()
+            for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):
+                if 0 <= nr < R and 0 <= nc < C and g[nr][nc] == 1:
+                    g[nr][nc] = 2
+                    fresh -= 1
+                    q.append((nr, nc))
+        minutes += 1
+    return minutes if fresh == 0 else -1
+
+
+def lc_top_k_frequent(nums, k):
+    from collections import Counter
+    cnt = Counter(nums)          # 插入顺序 = 首次出现顺序，和 JS 的 Map 一致
+    heap = []
+    for x, c in cnt.items():
+        heap.append((x, c))
+        heap.sort(key=lambda t: t[1])     # 稳定排序：同频次保持插入顺序
+        if len(heap) > k:
+            heap.pop(0)                   # 挤掉频次最小的那个
+    return sorted(x for x, _ in heap)
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -1608,6 +1737,21 @@ def _run(spec):
         return "diameter:%d" % lc_diameter(_levels(parts[1]))
     if cmd == "lc-coin-change":
         return "coins:%d" % lc_coin_change(_ints(parts[1]), int(parts[2]))
+
+    if cmd == "lc-longest-consecutive":
+        return "len:%d" % lc_longest_consecutive(_ints(parts[1]))
+    if cmd == "lc-min-stack":
+        return "out:" + _arr(lc_min_stack(parts[1]))
+    if cmd == "lc-decode-string":
+        return "out:" + lc_decode_string(parts[1])
+    if cmd == "lc-lca":
+        return "lca:%d" % lc_lca(_levels(parts[1]), int(parts[2]), int(parts[3]))
+    if cmd == "lc-validate-bst":
+        return "ok:%s" % ("true" if lc_validate_bst(_levels(parts[1])) else "false")
+    if cmd == "lc-oranges":
+        return "minutes:%d" % lc_oranges()
+    if cmd == "lc-top-k-frequent":
+        return "top:" + _arr(lc_top_k_frequent(_ints(parts[1]), int(parts[2])))
 
     raise ValueError("还没实现：" + cmd)
 

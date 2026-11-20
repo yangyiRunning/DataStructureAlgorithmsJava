@@ -33,6 +33,7 @@ import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { leetcode2Algorithms } from '../algos/leetcode2.js';
+import { leetcode3Algorithms } from '../algos/leetcode3.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -45,7 +46,7 @@ const ALL = [
   ...trieAlgorithms, ...unionFindAlgorithms, ...dpAlgorithms, ...dpOneDAlgorithms,
   ...backtrackingAlgorithms, ...heapAlgorithms, ...graphAlgorithms,
   ...arrayTechAlgorithms, ...miscAlgorithms, ...hashAlgorithms, ...advancedTreeAlgorithms,
-  ...leetcodeAlgorithms, ...leetcode2Algorithms,
+  ...leetcodeAlgorithms, ...leetcode2Algorithms, ...leetcode3Algorithms,
 ];
 
 const wanted = ALL.map((a) => ({ id: a.id, fn: a.id.replace(/-/g, '_') }));

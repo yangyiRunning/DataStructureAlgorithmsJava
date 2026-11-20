@@ -24,6 +24,7 @@ import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { leetcode2Algorithms } from '../algos/leetcode2.js';
+import { leetcode3Algorithms } from '../algos/leetcode3.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -48,6 +49,7 @@ const ALL = [
   ...advancedTreeAlgorithms,
   ...leetcodeAlgorithms,
   ...leetcode2Algorithms,
+  ...leetcode3Algorithms,
   ...backtrackingAlgorithms,
 ];
 
@@ -147,7 +149,8 @@ function checkTrajectory(algo, inputLabel, input, built) {
     // 数组类视图必须每次都是完整快照，长度不能变
     const s = step.state ?? {};
     if (view === 'array' && Array.isArray(s.values)) {
-      if (refLen != null && s.values.length !== refLen) {
+      // 栈、队列这类容器本来就会边长，算法上声明 growable: true 就跳过定长检查
+      if (algo.growable !== true && refLen != null && s.values.length !== refLen) {
         fail(where, `第 ${i} 步 values 长度 ${s.values.length} ≠ 首帧长度 ${refLen}`);
       }
       for (const idx of [s.settled ?? [], s.compare ?? [], s.move ?? []].flat()) {

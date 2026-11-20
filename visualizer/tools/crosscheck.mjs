@@ -32,6 +32,7 @@ import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { leetcode2Algorithms } from '../algos/leetcode2.js';
+import { leetcode3Algorithms } from '../algos/leetcode3.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -62,6 +63,7 @@ const ALGOS = [
   ...advancedTreeAlgorithms,
   ...leetcodeAlgorithms,
   ...leetcode2Algorithms,
+  ...leetcode3Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -119,6 +121,19 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-longest-consecutive':
+      return `len:${result.len}`;
+    case 'lc-min-stack':
+    case 'lc-decode-string':
+      return `out:${result.out}`;
+    case 'lc-lca':
+      return `lca:${result.lca}`;
+    case 'lc-validate-bst':
+      return `ok:${result.ok}`;
+    case 'lc-oranges':
+      return `minutes:${result.minutes}`;
+    case 'lc-top-k-frequent':
+      return `top:${result.top}`;
     case 'lc-stock':
       return `profit:${result.profit}`;
     case 'lc-max-product':
@@ -256,6 +271,20 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-longest-consecutive':
+      return `${algoId};${nums(input)}`;
+    case 'lc-min-stack':
+      return `${algoId};${input.map(([o, v]) => (o === 'push' ? `push${v}` : o)).join(',')}`;
+    case 'lc-decode-string':
+      return `${algoId};${input}`;
+    case 'lc-lca':
+      return `${algoId};${input.levels.map((v) => (v == null ? 'null' : v)).join(',')};${input.p};${input.q}`;
+    case 'lc-validate-bst':
+      return `${algoId};${input.map((v) => (v == null ? 'null' : v)).join(',')}`;
+    case 'lc-oranges':
+      return algoId;
+    case 'lc-top-k-frequent':
+      return `${algoId};${nums(input.nums)};${input.k}`;
     case 'lc-stock':
     case 'lc-max-product':
     case 'lc-move-zero':
