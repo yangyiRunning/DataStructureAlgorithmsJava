@@ -38,6 +38,7 @@ import { leetcode5Algorithms } from '../algos/leetcode5.js';
 import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { leetcode8Algorithms } from '../algos/leetcode8.js';
+import { leetcode9Algorithms } from '../algos/leetcode9.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -74,6 +75,7 @@ const ALGOS = [
   ...leetcode6Algorithms,
   ...leetcode7Algorithms,
   ...leetcode8Algorithms,
+  ...leetcode9Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -131,6 +133,21 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-reorder-list':
+    case 'lc-sort-list':
+    case 'lc-odd-even-list':
+    case 'lc-partition-list':
+    case 'lc-reverse-between':
+      return `arr:${result.arr}`;
+    case 'lc-stack-by-queue':
+      return `out:${result.out}`;
+    case 'lc-eval-rpn':
+      return `num:${result.num}`;
+    case 'lc-simplify-path':
+      return `out:${result.out}`;
+    case 'lc-word-pattern':
+    case 'lc-contains-nearby':
+      return `ok:${result.ok}`;
     case 'lc-disappeared':
     case 'lc-pascal':
     case 'lc-set-zeroes':
@@ -352,6 +369,24 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-reorder-list':
+    case 'lc-sort-list':
+    case 'lc-odd-even-list':
+      return `${algoId};${nums(input)}`;
+    case 'lc-partition-list':
+      return `${algoId};${nums(input.vals)};${input.x}`;
+    case 'lc-reverse-between':
+      return `${algoId};${nums(input.vals)};${input.left};${input.right}`;
+    case 'lc-stack-by-queue':
+      return `${algoId};${input.map(([o, v]) => (o === 'push' ? `push${v}` : o)).join(',')}`;
+    case 'lc-eval-rpn':
+      return `${algoId};${input.join('|')}`;
+    case 'lc-simplify-path':
+      return `${algoId};${input}`;
+    case 'lc-word-pattern':
+      return `${algoId};${input.pattern};${input.s}`;
+    case 'lc-contains-nearby':
+      return `${algoId};${nums(input.nums)};${input.k}`;
     case 'lc-disappeared':
     case 'lc-max-consecutive':
     case 'lc-pivot-index':

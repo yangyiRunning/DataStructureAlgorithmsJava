@@ -39,6 +39,7 @@ import { leetcode5Algorithms } from '../algos/leetcode5.js';
 import { leetcode6Algorithms } from '../algos/leetcode6.js';
 import { leetcode7Algorithms } from '../algos/leetcode7.js';
 import { leetcode8Algorithms } from '../algos/leetcode8.js';
+import { leetcode9Algorithms } from '../algos/leetcode9.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -51,7 +52,7 @@ const ALL = [
   ...trieAlgorithms, ...unionFindAlgorithms, ...dpAlgorithms, ...dpOneDAlgorithms,
   ...backtrackingAlgorithms, ...heapAlgorithms, ...graphAlgorithms,
   ...arrayTechAlgorithms, ...miscAlgorithms, ...hashAlgorithms, ...advancedTreeAlgorithms,
-  ...leetcodeAlgorithms, ...leetcode2Algorithms, ...leetcode3Algorithms, ...leetcode4Algorithms, ...leetcode5Algorithms, ...leetcode6Algorithms, ...leetcode7Algorithms, ...leetcode8Algorithms,
+  ...leetcodeAlgorithms, ...leetcode2Algorithms, ...leetcode3Algorithms, ...leetcode4Algorithms, ...leetcode5Algorithms, ...leetcode6Algorithms, ...leetcode7Algorithms, ...leetcode8Algorithms, ...leetcode9Algorithms,
 ];
 
 const wanted = ALL.map((a) => ({ id: a.id, fn: a.id.replace(/-/g, '_') }));

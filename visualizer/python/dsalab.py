@@ -2058,6 +2058,196 @@ def lc_isomorphic(s, t):
         m2[b] = a
     return True
 
+
+# ── 热门题 9 ──────────────────────────────────────────────
+
+def _chain(vals):
+    nodes = [_LNode(v) for v in vals]
+    for i, n in enumerate(nodes[:-1]):
+        n.next = nodes[i + 1]
+    return nodes[0] if nodes else None
+
+
+def _to_list(head):
+    out, seen = [], set()
+    p = head
+    while p is not None and id(p) not in seen:
+        seen.add(id(p))
+        out.append(p.val)
+        p = p.next
+    return out
+
+
+def lc_reorder_list(vals):
+    head = _chain(vals)
+    if head is None:
+        return []
+    # 1) 找中点
+    slow, fast = head, head
+    while fast.next and fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+    second = slow.next
+    slow.next = None
+    # 2) 反转后半段
+    prev = None
+    while second:
+        nx = second.next
+        second.next = prev
+        prev = second
+        second = nx
+    # 3) 交替合并（用哑头重新串，避免两半相邻时打成环）
+    dummy = _LNode(0)
+    tail = dummy
+    a, b = head, prev
+    while a and b:
+        tail.next = a; tail = a; a = a.next
+        tail.next = b; tail = b; b = b.next
+    tail.next = a or b
+    return _to_list(dummy.next)
+
+
+def lc_sort_list(vals):
+    def sort(h):
+        if h is None or h.next is None:
+            return h
+        slow, fast = h, h.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        mid = slow.next
+        slow.next = None
+        return merge(sort(h), sort(mid))
+
+    def merge(a, b):
+        dummy = _LNode(0)
+        tail = dummy
+        while a and b:
+            if a.val <= b.val:
+                tail.next = a; a = a.next
+            else:
+                tail.next = b; b = b.next
+            tail = tail.next
+        tail.next = a or b
+        return dummy.next
+
+    return _to_list(sort(_chain(vals)))
+
+
+def lc_odd_even_list(vals):
+    head = _chain(vals)
+    if head is None:
+        return []
+    odd, even = head, head.next
+    even_head = even
+    while even and even.next:
+        odd.next = even.next
+        odd = odd.next
+        even.next = odd.next
+        even = even.next
+    odd.next = even_head
+    return _to_list(head)
+
+
+def lc_partition_list(vals, x):
+    small, big = _LNode(0), _LNode(0)
+    s, b = small, big
+    p = _chain(vals)
+    while p:
+        if p.val < x:
+            s.next = p; s = p
+        else:
+            b.next = p; b = p
+        p = p.next
+    b.next = None                      # 大链结尾必须断开，否则成环
+    s.next = big.next
+    return _to_list(small.next)
+
+
+def lc_reverse_between(vals, left, right):
+    dummy = _LNode(0)
+    dummy.next = _chain(vals)
+    prev = dummy
+    for _ in range(1, left):
+        prev = prev.next
+    cur = prev.next
+    for _ in range(right - left):
+        nx = cur.next
+        cur.next = nx.next
+        nx.next = prev.next
+        prev.next = nx
+    return _to_list(dummy.next)
+
+
+def lc_stack_by_queue(spec):
+    q, out = [], []
+    for op in spec.split(","):
+        if op.startswith("push"):
+            q.append(int(op[4:]))
+            for _ in range(len(q) - 1):
+                q.append(q.pop(0))     # 把新元素转到队头
+        elif op == "pop":
+            out.append(q.pop(0))
+        elif op == "top":
+            out.append(q[0])
+        else:
+            out.append(1 if not q else 0)
+    return out
+
+
+def lc_eval_rpn(tokens):
+    st = []
+    for t in tokens:
+        if t in "+-*/" and len(t) == 1:
+            b = st.pop()
+            a = st.pop()
+            if t == "+": st.append(a + b)
+            elif t == "-": st.append(a - b)
+            elif t == "*": st.append(a * b)
+            else: st.append(int(a / b))   # 向零取整，和 Java/JS 的 trunc 一致
+        else:
+            st.append(int(t))
+    return st[0]
+
+
+def lc_simplify_path(path):
+    st = []
+    for part in path.split("/"):
+        if part in ("", "."):
+            continue
+        if part == "..":
+            if st:
+                st.pop()
+        else:
+            st.append(part)
+    return "/" + "/".join(st)
+
+
+def lc_word_pattern(pattern, s):
+    words = s.split(" ")
+    if len(words) != len(pattern):
+        return False
+    m1, m2 = {}, {}
+    for a, b in zip(pattern, words):
+        if a in m1 and m1[a] != b:
+            return False
+        if b in m2 and m2[b] != a:
+            return False
+        m1[a] = b
+        m2[b] = a
+    return True
+
+
+def lc_contains_nearby(nums, k):
+    win = set()
+    for i, v in enumerate(nums):
+        if v in win:
+            return True
+        win.add(v)
+        if len(win) > k:
+            win.discard(nums[i - k])
+    return False
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -2362,6 +2552,27 @@ def _run(spec):
         return "idx:%d" % lc_strstr(parts[1], parts[2])
     if cmd == "lc-isomorphic":
         return "ok:%s" % ("true" if lc_isomorphic(parts[1], parts[2]) else "false")
+
+    if cmd == "lc-reorder-list":
+        return "arr:" + _arr(lc_reorder_list(_ints(parts[1])))
+    if cmd == "lc-sort-list":
+        return "arr:" + _arr(lc_sort_list(_ints(parts[1])))
+    if cmd == "lc-odd-even-list":
+        return "arr:" + _arr(lc_odd_even_list(_ints(parts[1])))
+    if cmd == "lc-partition-list":
+        return "arr:" + _arr(lc_partition_list(_ints(parts[1]), int(parts[2])))
+    if cmd == "lc-reverse-between":
+        return "arr:" + _arr(lc_reverse_between(_ints(parts[1]), int(parts[2]), int(parts[3])))
+    if cmd == "lc-stack-by-queue":
+        return "out:" + _arr(lc_stack_by_queue(parts[1]))
+    if cmd == "lc-eval-rpn":
+        return "num:%d" % lc_eval_rpn(parts[1].split("|"))
+    if cmd == "lc-simplify-path":
+        return "out:" + lc_simplify_path(parts[1])
+    if cmd == "lc-word-pattern":
+        return "ok:%s" % ("true" if lc_word_pattern(parts[1], parts[2]) else "false")
+    if cmd == "lc-contains-nearby":
+        return "ok:%s" % ("true" if lc_contains_nearby(_ints(parts[1]), int(parts[2])) else "false")
 
     raise ValueError("还没实现：" + cmd)
 

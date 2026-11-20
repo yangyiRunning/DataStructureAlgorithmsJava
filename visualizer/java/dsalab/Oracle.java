@@ -54,6 +54,16 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-reorder-list": return "arr:" + arr(reorderList(arr0(parts[1])));
+      case "lc-sort-list": return "arr:" + arr(sortList(arr0(parts[1])));
+      case "lc-odd-even-list": return "arr:" + arr(oddEvenList(arr0(parts[1])));
+      case "lc-partition-list": return "arr:" + arr(partitionList(arr0(parts[1]), Integer.parseInt(parts[2])));
+      case "lc-reverse-between": return "arr:" + arr(reverseBetween(arr0(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+      case "lc-stack-by-queue": return "out:" + stackByQueue(parts[1]);   // 它已经返回逗号串
+      case "lc-eval-rpn": return "num:" + evalRpn(parts[1]);
+      case "lc-simplify-path": return "out:" + simplifyPath(parts[1]);
+      case "lc-word-pattern": return "ok:" + wordPattern(parts[1], parts[2]);
+      case "lc-contains-nearby": return "ok:" + containsNearby(arr0(parts[1]), Integer.parseInt(parts[2]));
       case "lc-disappeared": return "arr:" + arr(disappeared(arr0(parts[1])));
       case "lc-subarray-sum": return "count:" + subarraySum(arr0(parts[1]), Integer.parseInt(parts[2]));
       case "lc-min-subarray": return "len:" + minSubArray(Integer.parseInt(parts[1]), arr0(parts[2]));
@@ -1002,6 +1012,171 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static LNode chain(int[] vals) {
+    LNode head = null, prev = null;
+    for (int v : vals) {
+      LNode n = new LNode(v);
+      if (prev == null) head = n; else prev.next = n;
+      prev = n;
+    }
+    return head;
+  }
+
+  static List<Integer> toList(LNode head) {
+    List<Integer> out = new ArrayList<>();
+    Set<LNode> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+    for (LNode p = head; p != null && seen.add(p); p = p.next) out.add(p.val);
+    return out;
+  }
+
+  static List<Integer> reorderList(int[] vals) {
+    LNode head = chain(vals);
+    if (head == null) return new ArrayList<>();
+    LNode slow = head, fast = head;
+    while (fast.next != null && fast.next.next != null) { slow = slow.next; fast = fast.next.next; }
+    LNode second = slow.next;
+    slow.next = null;
+    LNode prev = null;
+    while (second != null) { LNode nx = second.next; second.next = prev; prev = second; second = nx; }
+    // 交替合并，用哑头重串，避免两半相邻时成环
+    LNode dummy = new LNode(0), tail = dummy;
+    LNode a = head, b = prev;
+    while (a != null && b != null) {
+      tail.next = a; tail = a; a = a.next;
+      tail.next = b; tail = b; b = b.next;
+    }
+    tail.next = a != null ? a : b;
+    return toList(dummy.next);
+  }
+
+  static List<Integer> sortList(int[] vals) {
+    return toList(mergeSort(chain(vals)));
+  }
+
+  private static LNode mergeSort(LNode h) {
+    if (h == null || h.next == null) return h;
+    LNode slow = h, fast = h.next;
+    while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }
+    LNode mid = slow.next;
+    slow.next = null;
+    return mergeTwo(mergeSort(h), mergeSort(mid));
+  }
+
+  private static LNode mergeTwo(LNode a, LNode b) {
+    LNode dummy = new LNode(0), tail = dummy;
+    while (a != null && b != null) {
+      if (a.val <= b.val) { tail.next = a; a = a.next; }
+      else { tail.next = b; b = b.next; }
+      tail = tail.next;
+    }
+    tail.next = a != null ? a : b;
+    return dummy.next;
+  }
+
+  static List<Integer> oddEvenList(int[] vals) {
+    LNode head = chain(vals);
+    if (head == null) return new ArrayList<>();
+    LNode odd = head, even = head.next, evenHead = even;
+    while (even != null && even.next != null) {
+      odd.next = even.next; odd = odd.next;
+      even.next = odd.next; even = even.next;
+    }
+    odd.next = evenHead;
+    return toList(head);
+  }
+
+  static List<Integer> partitionList(int[] vals, int x) {
+    LNode small = new LNode(0), big = new LNode(0);
+    LNode s = small, b = big;
+    for (LNode p = chain(vals); p != null; p = p.next) {
+      if (p.val < x) { s.next = p; s = p; }
+      else { b.next = p; b = p; }
+    }
+    b.next = null;
+    s.next = big.next;
+    return toList(small.next);
+  }
+
+  static List<Integer> reverseBetween(int[] vals, int left, int right) {
+    LNode dummy = new LNode(0);
+    dummy.next = chain(vals);
+    LNode prev = dummy;
+    for (int i = 1; i < left; i++) prev = prev.next;
+    LNode cur = prev.next;
+    for (int i = 0; i < right - left; i++) {
+      LNode nx = cur.next;
+      cur.next = nx.next;
+      nx.next = prev.next;
+      prev.next = nx;
+    }
+    return toList(dummy.next);
+  }
+
+  static String stackByQueue(String spec) {
+    Deque<Integer> q = new ArrayDeque<>();
+    List<Integer> out = new ArrayList<>();
+    for (String op : spec.split(",")) {
+      if (op.startsWith("push")) {
+        q.addLast(Integer.parseInt(op.substring(4)));
+        for (int i = 0; i < q.size() - 1; i++) q.addLast(q.pollFirst());
+      } else if (op.equals("pop")) out.add(q.pollFirst());
+      else if (op.equals("top")) out.add(q.peekFirst());
+      else out.add(q.isEmpty() ? 1 : 0);
+    }
+    return arr(out);
+  }
+
+  static int evalRpn(String spec) {
+    Deque<Integer> st = new ArrayDeque<>();
+    for (String t : spec.split("\\|")) {
+      if (t.length() == 1 && "+-*/".contains(t)) {
+        int b = st.pop(), a = st.pop();
+        switch (t) {
+          case "+": st.push(a + b); break;
+          case "-": st.push(a - b); break;
+          case "*": st.push(a * b); break;
+          default: st.push(a / b);
+        }
+      } else st.push(Integer.parseInt(t));
+    }
+    return st.peek();
+  }
+
+  static String simplifyPath(String path) {
+    Deque<String> st = new ArrayDeque<>();
+    for (String part : path.split("/")) {
+      if (part.isEmpty() || part.equals(".")) continue;
+      if (part.equals("..")) { if (!st.isEmpty()) st.pollLast(); }
+      else st.addLast(part);
+    }
+    return "/" + String.join("/", st);
+  }
+
+  static boolean wordPattern(String pattern, String s) {
+    String[] words = s.split(" ", -1);
+    if (words.length != pattern.length()) return false;
+    Map<Character, String> m1 = new HashMap<>();
+    Map<String, Character> m2 = new HashMap<>();
+    for (int i = 0; i < words.length; i++) {
+      char a = pattern.charAt(i);
+      String b = words[i];
+      if (m1.containsKey(a) && !m1.get(a).equals(b)) return false;
+      if (m2.containsKey(b) && m2.get(b) != a) return false;
+      m1.put(a, b); m2.put(b, a);
+    }
+    return true;
+  }
+
+  static boolean containsNearby(int[] nums, int k) {
+    Set<Integer> win = new HashSet<>();
+    for (int i = 0; i < nums.length; i++) {
+      if (win.contains(nums[i])) return true;
+      win.add(nums[i]);
+      if (win.size() > k) win.remove(nums[i - k]);
+    }
+    return false;
+  }
 
   static List<Integer> disappeared(int[] nums) {
     int[] a = nums.clone();
