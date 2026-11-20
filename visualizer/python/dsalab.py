@@ -2646,6 +2646,97 @@ def ai_perceptron(lr, max_epoch):
             break
     return w, b, total
 
+
+_SOFTMAX_LOGITS = [2.0, 1.0, 0.1]
+
+_CONV_INPUT = [
+    [1, 2, 0, 1, 0],
+    [0, 1, 2, 1, 1],
+    [1, 0, 1, 2, 0],
+    [2, 1, 0, 1, 2],
+    [0, 1, 2, 0, 1],
+]
+_CONV_KERNEL = [
+    [1, 0, -1],
+    [1, 0, -1],
+    [1, 0, -1],
+]
+
+_POOL_INPUT = [
+    [1, 3, 2, 4],
+    [5, 6, 1, 2],
+    [0, 4, 8, 3],
+    [2, 1, 7, 5],
+]
+
+_LOGISTIC_POINTS = [
+    (1, 1, 1), (2, 2, 1), (1.5, 3, 1), (3, 1, 1), (2.5, 2.5, 1),
+    (4.5, 4, 2), (5.5, 5, 2), (6, 4.5, 2), (5, 6, 2), (6.5, 5.5, 2),
+]
+
+
+def ai_softmax(T):
+    import math
+    exps = [math.exp(z / T) for z in _SOFTMAX_LOGITS]
+    total = sum(exps)
+    probs = [e / total for e in exps]
+    return probs, total
+
+
+def ai_conv():
+    H, W = len(_CONV_INPUT), len(_CONV_INPUT[0])
+    out = []
+    for r in range(H - 2):
+        row = []
+        for c in range(W - 2):
+            total = 0
+            for i in range(3):
+                for j in range(3):
+                    total += _CONV_INPUT[r + i][c + j] * _CONV_KERNEL[i][j]
+            row.append(total)
+        out.append(row)
+    return [v for row in out for v in row]
+
+
+def ai_pooling():
+    H, W = len(_POOL_INPUT), len(_POOL_INPUT[0])
+    out = []
+    for r in range(0, H, 2):
+        for c in range(0, W, 2):
+            out.append(max(_POOL_INPUT[r][c], _POOL_INPUT[r][c + 1],
+                           _POOL_INPUT[r + 1][c], _POOL_INPUT[r + 1][c + 1]))
+    return out
+
+
+def ai_logistic(lr, steps):
+    import math
+    w0 = w1 = b = 0.0
+    n = len(_LOGISTIC_POINTS)
+
+    def sigmoid(z):
+        return 1 / (1 + math.exp(-z))
+
+    def loss():
+        total = 0.0
+        for x, y, g in _LOGISTIC_POINTS:
+            yy = 1 if g == 1 else 0
+            yh = sigmoid(w0 * x + w1 * y + b)
+            total += -(yy * math.log(yh) + (1 - yy) * math.log(1 - yh))
+        return total / n
+
+    for _ in range(steps):
+        dw0 = dw1 = db = 0.0
+        for x, y, g in _LOGISTIC_POINTS:
+            yy = 1 if g == 1 else 0
+            err = sigmoid(w0 * x + w1 * y + b) - yy
+            dw0 += err * x
+            dw1 += err * y
+            db += err
+        w0 -= lr * dw0 / n
+        w1 -= lr * dw1 / n
+        b -= lr * db / n
+    return w0, w1, b, loss()
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -3032,6 +3123,17 @@ def _run(spec):
     if cmd == "ai-perceptron":
         w, b, total = ai_perceptron(float(parts[1]), int(parts[2]))
         return "w0:%s,w1:%s,b:%s,errors:%d" % (_f3(w[0]), _f3(w[1]), _f3(b), total)
+
+    if cmd == "ai-softmax":
+        probs, total = ai_softmax(float(parts[1]))
+        return "p:%s|sum:%s" % (",".join(_f3(p) for p in probs), _f3(total))
+    if cmd == "ai-conv":
+        return "out:" + _arr(ai_conv())
+    if cmd == "ai-pooling":
+        return "out:" + _arr(ai_pooling())
+    if cmd == "ai-logistic":
+        w0, w1, b, loss = ai_logistic(float(parts[1]), int(parts[2]))
+        return "w0:%s,w1:%s,b:%s,loss:%s" % (_f3(w0), _f3(w1), _f3(b), _f3(loss))
 
     raise ValueError("还没实现：" + cmd)
 

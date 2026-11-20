@@ -54,6 +54,22 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "ai-softmax": {
+        double[] r = softmax(Double.parseDouble(parts[1]));
+        StringBuilder sb = new StringBuilder("p:");
+        for (int i = 0; i < r.length - 1; i++) {
+          if (i > 0) sb.append(',');
+          sb.append(f3(r[i]));
+        }
+        sb.append("|sum:").append(f3(r[r.length - 1]));
+        return sb.toString();
+      }
+      case "ai-conv": return "out:" + arr(conv());
+      case "ai-pooling": return "out:" + arr(pooling());
+      case "ai-logistic": {
+        double[] r = logistic(Double.parseDouble(parts[1]), Integer.parseInt(parts[2]));
+        return "w0:" + f3(r[0]) + ",w1:" + f3(r[1]) + ",b:" + f3(r[2]) + ",loss:" + f3(r[3]);
+      }
       case "ai-gradient-descent": {
         double[] r = gradientDescent(Double.parseDouble(parts[1]), Integer.parseInt(parts[2]));
         return "w:" + f3(r[0]) + ",b:" + f3(r[1]) + ",loss:" + f3(r[2]);
@@ -1089,6 +1105,81 @@ public final class Oracle {
       {1, 1, 1}, {2, 1.4, 1}, {1.4, 2.2, 1}, {2.6, 2.0, 1},
       {4.2, 4.4, 2}, {5, 5.2, 2}, {4.6, 3.6, 2}, {5.4, 4.0, 2},
   };
+
+  static final double[] SOFTMAX_LOGITS = {2.0, 1.0, 0.1};
+
+  static final int[][] CONV_INPUT = {
+      {1, 2, 0, 1, 0}, {0, 1, 2, 1, 1}, {1, 0, 1, 2, 0}, {2, 1, 0, 1, 2}, {0, 1, 2, 0, 1},
+  };
+  static final int[][] CONV_KERNEL = {{1, 0, -1}, {1, 0, -1}, {1, 0, -1}};
+
+  static final int[][] POOL_INPUT = {
+      {1, 3, 2, 4}, {5, 6, 1, 2}, {0, 4, 8, 3}, {2, 1, 7, 5},
+  };
+
+  static final double[][] LOGISTIC_POINTS = {
+      {1, 1, 1}, {2, 2, 1}, {1.5, 3, 1}, {3, 1, 1}, {2.5, 2.5, 1},
+      {4.5, 4, 2}, {5.5, 5, 2}, {6, 4.5, 2}, {5, 6, 2}, {6.5, 5.5, 2},
+  };
+
+  /** 返回 {p0, p1, p2, sum} */
+  static double[] softmax(double T) {
+    double[] exps = new double[SOFTMAX_LOGITS.length];
+    double sum = 0;
+    for (int i = 0; i < exps.length; i++) { exps[i] = Math.exp(SOFTMAX_LOGITS[i] / T); sum += exps[i]; }
+    double[] out = new double[exps.length + 1];
+    for (int i = 0; i < exps.length; i++) out[i] = exps[i] / sum;
+    out[exps.length] = sum;
+    return out;
+  }
+
+  static List<Integer> conv() {
+    List<Integer> out = new ArrayList<>();
+    for (int r = 0; r + 3 <= CONV_INPUT.length; r++)
+      for (int c = 0; c + 3 <= CONV_INPUT[0].length; c++) {
+        int sum = 0;
+        for (int i = 0; i < 3; i++)
+          for (int j = 0; j < 3; j++) sum += CONV_INPUT[r + i][c + j] * CONV_KERNEL[i][j];
+        out.add(sum);
+      }
+    return out;
+  }
+
+  static List<Integer> pooling() {
+    List<Integer> out = new ArrayList<>();
+    for (int r = 0; r < POOL_INPUT.length; r += 2)
+      for (int c = 0; c < POOL_INPUT[0].length; c += 2)
+        out.add(Math.max(Math.max(POOL_INPUT[r][c], POOL_INPUT[r][c + 1]),
+                         Math.max(POOL_INPUT[r + 1][c], POOL_INPUT[r + 1][c + 1])));
+    return out;
+  }
+
+  /** 返回 {w0, w1, b, loss} */
+  static double[] logistic(double lr, int steps) {
+    double w0 = 0, w1 = 0, b = 0;
+    int n = LOGISTIC_POINTS.length;
+    for (int s = 0; s < steps; s++) {
+      double dw0 = 0, dw1 = 0, db = 0;
+      for (double[] p : LOGISTIC_POINTS) {
+        double yy = p[2] == 1 ? 1 : 0;
+        double yh = 1 / (1 + Math.exp(-(w0 * p[0] + w1 * p[1] + b)));
+        double err = yh - yy;
+        dw0 += err * p[0];
+        dw1 += err * p[1];
+        db += err;
+      }
+      w0 -= lr * dw0 / n;
+      w1 -= lr * dw1 / n;
+      b -= lr * db / n;
+    }
+    double loss = 0;
+    for (double[] p : LOGISTIC_POINTS) {
+      double yy = p[2] == 1 ? 1 : 0;
+      double yh = 1 / (1 + Math.exp(-(w0 * p[0] + w1 * p[1] + b)));
+      loss += -(yy * Math.log(yh) + (1 - yy) * Math.log(1 - yh));
+    }
+    return new double[]{w0, w1, b, loss / n};
+  }
 
   static String f3(double v) { return Math.abs(v) < 1e-9 ? "0.000" : String.format(java.util.Locale.ROOT, "%.3f", v); }
 

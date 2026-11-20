@@ -139,6 +139,15 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'ai-softmax':
+      return `p:${result.probs.map((v) => f3(v)).join(',')}|sum:${f3(result.sum)}`;
+    case 'ai-conv':
+    case 'ai-pooling':
+      return `out:${result.out.join(',')}`;
+    case 'ai-logistic': {
+      const r = result;
+      return `w0:${f3(r.w0)},w1:${f3(r.w1)},b:${f3(r.b)},loss:${f3(r.loss)}`;
+    }
     case 'ai-gradient-descent': {
       const r = result;
       return `w:${f3(r.w)},b:${f3(r.b)},loss:${f3(r.loss)}`;
@@ -430,6 +439,13 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'ai-softmax':
+      return `${algoId};${input.T}`;
+    case 'ai-conv':
+    case 'ai-pooling':
+      return algoId;
+    case 'ai-logistic':
+      return `${algoId};${input.lr};${input.steps}`;
     case 'ai-gradient-descent':
       return `${algoId};${input.lr};${input.steps}`;
     case 'ai-kmeans':

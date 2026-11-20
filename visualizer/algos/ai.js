@@ -308,7 +308,7 @@ function perceptron(input) {
   return { steps: steps_, result: { w0: w[0], w1: w[1], b, totalErrors } };
 }
 
-export const aiAlgorithms = [
+const aiBatch1 = [
   {
     id: 'ai-gradient-descent',
     group: 'AI 算法',
@@ -370,3 +370,338 @@ export const aiAlgorithms = [
     run: perceptron,
   },
 ];
+
+// ─────────────────────────────────────────────────────────────
+// Softmax
+// ─────────────────────────────────────────────────────────────
+
+const SOFTMAX_LOGITS = [2.0, 1.0, 0.1];
+
+const softmaxCode = [
+  '// 先取指数（把负数抬成正数），再归一化成概率',
+  'const exps = logits.map((z) => Math.exp(z / T));',
+  'const sum = exps.reduce((a, b) => a + b, 0);',
+  'const probs = exps.map((e) => e / sum);   // 每项都除以总和',
+];
+
+function softmax(input) {
+  const { logits, T } = input;
+  const exps = logits.map((z) => Math.exp(z / T));
+  const sum = exps.reduce((a, b) => a + b, 0);
+  const probs = exps.map((e) => e / sum);
+  const steps = [];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      values: (state?.vals ?? logits.map(() => 0)).map((v) => Number(v.toFixed(3))),
+      container: {
+        label: `logits（T=${T}）`,
+        items: logits.map((z) => ({ text: z.toFixed(2) })),
+      },
+      ...state,
+    },
+    note, line, counters: { 类: 0 },
+  });
+
+  push({}, `原始打分 logits 是 [${logits.join(', ')}]，直接当概率不行——可能为负、加起来也不等于 1。温度 T=${T}：越小分布越尖。`, 0);
+
+  const shown = logits.map(() => 0);
+  for (let i = 0; i < logits.length; i++) {
+    shown[i] = exps[i];
+    push({ vals: exps.slice(), pivot: i }, `第 ${i + 1} 类取指数：e^(${logits[i].toFixed(2)}/${T}) = ${exps[i].toFixed(3)}。`, 1);
+  }
+
+  push({ vals: exps.slice() }, `三个指数加起来是 ${sum.toFixed(3)}，下一步每项都除以它。`, 2);
+
+  for (let i = 0; i < probs.length; i++) {
+    push({ vals: probs.slice(), pivot: i, settled: Array.from({ length: i + 1 }, (_, k) => k) },
+      `第 ${i + 1} 类概率 = ${exps[i].toFixed(3)} / ${sum.toFixed(3)} = ${probs[i].toFixed(3)}。`, 3);
+  }
+
+  push({ vals: probs.slice(), settled: probs.map((_, i) => i) },
+    `结果 [${probs.map((p) => p.toFixed(3)).join(', ')}]，加起来正好 1。`, 3);
+  return { steps, result: { probs, sum } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 卷积
+// ─────────────────────────────────────────────────────────────
+
+const CONV_INPUT = [
+  [1, 2, 0, 1, 0],
+  [0, 1, 2, 1, 1],
+  [1, 0, 1, 2, 0],
+  [2, 1, 0, 1, 2],
+  [0, 1, 2, 0, 1],
+];
+
+const CONV_KERNEL = [
+  [1, 0, -1],
+  [1, 0, -1],
+  [1, 0, -1],
+];
+
+const convCode = [
+  '// 卷积核在输入上滑动，每次做逐元素相乘再求和',
+  'for (let r = 0; r + 3 <= H; r++) {',
+  '  for (let c = 0; c + 3 <= W; c++) {',
+  '    let sum = 0;',
+  '    for (let i = 0; i < 3; i++)',
+  '      for (let j = 0; j < 3; j++) sum += input[r + i][c + j] * kernel[i][j];',
+  '    out[r][c] = sum;',
+  '  }',
+  '}',
+];
+
+function convolution() {
+  const H = CONV_INPUT.length;
+  const W = CONV_INPUT[0].length;
+  const out = [];
+  const steps = [];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      cells: CONV_INPUT.map((r) => r.slice()),
+      rowHead: CONV_INPUT.map((_, i) => `行${i}`),
+      colHead: CONV_INPUT[0].map((_, i) => `列${i}`),
+      filled: CONV_INPUT.flatMap((row, r) => row.map((_, c) => [r, c])),
+      container: {
+        label: '输出特征图',
+        items: out.flat().length
+          ? out.flat().map((v) => ({ text: String(v) }))
+          : [{ text: '还没开始' }],
+      },
+      ...state,
+    },
+    note, line, counters: { 窗口: 0 },
+  });
+
+  push({}, `输入是 ${H}×${W}，卷积核 3×3（垂直边缘检测器：左列 +1、右列 -1）。核在输入上逐格滑动，每次九个数相乘再求和。`, 0);
+
+  for (let r = 0; r + 3 <= H; r++) {
+    out.push([]);
+    for (let c = 0; c + 3 <= W; c++) {
+      let sum = 0;
+      const win = [];
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          sum += CONV_INPUT[r + i][c + j] * CONV_KERNEL[i][j];
+          win.push([r + i, c + j]);
+        }
+      }
+      out[r].push(sum);
+      push({ current: [r, c], deps: win },
+        `窗口左上角在 (${r},${c})：九个乘积加起来 = ${sum}。`, 5);
+    }
+  }
+
+  push({}, `输出 ${H - 2}×${W - 2} 的特征图：${out.map((row) => `[${row.join(', ')}]`).join(' ')}。`, 8);
+  return { steps, result: { out: out.flat() } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 最大池化
+// ─────────────────────────────────────────────────────────────
+
+const POOL_INPUT = [
+  [1, 3, 2, 4],
+  [5, 6, 1, 2],
+  [0, 4, 8, 3],
+  [2, 1, 7, 5],
+];
+
+const poolCode = [
+  '// 2×2 的窗口在输入上不重叠地滑，每格取最大值',
+  'for (let r = 0; r < H; r += 2)',
+  '  for (let c = 0; c < W; c += 2) {',
+  '    out[r/2][c/2] = Math.max(in[r][c], in[r][c+1], in[r+1][c], in[r+1][c+1]);',
+  '  }',
+];
+
+function maxPooling() {
+  const H = POOL_INPUT.length;
+  const W = POOL_INPUT[0].length;
+  const out = [];
+  const steps = [];
+
+  const push = (state, note, line) => steps.push({
+    state: {
+      cells: POOL_INPUT.map((r) => r.slice()),
+      rowHead: POOL_INPUT.map((_, i) => `行${i}`),
+      colHead: POOL_INPUT[0].map((_, i) => `列${i}`),
+      filled: POOL_INPUT.flatMap((row, r) => row.map((_, c) => [r, c])),
+      container: {
+        label: '池化输出',
+        items: out.flat().length ? out.flat().map((v) => ({ text: String(v) })) : [{ text: '还没开始' }],
+      },
+      ...state,
+    },
+    note, line, counters: { 窗口: 0 },
+  });
+
+  push({}, `${H}×${W} 的输入，用 2×2 窗口、步长 2 做最大池化——每个窗口只留最大的那个，尺寸直接减半。`, 0);
+
+  for (let r = 0; r < H; r += 2) {
+    out.push([]);
+    for (let c = 0; c < W; c += 2) {
+      const vals = [POOL_INPUT[r][c], POOL_INPUT[r][c + 1], POOL_INPUT[r + 1][c], POOL_INPUT[r + 1][c + 1]];
+      const m = Math.max(...vals);
+      out[r / 2].push(m);
+      push({ current: [r, c], deps: [[r, c], [r, c + 1], [r + 1, c], [r + 1, c + 1]] },
+        `窗口 (${r},${c})：四个数是 ${vals.join('、')}，最大 ${m}。`, 3);
+    }
+  }
+
+  push({}, `输出 ${H / 2}×${W / 2}：${out.map((row) => `[${row.join(', ')}]`).join(' ')}。特征变少，最显眼的响应留下了。`, 3);
+  return { steps, result: { out: out.flat() } };
+}
+
+// ─────────────────────────────────────────────────────────────
+// 逻辑回归
+// ─────────────────────────────────────────────────────────────
+
+const LOGISTIC_POINTS = [
+  { x: 1, y: 1, group: 1 }, { x: 2, y: 2, group: 1 }, { x: 1.5, y: 3, group: 1 },
+  { x: 3, y: 1, group: 1 }, { x: 2.5, y: 2.5, group: 1 },
+  { x: 4.5, y: 4, group: 2 }, { x: 5.5, y: 5, group: 2 }, { x: 6, y: 4.5, group: 2 },
+  { x: 5, y: 6, group: 2 }, { x: 6.5, y: 5.5, group: 2 },
+];
+
+const logisticCode = [
+  '// 用 sigmoid 把线性打分压到 0..1，再用交叉熵求梯度',
+  'for (let step = 0; step < steps; step++) {',
+  '  let dw0 = 0, dw1 = 0, db = 0;',
+  '  for (const p of points) {',
+  '    const yhat = 1 / (1 + Math.exp(-(w0*p.x + w1*p.y + b)));',
+  '    const err = yhat - (p.group === 1 ? 1 : 0);',
+  '    dw0 += err * p.x; dw1 += err * p.y; db += err;',
+  '  }',
+  '  w0 -= lr * dw0 / n; w1 -= lr * dw1 / n; b -= lr * db / n;',
+  '}',
+];
+
+function logistic(input) {
+  const { points, lr, steps: total } = input;
+  const n = points.length;
+  let w0 = 0;
+  let w1 = 0;
+  let b = 0;
+  const steps_ = [];
+
+  const sigmoid = (z) => 1 / (1 + Math.exp(-z));
+
+  const loss = () => {
+    let s = 0;
+    for (const p of points) {
+      const y = p.group === 1 ? 1 : 0;
+      const yh = sigmoid(w0 * p.x + w1 * p.y + b);
+      s += -(y * Math.log(yh) + (1 - y) * Math.log(1 - yh));
+    }
+    return s / n;
+  };
+
+  const push = (note, line) => steps_.push({
+    state: {
+      points,
+      boundary: w1 !== 0 ? { m: -w0 / w1, b: -b / w1 } : null,
+      container: {
+        label: 'w / b / 交叉熵',
+        items: [
+          { text: `w=(${f3(w0)}, ${f3(w1)})`, hot: true },
+          { text: `b=${f3(b)}` },
+          { text: `L=${f3(loss())}` },
+        ],
+      },
+    },
+    note, line, counters: { 迭代: steps_.length },
+  });
+
+  push('线性打分过一遍 sigmoid 就变成概率，再用交叉熵算误差、沿负梯度走。', 0);
+
+  for (let s = 0; s < total; s++) {
+    let dw0 = 0;
+    let dw1 = 0;
+    let db = 0;
+    for (const p of points) {
+      const y = p.group === 1 ? 1 : 0;
+      const yh = sigmoid(w0 * p.x + w1 * p.y + b);
+      const err = yh - y;
+      dw0 += err * p.x;
+      dw1 += err * p.y;
+      db += err;
+    }
+    w0 -= lr * dw0 / n;
+    w1 -= lr * dw1 / n;
+    b -= lr * db / n;
+    push(`第 ${s + 1} 步：权重更新到 w=(${f3(w0)}, ${f3(w1)})，交叉熵 ${f3(loss())}。`, 8);
+  }
+
+  push(`收敛后边界 y = ${w1 !== 0 ? f3(-w0 / w1) : '—'}x + ${w1 !== 0 ? f3(-b / w1) : '—'}，交叉熵 ${f3(loss())}。`, 8);
+  return { steps: steps_, result: { w0, w1, b, loss: loss() } };
+}
+
+// 两批合并成对外的一个数组
+const aiBatch2 = [
+  {
+    id: 'ai-softmax',
+    group: 'AI 算法',
+    title: 'Softmax',
+    brief: '把一组打分变成概率：先取指数（负数也能抬成正的），再各自除以总和。温度 T 越小分布越尖。',
+    view: 'array',
+    facts: [['时间', 'O(k)'], ['空间', 'O(k)'], ['性质', '全正且和为 1'], ['超参', '温度 T']],
+    counters: '类', legend: [
+      { cls: 'bar', text: '当前值' }, { cls: 'bar is-pivot', text: '正在算' }, { cls: 'bar is-settled', text: '已算出' },
+    ],
+    inputs: [
+      { label: 'logits 2, 1, 0.1，T=1', make: () => ({ logits: SOFTMAX_LOGITS, T: 1 }) },
+      { label: '同样的 logits，T=0.5（更尖）', make: () => ({ logits: SOFTMAX_LOGITS, T: 0.5 }) },
+    ],
+    code: softmaxCode,
+    run: softmax,
+  },
+  {
+    id: 'ai-conv',
+    group: 'AI 算法',
+    title: '卷积 · 边缘检测',
+    brief: '卷积核在输入上逐格滑动，每次九个位置相乘再求和。这个核左列 +1、右列 -1，抓的是垂直边缘。',
+    view: 'table',
+    facts: [['时间', 'O(H·W·k²)'], ['空间', 'O(H·W)'], ['超参', '核大小 / 步长'], ['效果', '输出比输入小一圈']],
+    counters: '窗口', legend: [
+      { cls: 'cell', text: '输入' }, { cls: 'cell is-active', text: '窗口左上' }, { cls: 'cell is-compare', text: '窗口内' },
+    ],
+    inputs: [{ label: '5×5 输入、3×3 核', make: () => true }],
+    code: convCode,
+    run: convolution,
+  },
+  {
+    id: 'ai-pooling',
+    group: 'AI 算法',
+    title: '最大池化',
+    brief: '2×2 的窗口不重叠地滑，每格只留最大的那个。尺寸减半，最显眼的响应保留。',
+    view: 'table',
+    facts: [['时间', 'O(H·W)'], ['空间', 'O(H·W/4)'], ['超参', '窗口 / 步长'], ['作用', '降维、留主特征']],
+    counters: '窗口', legend: [
+      { cls: 'cell', text: '输入' }, { cls: 'cell is-active', text: '窗口左上' }, { cls: 'cell is-compare', text: '窗口内' },
+    ],
+    inputs: [{ label: '4×4 → 2×2', make: () => true }],
+    code: poolCode,
+    run: maxPooling,
+  },
+  {
+    id: 'ai-logistic',
+    group: 'AI 算法',
+    title: '逻辑回归',
+    brief: '线性打分过一遍 sigmoid 变成概率，再用交叉熵算误差。边界从"随便放"慢慢转到把两类分开。',
+    view: 'scatter',
+    facts: [['时间', '每轮 O(n)'], ['空间', 'O(1)'], ['超参', '学习率 / 轮数'], ['对比', '感知机只关心对错，它关心概率']],
+    counters: '迭代', legend: SCATTER_LEGEND,
+    inputs: [
+      { label: '两类点，lr=0.5，30 步', make: () => ({ points: LOGISTIC_POINTS, lr: 0.5, steps: 30 }) },
+      { label: 'lr=0.1（更慢）', make: () => ({ points: LOGISTIC_POINTS, lr: 0.1, steps: 30 }) },
+    ],
+    code: logisticCode,
+    run: logistic,
+  },
+];
+
+export const aiAlgorithms = [...aiBatch1, ...aiBatch2];

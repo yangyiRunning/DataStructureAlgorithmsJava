@@ -1230,8 +1230,8 @@ body.clean .canvas-wrap {
 }
 
 .scatter-dot.is-class-2 {
-  fill: var(--viz-done);
-  stroke: var(--viz-done-edge);
+  fill: var(--viz-move);
+  stroke: var(--viz-move-edge);
 }
 
 /* 被选中的点（最近邻、本轮分到的样本）：放大 + 琥珀描边，一眼能挑出来 */
