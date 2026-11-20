@@ -35,6 +35,7 @@ import { miscAlgorithms } from './algos/misc.js';
 import { hashAlgorithms } from './algos/hash.js';
 import { advancedTreeAlgorithms } from './algos/advancedtree.js';
 import { leetcodeAlgorithms } from './algos/leetcode.js';
+import { leetcode2Algorithms } from './algos/leetcode2.js';
 import { linkedListAlgorithms } from './algos/linkedlist.js';
 import { treeAlgorithms } from './algos/tree.js';
 import { heapAlgorithms } from './algos/heap.js';
@@ -72,6 +73,7 @@ const ALGOS = [
   ...hashAlgorithms,
   ...advancedTreeAlgorithms,
   ...leetcodeAlgorithms,
+  ...leetcode2Algorithms,
 ];
 
 const $ = (id) => document.getElementById(id);

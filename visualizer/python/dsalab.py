@@ -16,6 +16,11 @@ import sys
 
 # ── 工具 ──────────────────────────────────────────────────
 
+def _levels(s):
+    """层序数组，null 表示空节点"""
+    return [None if x == "null" else int(x) for x in s.split(",")] if s else []
+
+
 def _ints(s):
     return [int(x) for x in s.split(",")] if s else []
 
@@ -1278,6 +1283,130 @@ def lc_unique_paths(m, n):
             dp[r][c] = dp[r - 1][c] + dp[r][c - 1]
     return dp[m - 1][n - 1]
 
+
+# ── 热门题 2 ──────────────────────────────────────────────
+
+def lc_stock(prices):
+    min_price = float("inf")
+    best = 0
+    for p in prices:
+        min_price = min(min_price, p)
+        best = max(best, p - min_price)
+    return best
+
+
+def lc_max_product(nums):
+    cur_max = cur_min = best = nums[0]
+    for v in nums[1:]:
+        a, b = cur_max * v, cur_min * v
+        cur_max = max(v, a, b)          # 负负得正，最小也可能是潜力股
+        cur_min = min(v, a, b)
+        best = max(best, cur_max)
+    return best
+
+
+def lc_move_zero(nums):
+    a = list(nums)
+    slow = 0
+    for fast in range(len(a)):
+        if a[fast] != 0:
+            a[slow], a[fast] = a[fast], a[slow]
+            slow += 1
+    return a
+
+
+def lc_product_except_self(nums):
+    n = len(nums)
+    res = [1] * n
+    left = 1
+    for i in range(n):
+        res[i] = left
+        left *= nums[i]
+    right = 1
+    for i in range(n - 1, -1, -1):
+        res[i] *= right
+        right *= nums[i]
+    return res
+
+
+def lc_rotate(nums, k):
+    a = list(nums)
+    k %= len(a)
+    a.reverse()
+    a[:k] = reversed(a[:k])
+    a[k:] = reversed(a[k:])
+    return a
+
+
+class _TNode:
+    __slots__ = ("val", "left", "right")
+
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def _build_tree(levels):
+    nodes = [_TNode(v) if v is not None else None for v in levels]
+    for i, node in enumerate(nodes):
+        if node is None:
+            continue
+        l, r = 2 * i + 1, 2 * i + 2
+        if l < len(nodes):
+            node.left = nodes[l]
+        if r < len(nodes):
+            node.right = nodes[r]
+    return nodes[0]
+
+
+def lc_max_depth(levels):
+    def dfs(node):
+        if node is None:
+            return 0
+        return 1 + max(dfs(node.left), dfs(node.right))
+    return dfs(_build_tree(levels))
+
+
+def lc_symmetric(levels):
+    root = _build_tree(levels)
+
+    def walk(a, b):
+        if a is None and b is None:
+            return True
+        if a is None or b is None:
+            return False
+        return a.val == b.val and walk(a.left, b.right) and walk(a.right, b.left)
+
+    if root is None:
+        return True
+    return walk(root.left, root.right)
+
+
+def lc_diameter(levels):
+    best = [0]
+
+    def depth(node):
+        if node is None:
+            return 0
+        l, r = depth(node.left), depth(node.right)
+        best[0] = max(best[0], l + r)
+        return 1 + max(l, r)
+
+    depth(_build_tree(levels))
+    return best[0]
+
+
+def lc_coin_change(coins, amount):
+    INF = float("inf")
+    dp = [INF] * (amount + 1)
+    dp[0] = 0
+    for a in range(1, amount + 1):
+        for c in coins:
+            if a >= c and dp[a - c] + 1 < dp[a]:
+                dp[a] = dp[a - c] + 1
+    return -1 if dp[amount] == INF else dp[amount]
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -1460,6 +1589,25 @@ def _run(spec):
         return "sum:%d" % lc_max_subarray(_ints(parts[1]))
     if cmd == "lc-unique-paths":
         return "paths:%d" % lc_unique_paths(int(parts[1]), int(parts[2]))
+
+    if cmd == "lc-stock":
+        return "profit:%d" % lc_stock(_ints(parts[1]))
+    if cmd == "lc-max-product":
+        return "product:%d" % lc_max_product(_ints(parts[1]))
+    if cmd == "lc-move-zero":
+        return "arr:" + _arr(lc_move_zero(_ints(parts[1])))
+    if cmd == "lc-product-except-self":
+        return "arr:" + _arr(lc_product_except_self(_ints(parts[1])))
+    if cmd == "lc-rotate":
+        return "arr:" + _arr(lc_rotate(_ints(parts[1]), int(parts[2])))
+    if cmd == "lc-max-depth":
+        return "depth:%d" % lc_max_depth(_levels(parts[1]))
+    if cmd == "lc-symmetric":
+        return "ok:%s" % ("true" if lc_symmetric(_levels(parts[1])) else "false")
+    if cmd == "lc-diameter":
+        return "diameter:%d" % lc_diameter(_levels(parts[1]))
+    if cmd == "lc-coin-change":
+        return "coins:%d" % lc_coin_change(_ints(parts[1]), int(parts[2]))
 
     raise ValueError("还没实现：" + cmd)
 

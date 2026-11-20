@@ -54,6 +54,15 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-stock": return "profit:" + stock(arr0(parts[1]));
+      case "lc-max-product": return "product:" + maxProduct(arr0(parts[1]));
+      case "lc-move-zero": return "arr:" + arr(moveZero(arr0(parts[1])));
+      case "lc-product-except-self": return "arr:" + arr(productExcept(arr0(parts[1])));
+      case "lc-rotate": return "arr:" + arr(rotateArr(arr0(parts[1]), Integer.parseInt(parts[2])));
+      case "lc-max-depth": return "depth:" + maxDepthTree(parts[1]);
+      case "lc-symmetric": return "ok:" + isSym(parts[1]);
+      case "lc-diameter": return "diameter:" + diameter(parts[1]);
+      case "lc-coin-change": return "coins:" + coinChange(arr0(parts[1]), Integer.parseInt(parts[2]));
       case "lc-three-sum": return "count:" + threeSum(arr0(parts[1]));
       case "lc-container": return "max:" + maxArea(arr0(parts[1]));
       case "lc-max-subarray": return "sum:" + maxSub(arr0(parts[1]));
@@ -937,6 +946,119 @@ public final class Oracle {
     int sum = 0;
     for (int i = q; i > 0; i -= i & -i) sum += tree[i];
     return sum;
+  }
+
+  // ── 热门题 2 ──────────────────────────────────────────
+
+  static int stock(int[] p) {
+    int min = Integer.MAX_VALUE, best = 0;
+    for (int v : p) { min = Math.min(min, v); best = Math.max(best, v - min); }
+    return best;
+  }
+
+  static int maxProduct(int[] nums) {
+    int curMax = nums[0], curMin = nums[0], best = nums[0];
+    for (int i = 1; i < nums.length; i++) {
+      int a = curMax * nums[i], b = curMin * nums[i];
+      curMax = Math.max(nums[i], Math.max(a, b));
+      curMin = Math.min(nums[i], Math.min(a, b));
+      best = Math.max(best, curMax);
+    }
+    return best;
+  }
+
+  static List<Integer> moveZero(int[] in) {
+    int[] a = in.clone();
+    int slow = 0;
+    for (int fast = 0; fast < a.length; fast++) {
+      if (a[fast] != 0) { int t = a[slow]; a[slow] = a[fast]; a[fast] = t; slow++; }
+    }
+    List<Integer> out = new ArrayList<>();
+    for (int v : a) out.add(v);
+    return out;
+  }
+
+  static List<Integer> productExcept(int[] nums) {
+    int n = nums.length;
+    int[] res = new int[n];
+    int left = 1;
+    for (int i = 0; i < n; i++) { res[i] = left; left *= nums[i]; }
+    int right = 1;
+    for (int i = n - 1; i >= 0; i--) { res[i] *= right; right *= nums[i]; }
+    List<Integer> out = new ArrayList<>();
+    for (int v : res) out.add(v);
+    return out;
+  }
+
+  static List<Integer> rotateArr(int[] nums, int k) {
+    int n = nums.length;
+    int[] a = nums.clone();
+    int kk = k % n;
+    reverse(a, 0, n - 1);
+    reverse(a, 0, kk - 1);
+    reverse(a, kk, n - 1);
+    List<Integer> out = new ArrayList<>();
+    for (int v : a) out.add(v);
+    return out;
+  }
+
+  private static void reverse(int[] a, int i, int j) {
+    while (i < j) { int t = a[i]; a[i] = a[j]; a[j] = t; i++; j--; }
+  }
+
+  /** 层序数组建树，null 用 "null" 表示 */
+  private static Node treeFromLevels(String spec) {
+    String[] parts = spec.split(",");
+    Node[] nodes = new Node[parts.length];
+    for (int i = 0; i < parts.length; i++) {
+      if (!parts[i].equals("null")) nodes[i] = new Node(Integer.parseInt(parts[i]));
+    }
+    for (int i = 0; i < nodes.length; i++) {
+      if (nodes[i] == null) continue;
+      int l = 2 * i + 1, r = 2 * i + 2;
+      if (l < nodes.length) nodes[i].left = nodes[l];
+      if (r < nodes.length) nodes[i].right = nodes[r];
+    }
+    return nodes[0];
+  }
+
+  static int maxDepthTree(String spec) { return depth(treeFromLevels(spec)); }
+
+  private static int depth(Node n) { return n == null ? 0 : 1 + Math.max(depth(n.left), depth(n.right)); }
+
+  static boolean isSym(String spec) {
+    Node root = treeFromLevels(spec);
+    return root == null || mirror(root.left, root.right);
+  }
+
+  private static boolean mirror(Node a, Node b) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    return a.val == b.val && mirror(a.left, b.right) && mirror(a.right, b.left);
+  }
+
+  static int diameter(String spec) {
+    int[] best = new int[1];
+    diaDepth(treeFromLevels(spec), best);
+    return best[0];
+  }
+
+  private static int diaDepth(Node n, int[] best) {
+    if (n == null) return 0;
+    int l = diaDepth(n.left, best), r = diaDepth(n.right, best);
+    best[0] = Math.max(best[0], l + r);
+    return 1 + Math.max(l, r);
+  }
+
+  static int coinChange(int[] coins, int amount) {
+    int INF = Integer.MAX_VALUE / 2;
+    int[] dp = new int[amount + 1];
+    java.util.Arrays.fill(dp, INF);
+    dp[0] = 0;
+    for (int a = 1; a <= amount; a++)
+      for (int c : coins)
+        if (a >= c && dp[a - c] + 1 < dp[a]) dp[a] = dp[a - c] + 1;
+    return dp[amount] == INF ? -1 : dp[amount];
   }
 
   // ── 热门题 ────────────────────────────────────────────

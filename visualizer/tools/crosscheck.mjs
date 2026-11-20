@@ -31,6 +31,7 @@ import { miscAlgorithms } from '../algos/misc.js';
 import { hashAlgorithms } from '../algos/hash.js';
 import { advancedTreeAlgorithms } from '../algos/advancedtree.js';
 import { leetcodeAlgorithms } from '../algos/leetcode.js';
+import { leetcode2Algorithms } from '../algos/leetcode2.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -60,6 +61,7 @@ const ALGOS = [
   ...hashAlgorithms,
   ...advancedTreeAlgorithms,
   ...leetcodeAlgorithms,
+  ...leetcode2Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -117,6 +119,22 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-stock':
+      return `profit:${result.profit}`;
+    case 'lc-max-product':
+      return `product:${result.product}`;
+    case 'lc-move-zero':
+    case 'lc-product-except-self':
+    case 'lc-rotate':
+      return `arr:${result.arr}`;
+    case 'lc-max-depth':
+      return `depth:${result.depth}`;
+    case 'lc-symmetric':
+      return `ok:${result.ok}`;
+    case 'lc-diameter':
+      return `diameter:${result.diameter}`;
+    case 'lc-coin-change':
+      return `coins:${result.coins}`;
     case 'lc-three-sum':
       return `count:${result.count}`;
     case 'lc-container':
@@ -238,6 +256,19 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-stock':
+    case 'lc-max-product':
+    case 'lc-move-zero':
+    case 'lc-product-except-self':
+      return `${algoId};${nums(input)}`;
+    case 'lc-rotate':
+      return `${algoId};${nums(input.nums)};${input.k}`;
+    case 'lc-max-depth':
+    case 'lc-symmetric':
+    case 'lc-diameter':
+      return `${algoId};${input.map((v) => (v == null ? 'null' : v)).join(',')}`;
+    case 'lc-coin-change':
+      return `${algoId};${nums(input.coins)};${input.amount}`;
     case 'lc-three-sum':
     case 'lc-container':
     case 'lc-max-subarray':
