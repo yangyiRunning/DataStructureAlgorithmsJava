@@ -360,6 +360,44 @@ if (javaLines.length !== cases.length) {
   process.exit(2);
 }
 
+// 第三路：Python。python/dsalab.py 读同一套 spec、输出同一套格式。
+// 它还没实现的命令会让整批失败，所以先探一次覆盖率，只把 Python 有实现的用例交给它。
+const PY = join(ROOT, 'python/dsalab.py');
+const probeSrc = [
+  'import json, sys',
+  'sys.path.insert(0, ' + JSON.stringify(join(ROOT, 'python')) + ')',
+  'import dsalab',
+  'ids = json.loads(sys.argv[1])',
+  'print(json.dumps([i for i in ids if hasattr(dsalab, i.replace("-", "_"))]))',
+].join('\n');
+const pyHave = spawnSync('python3', ['-c', probeSrc, JSON.stringify([...new Set(ALGOS.map((a) => a.id))])], { encoding: 'utf8' });
+if (pyHave.status !== 0) {
+  console.error('Python 探测失败：');
+  console.error(pyHave.stderr);
+  process.exit(2);
+}
+const pyIds = new Set(JSON.parse(pyHave.stdout));
+const pyCases = cases.filter((c) => pyIds.has(c.algo.id));
+const pyPayload = pyCases.map((c) => serialize(c.algo.id, c.input));
+const pyExec = spawnSync('python3', [PY], {
+  input: `${pyPayload.length}\n${pyPayload.join('\n')}\n`,
+  encoding: 'utf8',
+  maxBuffer: 32 * 1024 * 1024,
+});
+if (pyExec.status !== 0) {
+  console.error('Python 运行失败：');
+  console.error(pyExec.stderr || pyExec.stdout);
+  process.exit(2);
+}
+const pyLines = pyExec.stdout.trimEnd().split('\n');
+if (pyLines.length !== pyCases.length) {
+  console.error(`Python 输出行数 ${pyLines.length} 和用例数 ${pyCases.length} 对不上`);
+  process.exit(2);
+}
+const pyOf = new Map();
+pyCases.forEach((c, i) => pyOf.set(c, pyLines[i]));
+
+
 // ── 逐条比对 ──────────────────────────────────────────────
 
 let bad = 0;
@@ -369,8 +407,9 @@ cases.forEach((c, i) => {
   const jsResult = c.algo.run(c.input).result;
   const js = canonical(c.algo.id, jsResult);
   const java = javaLines[i];
-  const stat = perAlgo.get(c.algo.id) ?? { ok: 0, fail: 0 };
-  if (js === java) {
+  const py = pyOf.get(c);
+  const stat = perAlgo.get(c.algo.id) ?? { ok: 0, fail: 0, py: py !== undefined };
+  if (js === java && (py === undefined || py === js)) {
     stat.ok += 1;
   } else {
     stat.fail += 1;
@@ -378,21 +417,29 @@ cases.forEach((c, i) => {
       bad += 1;
       console.error(`✗ ${c.algo.id}［${c.label}］`);
       console.error(`  输入：${serialize(c.algo.id, c.input)}`);
-      console.error(`  JS  ：${js}`);
-      console.error(`  Java：${java}`);
+      console.error(`  JS    ：${js}`);
+      console.error(`  Java  ：${java}`);
+      if (py !== undefined) console.error(`  Python：${py}`);
     }
   }
   perAlgo.set(c.algo.id, stat);
 });
 
 console.log(`\n对拍 ${cases.length} 个用例（每个算法每种输入 ${ROUNDS} 轮）\n`);
+let pyCount = 0;
 for (const [id, s] of perAlgo) {
   const mark = s.fail === 0 ? '✓' : '✗';
-  console.log(`  ${mark} ${id.padEnd(22)} 一致 ${String(s.ok).padStart(4)}   不一致 ${s.fail}`);
+  if (s.py) pyCount += 1;
+  console.log(`  ${mark} ${id.padEnd(22)} 一致 ${String(s.ok).padStart(4)}   不一致 ${s.fail}   ${s.py ? 'JS/Java/Python' : 'JS/Java'}`);
+}
+console.log(`\n有 Python 实现的算法：${pyCount}/${perAlgo.size}`);
+if (pyCount < perAlgo.size) {
+  const missing = [...perAlgo].filter(([, v]) => !v.py).map(([id]) => id);
+  console.log(`还没有 Python 版（${missing.length} 个）：${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''}`);
 }
 
 if (bad > 0) {
   console.error(`\n对拍失败：${[...perAlgo.values()].reduce((a, b) => a + b.fail, 0)} 个用例结果不一致`);
   process.exit(1);
 }
-console.log('\n对拍通过：JS 与 Java 在所有用例上结果完全一致');
+console.log('\n对拍通过：JS / Java / Python 三路在所有用例上结果完全一致');

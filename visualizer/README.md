@@ -70,6 +70,23 @@ node tools/make-media.mjs      # 截帧 → 拼 GIF → 写进 media/
 
 页面带 `?clean=1` 时只留演示区（去掉目录、代码栏、输入按钮），配图和嵌到别处都用这个模式。
 
+## 代码栏：JS / Python
+
+代码栏右上角可以切语言，Python 版来自 `python/dsalab.py`，**和演示、对拍用的是同一份代码**——
+不存在"文档里那份"和"真正跑的那份"两套。
+
+生成方式：
+
+```bash
+node tools/gen-py-snippets.mjs   # 从 dsalab.py 抽函数源码 → python/snippets.json
+```
+
+页面按 `python/snippets.json` 显示；改了 `dsalab.py` 要重新生成，否则代码栏会落后一版。
+地址栏 `?lang=py` 可以直接以 Python 版打开。
+
+> Python 的行号和 JS 对不上，所以切到 Python 时不显示"第 N 行"，也不做行高亮——
+> 强行标会指到错的代码行上。
+
 ## 两个验证脚本
 
 这两个不是摆设，它们各自负责一类"看着没问题但实际有错"的情况。
@@ -81,13 +98,13 @@ node tools/crosscheck.mjs 20 # 跨语言对拍：结果正确性（20 = 每种�
 
 **selftest** 扫的是轨迹自身的结构：每步下标不越界、计数器不倒着走、代码行号指在范围内、排序结果真的有序、BST 中序真的升序、AVL 每个节点真的平衡、大顶堆的堆序没破。这类 bug 在浏览器里只表现为"某一步看着有点怪"，拖动进度条来回滑十遍也未必发现。
 
-**crosscheck** 扫的是算法算得对不对：`java/dsalab/Oracle.java` 是同一批算法的独立 Java 实现，两边拿同一批输入各算一遍，结果必须逐字一致。
+**crosscheck** 扫的是算法算得对不对：`java/dsalab/Oracle.java` 和 `python/dsalab.py` 是同一批算法的**另外两套独立实现**（Java + Python），三边拿同一批输入各算一遍，结果必须逐字一致。
 
 对拍抓到过真问题：`list-insert` 的头插分支曾经忘了把 `head` 指向新节点，动画一路演得自洽，返回的却是原链表。这种错只有交叉验证能发现。
 
 对拍比的是**最终结果**，不是每一帧。逐帧对齐会把两边的实现细节绑死（JS 把"取 key"单独算一步，Java 里根本没这一步），为了对齐帧数去改算法是本末倒置。中间状态交给 selftest。
 
-跑 crosscheck 需要 JDK（要 `javac`）。脚本按这个顺序找：`JAVA_HOME` → Android Studio 自带 JBR → IntelliJ 自带 JBR → `/Library/Java/JavaVirtualMachines` → Homebrew 的 openjdk。找不到会直接告诉你，不会装作跑过。
+跑 crosscheck 需要 JDK（要 `javac`）和 python3。脚本按这个顺序找：`JAVA_HOME` → Android Studio 自带 JBR → IntelliJ 自带 JBR → `/Library/Java/JavaVirtualMachines` → Homebrew 的 openjdk。找不到会直接告诉你，不会装作跑过。
 
 ## 目录结构
 

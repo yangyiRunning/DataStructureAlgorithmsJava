@@ -95,10 +95,14 @@ const dom = {
   btnFirst: $('btn-first'),
   btnLast: $('btn-last'),
   inputButtons: $('input-buttons'),
+  langSwitch: $('lang-switch'),
 };
 
 let current = null;      // 当前算法对象
 let codeLines = [];      // 代码栏的 <span> 节点，按行
+let lang = 'js';         // 代码栏语言：js / py
+let pySnippets = {};     // algoId -> Python 源码（由 tools/gen-py-snippets.mjs 生成）
+let currentCode = [];    // 当前算法在 JS 下要显示的行（可能被 run() 的 code 覆盖）
 let counterNodes = {};   // 计数器节点，避免每步重建
 let inputSpecs = [];     // 当前算法的输入用例，供 ?i= 和按钮共用
 
@@ -209,9 +213,25 @@ function legendColor(cls) {
  * 不带 code 就用算法本身的。
  */
 function renderCode(lines) {
+  currentCode = lines ?? [];
+  paintCode();
+}
+
+/**
+ * 真正画代码：JS 用算法自带的行（或 run() 覆盖的那套），Python 用 snippets.json 里的源码。
+ * 两边行号不对应，所以切换语言时高亮会重置——这不是 bug，是两套代码本来就没法逐行对齐。
+ */
+function paintCode() {
   empty(dom.code);
-  codeLines = (lines ?? []).map((line) => {
-    const span = h('span', { class: 'ln', text: line || ' ' });
+  let lines;
+  if (lang === 'py') {
+    const src = pySnippets[current?.id];
+    lines = src ? src.split('\n') : ['# 这个演示还没写 Python 版', '# 见 python/dsalab.py'];
+  } else {
+    lines = currentCode;
+  }
+  codeLines = lines.map((line) => {
+    const span = h('span', { class: 'ln', text: line === '' ? ' ' : line });
     dom.code.appendChild(span);
     return span;
   });
@@ -244,7 +264,11 @@ function load(algo, input) {
 
 // ── 渲染 ──────────────────────────────────────────────────────
 
-function paint({ step, index, total, playing }) {
+let lastPaint = { step: null, index: 0, total: 0, playing: false };
+
+function paint(state) {
+  lastPaint = state;
+  const { step, index, total, playing } = state;
   dom.btnPlay.textContent = playing ? '❙❙' : '▶';
   dom.btnPlay.setAttribute('aria-label', playing ? '暂停' : '播放');
   dom.btnPlay.classList.toggle('playing', playing);
@@ -253,10 +277,12 @@ function paint({ step, index, total, playing }) {
   dom.scrub.value = String(index);
   dom.progress.textContent = total ? `${index + 1} / ${total}` : '0 / 0';
 
-  // 代码高亮
-  const line = step?.line ?? -1;
+  // 代码高亮：只有 JS 版能对上行号；Python 是另一套代码，强行标会指错
+  const line = lang === 'js' ? (step?.line ?? -1) : -1;
   codeLines.forEach((node, i) => node.classList.toggle('on', i === line));
-  dom.lineNo.textContent = line >= 0 ? `第 ${line + 1} 行` : '—';
+  dom.lineNo.textContent = lang === 'py'
+    ? (step ? 'Python 版' : '—')
+    : (line >= 0 ? `第 ${line + 1} 行` : '—');
 
   dom.note.textContent = step?.note ?? '';
 
@@ -321,11 +347,33 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'End') { e.preventDefault(); player.pause(); player.last(); }
 });
 
+// 语言切换：只影响代码栏，动画和计数不受影响
+dom.langSwitch?.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-lang]');
+  if (!btn) return;
+  lang = btn.dataset.lang;
+  for (const b of dom.langSwitch.querySelectorAll('button')) {
+    b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+  }
+  paintCode();
+  // 切回来之后把当前行的高亮补上（Python 行号对不上，就不高亮了）
+  if (lang === 'js') paint(lastPaint);
+});
+
 // ── 启动 ──────────────────────────────────────────────────────
 
 buildNav();
 player.setSpeed(Number(dom.speed.value));
 dom.speedOut.textContent = `${dom.speed.value} 步/秒`;
+
+// Python 源码：加载失败不影响主流程，只是切到 Python 时提示没写
+fetch('./python/snippets.json')
+  .then((r) => (r.ok ? r.json() : {}))
+  .then((data) => {
+    pySnippets = data;
+    if (lang === 'py') paintCode();
+  })
+  .catch(() => {});
 
 // 地址栏带 ?a=sort-quick 可以直接定位到某一条，方便截图和分享
 const params = new URLSearchParams(location.search);
@@ -333,6 +381,9 @@ const params = new URLSearchParams(location.search);
 // ?clean=1 只留演示区：去掉顶栏、目录、代码栏和输入按钮。
 // 录 GIF、截 README 配图、把页面嵌到别处都用这个模式，省得每处再写一遍裁剪。
 if (params.has('clean')) document.body.classList.add('clean');
+
+// ?lang=py 直接以 Python 版打开代码栏（截图和分享都用得上）
+if (params.get('lang') === 'py') lang = 'py';
 
 const wanted = params.get('a');
 select(wanted && ALGOS.some((a) => a.id === wanted) ? wanted : ALGOS[0].id);
