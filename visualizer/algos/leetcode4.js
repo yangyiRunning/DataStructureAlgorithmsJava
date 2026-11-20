@@ -281,7 +281,11 @@ function groupAnagrams(strs) {
   const buckets = [];
   const steps = [];
   const push = (state, note, line) => steps.push({
-    state: { buckets: buckets.map((b) => b.map((w) => ({ key: w }))), ...state },
+    state: {
+      buckets: buckets.map((b) => b.map((w) => ({ key: w }))),
+      container: { label: '待分组', items: strs.map((w) => ({ text: w })) },
+      ...state,
+    },
     note,
     line,
     counters: { 分组: buckets.length },

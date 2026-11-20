@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>渲染检查</title>
+<link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+<pre id="out" style="padding:20px;font:12px/1.6 var(--mono);white-space:pre-wrap"></pre>
+<script type="module">
+/**
+ * 真渲染检查：把每个演示的每一帧都塞进一个离屏 SVG 画一遍，
+ * 数一数到底画出了几个元素。
+ *
+ * 静态检查只能看 state 里有没有字段，查不出"字段有、但画出来是空的"
+ * ——比如某道题只塞了 container，视图主体就空着。
+ */
+import * as arrayView from '../views/arrayView.js';
+import * as listView from '../views/listView.js';
+import * as treeView from '../views/treeView.js';
+import * as heapView from '../views/heapView.js';
+import * as graphView from '../views/graphView.js';
+import * as trieView from '../views/trieView.js';
+import * as ufView from '../views/ufView.js';
+import * as tableView from '../views/tableView.js';
+import * as boardView from '../views/boardView.js';
+import * as pegsView from '../views/pegsView.js';
+import * as hashView from '../views/hashView.js';
+
+const VIEWS = { array: arrayView, list: listView, tree: treeView, heap: heapView,
+  graph: graphView, trie: trieView, uf: ufView, table: tableView, board: boardView,
+  pegs: pegsView, hash: hashView };
+
+const mods = ['sorting','binarysearch','linkedlist','twopointers','stack','tree','trie',
+  'unionfind','dp','dp2','backtracking','heap','graph','arraytech','misc','hash',
+  'advancedtree','leetcode','leetcode2','leetcode3','leetcode4','leetcode5','leetcode6',
+  'leetcode7','leetcode8','leetcode9','leetcode10','leetcode11'];
+
+const ALL = [];
+for (const m of mods) {
+  const mod = await import(`../algos/${m}.js`);
+  for (const v of Object.values(mod)) {
+    if (Array.isArray(v) && v.length && v[0]?.run) ALL.push(...v);
+  }
+}
+
+const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+const frame = document.createElement('div');
+frame.style.cssText = 'position:absolute;left:-9999px;width:900px;height:420px';
+frame.appendChild(svg);
+document.body.appendChild(frame);
+
+const problems = [];
+for (const algo of ALL) {
+  const view = VIEWS[algo.view];
+  let worst = { empty: 0, total: 0 };
+  for (const input of algo.inputs) {
+    const run = algo.run(input.make());
+    let empty = 0;
+    for (const step of run.steps) {
+      svg.replaceChildren();
+      const g = view.geometryFor?.(step.state) ?? view.geometry;
+      if (g) svg.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
+      try { view.render(svg, step.state, step); } catch { empty += 1; continue; }
+      if ([...svg.childNodes].filter((n) => n.nodeType === 1 && n.tagName !== 'defs').length === 0) empty += 1;
+    }
+    const ratio = run.steps.length ? empty / run.steps.length : 0;
+    if (ratio > worst.empty / (worst.total || 1)) worst = { empty, total: run.steps.length };
+  }
+  if (worst.empty > 0) {
+    problems.push(`${worst.empty}/${worst.total} 帧是空画布  ${algo.id}  (view=${algo.view})`);
+  }
+}
+
+document.getElementById('out').textContent =
+  (problems.length ? problems.join('\n') : '（没有空画布）') +
+  `\n\n共 ${ALL.length} 个演示，${problems.length} 个存在空画布`;
+document.title = `CHECK ${problems.length}`;
+</script>
+</body>
+</html>

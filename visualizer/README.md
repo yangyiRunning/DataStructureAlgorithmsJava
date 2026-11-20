@@ -87,6 +87,19 @@ node tools/gen-py-snippets.mjs   # 从 dsalab.py 抽函数源码 → python/snip
 > Python 的行号和 JS 对不上，所以切到 Python 时不显示"第 N 行"，也不做行高亮——
 > 强行标会指到错的代码行上。
 
+## 三个检查
+
+除了下面两个验证脚本，还有两道"画得对不对"的检查——它们拦的是另一类问题：
+算法算对了、自检也过了，但**画面上什么都没有**（只往 state 里塞了说明、没给视图主内容）。
+这类问题自检永远查不出来，只能靠渲染。
+
+```bash
+node tools/audit-canvas.mjs                 # 静态：每帧的 state 里有没有主内容
+open tools/render-check.html                # 动态：把每帧真渲染一遍，数画出了几个元素
+```
+
+`render-check.html` 需要用 HTTP 打开（跟主页面一样，ES module 不能走 file://）。
+
 ## 两个验证脚本
 
 这两个不是摆设，它们各自负责一类"看着没问题但实际有错"的情况。

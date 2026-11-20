@@ -331,6 +331,24 @@ function paint(state) {
   const g = view.geometryFor?.(step.state) ?? view.geometry;
   if (g) dom.view.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
   view.render(dom.view, step.state, step);
+
+  // 空结构（栈刚清空、树还没插入第一个节点）本来就该是空的，
+  // 但留一块纯白/纯黑画布看着像坏了，给一句提示。
+  // 判断放在这里而不是每个视图里：十一个视图各写一遍，漏一个就又空白了。
+  const drawn = [...dom.view.childNodes].filter(
+    (n) => n.nodeType === 1 && n.tagName !== 'defs',
+  );
+  if (drawn.length === 0) {
+    const { W, H } = g ?? { W: 900, H: 380 };
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', String(W / 2));
+    t.setAttribute('y', String(H / 2));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('fill', 'var(--mut)');
+    t.setAttribute('font-size', '13');
+    t.textContent = '当前状态为空';
+    dom.view.appendChild(t);
+  }
 }
 
 /** 计数器键集合可能随算法变化，重建一次，别把上一个算法的计数留着 */

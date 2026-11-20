@@ -14,7 +14,31 @@ export function render(svg, state) {
 
   const buckets = state.buckets ?? [];
   const n = buckets.length;
-  if (!n) return;
+
+  if (!n) {
+    // 还没分出一组——把待分组的词先平铺出来，别交一块空画布
+    const words = state.container?.items ?? [];
+    if (!words.length) return;
+    svg.appendChild(label(W / 2, 54, state.container?.label ?? '待分组', {
+      size: 12, fill: 'var(--ink-3)', anchor: 'middle',
+    }));
+    const perRow = Math.min(words.length, 8);
+    words.forEach((w, i) => {
+      const col = i % perRow;
+      const row = Math.floor(i / perRow);
+      const cw = (W - 160) / perRow;
+      const cx = 80 + cw * (col + 0.5);
+      const cy = 96 + row * 44;
+      svg.appendChild(el('rect', {
+        x: cx - cw * 0.34, y: cy - 15, width: cw * 0.68, height: 30, rx: 8,
+        fill: 'var(--viz-idle)', stroke: 'var(--viz-idle-edge)', 'stroke-width': 1.4,
+      }));
+      svg.appendChild(label(cx, cy + 5, w.text, {
+        size: 12, mono: true, anchor: 'middle', fill: 'var(--ink)',
+      }));
+    });
+    return;
+  }
 
   const padX = 90;
   const colW = (W - padX * 2) / n;

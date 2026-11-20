@@ -272,14 +272,14 @@ function twoStackQueue(input) {
 
   const push = (state, note, line) => steps.push({
     state: {
-      values: [],
-      chars: [],
+      // 主体画当前"有货"的那个栈：in 有就画 in，in 空了画 out（倒过来看才是队首在前）。
+      // 两个都空就是真空，交给统一的"当前状态为空"提示。
+      chars: (inStack.length ? inStack : outStack.slice().reverse()).map(String),
       container: {
-        label: '栈',
-        items: [
-          { text: 'in' }, ...inStack.map((v) => ({ text: String(v) })),
-          { text: '│' }, { text: 'out' }, ...outStack.map((v) => ({ text: String(v) })),
-        ],
+        label: inStack.length ? 'in 栈（入队压这里）' : 'out 栈（出队从这里弹）',
+        items: (inStack.length ? outStack : inStack).length
+          ? (inStack.length ? outStack : inStack).map((v) => ({ text: String(v) }))
+          : [{ text: '空' }],
       },
       ...state,
     },

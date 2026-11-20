@@ -312,24 +312,43 @@ const palinNumCode = [
 ];
 
 function isPalindromeNum(x) {
+  const digits = [...String(Math.abs(x))];
   const steps = [];
   let rev = 0;
   let cur = x;
   const push = (state, note, line) => steps.push({
-    state: { container: { label: '原数 / 反转', items: [{ text: String(cur), hot: true }, { text: String(rev) }] }, ...state },
+    state: {
+      chars: digits,
+      container: {
+        label: '原数 / 反转值',
+        items: [{ text: String(cur), hot: true }, { text: String(rev) }],
+      },
+      ...state,
+    },
     note, line, counters: { 位: 0 },
   });
 
-  push({}, '只反转一半就够：反转到反转值追上原数为止，再比较。负数直接不是回文。', 0);
+  push({}, '只反转一半就够：把末尾的数字一位位取下来接到反转值上，追上前半段就停。负数直接不是回文。', 0);
+
   if (x < 0 || (x % 10 === 0 && x !== 0)) {
     push({}, `${x} ${x < 0 ? '是负数' : '末尾是 0'}，不可能是回文。`, 1);
     return { steps, result: { ok: 'false' } };
   }
+
+  let taken = 0;
   while (cur > rev) {
     rev = rev * 10 + (cur % 10);
     cur = Math.floor(cur / 10);
-    push({}, `反转一位：剩 ${cur}，反转值 ${rev}。`, 4);
+    taken += 1;
+    // 从右往左把已经取走的几位标出来
+    const from = digits.length - taken;
+    push(
+      { move: Array.from({ length: taken }, (_, k) => digits.length - 1 - k), settled: Array.from({ length: from }, (_, k) => k) },
+      `取走最后一位，剩 ${cur}，反转值 ${rev}。`,
+      4,
+    );
   }
+
   const ok = cur === rev || cur === Math.floor(rev / 10);
   push({}, ok ? `${x} 是回文数。` : `${x} 不是回文数。`, 4);
   return { steps, result: { ok: String(ok) } };
@@ -384,21 +403,33 @@ const reverseIntCode = [
 ];
 
 function reverseInt(x) {
+  const digits = [...String(Math.abs(x))];
   const steps = [];
   let rev = 0;
   let cur = x;
   const push = (state, note, line) => steps.push({
-    state: { container: { label: '原数 / 反转', items: [{ text: String(cur), hot: true }, { text: String(rev) }] }, ...state },
+    state: {
+      chars: digits,
+      container: {
+        label: '原数 / 反转值',
+        items: [{ text: String(cur), hot: true }, { text: String(rev) }],
+      },
+      ...state,
+    },
     note, line, counters: { 位: 0 },
   });
 
-  push({}, '每次取最后一位接到反转值后面。要注意溢出：超出 32 位范围就返回 0。', 0);
+  push({}, '从末尾取一位接到反转值后面，取空了就停。符号最后再补上。', 0);
+
+  let taken = 0;
   while (cur !== 0) {
     rev = rev * 10 + (cur % 10);
     cur = Math.trunc(cur / 10);
-    push({}, `取一位：剩 ${cur}，反转值 ${rev}。`, 3);
+    taken += 1;
+    const moved = Array.from({ length: taken }, (_, k) => digits.length - 1 - k);
+    push({ move: moved }, `取走一位，剩 ${cur}，反转值 ${rev}。`, 3);
     if (rev < -2147483648 || rev > 2147483647) {
-      push({}, `反转值 ${rev} 溢出，返回 0。`, 5);
+      push({ move: moved }, `反转值 ${rev} 超出 32 位范围，返回 0。`, 5);
       return { steps, result: { num: 0 } };
     }
   }
@@ -424,17 +455,22 @@ function convertToTitle(n) {
   let cur = n;
   let s = '';
   const push = (state, note) => steps.push({
-    state: { container: { label: 'n / 结果', items: [{ text: String(cur), hot: true }, { text: s || '∅' }] }, ...state },
+    state: {
+      chars: [...(s || '（还空着）')],
+      container: { label: '剩余 n', items: [{ text: String(cur), hot: true }] },
+      ...state,
+    },
     note, line: 3, counters: { 位: s.length },
   });
 
-  push({}, '这是 26 进制，但字母是 1..26 而不是 0..25，所以要先把 n 减一。', 3);
+  push({}, '26 进制，但字母是 1..26 不是 0..25，所以每轮先把 n 减一，再取余数当字母。', 3);
+
   while (cur > 0) {
     cur -= 1;
     const ch = String.fromCharCode(65 + (cur % 26));
     s = ch + s;
     cur = Math.floor(cur / 26);
-    push({}, `取 ${ch}，剩下 ${cur}，结果 "${s}"。`);
+    push({ move: [0] }, `取出字母 ${ch}，拼到最前面得 "${s}"，剩下 ${cur}。`);
   }
   push({}, `结果是 "${s}"。`);
   return { steps, result: { out: s } };

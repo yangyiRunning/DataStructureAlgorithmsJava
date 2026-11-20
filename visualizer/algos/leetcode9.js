@@ -293,7 +293,11 @@ function stackByQueue(ops) {
   const steps = [];
   const out = [];
   const push = (state, note, line) => steps.push({
-    state: { values: q.slice(), ...state },
+    state: {
+      values: q.slice(),
+      container: { label: '队列（队头在左）', items: q.length ? q.map((v) => ({ text: String(v) })) : [{ text: '空' }] },
+      ...state,
+    },
     note, line, counters: { 操作: out.length },
   });
 
