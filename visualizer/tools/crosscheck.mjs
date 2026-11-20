@@ -34,6 +34,7 @@ import { leetcodeAlgorithms } from '../algos/leetcode.js';
 import { leetcode2Algorithms } from '../algos/leetcode2.js';
 import { leetcode3Algorithms } from '../algos/leetcode3.js';
 import { leetcode4Algorithms } from '../algos/leetcode4.js';
+import { leetcode5Algorithms } from '../algos/leetcode5.js';
 import { linkedListAlgorithms } from '../algos/linkedlist.js';
 import { treeAlgorithms } from '../algos/tree.js';
 import { heapAlgorithms } from '../algos/heap.js';
@@ -66,6 +67,7 @@ const ALGOS = [
   ...leetcode2Algorithms,
   ...leetcode3Algorithms,
   ...leetcode4Algorithms,
+  ...leetcode5Algorithms,
 ];
 
 const ROUNDS = Number(process.argv[2] ?? 5);
@@ -123,6 +125,26 @@ function canonical(algoId, result) {
       return `order:${result.order}`;
     case 'tree-bst-delete':
       return `inorder:${result.inorder}|size:${result.size}`;
+    case 'lc-first-missing':
+      return `ans:${result.ans}`;
+    case 'lc-longest-palindrome':
+      return `len:${result.len}`;
+    case 'lc-common-prefix':
+      return `prefix:${result.prefix}`;
+    case 'lc-reverse-words':
+      return `out:${result.out}`;
+    case 'lc-hamming':
+      return `dist:${result.dist}`;
+    case 'lc-count-bits':
+      return `arr:${result.arr}`;
+    case 'lc-spiral':
+      return `out:${result.out}`;
+    case 'lc-rotate-image':
+      return `arr:${result.arr}`;
+    case 'lc-search-matrix':
+      return `ok:${result.ok}`;
+    case 'lc-merge-k':
+      return `arr:${result.arr}`;
     case 'lc-add-two':
       return `arr:${result.arr}`;
     case 'lc-intersection':
@@ -286,6 +308,23 @@ function serialize(algoId, input) {
       return `${algoId};${nums(input.values)};${input.n}`;
     case 'tree-traverse':
       return `${algoId};${input.mode}`;
+    case 'lc-first-missing':
+      return `${algoId};${nums(input)}`;
+    case 'lc-longest-palindrome':
+    case 'lc-reverse-words':
+      return `${algoId};${input}`;
+    case 'lc-common-prefix':
+      return `${algoId};${input.join(',')}`;
+    case 'lc-hamming':
+      return `${algoId};${input.x};${input.y}`;
+    case 'lc-count-bits':
+    case 'lc-search-matrix':
+      return `${algoId};${input}`;
+    case 'lc-spiral':
+    case 'lc-rotate-image':
+      return algoId;
+    case 'lc-merge-k':
+      return `${algoId};${input.map((l) => l.join(',')).join('|')}`;
     case 'lc-add-two':
       return `${algoId};${nums(input.a)};${nums(input.b)}`;
     case 'lc-intersection':

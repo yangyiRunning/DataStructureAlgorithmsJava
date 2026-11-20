@@ -1670,6 +1670,153 @@ def lc_word_break(s, words):
                 break
     return dp[len(s)]
 
+
+# ── 热门题 5 ──────────────────────────────────────────────
+
+def lc_first_missing(nums):
+    a = list(nums)
+    n = len(a)
+    for i in range(n):
+        while 0 < a[i] <= n and a[a[i] - 1] != a[i]:
+            x = a[i]
+            a[x - 1], a[i] = a[i], a[x - 1]      # 把 x 换到下标 x-1
+    for i in range(n):
+        if a[i] != i + 1:
+            return i + 1
+    return n + 1
+
+
+def lc_longest_palindrome(s):
+    best = ""
+
+    def expand(l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l + 1:r]
+
+    for c in range(len(s)):
+        for cand in (expand(c, c), expand(c, c + 1)):
+            if len(cand) > len(best):
+                best = cand
+    return best
+
+
+def lc_common_prefix(strs):
+    if not strs:
+        return ""
+    base = strs[0]
+    for i in range(len(base)):
+        ch = base[i]
+        for s in strs:
+            if i >= len(s) or s[i] != ch:
+                return base[:i]
+    return base
+
+
+def lc_reverse_words(s):
+    return " ".join(reversed(s.split()))
+
+
+def lc_hamming(x, y):
+    z = x ^ y
+    count = 0
+    while z:
+        z &= z - 1                               # 抹掉最低位的 1
+        count += 1
+    return count
+
+
+def lc_count_bits(n):
+    dp = [0] * (n + 1)
+    for i in range(1, n + 1):
+        dp[i] = dp[i >> 1] + (i & 1)
+    return dp
+
+
+_SPIRAL_M = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+]
+
+
+def lc_spiral():
+    m = _SPIRAL_M
+    out = []
+    top, bottom, left, right = 0, len(m) - 1, 0, len(m[0]) - 1
+    while top <= bottom and left <= right:
+        for c in range(left, right + 1):
+            out.append(m[top][c])
+        top += 1
+        for r in range(top, bottom + 1):
+            out.append(m[r][right])
+        right -= 1
+        if top <= bottom:
+            for c in range(right, left - 1, -1):
+                out.append(m[bottom][c])
+            bottom -= 1
+        if left <= right:
+            for r in range(bottom, top - 1, -1):
+                out.append(m[r][left])
+            left += 1
+    return out
+
+
+_ROTATE_M = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+]
+
+
+def lc_rotate_image():
+    m = [row[:] for row in _ROTATE_M]
+    n = len(m)
+    for i in range(n):                            # 沿主对角线转置
+        for j in range(i + 1, n):
+            m[i][j], m[j][i] = m[j][i], m[i][j]
+    for row in m:                                 # 每行左右翻转
+        row.reverse()
+    return [v for row in m for v in row]
+
+
+_SORTED_M = [
+    [1, 4, 7, 11],
+    [2, 5, 8, 12],
+    [3, 6, 9, 16],
+    [10, 13, 14, 17],
+]
+
+
+def lc_search_matrix(target):
+    r, c = 0, len(_SORTED_M[0]) - 1               # 从右上角出发
+    while r < len(_SORTED_M) and c >= 0:
+        v = _SORTED_M[r][c]
+        if v == target:
+            return True
+        if v > target:
+            c -= 1
+        else:
+            r += 1
+    return False
+
+
+def lc_merge_k(lists):
+    import heapq
+    heap = []
+    for i, vals in enumerate(lists):
+        if vals:
+            heapq.heappush(heap, (vals[0], i, 0))
+    out = []
+    while heap:
+        v, li, idx = heapq.heappop(heap)
+        out.append(v)
+        nxt = idx + 1
+        if nxt < len(lists[li]):
+            heapq.heappush(heap, (lists[li][nxt], li, nxt))
+    return out
+
 # ── 命令分发：把 spec 翻译成上面这些函数，输出和 Java 版逐字一致的结果 ──
 
 def _run(spec):
@@ -1904,6 +2051,28 @@ def _run(spec):
         return "ok:%s" % ("true" if lc_word_search(parts[1]) else "false")
     if cmd == "lc-word-break":
         return "ok:%s" % ("true" if lc_word_break(parts[1], parts[2].split(",")) else "false")
+
+    if cmd == "lc-first-missing":
+        return "ans:%d" % lc_first_missing(_ints(parts[1]))
+    if cmd == "lc-longest-palindrome":
+        return "len:%d" % len(lc_longest_palindrome(parts[1]))
+    if cmd == "lc-common-prefix":
+        return "prefix:" + lc_common_prefix([w for w in parts[1].split(",") if w != ""] or [""])
+    if cmd == "lc-reverse-words":
+        return "out:" + lc_reverse_words(parts[1])
+    if cmd == "lc-hamming":
+        return "dist:%d" % lc_hamming(int(parts[1]), int(parts[2]))
+    if cmd == "lc-count-bits":
+        return "arr:" + _arr(lc_count_bits(int(parts[1])))
+    if cmd == "lc-spiral":
+        return "out:" + _arr(lc_spiral())
+    if cmd == "lc-rotate-image":
+        return "arr:" + _arr(lc_rotate_image())
+    if cmd == "lc-search-matrix":
+        return "ok:%s" % ("true" if lc_search_matrix(int(parts[1])) else "false")
+    if cmd == "lc-merge-k":
+        lists = [[int(x) for x in seg.split(",")] if seg else [] for seg in parts[1].split("|")]
+        return "arr:" + _arr(lc_merge_k(lists))
 
     raise ValueError("还没实现：" + cmd)
 

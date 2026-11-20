@@ -54,6 +54,16 @@ public final class Oracle {
       case "hash-chaining": return chaining(parts[1]);
       case "hash-lru": return "order:" + lru(parts[1]);
       case "str-palindrome": return "ok:" + isPalindrome(parts[1]);
+      case "lc-first-missing": return "ans:" + firstMissing(arr0(parts[1]));
+      case "lc-longest-palindrome": return "len:" + longestPalin(parts[1]).length();
+      case "lc-common-prefix": return "prefix:" + commonPrefix(parts[1]);
+      case "lc-reverse-words": return "out:" + reverseWords(parts[1]);
+      case "lc-hamming": return "dist:" + hamming(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+      case "lc-count-bits": return "arr:" + arr(countBits(Integer.parseInt(parts[1])));
+      case "lc-spiral": return "out:" + arr(spiral());
+      case "lc-rotate-image": return "arr:" + arr(rotateImage());
+      case "lc-search-matrix": return "ok:" + searchMatrix240(Integer.parseInt(parts[1]));
+      case "lc-merge-k": return "arr:" + arr(mergeK(parts[1]));
       case "lc-add-two": return "arr:" + arr(addTwo(arr0(parts[1]), arr0(parts[2])));
       case "lc-intersection": {
         List<Integer> shared = parts.length > 3 && !parts[3].isEmpty() ? ints(parts[3]) : new ArrayList<>();
@@ -967,6 +977,125 @@ public final class Oracle {
   }
 
   // ── 热门题 2 ──────────────────────────────────────────
+
+  static int firstMissing(int[] nums) {
+    int[] a = nums.clone();
+    int n = a.length;
+    for (int i = 0; i < n; i++) {
+      while (a[i] > 0 && a[i] <= n && a[a[i] - 1] != a[i]) {
+        int x = a[i];
+        int t = a[x - 1]; a[x - 1] = a[i]; a[i] = t;
+      }
+    }
+    for (int i = 0; i < n; i++) if (a[i] != i + 1) return i + 1;
+    return n + 1;
+  }
+
+  static String longestPalin(String s) {
+    String best = "";
+    for (int c = 0; c < s.length(); c++) {
+      for (int half = 0; half <= 1; half++) {
+        int l = c, r = c + half;
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) { l--; r++; }
+        String cand = s.substring(l + 1, r);
+        if (cand.length() > best.length()) best = cand;
+      }
+    }
+    return best;
+  }
+
+  static String commonPrefix(String spec) {
+    String[] words = spec.split(",", -1);
+    if (words.length == 0) return "";
+    String base = words[0];
+    for (int i = 0; i < base.length(); i++) {
+      char ch = base.charAt(i);
+      for (String w : words) if (i >= w.length() || w.charAt(i) != ch) return base.substring(0, i);
+    }
+    return base;
+  }
+
+  static String reverseWords(String s) {
+    String[] parts = s.trim().split("\\s+");
+    List<String> list = new ArrayList<>(java.util.Arrays.asList(parts));
+    if (list.size() == 1 && list.get(0).isEmpty()) return "";
+    java.util.Collections.reverse(list);
+    return String.join(" ", list);
+  }
+
+  static int hamming(int x, int y) {
+    int z = x ^ y, count = 0;
+    while (z != 0) { z &= z - 1; count++; }
+    return count;
+  }
+
+  static List<Integer> countBits(int n) {
+    int[] dp = new int[n + 1];
+    for (int i = 1; i <= n; i++) dp[i] = dp[i >> 1] + (i & 1);
+    List<Integer> out = new ArrayList<>();
+    for (int v : dp) out.add(v);
+    return out;
+  }
+
+  static final int[][] SPIRAL_M = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+
+  static List<Integer> spiral() {
+    List<Integer> out = new ArrayList<>();
+    int top = 0, bottom = SPIRAL_M.length - 1, left = 0, right = SPIRAL_M[0].length - 1;
+    while (top <= bottom && left <= right) {
+      for (int c = left; c <= right; c++) out.add(SPIRAL_M[top][c]);
+      top++;
+      for (int r = top; r <= bottom; r++) out.add(SPIRAL_M[r][right]);
+      right--;
+      if (top <= bottom) { for (int c = right; c >= left; c--) out.add(SPIRAL_M[bottom][c]); bottom--; }
+      if (left <= right) { for (int r = bottom; r >= top; r--) out.add(SPIRAL_M[r][left]); left++; }
+    }
+    return out;
+  }
+
+  static final int[][] ROTATE_M = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+
+  static List<Integer> rotateImage() {
+    int n = ROTATE_M.length;
+    int[][] m = new int[n][n];
+    for (int i = 0; i < n; i++) m[i] = ROTATE_M[i].clone();
+    for (int i = 0; i < n; i++)
+      for (int j = i + 1; j < n; j++) { int t = m[i][j]; m[i][j] = m[j][i]; m[j][i] = t; }
+    List<Integer> out = new ArrayList<>();
+    for (int i = 0; i < n; i++)
+      for (int j = n - 1; j >= 0; j--) out.add(m[i][j]);
+    return out;
+  }
+
+  static final int[][] SORTED_M = {
+      {1, 4, 7, 11}, {2, 5, 8, 12}, {3, 6, 9, 16}, {10, 13, 14, 17},
+  };
+
+  static boolean searchMatrix240(int target) {
+    int r = 0, c = SORTED_M[0].length - 1;
+    while (r < SORTED_M.length && c >= 0) {
+      if (SORTED_M[r][c] == target) return true;
+      if (SORTED_M[r][c] > target) c--; else r++;
+    }
+    return false;
+  }
+
+  static List<Integer> mergeK(String spec) {
+    String[] segs = spec.split("\\|");
+    List<int[]> lists = new ArrayList<>();
+    for (String seg : segs) lists.add(seg.isEmpty() ? new int[0] : arr0(seg));
+    java.util.PriorityQueue<int[]> pq = new java.util.PriorityQueue<>((a, b) -> a[0] - b[0]);
+    for (int i = 0; i < lists.size(); i++)
+      if (lists.get(i).length > 0) pq.add(new int[]{lists.get(i)[0], i, 0});
+    List<Integer> out = new ArrayList<>();
+    while (!pq.isEmpty()) {
+      int[] top = pq.poll();
+      out.add(top[0]);
+      int nxt = top[2] + 1;
+      if (nxt < lists.get(top[1]).length) pq.add(new int[]{lists.get(top[1])[nxt], top[1], nxt});
+    }
+    return out;
+  }
 
   static final class LNode {
     int val;
